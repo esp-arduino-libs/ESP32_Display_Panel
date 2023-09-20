@@ -12,7 +12,7 @@
 /* Set to 0 if not using LCD */
 #define ESP_PANEL_USE_LCD           (1)
 /**
- * LCD IC name.
+ * LCD controller name.
  */
 #define ESP_PANEL_LCD_NAME          GC9503
 

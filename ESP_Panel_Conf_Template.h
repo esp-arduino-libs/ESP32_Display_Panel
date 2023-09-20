@@ -39,7 +39,7 @@
 #define ESP_PANEL_USE_LCD           (0)
 #if ESP_PANEL_USE_LCD
 /**
- * LCD IC name. Choose one of the following:
+ * LCD controller name. Choose one of the following:
  *      - ST7262
  *      - ST7789
  *      - GC9503

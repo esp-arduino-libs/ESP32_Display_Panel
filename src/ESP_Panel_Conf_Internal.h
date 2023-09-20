@@ -85,7 +85,7 @@
 
 #if ESP_PANEL_USE_LCD
     /**
-     * LCD IC name.
+     * LCD controller name.
      */
     #ifndef ESP_PANEL_LCD_NAME
         #if defined(ESP_PANEL_LCD_CONTROLLER_ST7262) || CONFIG_ESP_PANEL_LCD_CONTROLLER_ST7262
