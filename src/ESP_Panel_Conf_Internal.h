@@ -56,6 +56,8 @@
         #include "board/esp32_c3_lcdkit.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX
         #include "board/esp32_s3_box.h"
+    #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3
+        #include "board/esp32_s3_box_3.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_LITE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
         #include "board/esp32_s3_box_lite.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_EYE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_EYE
@@ -85,7 +87,7 @@
 
 #if ESP_PANEL_USE_LCD
     /**
-     * LCD IC name.
+     * LCD controller name.
      */
     #ifndef ESP_PANEL_LCD_NAME
         #if defined(ESP_PANEL_LCD_CONTROLLER_ST7262) || CONFIG_ESP_PANEL_LCD_CONTROLLER_ST7262

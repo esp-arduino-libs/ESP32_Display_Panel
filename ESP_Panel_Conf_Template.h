@@ -15,6 +15,7 @@
  * Supported Boards.
  *  - ESP32-C3-LCDkit: https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html
  *  - ESP32-S3-Box: https://github.com/espressif/esp-box/tree/master
+ *  - ESP32-S3-Box-3: https://github.com/espressif/esp-box/tree/master
  *  - ESP32-S3-Box-Lite: https://github.com/espressif/esp-box/tree/master
  *  - ESP32-S3-EYE: https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md
  *  - ESP32-S3-Korvo-2: https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html
@@ -26,6 +27,7 @@
  */
 // #define ESP_PANEL_BOARD_ESP32_C3_LCDKIT
 // #define ESP_PANEL_BOARD_ESP32_S3_BOX
+// #define ESP_PANEL_BOARD_ESP32_S3_BOX_3
 // #define ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
 // #define ESP_PANEL_BOARD_ESP32_S3_EYE
 // #define ESP_PANEL_BOARD_ESP32_S3_KORVO_2
@@ -40,10 +42,9 @@
 #if ESP_PANEL_USE_LCD
 /**
  * LCD IC name. Choose one of the following:
- *      - ST7262
- *      - ST7789
- *      - GC9503
- *      - GC9A01
+ *      - ILI9341
+ *      - GC9503, GC9A01
+ *      - ST7262, ST7789, ST7796
  */
 #define ESP_PANEL_LCD_NAME          ST7789
 
@@ -167,8 +168,7 @@
  * LCD Touch IC name. Choose one of the following:
  *      - CST816S
  *      - FT5x06
- *      - GT1151
- *      - GT911
+ *      - GT1151, GT911
  *      - TT21100
  *      - STMPE610
  */

@@ -1,24 +1,30 @@
-# esp-display-panel
+[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml) [![Build Test Apps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml)
 
-esp-display-panel is a versatile Arduino library designed to drive display panels with ESP32. It is primarily developed for various [Espressif development boards](#espressif-development-boards), and can also be used for custom boards.
+# ESP32_Display_Panel
 
-esp-display-panel is based on [arduino-esp32](https://github.com/espressif/arduino-esp32) and [Espressif Components Registry](https://components.espressif.com/), with various components encapsulated using C++.
+* [中文版](./README_CN.md)
+
+ESP32_Display_Panel is an Arduino library designed for driving display screens using ESP32 SoCs. It can be used not only for developing various [Espressif development boards](#espressif-development-boards) but also for custom board development.
+
+ESP32_Display_Panel encapsulates various components from the [Espressif Components Registry](https://components.espressif.com/). It is developed based on [arduino-esp32](https://github.com/espressif/arduino-esp32) and can be easily downloaded and integrated into the Arduino IDE.
 
 ## Overview
 
-The block diagram of esp-display-panel is shown in the figure below, mainly comprising the following features:
+The block diagram of ESP32_Display_Panel is shown in the figure below, it primarily includes the following features:
 
 * Supports various Espressif development boards.
-* Supports custom boards.
+* Supports custom board.
 * Supports multiple types of drivers, including Bus, LCD, Touch, Backlight.
 
 <div align="center"><img src="docs/_static/block_diagram.png" alt ="Block Diagram" width="600"></div>
 
 ## Dependencies Version
 
-| **esp-display-panel** | **arduino-esp32** | **esp-io-expander** |
-| :-------------------: | :---------------: | :-----------------: |
-|        v0.x.x         |     >= v2.0.9     |      >= v0.0.1      |
+|                                 **Name**                                 | **Version** |
+| ------------------------------------------------------------------------ | ----------- |
+| ESP32_Display_Panel                                                      | v0.x.x      |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/esp-io-expander) | >= v0.0.1   |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32)              | >= v2.0.9   |
 
 ## Supported Boards & Drivers
 
@@ -28,6 +34,7 @@ The block diagram of esp-display-panel is shown in the figure below, mainly comp
 | :--------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
 | <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/esp32-c3-lcdkit-isometric-raw.png" width="150"> |          [ESP32-C3-LCDkit](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html)          |       SPI        |       GC9A01       |       -       |          -           |
 |            <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box.png" width="150">             |                                  [ESP32-S3-Box](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |      ILI9342       |      I2C      |       TT21100        |
+|          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_3.png" width="150">          |[ESP32-S3-Box-3](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |    ILI9342     |     I2C      |    TT21100     |
 |          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_lite.png" width="150">          |                               [ESP32-S3-Box-Lite](https://github.com/espressif/esp-box/tree/master)                                |       SPI        |       ST7789       |       -       |          -           |
 | <img src="https://github.com/espressif/esp-who/raw/master/docs/_static/get-started/ESP32-S3-EYE-isometric.png" width="100">  |     [ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md)     |       SPI        |       ST7789       |       -       |          -           |
 |   <img src="https://docs.espressif.com/projects/esp-adf/en/latest/_images/esp32-s3-korvo-2-v3.0-overview.png" width="150">   | [ESP32-S3-Korvo-2](https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html) |       SPI        |      ILI9342       |      I2C      |       TT21100        |
@@ -37,20 +44,22 @@ The block diagram of esp-display-panel is shown in the figure below, mainly comp
 
 ### Bus
 
-|                                                **Bus**                                                 | **Version** |
-| ------------------------------------------------------------------------------------------------------ | ----------- |
-| I2C                                                                                                    | -           |
-| SPI                                                                                                    | -           |
-| [3-wire SPI + RGB]((https://components.espressif.com/components/espressif/esp_lcd_panel_io_additions)) | v1.0.0      |
+|                                               **Bus**                                                | **Version** |
+| ---------------------------------------------------------------------------------------------------- | ----------- |
+| I2C                                                                                                  | -           |
+| SPI                                                                                                  | -           |
+| [3-wire SPI + RGB](https://components.espressif.com/components/espressif/esp_lcd_panel_io_additions) | v1.0.0      |
 
 ### LCD Controller
 
-|                               **LCD Controller**                               | **Version** |
-| ------------------------------------------------------------------------------ | ----------- |
-| ST7262                                                                         | -           |
-| ST7789                                                                         | -           |
-| [GC9503](https://components.espressif.com/components/espressif/esp_lcd_gc9503) | 1.0.0       |
-| [GC9A01](https://components.espressif.com/components/espressif/esp_lcd_gc9a01) | 1.0.1       |
+|                                **LCD Controller**                                | **Version** |
+| -------------------------------------------------------------------------------- | ----------- |
+| [ILI9341](https://components.espressif.com/components/espressif/esp_lcd_ili9341) | 1.0.2       |
+| [GC9503](https://components.espressif.com/components/espressif/esp_lcd_gc9503)   | 1.0.0       |
+| [GC9A01](https://components.espressif.com/components/espressif/esp_lcd_gc9a01)   | 1.0.1       |
+| ST7262                                                                           | -           |
+| ST7789                                                                           | -           |
+| [ST7796](https://components.espressif.com/components/espressif/esp_lcd_st7796)   | 1.0.0       |
 
 ### Touch Controller
 
@@ -66,11 +75,11 @@ The block diagram of esp-display-panel is shown in the figure below, mainly comp
 
 ## How to Use
 
-To use a library in Arduino IDE, please refer to the [docs](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries) for IDE v1.x.x or the [docs](https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library) for IDE v2.x.x.
+For information on how to use the library in the Arduino IDE, please refer to the documentation for [Arduino IDE v1.x.x](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries) or [Arduino IDE v2.x.x](https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library).
 
 ### Examples
 
-Here are some examples of using esp-display-panel. To access them in the Arduino IDE, navigate to `File -> Examples -> esp-display-panel`. **Each example sketch and README offer comprehensive usage instructions. Please review them before compiling.**
+Here are some examples of using ESP32_Display_Panel. To access them in the Arduino IDE, navigate to `File -> Examples -> ESP32_Display_Panel`. **Each example sketch and README offer comprehensive usage instructions. Please review them before compiling.**
 
 * Panel:
   * [Draw Color Bar](examples/Panel/DrawColorBar/): This example demonstrates how to draw simple color bar.
@@ -80,64 +89,65 @@ Here are some examples of using esp-display-panel. To access them in the Arduino
 
 ### Detailed Usage
 
-Here are the details of how to use esp-display-panel.
+The following provides a comprehensive guide on how to use ESP32_Display_Panel.
 
-### Configure esp-display-panel
+### Configure ESP32_Display_Panel
 
-esp-display-panel has its own configuration file called `ESP_Panel_Conf.h`. When esp-display-panel is installed, follow these configuration steps:
+ESP32_Display_Panel has its own configuration file called `ESP_Panel_Conf.h`. After installing ESP32_Display_Panel, follow these configuration steps:
 
-1. Go to the directory of the installed Arduino libraries.
-2. Go to the `esp-display-panel` folder, copy `ESP_Panel_Conf_Template.h` and place it out of `esp-display-panel` folder. It should be at the same level as the `esp-display-panel` folder. Then rename it as `ESP_Panel_Conf.h`.
-
-Finally, the layout of the Arduino Libraries folder with `ESP_Panel_Conf.h`  should look like this:
+1. Navigate to the directory where Arduino libraries are installed.
+2. Navigate to the `ESP32_Display_Panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the `ESP32_Display_Panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
+3. Finally, the layout of the Arduino Libraries folder with `ESP_Panel_Conf.h` appear as follows:
 
 ```
 Arduino
     |-libraries
-        |-esp-display-panel
+        |-ESP32_Display_Panel
         |-other_lib_1
         |-other_lib_2
         |-ESP_Panel_Conf.h
 ```
 
-### Configure Supported Board
+4. Please refer to the [Supported Boards List](#supported-boards--drivers) to check if the current board is compatible. If it is compatible, please navigate to the "[For Supported Boards](#for-supported-board)" section; Otherwise, navigate to the "[For Unsupported Boards](#for-unsupported-board)" section.
 
-Please refer to the list of [Supported Boards](#supported-boards--drivers) to verify whether the current board is compatible.
+#### For Supported Board
 
-Open `ESP_Panel_Conf.h` and uncomment one of the following macros to select an supported development board. Taking `ESP32_S3_BOX` as an example:
+1. Open `ESP_Panel_Conf.h` file. First, set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `1` (default is `1`). Then, according to the name of your target development board, uncomment the macro definitions in the format `ESP_PANEL_BOARD_<NAME>` below,
+2. The following code takes *ESP32_S3_BOX* development board as an example:
 
     ```c
+    ...
     // #define ESP_PANEL_BOARD_ESP32_C3_LCDKIT
     #define ESP_PANEL_BOARD_ESP32_S3_BOX
     // #define ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
+    ...
     ```
 
-After that, refer to [Use Library](#use-library) to use the library in the sketch.
+3. After that, navigate to the "[Use APIs](#use-apis)" section to use the library in the sketch.
 
-### Configure Unsupported Board
+#### For Unsupported Board
 
-Since esp-display-panel library can only utilize the internally supported drivers, please ensure that the LCD, Touch, and required Bus for the custom board are present in the list of [Supported Drivers](#supported-boards--drivers).
+Since ESP32_Display_Panel library can only utilize the internally supported drivers, please ensure that the **LCD**, **Touch**, and **Bus** for the custom board are present in the list of [Supported Drivers](#supported-boards--drivers).
 
-Open `ESP_Panel_Conf.h`. Firstly, set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `0`, as below:
+1. Open `ESP_Panel_Conf.h` and set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `0`, as shown below:
 
 ```c
 #define ESP_PANEL_USE_SUPPORTED_BOARD   (0)
 ```
 
-After that, modify the values of other macros as needed. They represent parameters that can be adjusted for LCD, Touch, and other devices initialization.
+2. Modify the values of other macros as needed. They represent parameters that can be adjusted for LCD, Touch, and other devices initialization.
 
-Here are some important macros for the **LCD**:
+* Here are some important macros for the **LCD**:
 
 ```c
 /* Set to 0 if not using LCD */
 #define ESP_PANEL_USE_LCD           (0)
 
 /**
- * LCD IC name. Choose one of the following:
- *      - ST7262
- *      - ST7789
- *      - GC9503
- *      - GC9A01
+ * LCD controller name. Choose one of the following:
+ *      - ILI9341
+ *      - GC9503, GC9A01
+ *      - ST7262, ST7789, ST7796
  */
 #define ESP_PANEL_LCD_NAME          ST7789
 
@@ -189,7 +199,7 @@ Here are some important macros for the **LCD**:
 #define ESP_PANEL_LCD_RST_LEVEL     (0)
 ```
 
-Here are some important macros for the **LCD Touch**:
+* Here are some important macros for the **LCD Touch**:
 
 ```c
 /* Set to 0 if not using LCD touch */
@@ -199,8 +209,7 @@ Here are some important macros for the **LCD Touch**:
  * LCD Touch IC name. Choose one of the following:
  *      - CST816S
  *      - FT5x06
- *      - GT1151
- *      - GT911
+ *      - GT1151, GT911
  *      - TT21100
  *      - STMPE610
  */
@@ -242,7 +251,7 @@ Here are some important macros for the **LCD Touch**:
 #define ESP_PANEL_LCD_TOUCH_INT_LEVEL       (0)
 ```
 
-Here are some important macros for the **backlight**:
+* Here are some important macros for the **backlight**:
 
 ```c
 #define ESP_PANEL_USE_BL                    (0)
@@ -265,9 +274,11 @@ Here are some important macros for the **backlight**:
 ...
 ```
 
-### Use Library
+3. After configuring the `ESP_Panel_Conf.h` file, please navigate to the "[Use APIs](#use-apis)" section to check the functions provided by ESP32_Display_Panel.
 
-Use the library in the sketch, and the following codes show the usage of common APIs:
+### Use APIs
+
+The following codes show the usage of common APIs:
 
 ```
 #include <ESP_Panel_Library.h>
