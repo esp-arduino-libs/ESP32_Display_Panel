@@ -12,6 +12,7 @@ idf_component_register(
     REQUIRES
         driver
         esp_lcd
+        esp-io-expander
 )
 
 target_compile_options(${COMPONENT_LIB} PRIVATE -Wno-missing-field-initializers -Wno-narrowing)
