@@ -32,6 +32,7 @@ esp-display-panel 的功能框图如下所示，主要包含了以下功能：
 | :--------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :--------------: | :------------: | :----------: | :------------: |
 | <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/esp32-c3-lcdkit-isometric-raw.png" width="150"> |          [ESP32-C3-LCDkit](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html)          |       SPI        |     GC9A01     |      -       |       -        |
 |            <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box.png" width="150">             |                                  [ESP32-S3-Box](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |    ILI9342     |     I2C      |    TT21100     |
+|          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_3.png" width="150">          |[ESP32-S3-Box-3](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |    ILI9342     |     I2C      |    TT21100     |
 |          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_lite.png" width="150">          |                               [ESP32-S3-Box-Lite](https://github.com/espressif/esp-box/tree/master)                                |       SPI        |     ST7789     |      -       |       -        |
 | <img src="https://github.com/espressif/esp-who/raw/master/docs/_static/get-started/ESP32-S3-EYE-isometric.png" width="100">  |     [ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md)     |       SPI        |     ST7789     |      -       |       -        |
 |   <img src="https://docs.espressif.com/projects/esp-adf/en/latest/_images/esp32-s3-korvo-2-v3.0-overview.png" width="150">   | [ESP32-S3-Korvo-2](https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html) |       SPI        |    ILI9342     |     I2C      |    TT21100     |
@@ -103,9 +104,9 @@ Arduino
         |-ESP_Panel_Conf.h
 ```
 
-### 配置支持的开发板
+4. 请参考[支持的开发板列表](#支持的开发板和驱动)来检查当前开发板是否兼容，如果兼容请跳转至“[对于支持的开发板](#对于支持的开发板)”一节，否则跳转至“[对于不支持的开发板](#对于不支持的开发板)”一节。
 
-请参考[支持的开发板列表](#支持的开发板和驱动)来检查当前开发板是否兼容，否则请参考[配置不支持的开发板](#配置不支持的开发板)一节。
+#### 对于支持的开发板
 
 1. 打开 `ESP_Panel_Conf.h` 文件，首先，将宏 `ESP_PANEL_USE_SUPPORTED_BOARD` 设置为 `1`（默认值为 `1`）。然后，根据目标开发板的名称在其下方将格式为 `ESP_PANEL_BOARD_<NAME>` 的宏定义取消注释。
 2. 以 *ESP32_S3_BOX* 开发板为例，下面是修改后的 `ESP_Panel_Conf.h` 文件的部分内容：
@@ -114,13 +115,13 @@ Arduino
 ...
 // #define ESP_PANEL_BOARD_ESP32_C3_LCDKIT
 #define ESP_PANEL_BOARD_ESP32_S3_BOX
-// #define ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
+// #define ESP_PANEL_BOARD_ESP32_S3_BOX_3
 ...
 ```
 
-3. 之后，请参考[函数接口](#函数接口)一节使用 esp-display-panel 提供的功能。
+3. 之后，请跳转至“[使用接口](#使用接口)”一节使用 esp-display-panel 提供的功能。
 
-### 配置不支持的开发板
+#### 对于不支持的开发板
 
 由于 esp-display-panel 只能使用内部支持的驱动程序，请确认自定义开发板的 **LCD**、**触摸**和**接口总线**位于[支持的驱动程序列表](#supported-boards--drivers)中。
 
@@ -271,11 +272,11 @@ Arduino
 ...
 ```
 
-3. 配置好 `ESP_Panel_Conf.h` 文件后，就可以按照[函数接口](#函数接口)一节使用 esp-display-panel 提供的功能。
+3. 配置好 `ESP_Panel_Conf.h` 文件后，请跳转至“[使用接口](#使用接口)”一节查看 esp-display-panel 提供的函数。
 
-### 函数接口
+### 使用接口
 
-以下代码展示了常用函数接口的用法：
+以下代码展示了常用函数接口的使用：
 
 ```
 #include <ESP_Panel_Library.h>
