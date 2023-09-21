@@ -49,12 +49,14 @@ esp-display-panel 的功能框图如下所示，主要包含了以下功能：
 
 ### LCD 控制器
 
-|                                 **LCD 控制器**                                 | **版本** |
-| ------------------------------------------------------------------------------ | -------- |
-| ST7262                                                                         | -        |
-| ST7789                                                                         | -        |
-| [GC9503](https://components.espressif.com/components/espressif/esp_lcd_gc9503) | 1.0.0    |
-| [GC9A01](https://components.espressif.com/components/espressif/esp_lcd_gc9a01) | 1.0.1    |
+|                                  **LCD 控制器**                                  | **版本** |
+| -------------------------------------------------------------------------------- | -------- |
+| [ILI9341](https://components.espressif.com/components/espressif/esp_lcd_ili9341) | 1.0.2    |
+| [GC9503](https://components.espressif.com/components/espressif/esp_lcd_gc9503)   | 1.0.0    |
+| [GC9A01](https://components.espressif.com/components/espressif/esp_lcd_gc9a01)   | 1.0.1    |
+| ST7262                                                                           | -        |
+| ST7789                                                                           | -        |
+| [ST7796](https://components.espressif.com/components/espressif/esp_lcd_st7796)   | 1.0.0    |
 
 ### 触摸控制器
 
@@ -140,10 +142,9 @@ Arduino
 
 /**
  * LCD controller name. Choose one of the following:
- *      - ST7262
- *      - ST7789
- *      - GC9503
- *      - GC9A01
+ *      - ILI9341
+ *      - GC9503, GC9A01
+ *      - ST7262, ST7789, ST7796
  */
 #define ESP_PANEL_LCD_NAME          ST7789
 
@@ -205,8 +206,7 @@ Arduino
  * LCD Touch IC name. Choose one of the following:
  *      - CST816S
  *      - FT5x06
- *      - GT1151
- *      - GT911
+ *      - GT1151, GT911
  *      - TT21100
  *      - STMPE610
  */
