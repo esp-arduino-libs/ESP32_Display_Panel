@@ -32,6 +32,7 @@ The block diagram of esp-display-panel is shown in the figure below, it primaril
 | :--------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
 | <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/esp32-c3-lcdkit-isometric-raw.png" width="150"> |          [ESP32-C3-LCDkit](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html)          |       SPI        |       GC9A01       |       -       |          -           |
 |            <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box.png" width="150">             |                                  [ESP32-S3-Box](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |      ILI9342       |      I2C      |       TT21100        |
+|          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_3.png" width="150">          |[ESP32-S3-Box-3](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |    ILI9342     |     I2C      |    TT21100     |
 |          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_lite.png" width="150">          |                               [ESP32-S3-Box-Lite](https://github.com/espressif/esp-box/tree/master)                                |       SPI        |       ST7789       |       -       |          -           |
 | <img src="https://github.com/espressif/esp-who/raw/master/docs/_static/get-started/ESP32-S3-EYE-isometric.png" width="100">  |     [ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md)     |       SPI        |       ST7789       |       -       |          -           |
 |   <img src="https://docs.espressif.com/projects/esp-adf/en/latest/_images/esp32-s3-korvo-2-v3.0-overview.png" width="150">   | [ESP32-S3-Korvo-2](https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html) |       SPI        |      ILI9342       |      I2C      |       TT21100        |
@@ -105,9 +106,9 @@ Arduino
         |-ESP_Panel_Conf.h
 ```
 
-### Configure Supported Board
+4. Please refer to the [Supported Boards List](#supported-boards--drivers) to check if the current board is compatible. If it is compatible, please navigate to the "[For Supported Boards](#for-supported-board)" section; Otherwise, navigate to the "[For Unsupported Boards](#for-unsupported-board)" section.
 
-Please refer to the [Supported Boards](#supported-boards--drivers) list to check if the current board is compatible. Otherwise, please refer to the section on [Configuring Unsupported Boards](#configure-unsupported-board).
+#### For Supported Board
 
 1. Open `ESP_Panel_Conf.h` file. First, set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `1` (default is `1`). Then, according to the name of your target development board, uncomment the macro definitions in the format `ESP_PANEL_BOARD_<NAME>` below,
 2. The following code takes *ESP32_S3_BOX* development board as an example:
@@ -120,9 +121,9 @@ Please refer to the [Supported Boards](#supported-boards--drivers) list to check
     ...
     ```
 
-3. After that, refer to the [APIs](#apis) section to use the library in the sketch.
+3. After that, navigate to the "[Use APIs](#use-apis)" section to use the library in the sketch.
 
-### Configure Unsupported Board
+#### For Unsupported Board
 
 Since esp-display-panel library can only utilize the internally supported drivers, please ensure that the **LCD**, **Touch**, and **Bus** for the custom board are present in the list of [Supported Drivers](#supported-boards--drivers).
 
@@ -271,9 +272,9 @@ Since esp-display-panel library can only utilize the internally supported driver
 ...
 ```
 
-3. After configuring the `ESP_Panel_Conf.h` file, please refer to the [APIs](#apis) section to use the functionalities provided by esp-display-panel.
+3. After configuring the `ESP_Panel_Conf.h` file, please navigate to the "[Use APIs](#use-apis)" section to check the functions provided by esp-display-panel.
 
-### APIs
+### Use APIs
 
 The following codes show the usage of common APIs:
 

@@ -17,6 +17,7 @@ jobs:
           [
             "sdkconfig.defaults.esp32_c3_lcdkit",
             "sdkconfig.defaults.esp32_s3_box",
+            "sdkconfig.defaults.esp32_s3_box_3",
             "sdkconfig.defaults.esp32_s3_box_lite",
             "sdkconfig.defaults.esp32_s3_eye",
             "sdkconfig.defaults.esp32_s3_korvo_2",
