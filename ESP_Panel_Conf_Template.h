@@ -39,11 +39,10 @@
 #define ESP_PANEL_USE_LCD           (0)
 #if ESP_PANEL_USE_LCD
 /**
- * LCD controller name. Choose one of the following:
- *      - ST7262
- *      - ST7789
- *      - GC9503
- *      - GC9A01
+ * LCD IC name. Choose one of the following:
+ *      - ILI9341
+ *      - GC9503, GC9A01
+ *      - ST7262, ST7789, ST7796
  */
 #define ESP_PANEL_LCD_NAME          ST7789
 
@@ -167,8 +166,7 @@
  * LCD Touch IC name. Choose one of the following:
  *      - CST816S
  *      - FT5x06
- *      - GT1151
- *      - GT911
+ *      - GT1151, GT911
  *      - TT21100
  *      - STMPE610
  */
