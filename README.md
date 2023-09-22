@@ -18,14 +18,6 @@ The block diagram of ESP32_Display_Panel is shown in the figure below, it primar
 
 <div align="center"><img src="docs/_static/block_diagram.png" alt ="Block Diagram" width="600"></div>
 
-## Dependencies Version
-
-|                                 **Name**                                 | **Version** |
-| ------------------------------------------------------------------------ | ----------- |
-| ESP32_Display_Panel                                                      | v0.x.x      |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/esp-io-expander) | >= v0.0.1   |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32)              | >= v2.0.9   |
-
 ## Supported Boards & Drivers
 
 ### Espressif Development Boards
@@ -72,6 +64,14 @@ The block diagram of ESP32_Display_Panel is shown in the figure below, it primar
 | [GT911](https://components.espressif.com/components/espressif/esp_lcd_touch_gt911)       | 1.0.7~1     |
 | [TT21100](https://components.espressif.com/components/espressif/esp_lcd_touch_tt21100)   | 1.0.7~1     |
 | [STMPE610](https://components.espressif.com/components/espressif/esp_lcd_touch_stmpe610) | 1.0.6       |
+
+## Dependencies Version
+
+|                                  **Name**                                  | **Version** |
+| -------------------------------------------------------------------------- | ----------- |
+| ESP32_Display_Panel                                                        | v0.x.x      |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1   |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32)                | >= v2.0.9   |
 
 ## How to Use
 

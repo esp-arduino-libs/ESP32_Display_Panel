@@ -18,14 +18,6 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含了以下功能：
 
 <div align="center"><img src="docs/_static/block_diagram.png" alt ="块图" width="600"></div>
 
-## 依赖项版本
-
-|                                 **名称**                                 | **版本**  |
-| ------------------------------------------------------------------------ | --------- |
-| ESP32_Display_Panel                                                      | v0.x.x    |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/esp-io-expander) | >= v0.0.1 |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32)              | >= v2.0.9 |
-
 ## 支持的开发板和驱动
 
 ### 乐鑫开发板
@@ -72,6 +64,14 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含了以下功能：
 | [GT911](https://components.espressif.com/components/espressif/esp_lcd_touch_gt911)       | 1.0.7~1  |
 | [TT21100](https://components.espressif.com/components/espressif/esp_lcd_touch_tt21100)   | 1.0.7~1  |
 | [STMPE610](https://components.espressif.com/components/espressif/esp_lcd_touch_stmpe610) | 1.0.6    |
+
+## 依赖项版本
+
+|                                  **名称**                                  | **版本**  |
+| -------------------------------------------------------------------------- | --------- |
+| ESP32_Display_Panel                                                        | v0.x.x    |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1 |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32)                | >= v2.0.9 |
 
 ## 如何使用
 
