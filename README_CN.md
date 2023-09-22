@@ -1,16 +1,16 @@
-[![Arduino Lint](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/pre-commit.yml) [![Build Test Apps](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/build_test.yml/badge.svg)](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/build_test.yml)
+[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml) [![Build Test Apps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml)
 
 # ESP Display Panel
 
 * [English Version](./README.md)
 
-esp-display-panel 是为 ESP32 SoCs 设计用来驱动显示屏幕的 Arduino 库。它不仅可以用于开发多款[乐鑫开发板](#乐鑫开发板)，也适用于开发自定义的开发板。
+ESP32_Display_Panel 是为 ESP32 SoCs 设计用来驱动显示屏幕的 Arduino 库。它不仅可以用于开发多款[乐鑫开发板](#乐鑫开发板)，也适用于开发自定义的开发板。
 
-esp-display-panel 封装了多种[乐鑫组件库](https://components.espressif.com/)中相关的组件，它需要基于 [arduino-esp32](https://github.com/espressif/arduino-esp32) 进行开发，并且可以直接从 Arduino IDE 中下载获取。
+ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressif.com/)中相关的组件，它需要基于 [arduino-esp32](https://github.com/espressif/arduino-esp32) 进行开发，并且可以直接从 Arduino IDE 中下载获取。
 
 ## 概述
 
-esp-display-panel 的功能框图如下所示，主要包含了以下功能：
+ESP32_Display_Panel 的功能框图如下所示，主要包含了以下功能：
 
 * 支持多款乐鑫开发板。
 * 支持自定义的开发板。
@@ -20,9 +20,11 @@ esp-display-panel 的功能框图如下所示，主要包含了以下功能：
 
 ## 依赖项版本
 
-| **esp-display-panel** | **arduino-esp32** | **esp-io-expander** |
-| :-------------------: | :---------------: | :-----------------: |
-|        v0.x.x         |     >= v2.0.9     |      >= v0.0.1      |
+|                                 **名称**                                 | **版本**  |
+| ------------------------------------------------------------------------ | --------- |
+| ESP32_Display_Panel                                                      | v0.x.x    |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/esp-io-expander) | >= v0.0.1 |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32)              | >= v2.0.9 |
 
 ## 支持的开发板和驱动
 
@@ -77,7 +79,7 @@ esp-display-panel 的功能框图如下所示，主要包含了以下功能：
 
 ### 示例
 
-以下是使用 esp-display-panel 的一些示例程序。在 Arduino IDE 中，可以通过点击菜单栏中的 `File -> Examples -> esp-display-panel` 来使用它们。 **每个示例及其目录下的 README 文件都提供了详细的使用说明，请在编译之前查看它们。**
+以下是使用 ESP32_Display_Panel 的一些示例程序。在 Arduino IDE 中，可以通过点击菜单栏中的 `File -> Examples -> ESP32_Display_Panel` 来使用它们。 **每个示例及其目录下的 README 文件都提供了详细的使用说明，请在编译之前查看它们。**
 
 * Panel:
   * [Draw Color Bar](examples/Panel/DrawColorBar/): 此示例演示如何绘制简单的彩条。
@@ -87,20 +89,20 @@ esp-display-panel 的功能框图如下所示，主要包含了以下功能：
 
 ### 详细使用说明
 
-以下是如何使用 esp-display-panel 的详细说明。
+以下是如何使用 ESP32_Display_Panel 的详细说明。
 
-### 配置 esp-display-panel
+### 配置 ESP32_Display_Panel
 
-esp-display-panel 具有自己的配置文件，称为 `ESP_Panel_Conf.h`。在安装 esp-display-panel 后，按照以下配置步骤进行操作：
+ESP32_Display_Panel 具有自己的配置文件，称为 `ESP_Panel_Conf.h`。在安装 ESP32_Display_Panel 后，按照以下配置步骤进行操作：
 
 1. 进入 Arduino 存放库的目录。
-2. 进入 `esp-display-panel` 文件夹，将 `ESP_Panel_Conf_Template.h` 复制并放置在 `esp-display-panel` 文件夹之外。它应该与 `esp-display-panel` 文件夹在同一级别，然后将其重命名为 `ESP_Panel_Conf.h`。
+2. 进入 `ESP32_Display_Panel` 文件夹，将 `ESP_Panel_Conf_Template.h` 复制并放置在 `ESP32_Display_Panel` 文件夹之外。它应该与 `ESP32_Display_Panel` 文件夹在同一级别，然后将其重命名为 `ESP_Panel_Conf.h`。
 3. 最终，包含 `ESP_Panel_Conf.h` 的 Arduino 库所在文件夹的布局应如下所示：
 
 ```
 Arduino
     |-libraries
-        |-esp-display-panel
+        |-ESP32_Display_Panel
         |-other_lib_1
         |-other_lib_2
         |-ESP_Panel_Conf.h
@@ -121,11 +123,11 @@ Arduino
 ...
 ```
 
-3. 之后，请跳转至“[使用接口](#使用接口)”一节使用 esp-display-panel 提供的功能。
+3. 之后，请跳转至“[使用接口](#使用接口)”一节使用 ESP32_Display_Panel 提供的功能。
 
 #### 对于不支持的开发板
 
-由于 esp-display-panel 只能使用内部支持的驱动程序，请确认自定义开发板的 **LCD**、**触摸**和**接口总线**位于[支持的驱动程序列表](#supported-boards--drivers)中。
+由于 ESP32_Display_Panel 只能使用内部支持的驱动程序，请确认自定义开发板的 **LCD**、**触摸**和**接口总线**位于[支持的驱动程序列表](#supported-boards--drivers)中。
 
 1. 打开 `ESP_Panel_Conf.h` 文件，将宏 `ESP_PANEL_USE_SUPPORTED_BOARD` 设置为 `0`，如下所示：
 
@@ -272,7 +274,7 @@ Arduino
 ...
 ```
 
-3. 配置好 `ESP_Panel_Conf.h` 文件后，请跳转至“[使用接口](#使用接口)”一节查看 esp-display-panel 提供的函数。
+3. 配置好 `ESP_Panel_Conf.h` 文件后，请跳转至“[使用接口](#使用接口)”一节查看 ESP32_Display_Panel 提供的函数。
 
 ### 使用接口
 

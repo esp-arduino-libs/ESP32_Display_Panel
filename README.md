@@ -1,16 +1,16 @@
-[![Arduino Lint](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/pre-commit.yml) [![Build Test Apps](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/build_test.yml/badge.svg)](https://github.com/esp-arduino-libs/esp-display-panel/actions/workflows/build_test.yml)
+[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml) [![Build Test Apps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml)
 
-# ESP Display Panel
+# ESP32_Display_Panel
 
 * [中文版](./README_CN.md)
 
-esp-display-panel is an Arduino library designed for driving display screens using ESP32 SoCs. It can be used not only for developing various [Espressif development boards](#espressif-development-boards) but also for custom board development.
+ESP32_Display_Panel is an Arduino library designed for driving display screens using ESP32 SoCs. It can be used not only for developing various [Espressif development boards](#espressif-development-boards) but also for custom board development.
 
-esp-display-panel encapsulates various components from the [Espressif Components Registry](https://components.espressif.com/). It is developed based on [arduino-esp32](https://github.com/espressif/arduino-esp32) and can be easily downloaded and integrated into the Arduino IDE.
+ESP32_Display_Panel encapsulates various components from the [Espressif Components Registry](https://components.espressif.com/). It is developed based on [arduino-esp32](https://github.com/espressif/arduino-esp32) and can be easily downloaded and integrated into the Arduino IDE.
 
 ## Overview
 
-The block diagram of esp-display-panel is shown in the figure below, it primarily includes the following features:
+The block diagram of ESP32_Display_Panel is shown in the figure below, it primarily includes the following features:
 
 * Supports various Espressif development boards.
 * Supports custom board.
@@ -20,9 +20,11 @@ The block diagram of esp-display-panel is shown in the figure below, it primaril
 
 ## Dependencies Version
 
-| **esp-display-panel** | **arduino-esp32** | **esp-io-expander** |
-| :-------------------: | :---------------: | :-----------------: |
-|        v0.x.x         |     >= v2.0.9     |      >= v0.0.1      |
+|                                 **Name**                                 | **Version** |
+| ------------------------------------------------------------------------ | ----------- |
+| ESP32_Display_Panel                                                      | v0.x.x      |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/esp-io-expander) | >= v0.0.1   |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32)              | >= v2.0.9   |
 
 ## Supported Boards & Drivers
 
@@ -77,7 +79,7 @@ For information on how to use the library in the Arduino IDE, please refer to th
 
 ### Examples
 
-Here are some examples of using esp-display-panel. To access them in the Arduino IDE, navigate to `File -> Examples -> esp-display-panel`. **Each example sketch and README offer comprehensive usage instructions. Please review them before compiling.**
+Here are some examples of using ESP32_Display_Panel. To access them in the Arduino IDE, navigate to `File -> Examples -> ESP32_Display_Panel`. **Each example sketch and README offer comprehensive usage instructions. Please review them before compiling.**
 
 * Panel:
   * [Draw Color Bar](examples/Panel/DrawColorBar/): This example demonstrates how to draw simple color bar.
@@ -87,20 +89,20 @@ Here are some examples of using esp-display-panel. To access them in the Arduino
 
 ### Detailed Usage
 
-The following provides a comprehensive guide on how to use esp-display-panel.
+The following provides a comprehensive guide on how to use ESP32_Display_Panel.
 
-### Configure esp-display-panel
+### Configure ESP32_Display_Panel
 
-esp-display-panel has its own configuration file called `ESP_Panel_Conf.h`. After installing esp-display-panel, follow these configuration steps:
+ESP32_Display_Panel has its own configuration file called `ESP_Panel_Conf.h`. After installing ESP32_Display_Panel, follow these configuration steps:
 
 1. Navigate to the directory where Arduino libraries are installed.
-2. Navigate to the `esp-display-panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the `esp-display-panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
+2. Navigate to the `ESP32_Display_Panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the `ESP32_Display_Panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
 3. Finally, the layout of the Arduino Libraries folder with `ESP_Panel_Conf.h` appear as follows:
 
 ```
 Arduino
     |-libraries
-        |-esp-display-panel
+        |-ESP32_Display_Panel
         |-other_lib_1
         |-other_lib_2
         |-ESP_Panel_Conf.h
@@ -125,7 +127,7 @@ Arduino
 
 #### For Unsupported Board
 
-Since esp-display-panel library can only utilize the internally supported drivers, please ensure that the **LCD**, **Touch**, and **Bus** for the custom board are present in the list of [Supported Drivers](#supported-boards--drivers).
+Since ESP32_Display_Panel library can only utilize the internally supported drivers, please ensure that the **LCD**, **Touch**, and **Bus** for the custom board are present in the list of [Supported Drivers](#supported-boards--drivers).
 
 1. Open `ESP_Panel_Conf.h` and set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `0`, as shown below:
 
@@ -272,7 +274,7 @@ Since esp-display-panel library can only utilize the internally supported driver
 ...
 ```
 
-3. After configuring the `ESP_Panel_Conf.h` file, please navigate to the "[Use APIs](#use-apis)" section to check the functions provided by esp-display-panel.
+3. After configuring the `ESP_Panel_Conf.h` file, please navigate to the "[Use APIs](#use-apis)" section to check the functions provided by ESP32_Display_Panel.
 
 ### Use APIs
 

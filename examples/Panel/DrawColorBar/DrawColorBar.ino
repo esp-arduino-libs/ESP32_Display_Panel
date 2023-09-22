@@ -3,29 +3,29 @@
  *
  * ## How to Use
  *
- * To use this example, please firstly install esp-display-panel and its dependent libraries,
+ * To use this example, please firstly install ESP32_Display_Panel and its dependent libraries,
  * then follow the steps to configure:
  *
- * ### Configure esp-display-panel
+ * ### Configure ESP32_Display_Panel
  *
- * esp-display-panel has its own configuration file called `ESP_Panel_Conf.h`. After installing esp-display-panel,
+ * ESP32_Display_Panel has its own configuration file called `ESP_Panel_Conf.h`. After installing ESP32_Display_Panel,
  * follow these configuration steps:
  *
  * 1. Navigate to the directory where Arduino libraries are installed.
- * 2. Navigate to the `esp-display-panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the
- *    `esp-display-panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
+ * 2. Navigate to the `ESP32_Display_Panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the
+ *    `ESP32_Display_Panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
  * 3. Finally, the layout of the Arduino Libraries folder with `ESP_Panel_Conf.h` appear as follows:
  *
  * ```
  * Arduino
  *     |-libraries
- *         |-esp-display-panel
+ *         |-ESP32_Display_Panel
  *         |-other_lib_1
  *         |-other_lib_2
  *         |-ESP_Panel_Conf.h
  * ```
  *
- * 4. Please refer to [Supported Boards List](https://github.com/esp-arduino-libs/esp-display-panel#supported-boards--drivers)
+ * 4. Please refer to [Supported Boards List](https://github.com/esp-arduino-libs/ESP32_Display_Panel#supported-boards--drivers)
  *    to check if the current board is compatible. If it is compatible, please navigate to the "For Supported Boards" section;
  *    Otherwise, navigate to the "For Unsupported Boards" section.
  *
@@ -46,7 +46,7 @@
  *
  * #### For Unsupported Board
  *
- * Please refer to the [document](https://github.com/esp-arduino-libs/esp-display-panel#for-unsupported-board) for the details.
+ * Please refer to the [document](https://github.com/esp-arduino-libs/ESP32_Display_Panel#for-unsupported-board) for the details.
  *
  * ### Configure Board
  *
@@ -76,7 +76,7 @@
  * ```bash
  * ...
  * Hello Arduino!
- * I am esp-display-panel.
+ * I am ESP32_Display_Panel.
  * Initialize panel
  * Draw color bar from top to bottom, the order is B - G - R
  * Setup done
@@ -109,7 +109,7 @@ void setup()
 {
     Serial.begin(115200); /* prepare for possible serial debug */
     Serial.println("Hello Arduino!");
-    Serial.println("I am esp-display-panel.");
+    Serial.println("I am ESP32_Display_Panel.");
 
     panel = new ESP_Panel();
 

@@ -4,26 +4,26 @@ The example demonstrates how to port LVGL.
 
 ## How to Use
 
-To use this example, please firstly install esp-display-panel (includes its dependent libraries) and lvgl (v8.3.x) library, then follow the steps to configure them.
+To use this example, please firstly install ESP32_Display_Panel (includes its dependent libraries) and lvgl (v8.3.x) library, then follow the steps to configure them.
 
-### Configure esp-display-panel
+### Configure ESP32_Display_Panel
 
-esp-display-panel has its own configuration file called `ESP_Panel_Conf.h`. After installing esp-display-panel, follow these configuration steps:
+ESP32_Display_Panel has its own configuration file called `ESP_Panel_Conf.h`. After installing ESP32_Display_Panel, follow these configuration steps:
 
 1. Navigate to the directory where Arduino libraries are installed.
-2. Navigate to the `esp-display-panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the `esp-display-panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
+2. Navigate to the `ESP32_Display_Panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the `ESP32_Display_Panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
 3. Finally, the layout of the Arduino Libraries folder with `ESP_Panel_Conf.h` appear as follows:
 
     ```
     Arduino
         |-libraries
-            |-esp-display-panel
+            |-ESP32_Display_Panel
             |-other_lib_1
             |-other_lib_2
             |-ESP_Panel_Conf.h
     ```
 
-4. Please refer to [Supported Boards List](https://github.com/esp-arduino-libs/esp-display-panel#supported-boards--drivers) to check if the current board is compatible. If it is compatible, please navigate to the "For Supported Boards" section; Otherwise, navigate to the "For Unsupported Boards" section.
+4. Please refer to [Supported Boards List](https://github.com/esp-arduino-libs/ESP32_Display_Panel#supported-boards--drivers) to check if the current board is compatible. If it is compatible, please navigate to the "For Supported Boards" section; Otherwise, navigate to the "For Unsupported Boards" section.
 
 #### For Supported Board
 
@@ -40,7 +40,7 @@ esp-display-panel has its own configuration file called `ESP_Panel_Conf.h`. Afte
 
 #### For Unsupported Board
 
-Please refer to the [document](https://github.com/esp-arduino-libs/esp-display-panel#for-unsupported-board) for the details.
+Please refer to the [document](https://github.com/esp-arduino-libs/ESP32_Display_Panel#for-unsupported-board) for the details.
 
 ### Configure LVGL
 
@@ -105,7 +105,7 @@ Go to the `Tools` in Arduino IDE to configure the following settings:
 ```bash
 ...
 Hello LVGL! V8.3.8
-I am esp-display-panel
+I am ESP32_Display_Panel
 Starting LVGL task
 Setup done
 Loop
