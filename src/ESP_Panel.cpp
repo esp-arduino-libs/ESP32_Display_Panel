@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdint.h>
 
+#include "driver/gpio.h"
 #include "esp_log.h"
 
 #include "private/CheckResult.h"
@@ -258,6 +259,8 @@ void ESP_Panel::init(void)
     }
 #endif /* ESP_PANEL_LCD_IO_BL */
 
+    runExtraBoardInit();
+
     if (lcd_bus) {
         lcd_bus->init();
     }
@@ -337,4 +340,38 @@ ESP_PanelBacklight *ESP_Panel::getBacklight(void)
 
 err:
     return NULL;
+}
+
+void ESP_Panel::runExtraBoardInit(void)
+{
+    /* For ESP32-S3-LCD-EV-Board */
+#ifdef ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD
+    /* For the newest version sub board, need to set `ESP_PANEL_LCD_RGB_IO_VSYNC` to high before initialize LCD */
+    gpio_set_direction((gpio_num_t)ESP_PANEL_LCD_RGB_IO_VSYNC, GPIO_MODE_OUTPUT);
+    gpio_set_level((gpio_num_t)ESP_PANEL_LCD_RGB_IO_VSYNC, 1);
+#endif
+
+    /* For ESP32-S3-Korvo-2 */
+#ifdef ESP_PANEL_BOARD_ESP32_S3_KORVO_2
+    CHECK_NULL_RETURN(expander);
+    expander->multiPinMode(IO_EXPANDER_PIN_NUM_1 | IO_EXPANDER_PIN_NUM_2 | IO_EXPANDER_PIN_NUM_3, OUTPUT);
+    /* Reset LCD */
+    expander->digitalWrite(2, LOW);
+    vTaskDelay(pdMS_TO_TICKS(20));
+    expander->digitalWrite(2, LOW);
+    vTaskDelay(pdMS_TO_TICKS(120));
+    expander->digitalWrite(2, HIGH);
+    /* Turn on backlight */
+    expander->digitalWrite(1, HIGH);
+    /* Keep LCD CS low */
+    expander->digitalWrite(3, LOW);
+#endif
+
+    /* For ESP32-S3-BOX-3 */
+#ifdef ESP_PANEL_BOARD_ESP32_S3_BOX_3
+    /* Maintain the touch INT signal in a low state during the reset process to set its I2C address to `0x5D` */
+    gpio_set_direction((gpio_num_t)ESP_PANEL_LCD_TOUCH_IO_INT, GPIO_MODE_OUTPUT);
+    gpio_set_level((gpio_num_t)ESP_PANEL_LCD_TOUCH_IO_INT, 0);
+    usleep(100);
+#endif
 }

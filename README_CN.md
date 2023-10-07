@@ -4,9 +4,34 @@
 
 * [English Version](./README.md)
 
-ESP32_Display_Panel 是为 ESP32 SoCs 设计用来驱动显示屏幕的 Arduino 库。它不仅可以用于开发多款[乐鑫开发板](#乐鑫开发板)，也适用于开发自定义的开发板。
+ESP32_Display_Panel 是为 ESP SoCs 设计用来驱动显示屏幕的 Arduino 库。它不仅可以用于开发多款[乐鑫开发板](#乐鑫开发板)，也适用于开发自定义的开发板。
 
 ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressif.com/)中相关的组件，它需要基于 [arduino-esp32](https://github.com/espressif/arduino-esp32) 进行开发，并且可以直接从 Arduino IDE 中下载获取。
+
+## 目录
+
+- [ESP Display Panel](#esp-display-panel)
+  - [目录](#目录)
+  - [概述](#概述)
+  - [支持的开发板和驱动](#支持的开发板和驱动)
+    - [乐鑫开发板](#乐鑫开发板)
+    - [接口总线](#接口总线)
+    - [LCD 控制器](#lcd-控制器)
+    - [触摸控制器](#触摸控制器)
+  - [依赖项版本](#依赖项版本)
+  - [如何使用](#如何使用)
+    - [示例](#示例)
+      - [Panel](#panel)
+      - [LVGL](#lvgl)
+      - [Squareline](#squareline)
+    - [详细使用说明](#详细使用说明)
+      - [配置 ESP32\_Display\_Panel](#配置-esp32_display_panel)
+        - [对于支持的开发板](#对于支持的开发板)
+        - [对于不支持的开发板](#对于不支持的开发板)
+      - [使用接口](#使用接口)
+    - [配置开发板](#配置开发板)
+    - [配置 LVGL](#配置-lvgl)
+    - [移植 Squareline 工程](#移植-squareline-工程)
 
 ## 概述
 
@@ -68,31 +93,43 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含了以下功能：
 
 ## 依赖项版本
 
-|                                  **名称**                                  | **版本**  |
-| -------------------------------------------------------------------------- | --------- |
-| ESP32_Display_Panel                                                        | v0.x.x    |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1 |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32)                | >= v2.0.9 |
+| **名称**                                                     | **版本**           |
+| ------------------------------------------------------------ | ------------------ |
+| ESP32_Display_Panel                                          | v0.0.2             |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1          |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32)  | >= v2.0.9，< 3.0.0 |
 
 ## 如何使用
 
-关于如何在 Arduino IDE 中使用库，请参阅 [Arduino IDE v1.x.x](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries) 或者 [Arduino IDE v2.x.x](https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library) 的文档。
+关于如何在 Arduino IDE 中使用库，请参阅 [Arduino IDE v1.x.x](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries) 或者 [Arduino IDE v2.x.x](https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library) 的文档。Arduino 库文件夹的路径可以在 `File` > `Preferences` > `Settings` > `Sketchbook location` 中找到或更改。
 
 ### 示例
 
-以下是使用 ESP32_Display_Panel 的一些示例程序。在 Arduino IDE 中，可以通过点击菜单栏中的 `File -> Examples -> ESP32_Display_Panel` 来使用它们。 **每个示例及其目录下的 README 文件都提供了详细的使用说明，请在编译之前查看它们。**
+以下是使用 ESP32_Display_Panel 的一些示例。要在 Arduino IDE 中访问它们，请导航到 `File` > `Examples` > `ESP32_Display_Panel`。如果没有 ESP32_Display_Panel 选项，请检查库是否已正确安装，并首先选择一个 esp32 开发板。
 
-* Panel:
-  * [Draw Color Bar](examples/Panel/DrawColorBar/): 此示例演示如何绘制简单的彩条。
-  * [Read Touch Point](examples/Panel/ReadTouchPoint/): 此示例演示如何读取触摸点。
-* LVGL:
-  * [Porting](examples/LVGL/Porting/): 此示例演示如何移植 LVGL (v8.3.x)。
+#### Panel
+
+* [Draw Color Bar](examples/Panel/DrawColorBar/): 此示例演示如何绘制简单的彩条。
+* [Read Touch Point](examples/Panel/ReadTouchPoint/): 此示例演示如何读取触摸点。
+
+#### LVGL
+
+要配置 LVGL（v8.3.x），请参阅[此处](#配置-lvgl)以获取更多详细信息。
+
+* [Porting](examples/LVGL/Porting/): 此示例演示如何移植 LVGL (v8.3.x)。
+
+#### Squareline
+
+​	要移植 Squarelina 项目（v1.3.x），请参阅[此处](#移植-Squareline-工程)获取更多详细信息。
+
+- [Porting](examples/Squareline/Porting/): 此示例演示如何移植 Squareline 项目。
+- [WiFiClock](examples/Squareline/WiFiClock/): 此示例实现了一个简单的 Wi-Fi 时钟。
 
 ### 详细使用说明
 
 以下是如何使用 ESP32_Display_Panel 的详细说明。
 
-### 配置 ESP32_Display_Panel
+#### 配置 ESP32_Display_Panel
 
 ESP32_Display_Panel 具有自己的配置文件，称为 `ESP_Panel_Conf.h`。在安装 ESP32_Display_Panel 后，按照以下配置步骤进行操作：
 
@@ -111,7 +148,7 @@ Arduino
 
 4. 请参考[支持的开发板列表](#支持的开发板和驱动)来检查当前开发板是否兼容，如果兼容请跳转至“[对于支持的开发板](#对于支持的开发板)”一节，否则跳转至“[对于不支持的开发板](#对于不支持的开发板)”一节。
 
-#### 对于支持的开发板
+##### 对于支持的开发板
 
 1. 打开 `ESP_Panel_Conf.h` 文件，首先，将宏 `ESP_PANEL_USE_SUPPORTED_BOARD` 设置为 `1`（默认值为 `1`）。然后，根据目标开发板的名称在其下方将格式为 `ESP_PANEL_BOARD_<NAME>` 的宏定义取消注释。
 2. 以 *ESP32_S3_BOX* 开发板为例，下面是修改后的 `ESP_Panel_Conf.h` 文件的部分内容：
@@ -126,9 +163,9 @@ Arduino
 
 3. 之后，请跳转至“[使用接口](#使用接口)”一节使用 ESP32_Display_Panel 提供的功能。
 
-#### 对于不支持的开发板
+##### 对于不支持的开发板
 
-由于 ESP32_Display_Panel 只能使用内部支持的驱动程序，请确认自定义开发板的 **LCD**、**触摸**和**接口总线**位于[支持的驱动程序列表](#supported-boards--drivers)中。
+由于 ESP32_Display_Panel 只能使用内部支持的驱动程序，请确认自定义开发板的 **LCD**、**触摸**和**接口总线**位于[支持的驱动程序列表](#supported-boards--drivers)中。然后按照下面的步骤配置库：
 
 1. 打开 `ESP_Panel_Conf.h` 文件，将宏 `ESP_PANEL_USE_SUPPORTED_BOARD` 设置为 `0`，如下所示：
 
@@ -277,7 +314,7 @@ Arduino
 
 3. 配置好 `ESP_Panel_Conf.h` 文件后，请跳转至“[使用接口](#使用接口)”一节查看 ESP32_Display_Panel 提供的函数。
 
-### 使用接口
+#### 使用接口
 
 以下代码展示了常用函数接口的使用：
 
@@ -311,3 +348,100 @@ panel->getBacklight()->setBrightness(50);
 // Release the ESP_Panel object
 delete panel;
 ```
+
+### 配置开发板
+
+以下是在不同开发板上开发 GUI 应用程序的建议配置。这些设置可以根据具体要求进行调整。
+
+前往 Arduino IDE 中的工具菜单以配置以下设置
+
+|    Supported Boards     |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
+| :---------------------: | :----------------: | :------: | :--------: | :--------: | :-------------: | :---------------------: |
+|     ESP32-C3-LCDkit     | ESP32C3 Dev Module | Disabled |    QIO     | 4MB (32Mb) |     Enabled     | Default 4MB with spiffs |
+|      ESP32-S3-Box       |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
+|     ESP32-S3-Box-3      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+|  ESP32-S3-Box-3(beta)   | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+|    ESP32-S3-Box-Lite    |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
+|      ESP32-S3-EYE       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |     Enabled     |     8M with spiffs      |
+|    ESP32-S3-Korvo-2     | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
+|  ESP32-S3-LCD-EV-Board  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
+| ESP32-S3-LCD-EV-Board-2 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
+|    ESP32-S3-USB-OTG     |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
+
+**Note:**
+
+1. 根据使用的端口启用 "USB CDC On Boot"：
+
+   * 如果使用 UART端口，则禁用此配置；如果使用 USB端口，则启用它。
+   * 如果此配置与先前的刷写不同，应首先启用 `Erase All Flash Before Sketch Upload`，然后在刷写后可以禁用它。
+
+2. 若要查看更多输出日志，请将 `Core Debug Level` 设置为 `Info` 或更低级别
+
+### 配置 LVGL
+
+LVGL 有配置文件 `lv_conf.h`。在安装lvgl（v8.3.x）之后，请按照以下配置步骤进行操作：
+
+1. 导航到 Arduino 库安装的目录（库文件夹的路径可以在 `File` > `Preferences` > `Settings` > `Sketchbook location` 中找到或更改）。
+2. 进入 `lvgl` 文件夹，复制 `lv_conf_template.h` 并将副本放在`lvgl`文件夹外部的相同目录级别。然后将复制的文件重命名为`lv_conf.h`。
+3. 最后，Arduino 库文件夹的布局如下所示：
+
+   ```
+   Arduino
+       |-libraries
+           |-lv_conf.h
+           |-lvgl
+           |-other_lib_1
+           |-other_lib_2
+   ```
+
+4. 打开 `lv_conf.h` 文件，并将第一个 `#if 0` 改为 `#if 1` 以启用文件的内容。
+5. 根据需求设置其他配置，以下是一些常见的配置项：
+
+   ```c
+   #define LV_COLOR_DEPTH          16  // 通常使用 16 位色深（RGB565），
+                                       // 但也可以通过将其设置为 `32` 来支持 24 位色深（RGB888）
+   #define LV_COLOR_16_SWAP        1   // 如果使用 RGB LCD（例如 ESP32-S3-LCD-Ev-Board/-2），将其设置为 `0`
+   #define LV_MEM_CUSTOM           1
+   #define LV_MEMCPY_MEMSET_STD    1
+   #define LV_TICK_CUSTOM          1
+   #define LV_ATTRIBUTE_FAST_MEM   IRAM_ATTR   // 获取更高的性能但占用更多的 SRAM
+   #define LV_FONT_MONTSERRAT_N    1  // 启用所有需要使用的内部字体（`N`应该替换为字体大小）
+   ```
+
+6. 获取更多信息，请参考[ LVGL 文档](https://docs.lvgl.io/8.3/get-started/platforms/arduino.html)。
+
+### 移植 Squareline 工程
+
+利用 Squareline Studio 可以通过图像化编辑的方式快捷地设计出精美的 UI，如果想要在 Arduino IDE 中使用 Squareline 导出的 UI 源文件，可以参考以下步骤进行移植：
+
+1. 首先，在 Squareline Studio 中创建一个新的工程，进入 `Create` -> `Arduino` 一栏，选择 `Arduino with TFT-eSPI` 作为工程模板，然后在右侧的 `PROJECT SETTINGS` 一栏需要根据目标开发板的 LCD 属性进行配置，如 `Resolution` and `Color depth`，最后点击 `Create` 按钮创建工程。
+
+2. 对于已有的工程，也可以在导航栏中点击 `File` -> `Project Settings` 按钮进入工程设置，然后在 `BOARD PROPERTIES` 一栏配置 `Board Group` 为 `Arduino`，`Board` 为 `Arduino with TFT-eSPI`，并且根据目标开发板的 LCD 属性在 `DISPLAY PROPERTIES` 一栏进行配置，最后点击 `Save` 按钮保存工程设置。
+
+3. 完成 UI 设计并且配置好导出路径后，即可依次点击菜单栏中的 `Export` -> `Create Template Project` 和 `Export UI Files` 按钮导出工程及 UI 源文件，该工程目录的布局如下所示：
+
+    ```
+    Project
+        |-libraries
+            |-lv_conf.h
+            |-lvgl
+            |-readme.txt
+            |-TFT_eSPI
+            |-ui
+        |-README.md
+        |-ui
+    ```
+
+4. 最后，将工程目录下 `libraries` 文件夹中的 `lv_conf.h`、`lvgl` 和 `ui` 复制到 Arduino 的库目录中（可以在 `File` > `Preferences` > `Settings` > `Sketchbook location` 中找到或更改库文件夹的路径）。如果需要使用本地安装的 `lvgl`，请跳过复制 `lvgl` 和 `lv_conf.h`，然后参考 [steps](#配置-lvgl) 来配置 LVGL。最终的 Arduino 库文件夹的布局如下所示：
+
+    ```
+    Arduino
+        |-libraries
+            |-ESP32_Display_Panel
+            |-ESP_Panel_Conf.h
+            |-lv_conf.h
+            |-lvgl
+            |-ui
+            |-other_lib_1
+            |-other_lib_2
+    ```

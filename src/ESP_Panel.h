@@ -28,9 +28,10 @@ public:
     ESP_PanelLcd *getLcd(void);
     ESP_PanelLcdTouch *getLcdTouch(void);
     ESP_PanelBacklight *getBacklight(void);
-    ESP_IOExpander *getExpander(void);
+    ESP_IOExpander *getIOExpander(void);
 
 private:
+    void runExtraBoardInit(void);
     ESP_PanelLcd *lcd;
     ESP_PanelLcdTouch *lcd_touch;
     ESP_PanelBacklight *backlight;
