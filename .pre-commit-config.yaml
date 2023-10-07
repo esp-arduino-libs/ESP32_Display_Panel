@@ -1,3 +1,4 @@
+exclude: 'libraries/ui/'
 repos:
 -   repo: https://github.com/igrr/astyle_py.git
     rev: master
