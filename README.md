@@ -1,359 +1,301 @@
-[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml) [![Build Test Apps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/build_test.yml)
+[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml)
 
-# ESP32_Display_Panel
+# ESP Display Panel
 
-* [中文版](./README_CN.md)
+* [中文版本](./README_CN.md)
 
-ESP32_Display_Panel is an Arduino library designed for driving display screens using ESP SoCs. It can be used not only for developing various [Espressif development boards](#espressif-development-boards) but also for custom board development.
+ESP32_Display_Panel is an Arduino library designed for ESP SoCs to drive display panels and facilitate rapid GUI development. Users can develop directly for a variety of [supported development boards](src/board/README.md) or create custom ones through simple adaptation. Additionally, ESP32_Display_Panel is compatible with various LCD and touch drivers, allowing users to develop using standalone drivers as needed.
 
-ESP32_Display_Panel encapsulates various components from the [Espressif Components Registry](https://components.espressif.com/). It is developed based on [arduino-esp32](https://github.com/espressif/arduino-esp32) and can be easily downloaded and integrated into the Arduino IDE.
+ESP32_Display_Panel encapsulates various components from the [Espressif Components Registry](https://components.espressif.com/), requiring development based on [arduino-esp32](https://github.com/espressif/arduino-esp32), and can be directly downloaded from the Arduino IDE.
 
 ## Table of Contents
 
-- [ESP32\_Display\_Panel](#esp32_display_panel)
+- [ESP Display Panel](#esp-display-panel)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
-  - [Supported Boards \& Drivers](#supported-boards--drivers)
-    - [Espressif Development Boards](#espressif-development-boards)
-    - [Bus](#bus)
-    - [LCD Controller](#lcd-controller)
-    - [Touch Controller](#touch-controller)
-  - [Dependencies Version](#dependencies-version)
+  - [Supported Development Boards and Drivers](#supported-development-boards-and-drivers)
+    - [Development Boards](#development-boards)
+    - [LCD Controllers](#lcd-controllers)
+    - [Touch Controllers](#touch-controllers)
+  - [Dependencies and Versions](#dependencies-and-versions)
   - [How to Use](#how-to-use)
-    - [Examples](#examples)
+    - [Configuration Instructions](#configuration-instructions)
+      - [Configuring Drivers](#configuring-drivers)
+      - [Using Supported Development Boards](#using-supported-development-boards)
+      - [Using Custom Development Boards](#using-custom-development-boards)
+    - [Usage Examples](#usage-examples)
+      - [LCD](#lcd)
+      - [Touch](#touch)
       - [Panel](#panel)
-      - [LVGL](#lvgl)
-      - [Squareline](#squareline)
-    - [Detailed Usage](#detailed-usage)
-      - [Configure ESP32\_Display\_Panel](#configure-esp32_display_panel)
-        - [For Supported Board](#for-supported-board)
-        - [For Unsupported Board](#for-unsupported-board)
-      - [Use APIs](#use-apis)
-    - [Configure Board](#configure-board)
-    - [Configure LVGL](#configure-lvgl)
-    - [Port the Squareline Project](#port-the-squareline-project)
+      - [LVGL v8](#lvgl-v8)
+      - [SquareLine](#squareline)
+  - [Other Relevant Instructions](#other-relevant-instructions)
+    - [Configuring Supported Development Boards](#configuring-supported-development-boards)
+    - [Configuring LVGL](#configuring-lvgl)
+    - [Porting SquareLine Project](#porting-squareline-project)
+  - [FAQ](#faq)
+    - [Where is the directory for Arduino libraries?](#where-is-the-directory-for-arduino-libraries)
+    - [How to Install ESP32\_Display\_Panel in Arduino IDE?](#how-to-install-esp32_display_panel-in-arduino-ide)
+    - [Where are the installation directory for arduino-esp32 and the SDK located?](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located)
+    - [How to fix screen drift issue when driving RGB LCD with ESP32-S3?](#how-to-fix-screen-drift-issue-when-driving-rgb-lcd-with-esp32-s3)
 
 ## Overview
 
-The block diagram of ESP32_Display_Panel is shown in the figure below, it primarily includes the following features:
+The functional block diagram of ESP32_Display_Panel is as follows, mainly comprising the following features:
 
-* Supports various Espressif development boards.
-* Supports custom board.
-* Supports multiple types of drivers, including Bus, LCD, Touch, Backlight.
+- Supports a variety of official Espressif development boards and third-party boards.
+- Supports adaptation for custom development boards.
+- Supports the use of standalone device drivers.
+- Supports various types of device drivers, including interface buses, LCDs, touch screens, and backlight control.
+- Supports dynamic configuration of drivers, such as enabling debug logs.
 
-<div align="center"><img src="docs/_static/block_diagram.png" alt ="Block Diagram" width="600"></div>
+<div align="center"><img src="docs/_static/block_diagram.png" alt="Block Diagram" width="600"></div>
 
-## Supported Boards & Drivers
+## Supported Development Boards and Drivers
 
-### Espressif Development Boards
+### Development Boards
 
-|                                                         **Picture**                                                          |                                                              **Name**                                                              |   **LCD Bus**    | **LCD Controller** | **Touch Bus** | **Touch Controller** |
-| :--------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
-| <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/esp32-c3-lcdkit-isometric-raw.png" width="150"> |          [ESP32-C3-LCDkit](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html)          |       SPI        |       GC9A01       |       -       |          -           |
-|            <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box.png" width="150">             |                                  [ESP32-S3-Box](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |      ILI9342       |      I2C      |       TT21100        |
-|          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_3.png" width="150">          |[ESP32-S3-Box-3](https://github.com/espressif/esp-box/tree/master)                                  |       SPI        |    ILI9342     |     I2C      |    GT911     |
-<img src="https://raw.githubusercontent.com/espressif/esp-box/c4c954888e11250423f083df0067d99e22d59fbe/docs/_static/esp32_s3_box_3.png" width="150">          |[ESP32-S3-Box-3(beta)](https://github.com/espressif/esp-box/tree/c4c954888e11250423f083df0067d99e22d59fbe)                                  |       SPI        |    ILI9342     |     I2C      |    TT21100     |
-|          <img src="https://github.com/espressif/esp-box/raw/master/docs/_static/esp32_s3_box_lite.png" width="150">          |                               [ESP32-S3-Box-Lite](https://github.com/espressif/esp-box/tree/master)                                |       SPI        |       ST7789       |       -       |          -           |
-| <img src="https://github.com/espressif/esp-who/raw/master/docs/_static/get-started/ESP32-S3-EYE-isometric.png" width="100">  |     [ESP32-S3-EYE](https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md)     |       SPI        |       ST7789       |       -       |          -           |
-|   <img src="https://docs.espressif.com/projects/esp-adf/en/latest/_images/esp32-s3-korvo-2-v3.0-overview.png" width="150">   | [ESP32-S3-Korvo-2](https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html) |       SPI        |      ILI9342       |      I2C      |       TT21100        |
-| <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/ESP32-S3-LCD-EV-Board_480x480.png" width="150"> |    [ESP32-S3-LCD-EV-Board](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/index.html)    | 3-wire SPI + RGB |       GC9503       |      I2C      |        FT5X06        |
-| <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/ESP32-S3-LCD-EV-Board_800x480.png" width="150"> |   [ESP32-S3-LCD-EV-Board-2](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/index.html)   |       RGB        |     ST7262E43      |      I2C      |        GT1151        |
-|   <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/pic_product_esp32_s3_otg.png" width="150">    |         [ESP32-S3-USB-OTG](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html)         |       SPI        |       ST7789       |       -       |          -           |
+Below is a list of [supported development boards](src/board/README.md):
 
-### Bus
+| **Manufacturer** | **Board Model** |
+| --------------- | --------------- |
+| [Espressif](src/board/README.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [Jingcai](src/board/README.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
-|                                               **Bus**                                                | **Version** |
-| ---------------------------------------------------------------------------------------------------- | ----------- |
-| I2C                                                                                                  | -           |
-| SPI                                                                                                  | -           |
-| [3-wire SPI + RGB](https://components.espressif.com/components/espressif/esp_lcd_panel_io_additions) | v1.0.0      |
+Developers and manufacturers are welcome to submit PRs to add more development boards.
 
-### LCD Controller
+### LCD Controllers
 
-|                                **LCD Controller**                                | **Version** |
-| -------------------------------------------------------------------------------- | ----------- |
-| [ILI9341](https://components.espressif.com/components/espressif/esp_lcd_ili9341) | 1.0.2       |
-| [GC9503](https://components.espressif.com/components/espressif/esp_lcd_gc9503)   | 1.0.0       |
-| [GC9A01](https://components.espressif.com/components/espressif/esp_lcd_gc9a01)   | 1.0.1       |
-| ST7262                                                                           | -           |
-| ST7789                                                                           | -           |
-| [ST7796](https://components.espressif.com/components/espressif/esp_lcd_st7796)   | 1.0.0       |
+Below is a list of [supported LCD controllers](src/lcd/README.md):
 
-### Touch Controller
+| **Manufacturer** | **Model** |
+| --------------- | --------- |
+| GalaxyCore | GC9A01, GC9B71, GC9503 |
+| Ilitek | ILI9341 |
+| NewVision | NV3022B |
+| Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
 
-|                                   **Touch Controller**                                   | **Version** |
-| ---------------------------------------------------------------------------------------- | ----------- |
-| [esp_lcd_touch](https://components.espressif.com/components/espressif/esp_lcd_touch)     | 1.0.4       |
-| [CST816S](https://components.espressif.com/components/espressif/esp_lcd_touch_cst816s)   | 1.0.3       |
-| [FT5x06](https://components.espressif.com/components/espressif/esp_lcd_touch_ft5x06)     | 1.0.5~1     |
-| [GT1151](https://components.espressif.com/components/espressif/esp_lcd_touch_gt1151)     | 1.0.5~1     |
-| [GT911](https://components.espressif.com/components/espressif/esp_lcd_touch_gt911)       | 1.0.7~1     |
-| [TT21100](https://components.espressif.com/components/espressif/esp_lcd_touch_tt21100)   | 1.0.7~1     |
-| [STMPE610](https://components.espressif.com/components/espressif/esp_lcd_touch_stmpe610) | 1.0.6       |
+### Touch Controllers
 
-## Dependencies Version
+Below is a list of [supported touch controllers](src/touch/README.md):
 
-|                                  **Name**                                  |    **Version**     |
-| -------------------------------------------------------------------------- | ------------------ |
-| ESP32_Display_Panel                                                        | v0.0.2             |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1          |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32)                | >= v2.0.9, < 3.0.0 |
+| **Manufacturer** | **Model** |
+| --------------- | --------- |
+| Hynitron | CST816S |
+| FocalTech | FT5x06 |
+| GOODiX | GT911, GT1151 |
+| Sitronix | ST7123 |
+| Parade | TT21100 |
+
+## Dependencies and Versions
+
+| **Dependency** | **Version** |
+| -------------- | ----------- |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.3 |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1 |
 
 ## How to Use
 
-For information on how to use the library in the Arduino IDE, please refer to the documentation for [Arduino IDE v1.x.x](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries) or [Arduino IDE v2.x.x](https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library). The path of Arduino libraries folder can be found or changed at `File` > `Preferences` > `Settings` > `Sketchbook location`.
+For installation of the ESP32_Display_Panel library, refer to [How to Install ESP32_Display_Panel in Arduino IDE](#how-to-install-esp32_display_panel-in-arduino-ide).
 
-### Examples
+### Configuration Instructions
 
-Here are some examples of using ESP32_Display_Panel. To access them in the Arduino IDE, navigate to `File` > `Examples` > `ESP32_Display_Panel`. If there is no `ESP32_Display_Panel` option, please check if the library has been installed correctly and select an esp32 board first.
+Below are detailed instructions on how to configure ESP32_Display_Panel, mainly including [Configuring Drivers](#configuring-drivers), [Using Supported Development Boards](#using-supported-development-boards), and [Using Custom Development Boards](#using-custom-development-boards). These are all optional operations and are configured through specified header files. Users can choose to use them according to their needs, with the following characteristics:
+
+1. The path sequence for ESP32_Display_Panel to search for configuration files is: `Current Project Directory` > `Arduino Library Directory` > `ESP32_Display_Panel Directory`.
+2. All examples in ESP32_Display_Panel include their required configuration files by default, which users can directly modify macro definitions.
+3. For projects without configuration files, users can copy them from the root directory or examples of ESP32_Display_Panel to their own projects.
+4. If multiple projects need to use the same configuration, users can place the configuration files in the [Arduino Library Directory](#where-is-the-directory-for-arduino-libraries), so that all projects can share the same configuration.
+
+**Notes**:
+
+* The same directory can simultaneously contain both `ESP_Panel_Board_Supported.h` and `ESP_Panel_Board_Custom.h` configuration files, but they cannot be enabled at the same time, meaning `ESP_PANEL_USE_SUPPORTED_BOARD` and `ESP_PANEL_USE_CUSTOM_BOARD` can only have one set to `1`.
+* If neither of the above two configuration files is enabled, users cannot use the `ESP_Panel` driver and can only use other standalone device drivers, such as `ESP_PanelBus`, `ESP_PanelLcd`, etc.
+
+#### Configuring Drivers
+
+ESP32_Display_Panel configures driver functionality and parameters based on the [ESP_Panel_Conf.h](./ESP_Panel_Conf.h) file. Users can update the behavior or default parameters of the driver by modifying macro definitions in this file. For example, to enable debug log output, here is a snippet of the modified `ESP_Panel_Conf.h` file:
+
+```c
+...
+/* Set to 1 if print log message for debug */
+#define ESP_PANEL_ENABLE_LOG                (1)         // 0/1
+...
+```
+
+#### Using Supported Development Boards
+
+ESP32_Display_Panel configures `ESP_Panel` as the driver for the target development board based on the [ESP_Panel_Board_Supported.h](./ESP_Panel_Board_Supported.h) file. Users can select supported development boards by modifying macro definitions in this file. For example, to use the *ESP32-S3-Box-3* development board, follow these steps:
+
+1. Set the `ESP_PANEL_USE_SUPPORTED_BOARD` macro definition in the `ESP_Panel_Board_Supported.h` file to `1`.
+2. Uncomment the corresponding macro definition for the target development board model.
+
+Here is a snippet of the modified `ESP_Panel_Board_Supported.h` file:
+
+```c
+...
+/* Set to 1 if using a supported board */
+#define ESP_PANEL_USE_SUPPORTED_BOARD       (1)         // 0/1
+
+#if ESP_PANEL_USE_SUPPORTED_BOARD
+...
+// #define BOARD_ESP32_C3_LCDKIT
+// #define BOARD_ESP32_S3_BOX
+#define BOARD_ESP32_S3_BOX_3
+// #define BOARD_ESP32_S3_BOX_3_BETA
+...
+#endif /* ESP_PANEL_USE_SUPPORTED_BOARD */
+```
+
+#### Using Custom Development Boards
+
+ESP32_Display_Panel configures `ESP_Panel` as the driver for custom development boards based on the [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custom.h) file. Users need to modify this file according to the actual parameters of the custom development board. For example, to use a custom development board with a *480x480 RGB ST7701 LCD + I2C GT911 Touch*, follow these steps:
+
+1. Set the `ESP_PANEL_USE_CUSTOM_BOARD` macro definition in the `ESP_Panel_Board_Custom.h` file to `1`.
+2. Set the LCD-related macro definitions:
+   a. Set `ESP_PANEL_USE_LCD` to `1`.
+   b. Set `ESP_PANEL_LCD_WIDTH` and `ESP_PANEL_LCD_HEIGHT` to `480`.
+   c. Set `ESP_PANEL_LCD_BUS_TYPE` to `ESP_PANEL_BUS_TYPE_RGB`.
+   d. Set LCD signal pins and other parameters below `ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB`.
+   e. Uncomment and modify the `ESP_PANEL_LCD_VENDOR_INIT_CMD` macro definition according to the initialization command parameters provided by the screen vendor.
+   f. Modify other LCD configurations as needed.
+3. Set the Touch-related macro definitions:
+   a. Set `ESP_PANEL_USE_TOUCH` to `1`.
+   b. Set Touch signal pins and other parameters below `ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C`.
+   c. Modify other Touch configurations as needed.
+4. Enable other driver macro definitions as needed, such as `ESP_PANEL_USE_BACKLIGHT`, `ESP_PANEL_USE_EXPANDER`, etc.
+
+Here is a snippet of the modified `ESP_Panel_Board_Custom.h` file:
+
+```c
+...
+/* Set to 1 if using a custom board */
+#define ESP_PANEL_USE_CUSTOM_BOARD  (1)         // 0/1
+
+/* Set to 1 when using an LCD panel */
+#define ESP_PANEL_USE_LCD           (1)     // 0/1
+
+#if ESP_PANEL_USE_LCD
+/**
+ * LCD Controller Name
+ */
+#define ESP_PANEL_LCD_NAME          ST7701
+
+/* LCD resolution in pixels */
+#define ESP_PANEL_LCD_WIDTH         (480)
+#define ESP_PANEL_LCD_HEIGHT        (480)
+...
+/**
+ * LCD Bus Type.
+ */
+#define ESP_PANEL_LCD_BUS_TYPE      (ESP_PANEL_BUS_TYPE_RGB)
+/**
+ * LCD Bus Parameters.
+ *
+ * Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html and
+ * https://docs.espressif.com/projects/esp-iot-solution/en/latest/display/lcd/index.html for more details.
+ *
+ */
+#if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
+...
+#endif /* ESP_PANEL_LCD_BUS_TYPE */
+...
+/**
+ * LCD Vendor Initialization Commands.
+ *
+ * Vendor specific initialization can be different between manufacturers, should consult the LCD supplier for
+ * initialization sequence code. Please uncomment and change the following macro definitions. Otherwise, the LCD driver
+ * will use the default initialization sequence code.
+ *
+ * There are two formats for the sequence code:
+ *   1. Raw data: {command, (uint8_t []){ data0, data1, ... }, data_size, delay_ms}
+ *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
+ *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
+ */
+#define ESP_PANEL_LCD_VENDOR_INIT_CMD() \
+    { \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}), \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}), \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}), \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC2, {0x31, 0x05}), \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xCD, {0x00}), \
+        ...
+        ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x11), \
+    }
+...
+#endif /* ESP_PANEL_USE_LCD */
+
+/* Set to 1 when using a touch panel */
+#define ESP_PANEL_USE_TOUCH         (1)         // 0/1
+#if ESP_PANEL_USE_TOUCH
+/**
+ * Touch controller name
+ */
+#define ESP_PANEL_TOUCH_NAME        GT911
+...
+/**
+ * Touch panel bus type
+ */
+#define ESP_PANEL_TOUCH_BUS_TYPE    (ESP_PANEL_BUS_TYPE_I2C)
+/* Touch panel bus parameters */
+#if ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C
+...
+#endif /* ESP_PANEL_TOUCH_BUS_TYPE */
+...
+#endif /* ESP_PANEL_USE_TOUCH */
+...
+#define ESP_PANEL_USE_BACKLIGHT     (1)         // 0/1
+#if ESP_PANEL_USE_BACKLIGHT
+...
+#endif /* ESP_PANEL_USE_BACKLIGHT */
+...
+#endif /* ESP_PANEL_USE_CUSTOM_BOARD */
+```
+
+### Usage Examples
+
+Below are some examples of using ESP32_Display_Panel. You can access them in the Arduino IDE by navigating to `File` > `Examples` > `ESP32_Display_Panel`. If you cannot find the `ESP32_Display_Panel` option, please check if the library has been installed correctly and ensure that an ESP development board is selected.
+
+#### LCD
+
+The following examples demonstrate how to develop different interface and model LCDs using standalone drivers and test them by displaying color bars:
+
+* [SPI](examples/LCD/SPI/)
+* [QSPI](examples/LCD/QSPI/)
+* [Single RGB](examples/LCD/RGB/)
+* [3-wire SPI + RGB](examples/LCD/3wireSPI_RGB/)
+
+#### Touch
+
+The following example demonstrates how to develop touch screens of different interfaces and models using standalone drivers and test them by printing touch point coordinates:
+
+* [I2C](examples/Touch/I2C/)
 
 #### Panel
 
-  * [Draw Color Bar](examples/Panel/DrawColorBar/): This example demonstrates how to draw simple color bar.
-  * [Read Touch Point](examples/Panel/ReadTouchPoint/): This example demonstrates how to read touch point.
+The following example demonstrates how to develop built-in or custom development boards using the `ESP_Panel` driver:
 
-#### LVGL
+* [Panel Test](examples/Panel/PanelTest/): This example tests by displaying color bars and printing touch point coordinates.
 
-To configure LVGL (v8.3.x), please see [here](#configure-lvgl) for more details.
+#### LVGL v8
 
-  * [Porting](examples/LVGL/Porting/): This example demonstrates how to port LVGL.
+For configuring LVGL (v8.3.x), please refer to [here](#configuring-lvgl) for more detailed information.
 
-#### Squareline
+* [Porting](examples/LVGL/v8/Porting/): This example demonstrates how to port LVGL (v8.3.x). And for RGB LCD, it can enable the avoid tearing fucntion.
+* [Rotation](examples/LVGL/v8/Rotation/): This example demonstrates how to use LVGL to rotate the display.
 
-To port the Squareline project (v1.3.x), please see [here](#port-the-squareline-project) for more details.
+#### SquareLine
 
-  * [Porting](examples/Squareline/Porting/): This example demonstrates how to port the Squareline project.
-  * [WiFiClock](examples/Squareline/WiFiClock/): This example implements a simple Wi-Fi clock demo.
+To port the SquareLine project (v1.3.x), please refer to [here](#porting-squareline-project) for more detailed information.
 
-### Detailed Usage
+- [Porting](examples/SquareLine/v8/Porting/): This example demonstrates how to port the SquareLine project.
+- [WiFiClock](examples/SquareLine/v8/WiFiClock/): This example implements a simple Wi-Fi clock and can display weather information.
 
-The following provides a comprehensive guide on how to use ESP32_Display_Panel.
+## Other Relevant Instructions
 
-#### Configure ESP32_Display_Panel
+### Configuring Supported Development Boards
 
-ESP32_Display_Panel has its own configuration file called `ESP_Panel_Conf.h`. After installing ESP32_Display_Panel, follow these configuration steps:
-
-1. Navigate to the directory where Arduino libraries are installed (The path of libraries folder can be found or changed at `File` > `Preferences` > `Settings` > `Sketchbook location`).
-2. Navigate to the `ESP32_Display_Panel` folder, copy `ESP_Panel_Conf_Template.h` and place the copy outside the `ESP32_Display_Panel` folder at the same directory level. Then rename the copied file as `ESP_Panel_Conf.h`.
-3. Finally, the layout of the Arduino Libraries folder with `ESP_Panel_Conf.h` appear as follows:
-
-    ```
-    Arduino
-        |-libraries
-            |-ESP32_Display_Panel
-            |-other_lib_1
-            |-other_lib_2
-            |-ESP_Panel_Conf.h
-    ```
-
-4. Please refer to the [Supported Boards List](#supported-boards--drivers) to check if the current board is compatible. If it is compatible, please navigate to the "[For Supported Boards](#for-supported-board)" section; Otherwise, navigate to the "[For Unsupported Boards](#for-unsupported-board)" section.
-
-##### For Supported Board
-
-1. Open `ESP_Panel_Conf.h` file. First, set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `1` (default is `1`). Then, according to the name of your target development board, uncomment the macro definitions in the format `ESP_PANEL_BOARD_<NAME>` below,
-2. The following code takes *ESP32_S3_BOX* development board as an example:
-
-    ```c
-    ...
-    // #define ESP_PANEL_BOARD_ESP32_C3_LCDKIT
-    #define ESP_PANEL_BOARD_ESP32_S3_BOX
-    // #define ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
-    ...
-    ```
-
-3. After that, navigate to the "[Use APIs](#use-apis)" section to use the library in the sketch.
-
-##### For Unsupported Board
-
-Since ESP32_Display_Panel library can only utilize the internally supported drivers, please ensure that the **LCD**, **Touch**, and **Bus** for the custom board are present in the list of [Supported Drivers](#supported-boards--drivers). Then follow the steps below to configure the library:
-
-1. Open `ESP_Panel_Conf.h` and set the macro `ESP_PANEL_USE_SUPPORTED_BOARD` to `0`, as shown below:
-
-    ```c
-    #define ESP_PANEL_USE_SUPPORTED_BOARD   (0)
-    ```
-
-2. Modify the values of other macros as needed. They represent parameters that can be adjusted for LCD, Touch, and other devices initialization.
-
-* Here are some important macros for the **LCD**:
-
-    ```c
-    /* Set to 0 if not using LCD */
-    #define ESP_PANEL_USE_LCD           (0)
-
-    /**
-     * LCD controller name. Choose one of the following:
-     *      - ILI9341
-     *      - GC9503, GC9A01
-     *      - ST7262, ST7789, ST7796
-     */
-    #define ESP_PANEL_LCD_NAME          ST7789
-
-    /* LCD resolution in pixels */
-    #define ESP_PANEL_LCD_H_RES         (320)
-    #define ESP_PANEL_LCD_V_RES         (240)
-
-    /* LCD Bus Settings */
-    /**
-     * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
-     * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
-     */
-    #define ESP_PANEL_LCD_BUS_SKIP_INIT_HOST        (0)
-    /**
-     * LCD bus type. Choose one of the following:
-     *      - 0: I2C (not supported yet)
-     *      - 1: SPI
-     *      - 2: I80 (not supported yet)
-     *      - 3: RGB
-     */
-    #define ESP_PANEL_LCD_BUS_TYPE      (1)
-    /**
-     * LCD bus parameters.
-     *
-     * Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html for details.
-     */
-    #define ESP_PANEL_LCD_BUS_HOST_ID           (1)
-    ...
-
-    /* LCD Color Settings */
-    /* LCD color depth in bits */
-    #define ESP_PANEL_LCD_COLOR_BITS    (16)
-    /*
-     * LCD Color Space. Choose one of the following:
-     *      - 0: RGB
-     *      - 1: BGR
-     */
-    #define ESP_PANEL_LCD_COLOR_SPACE   (0)
-    #define ESP_PANEL_LCD_INEVRT_COLOR  (0)
-
-    /* LCD Transformation Flags */
-    #define ESP_PANEL_LCD_SWAP_XY       (0)
-    #define ESP_PANEL_LCD_MIRROR_X      (0)
-    #define ESP_PANEL_LCD_MIRROR_Y      (0)
-
-    /* LCD Other Settings */
-    /* IO num of RESET pin, set to -1 if not use */
-    #define ESP_PANEL_LCD_IO_RST        (-1)
-    #define ESP_PANEL_LCD_RST_LEVEL     (0)
-    ```
-
-* Here are some important macros for the **LCD Touch**:
-
-    ```c
-    /* Set to 0 if not using LCD touch */
-    #define ESP_PANEL_USE_LCD_TOUCH     (0)
-
-    /**
-     * LCD Touch IC name. Choose one of the following:
-     *      - CST816S
-     *      - FT5x06
-     *      - GT1151, GT911
-     *      - TT21100
-     *      - STMPE610
-     */
-    #define ESP_PANEL_LCD_TOUCH_NAME            TT21100
-
-    /* LCD Touch resolution in pixels */
-    #define ESP_PANEL_LCD_TOUCH_H_RES           (ESP_PANEL_LCD_H_RES)
-    #define ESP_PANEL_LCD_TOUCH_V_RES           (ESP_PANEL_LCD_V_RES)
-
-    /* LCD Touch Bus Settings */
-    /**
-     * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
-     * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
-     */
-    #define ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST  (0)
-    /**
-     * LCD touch bus type. Choose one of the following:
-     *      - 0: I2C
-     *      - 1: SPI
-     */
-    #define ESP_PANEL_LCD_TOUCH_BUS_TYPE            (0)
-    /**
-     * LCD touch bus parameters.
-     *
-     * Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html for details.
-     */
-    #define ESP_PANEL_LCD_TOUCH_BUS_HOST_ID     (0)
-    ...
-
-    /* LCD Touch Transformation Flags */
-    #define ESP_PANEL_LCD_TOUCH_SWAP_XY         (0)
-    #define ESP_PANEL_LCD_TOUCH_MIRROR_X        (0)
-    #define ESP_PANEL_LCD_TOUCH_MIRROR_Y        (0)
-
-    /* LCD Touch Other Settings */
-    #define ESP_PANEL_LCD_TOUCH_IO_RST          (-1)
-    #define ESP_PANEL_LCD_TOUCH_IO_INT          (-1)
-    #define ESP_PANEL_LCD_TOUCH_RST_LEVEL       (0)
-    #define ESP_PANEL_LCD_TOUCH_INT_LEVEL       (0)
-    ```
-
-* Here are some important macros for the **backlight**:
-
-    ```c
-    #define ESP_PANEL_USE_BL                    (0)
-
-    /* IO num of backlight pin */
-    #define ESP_PANEL_LCD_IO_BL                 (45)
-
-    /* If the backlight is on when high level, set to 1; otherwise to 0 */
-    #define ESP_PANEL_LCD_BL_ON_LEVEL           (1)
-
-    /* Set to 1 if use PWM for backlight brightness control. */
-    #define ESP_PANEL_LCD_BL_USE_PWM            (0)
-
-    /**
-     *  Backlight LEDC Parameters.
-     *
-     *  Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/ledc.html for details.
-     */
-    #define ESP_PANEL_LCD_BL_PWM_TIMER          (0)
-    ...
-    ```
-
-3. After configuring the `ESP_Panel_Conf.h` file, please navigate to the "[Use APIs](#use-apis)" section to check the functions provided by ESP32_Display_Panel.
-
-#### Use APIs
-
-The following codes show the usage of common APIs:
-
-```
-#include <ESP_Panel_Library.h>
-
-// Create an ESP_Panel object
-ESP_Panel *panel = new ESP_Panel();
-
-// Initialize and start the ESP_Panel object
-panel>init();
-panel>begin();
-
-// Get the LCD object and operate it
-panel>getLcd()>setCallback(callback, NULL);
-panel>getLcd()>drawBitmap(0, 0, width, height, color);
-
-// Get the LCD touch object and operate it
-panel>getLcdTouch()>readData();
-bool touched = panel>getLcdTouch()>getTouchState();
-if(touched) {
-    TouchPoint point = panel>getLcdTouch()>getPoint();
-    Serial.printf("Touch point: x %d, y %d\n", point.x, point.y);
-}
-
-// Get the backlight object and operate it
-panel>getBacklight()>on();
-panel>getBacklight()>off();
-panel>getBacklight()>setBrightness(50);
-
-// Release the ESP_Panel object
-delete panel;
-```
-
-### Configure Board
-
-Below are recommended configurations for developing GUI applications on various development boards. These settings can be adjusted based on specific requirements.
-
-Go to the `Tools` in Arduino IDE to configure the following settings:
+Below are recommended configurations for developing GUI applications on different development boards. These settings can be adjusted according to specific requirements, and users can navigate to the `Tools` menu in the Arduino IDE to configure the following settings.
 
 |    Supported Boards     |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
 | :---------------------: | :----------------: | :------: | :--------: | :--------: | :-------------: | :---------------------: |
@@ -367,61 +309,75 @@ Go to the `Tools` in Arduino IDE to configure the following settings:
 |  ESP32-S3-LCD-EV-Board  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
 | ESP32-S3-LCD-EV-Board-2 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
 |    ESP32-S3-USB-OTG     |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
+|  ESP32-4848S040C_I_Y_3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
 
-**Note:**
+**Notes:**
 
-1. "USB CDC On Boot" should be enabled according to the using port:
+1. Enable or disable `USB CDC On Boot` based on the type of port used:
 
-    * Disable this configuration if using **UART port**, enable it if using **USB port**.
-    * If this configuration is different in the previous flashing, should enable `Erase All Flash Before Sketch Upload` first, then can disable it after flashing.
+   * Disable this configuration if using **UART** port; enable it if using **USB** port.
+   * If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
+   * If this configuration does not match the actual port type, it will prevent the development board from printing serial logs correctly.
 
-2. To see the more output log, please set `Core Debug Level` to `Info` or a lower level.
+2. To view more output logs, set `Core Debug Level` to `Info` or a lower level.
+3. If the predefined partition schemes provided by ESP32 do not meet the requirements, users can also select `Custom` in the "Partition Scheme" and create a custom partition table file `Custom.csv` in the `hardware/esp32/3.x.x/tools/partitions` directory under the [arduino-esp32 installation directory](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located). For detailed information on partition tables, please refer to the [ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html).
 
-### Configure LVGL
+### Configuring LVGL
 
-LVGL also has its own configuration file called `lv_conf.h`. After installing lvgl (v8.3.x), follow these configuration steps:
+The functionality and parameters of LVGL can be configured by editing the `lv_conf.h` file, where users can modify macro definitions to update the behavior or default parameters of the driver. Here are some features for configuring LVGL:
 
-1. Navigate to the directory where Arduino libraries are installed (The path of libraries folder can be found or changed at `File` > `Preferences` > `Settings` > `Sketchbook location`).
-2. Navigate to the `lvgl` folder, copy `lv_conf_template.h` and place the copy outside the `lvgl` folder at the same directory level. Then rename the copied file as `lv_conf.h`.
-3. Finally, the layout of the Arduino Libraries folder with `lv_conf.h` appear as follows:
+1. When using arduino-esp32 v3.x.x version, LVGL will search for the configuration file in the following order: `current project directory` > `Arduino library directory`. If the configuration file is not found, a compilation error indicating the absence of the configuration file will be prompted. Therefore, users need to ensure that at least one directory contains the `lv_conf.h` file.
+
+2. If multiple projects need to use the same configuration, users can place the configuration file in the [Arduino library directory](#where-is-the-directory-for-arduino-libraries), so that all projects can share the same configuration.
+
+Below are detailed steps for sharing the same LVGL configuration:
+
+1. Navigate to the [Arduino library directory](#where-is-the-directory-for-arduino-libraries).
+
+2. Enter the `lvgl` folder, copy the `lv_conf_template.h` file, and place the copy at the same level as the `lvgl` folder. Then, rename the copied file to `lv_conf.h`.
+
+3. Finally, the layout of the Arduino library folder should look like this:
+
+   ```
+   Arduino
+       |-libraries
+           |-lv_conf.h
+           |-lvgl
+           |-other_lib_1
+           |-other_lib_2
+   ```
+
+4. Open the `lv_conf.h` file, and change the first `#if 0` to `#if 1` to enable the contents of the file.
+
+5. Set other configurations according to requirements. Here are some examples of common configuration options for LVGL v8:
+
+   ```c
+   #define LV_COLOR_DEPTH          16  // Typically use 16-bit color depth (RGB565),
+                                       // but can also set it to `32` to support 24-bit color depth (RGB888)
+   #define LV_COLOR_16_SWAP        0   // If using SPI/QSPI LCD (e.g., ESP32-C3-LCDkit), set this to `1`
+   #define LV_COLOR_SCREEN_TRANSP  1
+   #define LV_MEM_CUSTOM           1
+   #define LV_MEMCPY_MEMSET_STD    1
+   #define LV_TICK_CUSTOM          1
+   #define LV_ATTRIBUTE_FAST_MEM   IRAM_ATTR
+                                      // Get higher performance but use more SRAM
+   #define LV_FONT_MONTSERRAT_N    1  // Enable all internal fonts needed (`N` should be replaced with font size)
+   ```
+
+6. For more information, please refer to the [LVGL official documentation](https://docs.lvgl.io/8.3/get-started/platforms/arduino.html).
+
+### Porting SquareLine Project
+
+SquareLine Studio (v1.3.x) allows for the rapid design of beautiful UIs through visual editing. If you want to use UI source files exported from SquareLine in the Arduino IDE, you can follow these steps for porting:
+
+1. First, create a new project in SquareLine Studio. Go to `Create` -> `Arduino`, select `Arduino with TFT-eSPI` as the project template, then configure the LCD properties for the target development board in the `PROJECT SETTINGS` section, such as `Resolution` and `Color depth`. Finally, click the `Create` button to create the project.
+
+2. For existing projects, you can also click on `File` -> `Project Settings` in the navigation bar to enter the project settings. Then, in the `BOARD PROPERTIES` section, configure `Board Group` as `Arduino` and `Board` as `Arduino with TFT-eSPI`. Additionally, configure the LCD properties for the target development board in the `DISPLAY PROPERTIES` section. Finally, click the `Save` button to save the project settings.
+
+3. Once the UI design is complete and the export path is configured, click on `Export` -> `Create Template Project` and `Export UI Files` buttons in the menu bar to export the project and UI source files. The layout of the project directory will be as follows:
 
     ```
-    Arduino
-        |-libraries
-            |-lv_conf.h
-            |-lvgl
-            |-other_lib_1
-            |-other_lib_2
-    ```
-
-4. Open `lv_conf.h` and change the first `#if 0` to `#if 1` to enable the content of the file.
-5. Set the other configurations according to the requirements, here are some common configurations:
-
-    ```c
-    #define LV_COLOR_DEPTH          16  // Normally we just use 16-bit color depth (RGB565),
-                                        // but 24-bit color depth (RGB888) can also be supported by setting it to `32`
-    #define LV_COLOR_16_SWAP        1   // Set it to `0` if using RGB LCD (e.g. ESP32-S3-LCD-Ev-Board/-2)
-    #define LV_MEM_CUSTOM           1
-    #define LV_MEMCPY_MEMSET_STD    1
-    #define LV_TICK_CUSTOM          1
-    #define LV_ATTRIBUTE_FAST_MEM   IRAM_ATTR   // Get higher performance but take up more SRAM
-    #define LV_FONT_MONTSERRAT_N    1  // Enable all the internally used fonts (`N` should be replaced by the font size)
-    ```
-
-6. For more information, please refer to [LVGL document](https://docs.lvgl.io/8.3/get-started/platforms/arduino.html).
-
-### Port the Squareline Project
-
-It is convenient to design beautiful UI using Squareline Studio through graphical editing. To use UI source files exported from Squareline in the Arduino IDE, follow these steps:
-
-1. First, create a new project in Squareline Studio. Go to `Create` > `Arduino`, select `Arduino with TFT-eSPI` as the project template. On the right side, configure project settings based on the LCD properties of the target development board, like `Resolution` and `Color depth`. Finally, click the `Create` button to create the project.
-
-2. For existing projects, please click on `File` > `Project Settings` in the navigation bar. Set `Board Group` to `Arduino`, `Board` to `Arduino with TFT-eSPI`, and configure the `DISPLAY PROPERTIES` based on the target development board's LCD properties in the same section. Finally, click the `Save` button to save project settings.
-
-3. Once finished UI design and set the export path, click the navigation bar's `Export` > `Create Template Project` and `Export UI Files` to export the project and UI source files. The layout of project directory should appear as follows:
-
-    ```
-    Squareline Project
+    Project
         |-libraries
             |-lv_conf.h
             |-lvgl
@@ -432,16 +388,83 @@ It is convenient to design beautiful UI using Squareline Studio through graphica
         |-ui
     ```
 
-4. Finally, copy the `lv_conf.h`, `lvgl`, and `ui` from the `libraries` within the project directory to the Arduino libraries directory (The path of libraries folder can be found or changed at `File` > `Preferences` > `Settings` > `Sketchbook location`). If just want to use a locally installed `lvgl`, please skip copying `lvgl` and `lv_conf.h`, then refer [steps](#configure-lvgl) to configure LVGL. The final layout should appear as follows:
+4. Copy the `lv_conf.h`, `lvgl`, and `ui` folders from the `libraries` folder in the project directory to the Arduino library directory. If you need to use a locally installed `lvgl`, skip copying `lvgl` and `lv_conf.h`, then refer to the steps in the [LVGL Configuration](#configuring-lvgl) section to configure LVGL. The layout of the Arduino library folder will be as follows:
 
     ```
     Arduino
         |-libraries
             |-ESP32_Display_Panel
-            |-ESP_Panel_Conf.h
-            |-lv_conf.h
+            |-ESP_Panel_Conf.h (optional)
+            |-lv_conf.h (optional)
             |-lvgl
             |-ui
             |-other_lib_1
             |-other_lib_2
+    ```
+
+## FAQ
+
+### Where is the directory for Arduino libraries?
+
+You can find and modify the directory path for Arduino libraries by selecting `File` > `Preferences` > `Settings` > `Sketchbook location` from the menu bar in the Arduino IDE.
+
+### How to Install ESP32_Display_Panel in Arduino IDE?
+
+- If you want to install online, navigate to `Sketch` > `Include Library` > `Manage Libraries...` in the Arduino IDE, then search for `ESP32_Display_Panel` and click the `Install` button to install it.
+- If you want to install manually, download the required version of the `.zip` file from [ESP32_Display_Panel](https://github.com/esp-arduino-libs/ESP32_Display_Panel), then navigate to `Sketch` > `Include Library` > `Add .ZIP Library...` in the Arduino IDE, select the downloaded `.zip` file, and click `Open` to install it.
+- You can also refer to the guides on library installation in the [Arduino IDE v1.x.x](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries) or [Arduino IDE v2.x.x](https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library) documentation.
+
+### Where are the installation directory for arduino-esp32 and the SDK located?
+
+The default installation path for arduino-esp32 depends on your operating system:
+
+- Windows: `C:\Users\<user name>\AppData\Local\Arduino15\packages\esp32`
+- Linux: `~/.arduino15/packages/esp32`
+
+The SDK for arduino-esp32 v3.x.x version is located in the `tools/esp32-arduino-libs/idf-release_x` directory within the default installation path.
+
+### How to fix screen drift issue when driving RGB LCD with ESP32-S3?
+
+When encountering screen drift issue when driving RGB LCD with ESP32-S3, you can follow these steps to resolve them:
+
+1. **Refer to Documentation**: Understand the issue description in detail, you can refer to [this document](https://docs.espressif.com/projects/esp-faq/en/latest/software-framework/peripherals/lcd.html#why-do-i-get-drift-overall-drift-of-the-display-when-esp32-s3-is-driving-an-rgb-lcd-screen).
+
+2. **Enable `Bounce Buffer + XIP on PSRAM` Feature**: To resolve the issue, it's recommended to enable the `Bounce Buffer + XIP on PSRAM` feature. Follow these steps:
+
+   - **Step 1**: Download the "high_perf" version of the SDK from [arduino-esp32-sdk](https://github.com/esp-arduino-libs/arduino-esp32-sdk) and replace it in the [installation directory of arduino-esp32](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located).
+
+   - **Step 2**: If you're using supported development boards, usually there's no need to modify the code as they set `ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE` to `(ESP_PANEL_LCD_WIDTH * 10)` by default. If the issue persists, refer to the example code below to increase the size of the `Bounce Buffer`.
+
+   - **Step 3**: If you're using a custom board, confirm in the `ESP_Panel_Board_Custom.h` file whether `ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE` is set to non-zero. If the issue persists, increase the size of the `Bounce Buffer`.
+
+   - **Step 4**: If you're using an independent driver, refer to the example code below to set the size of the `Bounce Buffer`.
+
+3. **Example Code**: The following example code demonstrates how to modify the size of the `Bounce Buffer` using `ESP_Panel` driver or independent driver:
+
+   **Example 1**: Modify the `Bounce Buffer` size using the `ESP_Panel` driver:
+
+    ```c
+    ...
+    ESP_Panel *panel = new ESP_Panel();
+    panel->init();
+    // Start
+    ESP_PanelBus_RGB *rgb_bus = static_cast<ESP_PanelBus_RGB *>(panel->getLcd()->getBus());
+    // The size of the bounce buffer must satisfy `width_of_lcd * height_of_lcd = size_of_buffer * N`, where N is an even number.
+    rgb_bus->configRgbBounceBufferSize((ESP_PANEL_LCD_WIDTH * 20));
+    // End
+    panel->begin();
+    ...
+    ```
+
+   **Example 2**: Modify the `Bounce Buffer` size using an independent driver:
+
+    ```c
+    ...
+    ESP_PanelBus_RGB *lcd_bus = new ESP_PanelBus_RGB(...);
+    // Start
+    // The size of the bounce buffer must satisfy `width_of_lcd * height_of_lcd = size_of_buffer * N`, where N is an even number.
+    lcd_bus->configRgbBounceBufferSize(EXAMPLE_LCD_WIDTH * 10);
+    // End
+    lcd_bus->begin();
+    ...
     ```
