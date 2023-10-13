@@ -23,6 +23,10 @@
         #ifndef ESP_PANEL_CONF_INCLUDE_SIMPLE
             #define ESP_PANEL_CONF_INCLUDE_SIMPLE
         #endif
+    #elif __has_include("../../ESP_Panel_Conf.h")
+        #ifndef ESP_PANEL_CONF_INCLUDE_OUTSIDE
+            #define ESP_PANEL_CONF_INCLUDE_OUTSIDE
+        #endif
     #endif
 #endif
 
@@ -36,12 +40,18 @@
         #undef __TO_STR
     #elif defined(ESP_PANEL_CONF_INCLUDE_SIMPLE)         /* Or simply include if "ESP_Panel_Conf.h" is available */
         #include "ESP_Panel_Conf.h"
+    #elif defined(ESP_PANEL_CONF_INCLUDE_OUTSIDE)
+        #include "../../ESP_Panel_Conf.h"                /* Or include if "../../ESP_Panel_Conf.h" is available */
     #else
-        #include "../../ESP_Panel_Conf.h"                /* Else assume "ESP_Panel_Conf.h" is next to the root folder */
+        #define ESP_PANEL_CONF_IGNORE                    /* Or ignore all configurations if none of the above is available */
     #endif
 #endif
 
-#include "ESP_Panel.h"
+#ifndef ESP_PANEL_CONF_IGNORE
+#include "soc/soc_caps.h"
+#include "esp_idf_version.h"
+
+#include "bus/ESP_PanelBus.h"
 
 #ifndef ESP_PANEL_USE_SUPPORTED_BOARD
     #ifdef CONFIG_ESP_PANEL_USE_SUPPORTED_BOARD
@@ -53,25 +63,25 @@
 
 #if ESP_PANEL_USE_SUPPORTED_BOARD
     #if defined(ESP_PANEL_BOARD_ESP32_C3_LCDKIT) || CONFIG_ESP_PANEL_BOARD_ESP32_C3_LCDKIT
-        #include "board/esp32_c3_lcdkit.h"
+        #include "board/ESP32_C3_LCDKIT.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX
-        #include "board/esp32_s3_box.h"
+        #include "board/ESP32_S3_BOX.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3
         #include "board/esp32_s3_box_3.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA
         #include "board/esp32_s3_box_3_beta.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_LITE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
-        #include "board/esp32_s3_box_lite.h"
+        #include "board/ESP32_S3_BOX_LITE.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_EYE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_EYE
-        #include "board/esp32_s3_eye.h"
+        #include "board/ESP32_S3_EYE.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_KORVO_2) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_KORVO_2
-        #include "board/esp32_s3_korvo_2.h"
+        #include "board/ESP32_S3_KORVO_2.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD
-        #include "board/esp32_s3_lcd_ev_board.h"
+        #include "board/ESP32_S3_LCD_EV_BOARD.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD_2) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD_2
-        #include "board/esp32_s3_lcd_ev_board_2.h"
+        #include "board/ESP32_S3_LCD_EV_BOARD_2.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_USB_OTG) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_USB_OTG
-        #include "board/esp32_s3_usb_otg.h"
+        #include "board/ESP32_S3_USB_OTG.h"
     #else
         #error "Unkonw board selected, please refer to the README for supported boards."
     #endif
@@ -144,7 +154,6 @@
     /* LCD bus parameters. */
     #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C
         #define ESP_PANEL_LCD_BUS_NAME      I2C
-        #define ESP_PANEL_LCD_BUS_HOST      ((i2c_port_t)ESP_PANEL_LCD_BUS_HOST_ID)
         #error "LCD I2C bus is not available and will be implemented in the future."
     #elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_SPI
         #define ESP_PANEL_LCD_BUS_NAME      SPI
@@ -156,6 +165,7 @@
                 #error "LCD bus host id is not defined."
             #endif
         #endif
+        #include "hal/spi_types.h"
         #define ESP_PANEL_LCD_BUS_HOST      ((spi_host_device_t)ESP_PANEL_LCD_BUS_HOST_ID)
 
         #ifndef ESP_PANEL_LCD_SPI_IO_CS
@@ -243,6 +253,14 @@
         #define ESP_PANEL_LCD_BUS_NAME      I80
         #error "LCD I80 bus is not available and will be implemented in the future."
     #elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
+        #ifndef SOC_LCD_RGB_SUPPORTED
+            #error "LCD RGB is only supported for ESP32-S3, please select the correct board."
+        #endif
+
+        #if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
+            #error "LCD RGB bus here is only supported in arduino-esp32 v3.x.x (ESP-IDF v5.0), please update the SDK."
+        #endif
+
         #define ESP_PANEL_LCD_BUS_NAME      RGB
         #define ESP_PANEL_LCD_BUS_HOST      (-1)
 
@@ -318,6 +336,22 @@
             #endif
         #endif
 
+        #ifndef ESP_PANEL_LCD_RGB_FRAME_BUF_NUM
+            #ifdef CONFIG_ESP_PANEL_LCD_RGB_FRAME_BUF_NUM
+                #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM    CONFIG_ESP_PANEL_LCD_RGB_FRAME_BUF_NUM
+            #else
+                #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM    (1)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+            #ifdef CONFIG_ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+                #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE    CONFIG_ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+            #else
+                #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (ESP_PANEL_LCD_H_RES * 10)
+            #endif
+        #endif
+
         #ifndef ESP_PANEL_LCD_RGB_IO_HSYNC
             #ifdef CONFIG_ESP_PANEL_LCD_RGB_IO_HSYNC
                 #define ESP_PANEL_LCD_RGB_IO_HSYNC  CONFIG_ESP_PANEL_LCD_RGB_IO_HSYNC
@@ -360,9 +394,17 @@
 
         #ifndef ESP_PANEL_LCD_RGB_IO_DATA0
             #ifdef CONFIG_ESP_PANEL_LCD_RGB_IO_DATA0
-                #define ESP_PANEL_LCD_RGB_IO_DATA0  CONFIG_ESP_PANEL_LCD_RGB_IO_DATA0
+                #define ESP_PANEL_LCD_RGB_IO_DATA0      CONFIG_ESP_PANEL_LCD_RGB_IO_DATA0
             #else
                 #error "LCD RGB DATA0 pin is not defined."
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_LCD_RGB_PIXEL_BITS
+            #ifdef CONFIG_ESP_PANEL_LCD_RGB_PIXEL_BITS
+                #define ESP_PANEL_LCD_RGB_PIXEL_BITS    CONFIG_ESP_PANEL_LCD_RGB_PIXEL_BITS
+            #else
+                #error "LCD RGB pixel bits is not defined."
             #endif
         #endif
 
@@ -503,113 +545,65 @@
         #endif
 
         #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
-            #ifndef ESP_PANEL_LCD_SPI_CLK_HZ
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_CLK_HZ
-                    #define ESP_PANEL_LCD_SPI_CLK_HZ    CONFIG_ESP_PANEL_LCD_SPI_CLK_HZ
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
+                #ifdef ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
+                    #define ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE   CONFIG_ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
                 #else
-                    #define ESP_PANEL_LCD_SPI_CLK_HZ    (500 * 1000)
+                    #error "LCD 3-wire SPI SCL active edge is not defined."
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_CMD_BYTES
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_CMD_BYTES
-                    #define ESP_PANEL_LCD_SPI_CMD_BYTES  CONFIG_ESP_PANEL_LCD_SPI_CMD_BYTES
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_AUTO_DEL_PANEL_IO
+                #ifdef ESP_PANEL_LCD_3WIRE_SPI_AUTO_DEL_PANEL_IO
+                    #define ESP_PANEL_LCD_3WIRE_SPI_AUTO_DEL_PANEL_IO   CONFIG_ESP_PANEL_LCD_3WIRE_SPI_AUTO_DEL_PANEL_IO
                 #else
-                    #define ESP_PANEL_LCD_SPI_CMD_BYTES  (1)
+                    #error "LCD 3-wire SPI auto delete panel io is not defined."
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_PARAM_BYTES
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_PARAM_BYTES
-                    #define ESP_PANEL_LCD_SPI_PARAM_BYTES    CONFIG_ESP_PANEL_LCD_SPI_PARAM_BYTES
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER
+                #ifdef CONFIG_ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER
+                    #define ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER  CONFIG_ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER
                 #else
-                    #define ESP_PANEL_LCD_SPI_PARAM_BYTES    (1)
+                    #define ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER  (0)
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_USE_DC_BIT
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_USE_DC_BIT
-                    #define ESP_PANEL_LCD_SPI_USE_DC_BIT    CONFIG_ESP_PANEL_LCD_SPI_USE_DC_BIT
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER
+                #ifdef CONFIG_ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER
+                    #define ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER CONFIG_ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER
                 #else
-                    #define ESP_PANEL_LCD_SPI_USE_DC_BIT    (0)
+                    #define ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER (0)
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_DC_ZERO_ON_DATA
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_DC_ZERO_ON_DATA
-                    #define ESP_PANEL_LCD_SPI_DC_ZERO_ON_DATA    CONFIG_ESP_PANEL_LCD_SPI_DC_ZERO_ON_DATA
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER
+                #ifdef CONFIG_ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER
+                    #define ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER CONFIG_ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER
                 #else
-                    #define ESP_PANEL_LCD_SPI_DC_ZERO_ON_DATA    (0)
+                    #define ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER (0)
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_LSB_FIRST
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_LSB_FIRST
-                    #define ESP_PANEL_LCD_SPI_LSB_FIRST  CONFIG_ESP_PANEL_LCD_SPI_LSB_FIRST
-                #else
-                    #define ESP_PANEL_LCD_SPI_LSB_FIRST  (0)
-                #endif
-            #endif
-
-            #ifndef ESP_PANEL_LCD_SPI_CS_HIGH_ACTIVE
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_CS_HIGH_ACTIVE
-                    #define ESP_PANEL_LCD_SPI_CS_HIGH_ACTIVE    CONFIG_ESP_PANEL_LCD_SPI_CS_HIGH_ACTIVE
-                #else
-                    #define ESP_PANEL_LCD_SPI_CS_HIGH_ACTIVE    (0)
-                #endif
-            #endif
-
-            #ifndef ESP_PANEL_LCD_SPI_DEL_KEEP_CS
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_DEL_KEEP_CS
-                    #define ESP_PANEL_LCD_SPI_DEL_KEEP_CS   CONFIG_ESP_PANEL_LCD_SPI_DEL_KEEP_CS
-                #else
-                    #define ESP_PANEL_LCD_SPI_DEL_KEEP_CS   (0)
-                #endif
-            #endif
-
-            #ifndef ESP_PANEL_LCD_SPI_CS_USE_EXPNADER
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_CS_USE_EXPNADER
-                    #define ESP_PANEL_LCD_SPI_CS_USE_EXPNADER  CONFIG_ESP_PANEL_LCD_SPI_CS_USE_EXPNADER
-                #else
-                    #define ESP_PANEL_LCD_SPI_CS_USE_EXPNADER  (0)
-                #endif
-            #endif
-
-            #ifndef ESP_PANEL_LCD_SPI_SCL_USE_EXPNADER
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_SCL_USE_EXPNADER
-                    #define ESP_PANEL_LCD_SPI_SCL_USE_EXPNADER CONFIG_ESP_PANEL_LCD_SPI_SCL_USE_EXPNADER
-                #else
-                    #define ESP_PANEL_LCD_SPI_SCL_USE_EXPNADER (0)
-                #endif
-            #endif
-
-            #ifndef ESP_PANEL_LCD_SPI_SDA_USE_EXPNADER
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_SDA_USE_EXPNADER
-                    #define ESP_PANEL_LCD_SPI_SDA_USE_EXPNADER CONFIG_ESP_PANEL_LCD_SPI_SDA_USE_EXPNADER
-                #else
-                    #define ESP_PANEL_LCD_SPI_SDA_USE_EXPNADER (0)
-                #endif
-            #endif
-
-            #ifndef ESP_PANEL_LCD_SPI_IO_CS
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_IO_CS
-                    #define ESP_PANEL_LCD_SPI_IO_CS CONFIG_ESP_PANEL_LCD_SPI_IO_CS
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_IO_CS
+                #ifdef CONFIG_ESP_PANEL_LCD_3WIRE_SPI_IO_CS
+                    #define ESP_PANEL_LCD_3WIRE_SPI_IO_CS CONFIG_ESP_PANEL_LCD_3WIRE_SPI_IO_CS
                 #else
                     #error "LCD SPI CS pin is not defined."
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_IO_SCL
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_IO_SCL
-                    #define ESP_PANEL_LCD_SPI_IO_SCL    CONFIG_ESP_PANEL_LCD_SPI_IO_SCL
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_IO_SCL
+                #ifdef CONFIG_ESP_PANEL_LCD_3WIRE_SPI_IO_SCL
+                    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SCL    CONFIG_ESP_PANEL_LCD_3WIRE_SPI_IO_SCL
                 #else
                     #error "LCD SPI SCL pin is not defined."
                 #endif
             #endif
 
-            #ifndef ESP_PANEL_LCD_SPI_IO_SDA
-                #ifdef CONFIG_ESP_PANEL_LCD_SPI_IO_SDA
-                    #define ESP_PANEL_LCD_SPI_IO_SDA    CONFIG_ESP_PANEL_LCD_SPI_IO_SDA
+            #ifndef ESP_PANEL_LCD_3WIRE_SPI_IO_SDA
+                #ifdef CONFIG_ESP_PANEL_LCD_3WIRE_SPI_IO_SDA
+                    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SDA    CONFIG_ESP_PANEL_LCD_3WIRE_SPI_IO_SDA
                 #else
                     #error "LCD SPI SDA pin is not defined."
                 #endif
@@ -618,6 +612,20 @@
     #else
         #error "Unkonw LCD bus type selected, please refer to the README for supported bus types."
     #endif /* ESP_PANEL_LCD_BUS_TYPE */
+
+    /* ESP_PANEL_LCD_INIT_CMD_SIZE */
+    #ifndef ESP_PANEL_LCD_INIT_CMD_SIZE
+        #define ESP_PANEL_LCD_INIT_CMD_SIZE     (0)
+    #endif
+
+    /* ESP_PANEL_LCD_INIT_CMD */
+    #ifndef ESP_PANEL_LCD_INIT_CMD
+        #define ESP_PANEL_LCD_INIT_CMD          (NULL)
+        #if ESP_PANEL_LCD_INIT_CMD_SIZE > 0
+            #undef ESP_PANEL_LCD_INIT_CMD_SIZE
+            #define ESP_PANEL_LCD_INIT_CMD_SIZE     (0)
+        #endif
+    #endif
 
     /* LCD Color Settings */
     /* LCD color depth in bits */
@@ -629,11 +637,11 @@
         #endif
     #endif
    /* LCD Color Space. */
-    #ifndef ESP_PANEL_LCD_COLOR_SPACE
-        #ifdef CONFIG_ESP_PANEL_LCD_COLOR_SPACE
-            #define ESP_PANEL_LCD_COLOR_SPACE   CONFIG_ESP_PANEL_LCD_COLOR_SPACE
+    #ifndef ESP_PANEL_LCD_RGB_ORDER
+        #ifdef CONFIG_ESP_PANEL_LCD_RGB_ORDER
+            #define ESP_PANEL_LCD_RGB_ORDER   CONFIG_ESP_PANEL_LCD_RGB_ORDER
         #else
-            #define ESP_PANEL_LCD_COLOR_SPACE   (0)
+            #define ESP_PANEL_LCD_RGB_ORDER     (0)
         #endif
     #endif
 
@@ -762,6 +770,7 @@
                 #define ESP_PANEL_LCD_TOUCH_BUS_HOST_ID    (0)
             #endif
         #endif
+        #include "hal/i2c_types.h"
         #define ESP_PANEL_LCD_TOUCH_BUS_HOST      ((i2c_port_t)ESP_PANEL_LCD_TOUCH_BUS_HOST_ID)
 
         #if !ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST
@@ -983,5 +992,7 @@
     #endif /* ESP_PANEL_LCD_BL_USE_PWM */
 #endif /* ESP_PANEL_USE_BL */
 // *INDENT-OFF*
+
+#endif /* ESP_PANEL_CONF_IGNORE */
 
 #endif

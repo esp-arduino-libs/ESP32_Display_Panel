@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+#include "ESP_PanelBus.h"
 #include "SPI.h"
 #include "I2C.h"
 #include "RGB.h"

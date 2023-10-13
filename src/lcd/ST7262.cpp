@@ -5,8 +5,9 @@
  */
 
 #include "soc/soc_caps.h"
+#include "esp_idf_version.h"
 
-#if SOC_LCD_RGB_SUPPORTED
+#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -22,8 +23,6 @@
 
 static const char *TAG = "st7262";
 
-static esp_err_t esp_lcd_new_panel_st7262(esp_lcd_panel_io_handle_t io_handle, const esp_lcd_rgb_panel_config_t *rgb_config, esp_lcd_panel_handle_t *ret_panel);
-
 ESP_PanelLcd_ST7262::~ESP_PanelLcd_ST7262()
 {
     if (handle) {
@@ -33,12 +32,9 @@ ESP_PanelLcd_ST7262::~ESP_PanelLcd_ST7262()
 
 void ESP_PanelLcd_ST7262::init()
 {
-    CHECK_NULL_RETURN(bus);
-    CHECK_ERROR_RETURN(esp_lcd_new_panel_st7262(NULL, static_cast<ESP_PanelBus_RGB *>(bus)->getRGBConfig(), &handle));
-
-    if (config.dev_config.reset_gpio_num >= 0) {
+    if (panel_config.reset_gpio_num >= 0) {
         gpio_config_t gpio_conf = {
-            .pin_bit_mask = BIT64(config.dev_config.reset_gpio_num),
+            .pin_bit_mask = BIT64(panel_config.reset_gpio_num),
             .mode = GPIO_MODE_OUTPUT,
             .pull_up_en = GPIO_PULLUP_DISABLE,
             .pull_down_en = GPIO_PULLDOWN_DISABLE,
@@ -46,27 +42,19 @@ void ESP_PanelLcd_ST7262::init()
         };
         CHECK_ERROR_RETURN(gpio_config(&gpio_conf));
     }
+
+    CHECK_ERROR_RETURN(esp_lcd_new_rgb_panel(vendor_config.rgb_config, &handle));
 }
 
 void ESP_PanelLcd_ST7262::reset()
 {
-    if (config.dev_config.reset_gpio_num >= 0) {
-        gpio_set_level((gpio_num_t)config.dev_config.reset_gpio_num, config.dev_config.flags.reset_active_high);
+    if (panel_config.reset_gpio_num >= 0) {
+        gpio_set_level((gpio_num_t)panel_config.reset_gpio_num, panel_config.flags.reset_active_high);
         vTaskDelay(pdMS_TO_TICKS(10));
-        gpio_set_level((gpio_num_t)config.dev_config.reset_gpio_num, !config.dev_config.flags.reset_active_high);
+        gpio_set_level((gpio_num_t)panel_config.reset_gpio_num, !panel_config.flags.reset_active_high);
         vTaskDelay(pdMS_TO_TICKS(120));
     }
     CHECK_ERROR_RETURN(esp_lcd_panel_reset(handle));
-}
-
-static esp_err_t esp_lcd_new_panel_st7262(esp_lcd_panel_io_handle_t io_handle, const esp_lcd_rgb_panel_config_t *rgb_config, esp_lcd_panel_handle_t *ret_panel)
-{
-    (void)io_handle;
-
-    // Create RGB panel
-    ESP_RETURN_ON_ERROR(esp_lcd_new_rgb_panel(rgb_config, ret_panel), TAG, "Failed to create RGB panel");
-
-    return ESP_OK;
 }
 
 #endif /* SOC_LCD_RGB_SUPPORTED */

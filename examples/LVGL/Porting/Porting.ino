@@ -26,6 +26,7 @@
  * ```
  */
 
+#include <unistd.h>
 #include <Arduino.h>
 #include <lvgl.h>
 #include <ESP_Panel_Library.h>
@@ -47,7 +48,7 @@
 #define LVGL_BUF_SIZE           (ESP_PANEL_LCD_H_RES * 20)
 
 ESP_Panel *panel = NULL;
-SemaphoreHandle_t lvgl_mux = NULL;                  // LVGL mutex
+SemaphoreHandle_t lvgl_mux = NULL;
 
 #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 /* Display flushing */
@@ -141,11 +142,17 @@ void setup()
 
     /* Initialize LVGL buffers */
     static lv_disp_draw_buf_t draw_buf;
-    /* Using double buffers is more faster than single buffer */
+    uint8_t *buf1 = NULL;
+    uint8_t *buf2 = NULL;
     /* Using internal SRAM is more fast than PSRAM (Note: Memory allocated using `malloc` may be located in PSRAM.) */
-    uint8_t *buf = (uint8_t *)heap_caps_calloc(1, LVGL_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_INTERNAL);
-    assert(buf);
-    lv_disp_draw_buf_init(&draw_buf, buf, NULL, LVGL_BUF_SIZE);
+    buf1 = (uint8_t *)heap_caps_calloc(1, LVGL_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_INTERNAL);
+    assert(buf1);
+    /* Using double buffers is more faster than single buffer when the bus refresh the screen using DMA transfers */
+#if ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB
+    buf2 = (uint8_t *)heap_caps_calloc(1, LVGL_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_INTERNAL);
+    assert(buf2);
+#endif
+    lv_disp_draw_buf_init(&draw_buf, buf1, buf2, LVGL_BUF_SIZE);
 
     /* Initialize the display device */
     static lv_disp_drv_t disp_drv;
@@ -174,7 +181,10 @@ void setup()
      */
     Serial.println("Initialize IO expander");
     /* Initialize IO expander */
-    ESP_IOExpander *expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST_ID, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
+    ESP_IOExpander *expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST,
+                                                               ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000,
+                                                               ESP_PANEL_LCD_TOUCH_I2C_IO_SCL,
+                                                               ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
     expander->init();
     expander->begin();
     /* Add into panel */
@@ -186,7 +196,7 @@ void setup()
 #if ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB
     /* Register a function to notify LVGL when the panel is ready to flush */
     /* This is useful for refreshing the screen using DMA transfers */
-    panel->getLcd()->setCallback(notify_lvgl_flush_ready, &disp_drv);
+    panel->getLcd()->attachFrameEndCallback(notify_lvgl_flush_ready, &disp_drv);
 #endif
     /* Start panel */
     panel->begin();

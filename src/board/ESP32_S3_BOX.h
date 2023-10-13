@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP32_S3_BOX_3_H
-#define ESP32_S3_BOX_3_H
+#ifndef ESP32_S3_BOX_H
+#define ESP32_S3_BOX_H
 
 /* For more information about it, please visit here: https://github.com/espressif/esp-box/tree/master */
 
@@ -55,11 +55,11 @@
 /* LCD color depth in bits */
 #define ESP_PANEL_LCD_COLOR_BITS    (16)
 /*
- * LCD Color Space. Choose one of the following:
+ * LCD RGB Element Order. Choose one of the following:
  *      - 0: RGB
  *      - 1: BGR
  */
-#define ESP_PANEL_LCD_COLOR_SPACE   (1)
+#define ESP_PANEL_LCD_RGB_ORDER     (1)
 #define ESP_PANEL_LCD_INEVRT_COLOR  (0)
 
 /* LCD Transformation Flags */
@@ -70,7 +70,7 @@
 /* LCD Other Settings */
 /* IO num of RESET pin, set to -1 if not use */
 #define ESP_PANEL_LCD_IO_RST        (48)
-#define ESP_PANEL_LCD_RST_LEVEL     (1)
+#define ESP_PANEL_LCD_RST_LEVEL     (0)
 
 /*-------------------------------- LCD Touch Related --------------------------------*/
 /* Set to 0 if not using LCD touch */
@@ -78,7 +78,7 @@
 /**
  * LCD Touch IC name.
  */
-#define ESP_PANEL_LCD_TOUCH_NAME            GT911
+#define ESP_PANEL_LCD_TOUCH_NAME            TT21100
 
 /* LCD Touch resolution in pixels */
 #define ESP_PANEL_LCD_TOUCH_H_RES           (ESP_PANEL_LCD_H_RES)
@@ -110,7 +110,7 @@
 
 /* LCD Touch Transformation Flags */
 #define ESP_PANEL_LCD_TOUCH_SWAP_XY         (0)
-#define ESP_PANEL_LCD_TOUCH_MIRROR_X        (0)
+#define ESP_PANEL_LCD_TOUCH_MIRROR_X        (1)
 #define ESP_PANEL_LCD_TOUCH_MIRROR_Y        (0)
 
 /* LCD Touch Other Settings */
@@ -123,7 +123,7 @@
 #define ESP_PANEL_USE_BL                    (1)
 
 /* IO num of backlight pin */
-#define ESP_PANEL_LCD_IO_BL                 (47)
+#define ESP_PANEL_LCD_IO_BL                 (45)
 
 /* If the backlight is on when high level, set to 1; otherwise to 0 */
 #define ESP_PANEL_LCD_BL_ON_LEVEL           (1)

@@ -40,7 +40,7 @@ TEST_CASE("test draw lcd", "[panel][lcd]")
     /* There are some extral initialization for ESP32-S3-LCD-EV-Board */
 #ifdef CONFIG_ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD
     /* Initialize IO expander */
-    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST_ID, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
+    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
     TEST_ASSERT_NOT_NULL(expander);
     expander->init();
     expander->begin();
@@ -57,7 +57,7 @@ TEST_CASE("test draw lcd", "[panel][lcd]")
     /* There are some extral initialization for ESP32-S3-Korvo-2 */
 #ifdef CONFIG_ESP_PANEL_BOARD_ESP32_S3_KORVO_2
     /* Initialize IO expander */
-    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST_ID, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
+    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
     TEST_ASSERT_NOT_NULL(expander);
     expander->init();
     expander->begin();
@@ -84,7 +84,7 @@ TEST_CASE("test draw lcd", "[panel][lcd]")
     TEST_ASSERT_NOT_NULL(sem_lcd_trans_done);
     /* Register a function to notify when the panel is ready to refresh */
     /* This is useful for refreshing the screen using DMA transfers */
-    panel->getLcd()->setCallback(lcd_trans_done_callback, sem_lcd_trans_done);
+    panel->getLcd()->attachFrameEndCallback(lcd_trans_done_callback, sem_lcd_trans_done);
 #endif
     /* Start panel */
     panel->begin();
@@ -129,7 +129,7 @@ TEST_CASE("test read touch", "[panel][touch]")
     /* There are some extral initialization for ESP32-S3-LCD-EV-Board */
 #ifdef CONFIG_ESP_PANEL_BOARD_ESP32_S3_LCD_EV_BOARD
     /* Initialize IO expander */
-    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST_ID, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
+    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
     TEST_ASSERT_NOT_NULL(expander);
     expander->init();
     expander->begin();
@@ -146,7 +146,7 @@ TEST_CASE("test read touch", "[panel][touch]")
     /* There are some extral initialization for ESP32-S3-Korvo-2 */
 #ifdef CONFIG_ESP_PANEL_BOARD_ESP32_S3_KORVO_2
     /* Initialize IO expander */
-    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST_ID, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
+    expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
     TEST_ASSERT_NOT_NULL(expander);
     expander->init();
     expander->begin();

@@ -219,11 +219,11 @@ Since ESP32_Display_Panel library can only utilize the internally supported driv
     /* LCD color depth in bits */
     #define ESP_PANEL_LCD_COLOR_BITS    (16)
     /*
-     * LCD Color Space. Choose one of the following:
-     *      - 0: RGB
-     *      - 1: BGR
-     */
-    #define ESP_PANEL_LCD_COLOR_SPACE   (0)
+    * LCD RGB Element Order. Choose one of the following:
+    *      - 0: RGB
+    *      - 1: BGR
+    */
+    #define ESP_PANEL_LCD_RGB_ORDER     (0)
     #define ESP_PANEL_LCD_INEVRT_COLOR  (0)
 
     /* LCD Transformation Flags */
@@ -329,8 +329,8 @@ panel>init();
 panel>begin();
 
 // Get the LCD object and operate it
-panel>getLcd()>setCallback(callback, NULL);
-panel>getLcd()>drawBitmap(0, 0, width, height, color);
+panel->getLcd()->attachFrameEndCallback(callback, NULL);
+panel->getLcd()->drawBitmap(0, 0, width, height, color);
 
 // Get the LCD touch object and operate it
 panel>getLcdTouch()>readData();

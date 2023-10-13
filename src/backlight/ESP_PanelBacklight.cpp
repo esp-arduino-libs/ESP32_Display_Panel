@@ -10,9 +10,15 @@
 #define BACKLIGHT_CONFIG_DEFAULT(io_num, on_level)  \
     {                                               \
         .io_num = io_num,                           \
+        .pwm = {                                    \
+            .timer = LEDC_TIMER_0,                  \
+            .channel = LEDC_CHANNEL_0,              \
+            .resolution = LEDC_TIMER_10_BIT,        \
+            .freq_hz = 5000,                        \
+         },                                         \
         .flags = {                                  \
             .use_pwm = false,                       \
-            .light_on_level = on_level,             \
+            .light_on_level = (uint32_t)on_level,   \
         },                                          \
     }
 
@@ -53,8 +59,13 @@ void ESP_PanelBacklight::init(void)
             .gpio_num = config.io_num,
             .speed_mode = LEDC_LOW_SPEED_MODE,
             .channel = config.pwm.channel,
+            .intr_type = LEDC_INTR_DISABLE,
             .timer_sel = config.pwm.timer,
+            .duty = 0,
             .hpoint = 0,
+            .flags = {
+                .output_invert = 0,
+            },
         };
         channel_conf.duty = config.flags.light_on_level ? BIT(config.pwm.resolution) - 1 : 0;
         CHECK_ERROR_RETURN(ledc_timer_config(&timer_conf));

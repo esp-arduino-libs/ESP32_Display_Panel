@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+#include "ESP_PanelLcdTouch.h"
 #include "CST816S.h"
 #include "FT5x06.h"
 #include "GT1151.h"

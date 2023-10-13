@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 #include "lcd_touch/base/esp_lcd_touch.h"
-#include "ESP_PanelBus.h"
+#include "../bus/ESP_PanelBus.h"
 
 class TouchPoint {
 public:

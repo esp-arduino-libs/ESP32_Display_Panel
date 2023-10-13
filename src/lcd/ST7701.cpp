@@ -20,20 +20,21 @@
 
 #include "../private/CheckResult.h"
 #include "../bus/RGB.h"
-#include "GC9503.h"
+#include "ST7701.h"
 
 static const char *TAG = "st7701";
 
-ESP_PanelLcd_GC9503::~ESP_PanelLcd_GC9503()
+ESP_PanelLcd_ST7701::~ESP_PanelLcd_ST7701()
 {
     if (handle) {
         del();
     }
 }
 
-void ESP_PanelLcd_GC9503::init()
+void ESP_PanelLcd_ST7701::init()
 {
     CHECK_NULL_RETURN(bus);
-    CHECK_ERROR_RETURN(esp_lcd_new_panel_gc9503(bus->getHandle(), &panel_config, &handle));
+    CHECK_ERROR_RETURN(esp_lcd_new_panel_st7701(bus->getHandle(), &panel_config, &handle));
 }
+
 #endif

@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "../ESP_PanelLcdTouch.h"
+#include "ESP_PanelLcdTouch.h"
 
 class ESP_PanelLcdTouch_TT21100 : public ESP_PanelLcdTouch {
 public:

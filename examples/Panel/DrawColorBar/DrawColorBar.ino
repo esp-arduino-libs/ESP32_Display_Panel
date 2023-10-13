@@ -26,22 +26,12 @@
  * ```
  */
 
+#include <unistd.h>
 #include <Arduino.h>
 #include <ESP_Panel_Library.h>
 #include <ESP_IOExpander_Library.h>
 
 ESP_Panel *panel = nullptr;
-
-#if ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB
-bool lcd_trans_done_callback(void *user_ctx)
-{
-    BaseType_t need_yield = pdFALSE;
-    SemaphoreHandle_t sem_lcd_trans_done = (SemaphoreHandle_t)user_ctx;
-    xSemaphoreGiveFromISR(sem_lcd_trans_done, &need_yield);
-
-    return (need_yield == pdTRUE);
-}
-#endif /* ESP_PANEL_LCD_BUS_TYPE */
 
 void setup()
 {
@@ -59,7 +49,10 @@ void setup()
      */
     Serial.println("Initialize IO expander");
     /* Initialize IO expander */
-    ESP_IOExpander *expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST_ID, ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000, ESP_PANEL_LCD_TOUCH_I2C_IO_SCL, ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
+    ESP_IOExpander *expander = new ESP_IOExpander_TCA95xx_8bit(ESP_PANEL_LCD_TOUCH_BUS_HOST,
+                                                               ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000,
+                                                               ESP_PANEL_LCD_TOUCH_I2C_IO_SCL,
+                                                               ESP_PANEL_LCD_TOUCH_I2C_IO_SDA);
     expander->init();
     expander->begin();
     /* Add into panel */
@@ -69,31 +62,26 @@ void setup()
     Serial.println("Initialize panel");
     /* Initialize bus and device of panel */
     panel->init();
-#if ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB
-    SemaphoreHandle_t sem_lcd_trans_done = xSemaphoreCreateBinary();
-    assert(sem_lcd_trans_done);
-    /* Register a function to notify when the panel is ready to refresh */
-    /* This is useful for refreshing the screen using DMA transfers */
-    panel->getLcd()->setCallback(lcd_trans_done_callback, sem_lcd_trans_done);
-#endif
     /* Start panel */
     panel->begin();
 
     Serial.println("Draw color bar from top to bottom, the order is B - G - R");
-    uint16_t line_per_bar = ESP_PANEL_LCD_V_RES / ESP_PANEL_LCD_COLOR_BITS;
-    uint16_t *color = (uint16_t *)calloc(1, line_per_bar * ESP_PANEL_LCD_H_RES * ESP_PANEL_LCD_COLOR_BITS / 8);
-    for (int j = 0; j < ESP_PANEL_LCD_COLOR_BITS; j++) {
+    int bits_per_piexl = 4;
+    int bytes_per_piexl = panel->getLcd()->getColorBytes();
+    int line_per_bar = ESP_PANEL_LCD_V_RES / bits_per_piexl;
+    uint8_t *color = (uint8_t *)calloc(1, line_per_bar * ESP_PANEL_LCD_H_RES * bytes_per_piexl);
+    assert(color);
+    for (int j = 0; j < bits_per_piexl; j++) {
         for (int i = 0; i < line_per_bar * ESP_PANEL_LCD_H_RES; i++) {
+            for (int k = 0; k < bytes_per_piexl; k++) {
 #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_SPI
-            color[i] = SPI_SWAP_DATA_TX(1ULL << j, ESP_PANEL_LCD_COLOR_BITS);
+            color[i * bytes_per_piexl + k] = SPI_SWAP_DATA_TX(BIT(j), bits_per_piexl) >> (k * 8);
 #else
-            color[i] = 1ULL << j;
+            color[i * bytes_per_piexl + k] = BIT(j) >> (k * 8);
 #endif
+            }
         }
-        panel->getLcd()->drawBitmap(0, j * line_per_bar, ESP_PANEL_LCD_H_RES, (j + 1) * line_per_bar, color);
-#if ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB
-        xSemaphoreTake(sem_lcd_trans_done, portMAX_DELAY);
-#endif
+        panel->getLcd()->drawBitmapWaitUntilFinish(0, j * line_per_bar, ESP_PANEL_LCD_H_RES, (j + 1) * line_per_bar, color);
     }
     free(color);
 

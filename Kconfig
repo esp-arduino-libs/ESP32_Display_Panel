@@ -465,7 +465,7 @@ menu "ESP Panel Configuration"
                     bool "BGR"
             endchoice
 
-            config ESP_PANEL_LCD_COLOR_SPACE
+            config ESP_PANEL_LCD_RGB_ORDER
                 int
                 default 0 if ESP_PANEL_LCD_COLOR_ENDIAN_RGB
                 default 1 if ESP_PANEL_LCD_COLOR_ENDIAN_BGR

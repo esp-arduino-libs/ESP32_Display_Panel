@@ -223,7 +223,7 @@ Arduino
  *      - 0: RGB
  *      - 1: BGR
  */
-#define ESP_PANEL_LCD_COLOR_SPACE   (0)
+#define ESP_PANEL_LCD_RGB_ORDER     (0)
 #define ESP_PANEL_LCD_INEVRT_COLOR  (0)
 
 /* LCD Transformation Flags */
@@ -329,7 +329,7 @@ panel->init();
 panel->begin();
 
 // Get the LCD object and operate it
-panel->getLcd()->setCallback(callback, NULL);
+panel->getLcd()->attachFrameEndCallback(callback, NULL);
 panel->getLcd()->drawBitmap(0, 0, width, height, color);
 
 // Get the LCD touch object and operate it

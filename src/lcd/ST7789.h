@@ -5,11 +5,16 @@
  */
 #pragma once
 
-#include "../ESP_PanelLcd.h"
+#include "ESP_PanelLcd.h"
+#include "base/esp_lcd_st7789.h"
 
-class ESP_PanelLcd_ST7789 : public ESP_PanelLcd {
+class ESP_PanelLcd_ST7789: public ESP_PanelLcd {
 public:
-    ESP_PanelLcd_ST7789(ESP_PanelBus *bus, const ESP_PanelLcdConfig_t *config): ESP_PanelLcd(bus, config) { };
+    ESP_PanelLcd_ST7789(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t *panel_config): ESP_PanelLcd(bus, panel_config) { };
+    ESP_PanelLcd_ST7789(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config): ESP_PanelLcd(bus, panel_config) { };
+    ESP_PanelLcd_ST7789(ESP_PanelBus *bus, int bits_per_pixel = 16, int rst_io = -1, lcd_init_cmd_t init_cmd[] = NULL,
+                        int init_cmd_size = 0):
+        ESP_PanelLcd(bus, bits_per_pixel, rst_io, init_cmd, init_cmd_size) { };
     ESP_PanelLcd_ST7789(ESP_PanelBus *bus): ESP_PanelLcd(bus) { };
     ~ESP_PanelLcd_ST7789() override;
 

@@ -16,11 +16,17 @@ static const char *TAG = "LcdTouch";
         .y_max = height,                        \
         .rst_gpio_num = GPIO_NUM_NC,            \
         .int_gpio_num = GPIO_NUM_NC,            \
+        .levels = {                             \
+            .reset = 0,                         \
+            .interrupt = 0,                     \
+        },                                      \
         .flags = {                              \
             .swap_xy = 0,                       \
             .mirror_x = 0,                      \
             .mirror_y = 0,                      \
         },                                      \
+        .process_coordinates = NULL,            \
+        .interrupt_callback = NULL,             \
     }
 
 TouchPoint::TouchPoint(void):

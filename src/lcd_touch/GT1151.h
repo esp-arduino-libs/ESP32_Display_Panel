@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "../ESP_PanelLcdTouch.h"
+#include "ESP_PanelLcdTouch.h"
 
 class ESP_PanelLcdTouch_GT1151 : public ESP_PanelLcdTouch {
 public:
@@ -26,14 +26,18 @@ public:
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_GT1151_CONFIG()             \
-    {                                                    \
-        .dev_addr = ESP_LCD_TOUCH_IO_I2C_GT1151_ADDRESS, \
-        .control_phase_bytes = 1,                        \
-        .dc_bit_offset = 0,                              \
-        .lcd_cmd_bits = 16,                              \
-        .flags =                                         \
-        {                                                \
-            .disable_control_phase = 1,                  \
-        }                                                \
+#define ESP_LCD_TOUCH_IO_I2C_GT1151_CONFIG()                \
+    {                                                       \
+        .dev_addr = ESP_LCD_TOUCH_IO_I2C_GT1151_ADDRESS,    \
+        .on_color_trans_done = NULL,                        \
+        .user_ctx = NULL,                                   \
+        .control_phase_bytes = 1,                           \
+        .dc_bit_offset = 0,                                 \
+        .lcd_cmd_bits = 16,                                 \
+        .lcd_param_bits = 0,                                \
+        .flags =                                            \
+        {                                                   \
+            .dc_low_on_data = 0,                            \
+            .disable_control_phase = 1,                     \
+        }                                                   \
     }

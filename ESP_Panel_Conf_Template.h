@@ -8,7 +8,7 @@
 
 // *INDENT-OFF*
 /* Set to 0 if use a custom board */
-#define ESP_PANEL_USE_SUPPORTED_BOARD   (1)
+#define ESP_PANEL_USE_SUPPORTED_BOARD   (1)     // 0/1
 
 #if ESP_PANEL_USE_SUPPORTED_BOARD
 /*
@@ -40,7 +40,7 @@
 #else
 /*-------------------------------- LCD Related --------------------------------*/
 /* Set to 0 if not using LCD */
-#define ESP_PANEL_USE_LCD           (0)
+#define ESP_PANEL_USE_LCD           (0)     // 0/1
 #if ESP_PANEL_USE_LCD
 /**
  * LCD IC name. Choose one of the following:
@@ -59,37 +59,41 @@
  * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
  */
-#define ESP_PANEL_LCD_BUS_SKIP_INIT_HOST        (0)
+#define ESP_PANEL_LCD_BUS_SKIP_INIT_HOST        (0)     // 0/1
 /**
  * LCD bus type. Choose one of the following:
  *      - 0: I2C (not supported yet)
  *      - 1: SPI
  *      - 2: I80 (not supported yet)
- *      - 3: RGB
+ *      - 3: RGB (only supported for ESP32-S3 and only available when using arduino-esp32 v3.x.x)
  */
 #define ESP_PANEL_LCD_BUS_TYPE      (1)
 /**
  * LCD bus parameters.
  *
- * Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html for details.
+ * Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html
+ * for details.
+ *
  */
-#if ESP_PANEL_LCD_BUS_TYPE == 0
-#elif ESP_PANEL_LCD_BUS_TYPE == 1
+#if ESP_PANEL_LCD_BUS_TYPE == 0         // I2C related parameters
+#error "This function is not implemented and will be implemented in the future."
+#elif ESP_PANEL_LCD_BUS_TYPE == 1       // SPI panel IO related parameters
     #define ESP_PANEL_LCD_BUS_HOST_ID           (1)
     #define ESP_PANEL_LCD_SPI_IO_CS             (5)
     #define ESP_PANEL_LCD_SPI_IO_DC             (4)
-    #define ESP_PANEL_LCD_SPI_MODE              (0)
+    #define ESP_PANEL_LCD_SPI_MODE              (0)     // 0/1/2/3
     #define ESP_PANEL_LCD_SPI_CLK_HZ            (40 * 1000 * 1000)
     #define ESP_PANEL_LCD_SPI_TRANS_QUEUE_SZ    (10)
-    #define ESP_PANEL_LCD_SPI_CMD_BITS          (8)
-    #define ESP_PANEL_LCD_SPI_PARAM_BITS        (8)
-#if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
+    #define ESP_PANEL_LCD_SPI_CMD_BITS          (8)     // 8/16/32
+    #define ESP_PANEL_LCD_SPI_PARAM_BITS        (8)     // 8/16/32
+#if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST   // SPI host related parameters
     #define ESP_PANEL_LCD_SPI_IO_SCK            (7)
     #define ESP_PANEL_LCD_SPI_IO_MOSI           (6)
     #define ESP_PANEL_LCD_SPI_IO_MISO           (-1)
 #endif /* ESP_PANEL_LCD_BUS_SKIP_INIT_HOST */
-#elif ESP_PANEL_LCD_BUS_TYPE == 2
-#elif ESP_PANEL_LCD_BUS_TYPE == 3
+#elif ESP_PANEL_LCD_BUS_TYPE == 2       // I80 related parameters
+#error "This function is not implemented and will be implemented in the future."
+#elif ESP_PANEL_LCD_BUS_TYPE == 3       // RGB related parameters
     #define ESP_PANEL_LCD_RGB_CLK_HZ            (16 * 1000 * 1000)
     #define ESP_PANEL_LCD_RGB_HPW               (10)
     #define ESP_PANEL_LCD_RGB_HBP               (10)
@@ -97,12 +101,16 @@
     #define ESP_PANEL_LCD_RGB_VPW               (10)
     #define ESP_PANEL_LCD_RGB_VBP               (10)
     #define ESP_PANEL_LCD_RGB_VFP               (10)
-    #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (0)
-    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)
+    #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (0)     // 0: rising edge, 1: falling edge
+    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    // 8  | 16
+    #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // 24 | 16
+    #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM     (1)     // 1/2/3
+    #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (ESP_PANEL_LCD_H_RES * 10)  // Bounce buffer size in bytes. Set to 0 if disable bounce buffer.
     #define ESP_PANEL_LCD_RGB_IO_HSYNC          (46)
     #define ESP_PANEL_LCD_RGB_IO_VSYNC          (3)
     #define ESP_PANEL_LCD_RGB_IO_DE             (17)
     #define ESP_PANEL_LCD_RGB_IO_PCLK           (9)
+    #define ESP_PANEL_LCD_RGB_IO_DISP           (-1)
     #define ESP_PANEL_LCD_RGB_IO_DATA0          (10)
     #define ESP_PANEL_LCD_RGB_IO_DATA1          (11)
     #define ESP_PANEL_LCD_RGB_IO_DATA2          (12)
@@ -111,6 +119,7 @@
     #define ESP_PANEL_LCD_RGB_IO_DATA5          (21)
     #define ESP_PANEL_LCD_RGB_IO_DATA6          (47)
     #define ESP_PANEL_LCD_RGB_IO_DATA7          (48)
+#if ESP_PANEL_LCD_RGB_DATA_WIDTH > 8
     #define ESP_PANEL_LCD_RGB_IO_DATA8          (45)
     #define ESP_PANEL_LCD_RGB_IO_DATA9          (38)
     #define ESP_PANEL_LCD_RGB_IO_DATA10         (39)
@@ -119,52 +128,64 @@
     #define ESP_PANEL_LCD_RGB_IO_DATA13         (42)
     #define ESP_PANEL_LCD_RGB_IO_DATA14         (2)
     #define ESP_PANEL_LCD_RGB_IO_DATA15         (1)
-    #define ESP_PANEL_LCD_RGB_IO_DISP           (-1)
-#if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
-    #define ESP_PANEL_LCD_SPI_CLK_HZ            (500 * 1000)
-    #define ESP_PANEL_LCD_SPI_MODE              (0)
-    #define ESP_PANEL_LCD_SPI_CMD_BYTES         (1)
-    #define ESP_PANEL_LCD_SPI_PARAM_BYTES       (1)
-    #define ESP_PANEL_LCD_SPI_USE_DC_BIT        (1)
-    #define ESP_PANEL_LCD_SPI_DC_ZERO_ON_DATA   (0)
-    #define ESP_PANEL_LCD_SPI_LSB_FIRST         (0)
-    #define ESP_PANEL_LCD_SPI_CS_HIGH_ACTIVE    (0)
-    #define ESP_PANEL_LCD_SPI_DEL_KEEP_CS       (1)
-    #define ESP_PANEL_LCD_SPI_CS_USE_EXPNADER   (1)
-    #define ESP_PANEL_LCD_SPI_SCL_USE_EXPNADER  (1)
-    #define ESP_PANEL_LCD_SPI_SDA_USE_EXPNADER  (1)
-    #define ESP_PANEL_LCD_SPI_IO_CS             (1)
-    #define ESP_PANEL_LCD_SPI_IO_SCL            (2)
-    #define ESP_PANEL_LCD_SPI_IO_SDA            (3)
+#endif /* ESP_PANEL_LCD_RGB_DATA_WIDTH */
+#if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST       // 3-wire SPI panel IO related parameters
+    #define ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE     (0)     // 0: rising edge, 1: falling edge
+    #define ESP_PANEL_LCD_3WIRE_SPI_AUTO_DEL_PANEL_IO   (0)     // Delete the panel IO instance automatically if set to 1.
+                                                                // If the 3-wire SPI pins are sharing other pins of the RGB interface to save GPIOs,
+                                                                // Please set it to 1 to release the panel IO and its pins (except CS signal).
+    #define ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER     (0)     // 0/1
+    #define ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER    (0)     // 0/1
+    #define ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER    (0)     // 0/1
+    #define ESP_PANEL_LCD_3WIRE_SPI_IO_CS               (0)
+    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SCL              (1)
+    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SDA              (2)
 #endif /* ESP_PANEL_LCD_BUS_SKIP_INIT_HOST */
 #endif /* ESP_PANEL_LCD_BUS_TYPE */
 
+/**
+ * LCD initialization commands.
+ *
+ * Vendor specific initialization can be different between manufacturers, should consult the LCD supplier for
+ * initialization sequence code. Please uncomment the following macro definitions and modify them in the same format
+ * if needed. Otherwise, the LCD driver will use the default initialization sequence code.
+ *
+ */
+// #define ESP_PANEL_LCD_INIT_CMD_SIZE          (3)     // Number of commands
+// //      {cmd, { data }, data_size, delay_ms}
+// #define ESP_PANEL_LCD_INIT_CMD                                      \
+//     {                                                               \
+//         {0xf0, (uint8_t []){0x55, 0xaa, 0x52, 0x08, 0x00}, 5, 0},   \
+//         {0xf6, (uint8_t []){0x5a, 0x87}, 2, 0},                     \
+//         {0xc1, (uint8_t []){0x3f}, 1, 0},                           \
+//     }
+
 /* LCD Color Settings */
 /* LCD color depth in bits */
-#define ESP_PANEL_LCD_COLOR_BITS    (16)
+#define ESP_PANEL_LCD_COLOR_BITS    (16)        // 8/16/18/24
 /*
- * LCD Color Space. Choose one of the following:
+ * LCD RGB Element Order. Choose one of the following:
  *      - 0: RGB
  *      - 1: BGR
  */
-#define ESP_PANEL_LCD_COLOR_SPACE   (0)
-#define ESP_PANEL_LCD_INEVRT_COLOR  (0)
+#define ESP_PANEL_LCD_RGB_ORDER     (0)
+#define ESP_PANEL_LCD_INEVRT_COLOR  (0)         // 0/1
 
 /* LCD Transformation Flags */
-#define ESP_PANEL_LCD_SWAP_XY       (0)
-#define ESP_PANEL_LCD_MIRROR_X      (0)
-#define ESP_PANEL_LCD_MIRROR_Y      (0)
+#define ESP_PANEL_LCD_SWAP_XY       (0)         // 0/1
+#define ESP_PANEL_LCD_MIRROR_X      (0)         // 0/1
+#define ESP_PANEL_LCD_MIRROR_Y      (0)         // 0/1
 
 /* LCD Other Settings */
 /* IO num of RESET pin, set to -1 if not use */
 #define ESP_PANEL_LCD_IO_RST        (-1)
-#define ESP_PANEL_LCD_RST_LEVEL     (0)
+#define ESP_PANEL_LCD_RST_LEVEL     (0)         // 0/1
 
 #endif /* ESP_PANEL_USE_LCD */
 
 /*-------------------------------- LCD Touch Related --------------------------------*/
 /* Set to 0 if not using LCD touch */
-#define ESP_PANEL_USE_LCD_TOUCH     (0)
+#define ESP_PANEL_USE_LCD_TOUCH     (0)         // 0/1
 #if ESP_PANEL_USE_LCD_TOUCH
 /**
  * LCD Touch IC name. Choose one of the following:
@@ -185,7 +206,7 @@
  * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
  */
-#define ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST  (0)
+#define ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST  (0)     // 0/1
 /**
  * LCD touch bus type. Choose one of the following:
  *      - 0: I2C
@@ -197,19 +218,19 @@
  *
  * Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/lcd.html for details.
  */
-#if ESP_PANEL_LCD_TOUCH_BUS_TYPE == 0
+#if ESP_PANEL_LCD_TOUCH_BUS_TYPE == 0           // I2C related parameters
     #define ESP_PANEL_LCD_TOUCH_BUS_HOST_ID     (0)
-#if !ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST
+#if !ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST     // I2C host
     #define ESP_PANEL_LCD_TOUCH_I2C_CLK_HZ      (400 * 1000)
-    #define ESP_PANEL_LCD_TOUCH_I2C_SCL_PULLUP  (0)
-    #define ESP_PANEL_LCD_TOUCH_I2C_SDA_PULLUP  (0)
+    #define ESP_PANEL_LCD_TOUCH_I2C_SCL_PULLUP  (0)     // 0/1
+    #define ESP_PANEL_LCD_TOUCH_I2C_SDA_PULLUP  (0)     // 0/1
     #define ESP_PANEL_LCD_TOUCH_I2C_IO_SCL      (18)
     #define ESP_PANEL_LCD_TOUCH_I2C_IO_SDA      (8)
 #endif /* ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST */
-#elif ESP_PANEL_LCD_TOUCH_BUS_TYPE == 1
+#elif ESP_PANEL_LCD_TOUCH_BUS_TYPE == 1         // SPI related parameters
     #define ESP_PANEL_LCD_TOUCH_BUS_HOST_ID     (1)
     #define ESP_PANEL_LCD_TOUCH_SPI_IO_CS       (5)
-#if !ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST
+#if !ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST     // SPI host
     #define ESP_PANEL_LCD_TOUCH_SPI_IO_SCK      (7)
     #define ESP_PANEL_LCD_TOUCH_SPI_IO_MOSI     (6)
     #define ESP_PANEL_LCD_TOUCH_SPI_IO_MISO     (4)
@@ -217,29 +238,29 @@
 #endif /* ESP_PANEL_LCD_TOUCH_BUS_TYPE */
 
 /* LCD Touch Transformation Flags */
-#define ESP_PANEL_LCD_TOUCH_SWAP_XY         (0)
-#define ESP_PANEL_LCD_TOUCH_MIRROR_X        (0)
-#define ESP_PANEL_LCD_TOUCH_MIRROR_Y        (0)
+#define ESP_PANEL_LCD_TOUCH_SWAP_XY         (0)         // 0/1
+#define ESP_PANEL_LCD_TOUCH_MIRROR_X        (0)         // 0/1
+#define ESP_PANEL_LCD_TOUCH_MIRROR_Y        (0)         // 0/1
 
 /* LCD Touch Other Settings */
 #define ESP_PANEL_LCD_TOUCH_IO_RST          (-1)
 #define ESP_PANEL_LCD_TOUCH_IO_INT          (-1)
-#define ESP_PANEL_LCD_TOUCH_RST_LEVEL       (0)
-#define ESP_PANEL_LCD_TOUCH_INT_LEVEL       (0)
+#define ESP_PANEL_LCD_TOUCH_RST_LEVEL       (0)         // 0/1
+#define ESP_PANEL_LCD_TOUCH_INT_LEVEL       (0)         // 0/1
 
 #endif /* ESP_PANEL_USE_LCD_TOUCH */
 
 /*-------------------------------- Backlight Related --------------------------------*/
-#define ESP_PANEL_USE_BL                    (0)
+#define ESP_PANEL_USE_BL                    (0)         // 0/1
 #if ESP_PANEL_USE_BL
 /* IO num of backlight pin */
 #define ESP_PANEL_LCD_IO_BL                 (45)
 
 /* If the backlight is on when high level, set to 1; otherwise to 0 */
-#define ESP_PANEL_LCD_BL_ON_LEVEL           (1)
+#define ESP_PANEL_LCD_BL_ON_LEVEL           (1)         // 0/1
 
 /* Set to 1 if use PWM for backlight brightness control. */
-#define ESP_PANEL_LCD_BL_USE_PWM            (0)
+#define ESP_PANEL_LCD_BL_USE_PWM            (0)         // 0/1
 #if ESP_PANEL_LCD_BL_USE_PWM
 /**
  *  Backlight LEDC Parameters.
@@ -254,8 +275,8 @@
 #endif /* ESP_PANEL_USE_BL */
 
 /*-------------------------------- Others --------------------------------*/
-/* Assert on error. Otherwise return error code */
-#define ESP_PANEL_CHECK_RESULT_ASSERT       (0)
+/* Set to 1 if assert on error. Otherwise return error code */
+#define ESP_PANEL_CHECK_RESULT_ASSERT       (0)         // 0/1
 
 #endif /* ESP_PANEL_USE_SUPPORTED_BOARD */
 // *INDENT-OFF*
