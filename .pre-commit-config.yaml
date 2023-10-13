@@ -1,26 +1,44 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
 exclude: 'libraries/ui/'
 repos:
--   repo: https://github.com/igrr/astyle_py.git
-    rev: master
+  - repo: https://github.com/igrr/astyle_py.git
+    rev: v1.0.5
     hooks:
-    -   id: astyle_py
+      - id: astyle_py
         args: ['--style=otbs', '--attach-namespaces', '--attach-classes', '--indent=spaces=4', '--convert-tabs', '--align-pointer=name', '--align-reference=name', '--keep-one-line-statements', '--pad-header', '--pad-oper']
 
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/espressif/check-copyright/
+    rev: v1.0.3
+    hooks:
+      - id: check-copyright
+        args: ['--config', 'check_copyright_config.yaml']
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+        types: [python]
+        args: ['--config=.flake8', '--tee', '--benchmark']
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
-    -   id: trailing-whitespace
+      - id: trailing-whitespace
         types_or: [c, c++]
-    -   id: end-of-file-fixer
+      - id: end-of-file-fixer
         types_or: [c, c++]
-    -   id: check-merge-conflict
-    -   id: mixed-line-ending
-        types_or: [c, c++]
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        types_or: [c, c++, text]
         args: ['--fix=lf']
         description: Forces to replace line ending by the UNIX 'lf' character
 
-- repo: https://github.com/espressif/check-copyright/
-  rev: v1.0.3
-  hooks:
-    - id: check-copyright
-      args: ['--config', 'check_copyright_config.yaml']
+  - repo: local
+    hooks:
+      - id: sync-conf-files
+        name: Update when configuration files change
+        entry: python .github/ci/sync_conf_files.py ./
+        language: system
+        files: '.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h'

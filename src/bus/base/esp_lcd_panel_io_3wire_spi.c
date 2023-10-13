@@ -228,7 +228,7 @@ static esp_err_t panel_io_del(esp_lcd_panel_io_t *io)
 }
 
 /**
- * @brief This function is not implemented and only for compatibility
+ * @brief This function is not ready and only for compatibility
  */
 static esp_err_t panel_io_rx_param(esp_lcd_panel_io_t *io, int lcd_cmd, void *param, size_t param_size)
 {
@@ -238,7 +238,7 @@ static esp_err_t panel_io_rx_param(esp_lcd_panel_io_t *io, int lcd_cmd, void *pa
 }
 
 /**
- * @brief This function is not implemented and only for compatibility
+ * @brief This function is not ready and only for compatibility
  */
 static esp_err_t panel_io_tx_color(esp_lcd_panel_io_t *io, int lcd_cmd, const void *color, size_t color_size)
 {
@@ -248,7 +248,7 @@ static esp_err_t panel_io_tx_color(esp_lcd_panel_io_t *io, int lcd_cmd, const vo
 }
 
 /**
- * @brief This function is not implemented and only for compatibility
+ * @brief This function is not ready and only for compatibility
  */
 static esp_err_t panel_io_register_event_callbacks(esp_lcd_panel_io_handle_t io, const esp_lcd_panel_io_callbacks_t *cbs, void *user_ctx)
 {
@@ -293,6 +293,7 @@ static esp_err_t set_line_level(esp_lcd_panel_io_3wire_spi_t *panel_io, spi_line
     }
 
     if (line_type == IO_TYPE_GPIO) {
+        // ESP_LOGE(TAG, "line_io: %d, level: %d", line_io, level);
         return gpio_set_level(line_io, level);
     } else {
         return esp_io_expander_set_level(panel_io->io_expander, (esp_io_expander_pin_num_t)line_io, level != 0);

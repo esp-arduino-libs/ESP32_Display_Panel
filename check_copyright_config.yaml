@@ -29,13 +29,13 @@ DEFAULT:
 examples_and_unit_tests:
   include:
   - 'test_apps/'
+  - 'examples/'
   allowed_licenses:
   - Apache-2.0
   - Unlicense
   - CC0-1.0
   license_for_new_files: CC0-1.0
 
-ignore:  # You can also select ignoring files here
-  perform_check: no  # Don't check files from that block
-  include:
-    - 'examples/'
+# ignore:  # You can also select ignoring files here
+#   perform_check: no  # Don't check files from that block
+#   include:
