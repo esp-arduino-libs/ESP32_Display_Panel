@@ -58,7 +58,8 @@
  * | :---------------------: | :----------------: | :------: | :---------: | :---------: | :--------------: | :---------------------: | :---------------: |
  * |     ESP32-C3-LCDkit     | ESP32C3 Dev Module | Disabled |     QIO     | 4MB (32Mb)  |     Enabled      | Default 4MB with spiffs |       Info        |
  * |      ESP32-S3-Box       |    ESP32-S3-Box    |    -     |      -      |      -      |        -         |     16M Flash (3MB)     |       Info        |
- * |      ESP32-S3-Box-3     |    ESP32-S3-Box    |    -     |      -      |      -      |        -         |     16M Flash (3MB)     |       Info        |
+ * |      ESP32-S3-Box-3     | ESP32S3 Dev Module |   OPI    |  QIO 80MHz  |    16MB     |  **See Note 1**  |     16M Flash (3MB)     |       Info        |
+ * |    ESP32-S3-Box-3(beta) | ESP32S3 Dev Module |   OPI    |  QIO 80MHz  |    16MB     |  **See Note 1**  |     16M Flash (3MB)     |       Info        |
  * |    ESP32-S3-Box-Lite    |    ESP32-S3-Box    |    -     |      -      |      -      |        -         |     16M Flash (3MB)     |       Info        |
  * |      ESP32-S3-EYE       | ESP32S3 Dev Module |   OPI    |  QIO 80MHz  |     8MB     |     Enabled      |     8M with spiffs      |       Info        |
  * |    ESP32-S3-Korvo-2     | ESP32S3 Dev Module |   OPI    |  QIO 80MHz  |    16MB     |     Disabled     |     16M Flash (3MB)     |       Info        |
@@ -145,6 +146,12 @@ void setup()
     /* Keep CS low */
     expander->pinMode(3, OUTPUT);
     expander->digitalWrite(3, LOW);
+#endif
+
+#ifdef ESP_PANEL_BOARD_ESP32_S3_BOX_3
+    pinMode(ESP_PANEL_LCD_TOUCH_IO_INT, OUTPUT);
+    digitalWrite(ESP_PANEL_LCD_TOUCH_IO_INT, LOW);
+    usleep(100);
 #endif
 
     Serial.println("Initialize panel");

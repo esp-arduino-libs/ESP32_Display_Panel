@@ -58,6 +58,8 @@
         #include "board/esp32_s3_box.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3
         #include "board/esp32_s3_box_3.h"
+    #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA
+        #include "board/esp32_s3_box_3_beta.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_LITE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
         #include "board/esp32_s3_box_lite.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_EYE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_EYE

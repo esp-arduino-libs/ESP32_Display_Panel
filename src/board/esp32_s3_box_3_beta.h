@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP32_S3_BOX_3_H
-#define ESP32_S3_BOX_3_H
+#ifndef ESP32_S3_BOX_3_BETA_H
+#define ESP32_S3_BOX_3_BETA_H
 
 /* For more information about it, please visit here: https://github.com/espressif/esp-box/tree/master */
 
@@ -78,7 +78,7 @@
 /**
  * LCD Touch IC name.
  */
-#define ESP_PANEL_LCD_TOUCH_NAME            GT911
+#define ESP_PANEL_LCD_TOUCH_NAME            TT21100
 
 /* LCD Touch resolution in pixels */
 #define ESP_PANEL_LCD_TOUCH_H_RES           (ESP_PANEL_LCD_H_RES)
@@ -110,7 +110,7 @@
 
 /* LCD Touch Transformation Flags */
 #define ESP_PANEL_LCD_TOUCH_SWAP_XY         (0)
-#define ESP_PANEL_LCD_TOUCH_MIRROR_X        (0)
+#define ESP_PANEL_LCD_TOUCH_MIRROR_X        (1)
 #define ESP_PANEL_LCD_TOUCH_MIRROR_Y        (0)
 
 /* LCD Touch Other Settings */
