@@ -16,6 +16,7 @@
  *  - ESP32-C3-LCDkit: https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html
  *  - ESP32-S3-Box: https://github.com/espressif/esp-box/tree/master
  *  - ESP32-S3-Box-3: https://github.com/espressif/esp-box/tree/master
+ *  - ESP32-S3-Box-3(beta): https://github.com/espressif/esp-box/tree/c4c954888e11250423f083df0067d99e22d59fbe
  *  - ESP32-S3-Box-Lite: https://github.com/espressif/esp-box/tree/master
  *  - ESP32-S3-EYE: https://github.com/espressif/esp-who/blob/master/docs/en/get-started/ESP32-S3-EYE_Getting_Started_Guide.md
  *  - ESP32-S3-Korvo-2: https://docs.espressif.com/projects/esp-adf/en/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html
@@ -28,6 +29,7 @@
 // #define ESP_PANEL_BOARD_ESP32_C3_LCDKIT
 // #define ESP_PANEL_BOARD_ESP32_S3_BOX
 // #define ESP_PANEL_BOARD_ESP32_S3_BOX_3
+// #define ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA
 // #define ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
 // #define ESP_PANEL_BOARD_ESP32_S3_EYE
 // #define ESP_PANEL_BOARD_ESP32_S3_KORVO_2
