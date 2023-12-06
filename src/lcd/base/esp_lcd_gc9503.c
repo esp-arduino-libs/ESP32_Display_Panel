@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "soc/soc_caps.h"
-#include "esp_idf_version.h"
-
-#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -20,6 +16,7 @@
 #include "esp_log.h"
 
 #include "esp_lcd_custom_types.h"
+
 #include "esp_lcd_gc9503.h"
 
 #define GC9503_CMD_MADCTL           (0xB1)      // Memory data access control
@@ -33,7 +30,7 @@ typedef struct {
     int reset_gpio_num;
     uint8_t madctl_val; // Save current value of GC9503_CMD_MADCTL register
     uint8_t colmod_val; // Save current value of LCD_CMD_COLMOD register
-    const lcd_init_cmd_t *init_cmds;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds;
     uint16_t init_cmds_size;
     struct {
         unsigned int mirror_by_cmd: 1;
@@ -63,26 +60,27 @@ esp_err_t esp_lcd_new_panel_gc9503(const esp_lcd_panel_io_handle_t io, const esp
                                    esp_lcd_panel_handle_t *ret_panel)
 {
     ESP_RETURN_ON_FALSE(io && panel_dev_config && ret_panel, ESP_ERR_INVALID_ARG, TAG, "invalid arguments");
-    lcd_vendor_config_t *vendor_config = (lcd_vendor_config_t *)panel_dev_config->vendor_config;
+    esp_lcd_panel_vendor_config_t *vendor_config = (esp_lcd_panel_vendor_config_t *)panel_dev_config->vendor_config;
     ESP_RETURN_ON_FALSE(vendor_config && vendor_config->rgb_config, ESP_ERR_INVALID_ARG, TAG, "`verndor_config` and `rgb_config` are necessary");
     ESP_RETURN_ON_FALSE(!vendor_config->flags.auto_del_panel_io || !vendor_config->flags.mirror_by_cmd,
                         ESP_ERR_INVALID_ARG, TAG, "`mirror_by_cmd` and `auto_del_panel_io` cannot work together");
 
     esp_err_t ret = ESP_OK;
+    gpio_config_t io_conf = { 0 };
+
     gc9503_panel_t *gc9503 = (gc9503_panel_t *)calloc(1, sizeof(gc9503_panel_t));
     ESP_RETURN_ON_FALSE(gc9503, ESP_ERR_NO_MEM, TAG, "no mem for gc9503 panel");
 
     if (panel_dev_config->reset_gpio_num >= 0) {
-        gpio_config_t io_conf = {
-            .mode = GPIO_MODE_OUTPUT,
-            .pin_bit_mask = 1ULL << panel_dev_config->reset_gpio_num,
-        };
+        io_conf.mode = GPIO_MODE_OUTPUT;
+        io_conf.pin_bit_mask = 1ULL << panel_dev_config->reset_gpio_num;
         ESP_GOTO_ON_ERROR(gpio_config(&io_conf), err, TAG, "configure GPIO for RST line failed");
     }
 
+    gc9503->madctl_val = GC9503_CMD_MADCTL_DEFAULT;
     switch (panel_dev_config->rgb_ele_order) {
     case LCD_RGB_ELEMENT_ORDER_RGB:
-        gc9503->madctl_val = 0;
+        gc9503->madctl_val &= ~GC9503_CMD_BGR_BIT;
         break;
     case LCD_RGB_ELEMENT_ORDER_BGR:
         gc9503->madctl_val |= GC9503_CMD_BGR_BIT;
@@ -158,6 +156,8 @@ esp_err_t esp_lcd_new_panel_gc9503(const esp_lcd_panel_io_handle_t io, const esp
     (*ret_panel)->user_data = gc9503;
     ESP_LOGD(TAG, "new gc9503 panel @%p", gc9503);
 
+    ESP_LOGI(TAG, "LCD panel create success, version: %d.%d.%d", ESP_LCD_GC9503_VER_MAJOR, ESP_LCD_GC9503_VER_MINOR,
+             ESP_LCD_GC9503_VER_PATCH);
     return ESP_OK;
 
 err:
@@ -171,7 +171,7 @@ err:
 }
 
 // *INDENT-OFF*
-static const lcd_init_cmd_t vendor_specific_init_default[] = {
+static const esp_lcd_panel_vendor_init_cmd_t vendor_specific_init_default[] = {
 //  {cmd, { data }, data_size, delay_ms}
     {0xf0, (uint8_t []){0x55, 0xaa, 0x52, 0x08, 0x00}, 5, 0},
     {0xf6, (uint8_t []){0x5a, 0x87}, 2, 0},
@@ -251,14 +251,14 @@ static esp_err_t panel_gc9503_send_init_cmds(gc9503_panel_t *gc9503)
 
     // Vendor specific initialization, it can be different between manufacturers
     // should consult the LCD supplier for initialization sequence code
-    const lcd_init_cmd_t *init_cmds = NULL;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds = NULL;
     uint16_t init_cmds_size = 0;
     if (gc9503->init_cmds) {
         init_cmds = gc9503->init_cmds;
         init_cmds_size = gc9503->init_cmds_size;
     } else {
         init_cmds = vendor_specific_init_default;
-        init_cmds_size = sizeof(vendor_specific_init_default) / sizeof(lcd_init_cmd_t);
+        init_cmds_size = sizeof(vendor_specific_init_default) / sizeof(esp_lcd_panel_vendor_init_cmd_t);
     }
 
     bool is_cmd_overwritten = false;
@@ -389,4 +389,3 @@ static esp_err_t panel_gc9503_disp_on_off(esp_lcd_panel_t *panel, bool on_off)
     }
     return ESP_OK;
 }
-#endif

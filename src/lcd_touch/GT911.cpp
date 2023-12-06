@@ -17,7 +17,7 @@
 #include "esp_lcd_panel_io.h"
 #include "base/esp_lcd_touch.h"
 
-#include "../private/CheckResult.h"
+#include "ESP_PanelPrivate.h"
 #include "GT911.h"
 
 static const char *TAG = "GT911";

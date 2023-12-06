@@ -6,19 +6,18 @@
 
 #pragma once
 
-#include "soc/soc_caps.h"
-#include "esp_idf_version.h"
-
-#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
 #include <stdint.h>
 
-#include "hal/lcd_types.h"
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_panel_rgb.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define ESP_LCD_ST7701_VER_MAJOR    (1)
+#define ESP_LCD_ST7701_VER_MINOR    (0)
+#define ESP_LCD_ST7701_VER_PATCH    (0)
 
 /**
  * @brief Create LCD panel for model ST7701
@@ -80,9 +79,9 @@ esp_err_t esp_lcd_new_panel_st7701(const esp_lcd_panel_io_handle_t io, const esp
         .vsync_pulse_width = 10,                    \
         .vsync_back_porch = 10,                     \
         .vsync_front_porch = 10,                    \
+        .flags.pclk_active_neg = false,             \
     }
 
 #ifdef __cplusplus
 }
-#endif
 #endif

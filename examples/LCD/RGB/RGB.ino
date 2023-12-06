@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include <Arduino.h>
 #include <ESP_IOExpander_Library.h>
 #include <ESP_Panel_Library.h>
@@ -10,36 +9,36 @@
 #define TEST_LCD_BIT_PER_PIXEL      (18)
 #define TEST_RGB_BIT_PER_PIXEL      (16)
 
-#define TEST_LCD_IO_RGB_DISP        (-1)
-#define TEST_LCD_IO_RGB_VSYNC       (3)
-#define TEST_LCD_IO_RGB_HSYNC       (46)
-#define TEST_LCD_IO_RGB_DE          (17)
-#define TEST_LCD_IO_RGB_PCLK        (9)
-#define TEST_LCD_IO_RGB_DATA0       (10)
-#define TEST_LCD_IO_RGB_DATA1       (11)
-#define TEST_LCD_IO_RGB_DATA2       (12)
-#define TEST_LCD_IO_RGB_DATA3       (13)
-#define TEST_LCD_IO_RGB_DATA4       (14)
-#define TEST_LCD_IO_RGB_DATA5       (21)
-#define TEST_LCD_IO_RGB_DATA6       (47)
-#define TEST_LCD_IO_RGB_DATA7       (48)
-#define TEST_LCD_IO_RGB_DATA8       (45)
-#define TEST_LCD_IO_RGB_DATA9       (38)
-#define TEST_LCD_IO_RGB_DATA10      (39)
-#define TEST_LCD_IO_RGB_DATA11      (40)
-#define TEST_LCD_IO_RGB_DATA12      (41)
-#define TEST_LCD_IO_RGB_DATA13      (42)
-#define TEST_LCD_IO_RGB_DATA14      (2)
-#define TEST_LCD_IO_RGB_DATA15      (1)
+#define TEST_LCD_PIN_NUM_RGB_DISP        (-1)
+#define TEST_LCD_PIN_NUM_RGB_VSYNC       (3)
+#define TEST_LCD_PIN_NUM_RGB_HSYNC       (46)
+#define TEST_LCD_PIN_NUM_RGB_DE          (17)
+#define TEST_LCD_PIN_NUM_RGB_PCLK        (9)
+#define TEST_LCD_PIN_NUM_RGB_DATA0       (10)
+#define TEST_LCD_PIN_NUM_RGB_DATA1       (11)
+#define TEST_LCD_PIN_NUM_RGB_DATA2       (12)
+#define TEST_LCD_PIN_NUM_RGB_DATA3       (13)
+#define TEST_LCD_PIN_NUM_RGB_DATA4       (14)
+#define TEST_LCD_PIN_NUM_RGB_DATA5       (21)
+#define TEST_LCD_PIN_NUM_RGB_DATA6       (47)
+#define TEST_LCD_PIN_NUM_RGB_DATA7       (48)
+#define TEST_LCD_PIN_NUM_RGB_DATA8       (45)
+#define TEST_LCD_PIN_NUM_RGB_DATA9       (38)
+#define TEST_LCD_PIN_NUM_RGB_DATA10      (39)
+#define TEST_LCD_PIN_NUM_RGB_DATA11      (40)
+#define TEST_LCD_PIN_NUM_RGB_DATA12      (41)
+#define TEST_LCD_PIN_NUM_RGB_DATA13      (42)
+#define TEST_LCD_PIN_NUM_RGB_DATA14      (2)
+#define TEST_LCD_PIN_NUM_RGB_DATA15      (1)
 #if USE_IO_EXPANDER
-#define TEST_LCD_IO_SPI_CS          (IO_EXPANDER_PIN_NUM_1)     // Set to `IO_EXPANDER_PIN_NUM_*` to use IO expander,
+#define TEST_LCD_PIN_NUM_SPI_CS          (IO_EXPANDER_PIN_NUM_1)     // Set to `IO_EXPANDER_PIN_NUM_*` to use IO expander,
                                                                 // then call `enableSpixxxUseExpander()` to enable it
 #else
-#define TEST_LCD_IO_SPI_CS          (0)
+#define TEST_LCD_PIN_NUM_SPI_CS          (0)
 #endif
-#define TEST_LCD_IO_SPI_SCL         (TEST_LCD_IO_RGB_DATA14)    // `SDA` and `SCL` can share the same pin with RGB, then
-#define TEST_LCD_IO_SPI_SDA         (TEST_LCD_IO_RGB_DATA15)    // should call `enableAutoReleaseBus()` to release the bus
-#define TEST_LCD_IO_RST             (-1)
+#define TEST_LCD_PIN_NUM_SPI_SCL         (TEST_LCD_PIN_NUM_RGB_DATA14)    // `SDA` and `SCL` can share the same pin with RGB, then
+#define TEST_LCD_PIN_NUM_SPI_SDA         (TEST_LCD_PIN_NUM_RGB_DATA15)    // should call `enableAutoReleaseBus()` to release the bus
+#define TEST_LCD_PIN_NUM_RST             (-1)
 
 #define TEST_EXPANDER_I2C_HOST      ((i2c_port_t)0)
 #define TEST_EXPANDER_I2C_ADDR      (ESP_IO_EXPANDER_I2C_TCA9554_ADDRESS_000)
@@ -53,7 +52,7 @@ ESP_PanelLcd_ST7701 *lcd = nullptr;
  * should consult the LCD supplier for initialization sequence code.
  *
  */
-const lcd_init_cmd_t example_init_cmd[] = {
+const esp_lcd_panel_vendor_init_cmd_t example_init_cmd[] = {
 //  {cmd, { data }, data_size, delay_ms}
     {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x13}, 5, 0},
     {0xEF, (uint8_t []){0x08}, 1, 0},
@@ -109,29 +108,25 @@ void setup()
 
     Serial.println("Create LCD Bus");
     ESP_PanelBus_RGB *lcd_bus = new ESP_PanelBus_RGB(
-                                        TEST_LCD_H_RES, TEST_LCD_V_RES, TEST_LCD_IO_SPI_CS, TEST_LCD_IO_SPI_SCL,
-                                        TEST_LCD_IO_SPI_SDA, TEST_LCD_IO_RGB_HSYNC, TEST_LCD_IO_RGB_VSYNC,
-                                        TEST_LCD_IO_RGB_PCLK, TEST_LCD_IO_RGB_DATA0, TEST_LCD_IO_RGB_DATA1,
-                                        TEST_LCD_IO_RGB_DATA2, TEST_LCD_IO_RGB_DATA3, TEST_LCD_IO_RGB_DATA4,
-                                        TEST_LCD_IO_RGB_DATA5, TEST_LCD_IO_RGB_DATA6, TEST_LCD_IO_RGB_DATA7,
-                                        TEST_LCD_IO_RGB_DATA8, TEST_LCD_IO_RGB_DATA9, TEST_LCD_IO_RGB_DATA10,
-                                        TEST_LCD_IO_RGB_DATA11, TEST_LCD_IO_RGB_DATA12, TEST_LCD_IO_RGB_DATA13,
-                                        TEST_LCD_IO_RGB_DATA14, TEST_LCD_IO_RGB_DATA15, TEST_LCD_IO_RGB_DE,
-                                        TEST_LCD_IO_RGB_DISP);
+                                        TEST_LCD_H_RES, TEST_LCD_V_RES, TEST_LCD_PIN_NUM_SPI_CS, TEST_LCD_PIN_NUM_SPI_SCL,
+                                        TEST_LCD_PIN_NUM_SPI_SDA, TEST_LCD_PIN_NUM_RGB_HSYNC, TEST_LCD_PIN_NUM_RGB_VSYNC,
+                                        TEST_LCD_PIN_NUM_RGB_PCLK, TEST_LCD_PIN_NUM_RGB_DATA0, TEST_LCD_PIN_NUM_RGB_DATA1,
+                                        TEST_LCD_PIN_NUM_RGB_DATA2, TEST_LCD_PIN_NUM_RGB_DATA3, TEST_LCD_PIN_NUM_RGB_DATA4,
+                                        TEST_LCD_PIN_NUM_RGB_DATA5, TEST_LCD_PIN_NUM_RGB_DATA6, TEST_LCD_PIN_NUM_RGB_DATA7,
+                                        TEST_LCD_PIN_NUM_RGB_DATA8, TEST_LCD_PIN_NUM_RGB_DATA9, TEST_LCD_PIN_NUM_RGB_DATA10,
+                                        TEST_LCD_PIN_NUM_RGB_DATA11, TEST_LCD_PIN_NUM_RGB_DATA12, TEST_LCD_PIN_NUM_RGB_DATA13,
+                                        TEST_LCD_PIN_NUM_RGB_DATA14, TEST_LCD_PIN_NUM_RGB_DATA15, TEST_LCD_PIN_NUM_RGB_DE,
+                                        TEST_LCD_PIN_NUM_RGB_DISP);
 #if USE_IO_EXPANDER
-    lcd_bus->enableSpiCsUseExpander();
-    lcd_bus->addIOExpander(expander);
+    lcd_bus->configSpiLine(true, false, false, expander);
 #endif
-    lcd_bus->setRgbResolution(TEST_LCD_H_RES, TEST_LCD_V_RES);
-    lcd_bus->setRgbColorBits(TEST_RGB_BIT_PER_PIXEL);
-    lcd_bus->init();
+    lcd_bus->begin();
 
     Serial.println("Create LCD");
-    lcd = new ESP_PanelLcd_ST7701(lcd_bus, TEST_LCD_BIT_PER_PIXEL, TEST_LCD_IO_RST);
+    lcd = new ESP_PanelLcd_ST7701(lcd_bus, TEST_LCD_BIT_PER_PIXEL, TEST_LCD_PIN_NUM_RST, example_init_cmd,
+                                  sizeof(example_init_cmd) / sizeof(esp_lcd_panel_vendor_init_cmd_t));
     lcd->enableAutoReleaseBus();    // This function is used for the case that the SPI shares pins with RGB,
                                     // and the bus will be released after calling `begin()`
-    lcd->setInitCommands(example_init_cmd, sizeof(example_init_cmd) / sizeof(lcd_init_cmd_t));
-                                    // This function is used for replace default vendor-specific init commands
     lcd->init();
     lcd->reset();
     lcd->begin();
@@ -144,6 +139,6 @@ void setup()
 
 void loop()
 {
-    Serial.println("Loop");
-    sleep(1);
+    Serial.println("Idle loop");
+    delay(1000);
 }

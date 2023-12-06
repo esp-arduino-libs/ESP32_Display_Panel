@@ -5,56 +5,26 @@
  */
 
 #include "soc/soc_caps.h"
-#include "esp_idf_version.h"
 
-#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
+#if SOC_LCD_RGB_SUPPORTED
 #include <stdlib.h>
 #include <string.h>
-
 #include "esp_lcd_panel_io.h"
-
-#include "private/CheckResult.h"
+#include "ESP_PanelPrivate.h"
 #include "RGB.h"
 
 static const char *TAG = "ESP_PanelBus_RGB";
-
-ESP_PanelBus_RGB::ESP_PanelBus_RGB(const esp_lcd_panel_io_3wire_spi_config_t *spi_config,
-                                   const esp_lcd_rgb_panel_config_t *rgb_config, int host_id):
-    ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, true),
-    rgb_config(*rgb_config),
-    spi_config(*spi_config)
-{
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
-    if (this->rgb_config.on_frame_trans_done == NULL) {
-        ctx.bus = this;
-        this->rgb_config.on_frame_trans_done = (esp_lcd_rgb_panel_frame_trans_done_cb_t)callback;
-        this->rgb_config.user_ctx = (void *)&ctx;
-    }
-#endif
-}
-
-ESP_PanelBus_RGB::ESP_PanelBus_RGB(const esp_lcd_rgb_panel_config_t *rgb_config, int host_id):
-    ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, false),
-    rgb_config(*rgb_config)
-{
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
-    if (this->rgb_config.on_frame_trans_done == NULL) {
-        ctx.bus = this;
-        this->rgb_config.on_frame_trans_done = (esp_lcd_rgb_panel_frame_trans_done_cb_t)callback;
-        this->rgb_config.user_ctx = (void *)&ctx;
-    }
-#endif
-}
 
 ESP_PanelBus_RGB::ESP_PanelBus_RGB(uint16_t width, uint16_t height, int cs_io, int scl_io, int sda_io, int hsync_io,
                                    int vsync_io, int pclk_io, int d0_io, int d1_io, int d2_io, int d3_io, int d4_io,
                                    int d5_io, int d6_io, int d7_io, int d8_io, int d9_io, int d10_io, int d11_io,
                                    int d12_io, int d13_io, int d14_io, int d15_io, int de_io, int disp_io):
     ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, true),
-    rgb_config((esp_lcd_rgb_panel_config_t)RGB_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io, d0_io,
-                                                                    d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,
-                                                                    d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io,
-                                                                    d15_io, de_io, disp_io)),
+    rgb_config((esp_lcd_rgb_panel_config_t)RGB_16BIT_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io,
+               d0_io, d1_io, d2_io, d3_io, d4_io, d5_io,
+               d6_io, d7_io, d8_io, d9_io, d10_io, d11_io,
+               d12_io, d13_io, d14_io, d15_io, de_io,
+               disp_io)),
     spi_config((esp_lcd_panel_io_3wire_spi_config_t)RGB_PANEL_IO_CONFIG_DEFAULT(cs_io, scl_io, sda_io))
 {
 }
@@ -64,10 +34,11 @@ ESP_PanelBus_RGB::ESP_PanelBus_RGB(uint16_t width, uint16_t height, int hsync_io
                                    int d8_io, int d9_io, int d10_io, int d11_io, int d12_io, int d13_io, int d14_io,
                                    int d15_io, int de_io, int disp_io):
     ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, false),
-    rgb_config((esp_lcd_rgb_panel_config_t)RGB_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io, d0_io,
-                                                                    d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,
-                                                                    d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io,
-                                                                    d15_io, de_io, disp_io))
+    rgb_config((esp_lcd_rgb_panel_config_t)RGB_16BIT_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io,
+               d0_io, d1_io, d2_io, d3_io, d4_io, d5_io,
+               d6_io, d7_io, d8_io, d9_io, d10_io, d11_io,
+               d12_io, d13_io, d14_io, d15_io, de_io,
+               disp_io))
 {
 }
 
@@ -75,9 +46,9 @@ ESP_PanelBus_RGB::ESP_PanelBus_RGB(uint16_t width, uint16_t height, int cs_io, i
                                    int vsync_io, int pclk_io, int d0_io, int d1_io, int d2_io, int d3_io, int d4_io,
                                    int d5_io, int d6_io, int d7_io, int de_io, int disp_io):
     ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, true),
-    rgb_config((esp_lcd_rgb_panel_config_t)RGB_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io, d0_io,
-                                                                    d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io, -1,
-                                                                    -1, -1, -1, -1, -1, -1, -1, de_io, disp_io)),
+    rgb_config((esp_lcd_rgb_panel_config_t)RGB_8BIT_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io,
+               d0_io, d1_io, d2_io, d3_io, d4_io, d5_io,
+               d6_io, d7_io, de_io, disp_io)),
     spi_config((esp_lcd_panel_io_3wire_spi_config_t)RGB_PANEL_IO_CONFIG_DEFAULT(cs_io, scl_io, sda_io))
 {
 }
@@ -86,35 +57,59 @@ ESP_PanelBus_RGB::ESP_PanelBus_RGB(uint16_t width, uint16_t height, int hsync_io
                                    int d1_io, int d2_io, int d3_io, int d4_io, int d5_io, int d6_io, int d7_io,
                                    int de_io, int disp_io):
     ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, false),
-    rgb_config((esp_lcd_rgb_panel_config_t)RGB_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io, d0_io,
-                                                                    d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io, -1,
-                                                                    -1, -1, -1, -1, -1, -1, -1, de_io, disp_io))
+    rgb_config((esp_lcd_rgb_panel_config_t)RGB_8BIT_PANEL_CONFIG_DEFAULT(width, height, hsync_io, vsync_io, pclk_io,
+               d0_io, d1_io, d2_io, d3_io, d4_io, d5_io,
+               d6_io, d7_io, de_io, disp_io))
+{
+}
+
+ESP_PanelBus_RGB::ESP_PanelBus_RGB(const esp_lcd_panel_io_3wire_spi_config_t &spi_config,
+                                   const esp_lcd_rgb_panel_config_t &rgb_config, int host_id):
+    ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, true),
+    rgb_config(rgb_config),
+    spi_config(spi_config)
+{
+}
+
+ESP_PanelBus_RGB::ESP_PanelBus_RGB(const esp_lcd_rgb_panel_config_t &rgb_config, int host_id):
+    ESP_PanelBus(ESP_PANEL_BUS_TYPE_RGB, false),
+    rgb_config(rgb_config)
 {
 }
 
 ESP_PanelBus_RGB::~ESP_PanelBus_RGB()
 {
-    if (handle && flags.host_need_init) {
-        del();
+    if (handle == NULL) {
+        ESP_LOGD(TAG, "Panel IO is not initialized");
+        return;
+    }
+
+    if (!del()) {
+        ESP_LOGE(TAG, "Delete panel io failed");
+    }
+
+    ESP_LOGD(TAG, "Destory");
+}
+
+void ESP_PanelBus_RGB::configSpiLine(bool cs_use_expaneer, bool scl_use_expander, bool sda_use_expander,
+                                     ESP_IOExpander *io_expander)
+{
+    if (cs_use_expaneer) {
+        spi_config.line_config.cs_io_type = IO_TYPE_EXPANDER;
+    }
+    if (scl_use_expander) {
+        spi_config.line_config.cs_io_type = IO_TYPE_EXPANDER;
+    }
+    if (sda_use_expander) {
+        spi_config.line_config.cs_io_type = IO_TYPE_EXPANDER;
+    }
+    if (cs_use_expaneer || scl_use_expander || sda_use_expander) {
+        CHECK_NULL_RETURN(io_expander);
+        spi_config.line_config.io_expander = io_expander->getHandle();
     }
 }
 
-void ESP_PanelBus_RGB::enableSpiCsUseExpander(void)
-{
-    spi_config.line_config.cs_io_type = IO_TYPE_EXPANDER;
-}
-
-void ESP_PanelBus_RGB::enableSpiSclUseExpander(void)
-{
-    spi_config.line_config.cs_io_type = IO_TYPE_EXPANDER;
-}
-
-void ESP_PanelBus_RGB::enableSpiSdaUseExpander(void)
-{
-    spi_config.line_config.cs_io_type = IO_TYPE_EXPANDER;
-}
-
-void ESP_PanelBus_RGB::addIOExpander(ESP_IOExpander *io_expander)
+void ESP_PanelBus_RGB::setSpiExpander(ESP_IOExpander *io_expander)
 {
     CHECK_NULL_RETURN(io_expander);
     spi_config.line_config.io_expander = io_expander->getHandle();
@@ -175,16 +170,21 @@ void ESP_PanelBus_RGB::setRgbBounceBufferSize(int size_in_pixel)
     rgb_config.bounce_buffer_size_px = size_in_pixel;
 }
 
-const esp_lcd_rgb_panel_config_t *ESP_PanelBus_RGB::getRgbConfig()
+const esp_lcd_rgb_panel_config_t *ESP_PanelBus_RGB::rgbConfig()
 {
     return &rgb_config;
 }
 
-void ESP_PanelBus_RGB::init(void)
+bool ESP_PanelBus_RGB::begin(void)
 {
-    if (flags.host_need_init) {
-        CHECK_ERROR_RETURN(esp_lcd_new_panel_io_3wire_spi(&spi_config, &handle));
+    ENABLE_TAG_PRINT_DEBUG_LOG();
+
+    if (host_need_init) {
+        CHECK_ERR_RET(esp_lcd_new_panel_io_3wire_spi(&spi_config, &handle), false, "Create panel io failed");
+        ESP_LOGD(TAG, "Create panel io @%p", handle);
     }
+
+    return true;
 }
 
 #endif /* SOC_LCD_RGB_SUPPORTED */

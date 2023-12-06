@@ -3,11 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP_PANELBACKLIGHT_H
-#define ESP_PANELBACKLIGHT_H
+#pragma once
 
 #include <stdint.h>
-
 #include "driver/ledc.h"
 
 typedef struct {
@@ -27,7 +25,7 @@ typedef struct {
 
 class ESP_PanelBacklight {
 public:
-    ESP_PanelBacklight(const ESP_PanelBacklightConfig_t *config);
+    ESP_PanelBacklight(const ESP_PanelBacklightConfig_t &ionfig);
     ESP_PanelBacklight(int io_num, int light_on_level);
     ~ESP_PanelBacklight();
 
@@ -41,5 +39,3 @@ private:
     ESP_PanelBacklightConfig_t config;
     bool is_initialized;
 };
-
-#endif

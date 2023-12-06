@@ -9,7 +9,7 @@
 
 class ESP_PanelLcdTouch_GT911 : public ESP_PanelLcdTouch {
 public:
-    ESP_PanelLcdTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touch_config_t *config): ESP_PanelLcdTouch(bus, config) { };
+    ESP_PanelLcdTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config): ESP_PanelLcdTouch(bus, config) { };
     ESP_PanelLcdTouch_GT911(ESP_PanelBus *bus, uint16_t width, uint16_t height): ESP_PanelLcdTouch(bus, width, height) { };
     ~ESP_PanelLcdTouch_GT911() override;
 

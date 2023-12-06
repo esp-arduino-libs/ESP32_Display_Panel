@@ -18,6 +18,7 @@
 #include "esp_check.h"
 
 #include "esp_lcd_custom_types.h"
+
 #include "esp_lcd_st7789.h"
 
 static const char *TAG = "st7789";
@@ -42,7 +43,7 @@ typedef struct {
     uint8_t fb_bits_per_pixel;
     uint8_t madctl_val; // save current value of LCD_CMD_MADCTL register
     uint8_t colmod_val; // save current value of LCD_CMD_COLMOD register
-    const lcd_init_cmd_t *init_cmds;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds;
     uint16_t init_cmds_size;
 } st7789_panel_t;
 
@@ -50,20 +51,19 @@ esp_err_t esp_lcd_new_panel_st7789(const esp_lcd_panel_io_handle_t io, const esp
 {
     esp_err_t ret = ESP_OK;
     st7789_panel_t *st7789 = NULL;
+    gpio_config_t io_conf = { 0 };
 
     ESP_GOTO_ON_FALSE(io && panel_dev_config && ret_panel, ESP_ERR_INVALID_ARG, err, TAG, "invalid argument");
     st7789 = (st7789_panel_t *)calloc(1, sizeof(st7789_panel_t));
     ESP_GOTO_ON_FALSE(st7789, ESP_ERR_NO_MEM, err, TAG, "no mem for st7789 panel");
 
     if (panel_dev_config->reset_gpio_num >= 0) {
-        gpio_config_t io_conf = {
-            .mode = GPIO_MODE_OUTPUT,
-            .pin_bit_mask = 1ULL << panel_dev_config->reset_gpio_num,
-        };
+        io_conf.mode = GPIO_MODE_OUTPUT;
+        io_conf.pin_bit_mask = 1ULL << panel_dev_config->reset_gpio_num;
         ESP_GOTO_ON_ERROR(gpio_config(&io_conf), err, TAG, "configure GPIO for RST line failed");
     }
 
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 4)
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
     switch (panel_dev_config->color_space) {
     case ESP_LCD_COLOR_SPACE_RGB:
         st7789->madctl_val = 0;
@@ -76,20 +76,19 @@ esp_err_t esp_lcd_new_panel_st7789(const esp_lcd_panel_io_handle_t io, const esp
         break;
     }
 #else
-    switch (panel_dev_config->rgb_ele_order) {
-    case LCD_RGB_ELEMENT_ORDER_RGB:
+    switch (panel_dev_config->rgb_endian) {
+    case LCD_RGB_ENDIAN_RGB:
         st7789->madctl_val = 0;
         break;
-    case LCD_RGB_ELEMENT_ORDER_BGR:
+    case LCD_RGB_ENDIAN_BGR:
         st7789->madctl_val |= LCD_CMD_BGR_BIT;
         break;
     default:
-        ESP_GOTO_ON_FALSE(false, ESP_ERR_NOT_SUPPORTED, err, TAG, "unsupported color element order");
+        ESP_GOTO_ON_FALSE(false, ESP_ERR_NOT_SUPPORTED, err, TAG, "unsupported rgb endian");
         break;
     }
 #endif
 
-    uint8_t fb_bits_per_pixel = 0;
     switch (panel_dev_config->bits_per_pixel) {
     case 16: // RGB565
         st7789->colmod_val = 0x55;
@@ -109,8 +108,8 @@ esp_err_t esp_lcd_new_panel_st7789(const esp_lcd_panel_io_handle_t io, const esp
     st7789->reset_gpio_num = panel_dev_config->reset_gpio_num;
     st7789->reset_level = panel_dev_config->flags.reset_active_high;
     if (panel_dev_config->vendor_config) {
-        st7789->init_cmds = ((lcd_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds;
-        st7789->init_cmds_size = ((lcd_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds_size;
+        st7789->init_cmds = ((esp_lcd_panel_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds;
+        st7789->init_cmds_size = ((esp_lcd_panel_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds_size;
     }
     st7789->base.del = panel_st7789_del;
     st7789->base.reset = panel_st7789_reset;
@@ -127,6 +126,9 @@ esp_err_t esp_lcd_new_panel_st7789(const esp_lcd_panel_io_handle_t io, const esp
 #endif
     *ret_panel = &(st7789->base);
     ESP_LOGD(TAG, "new st7789 panel @%p", st7789);
+
+    ESP_LOGI(TAG, "LCD panel create success, version: %d.%d.%d", ESP_LCD_ST7789_VER_MAJOR, ESP_LCD_ST7789_VER_MINOR,
+             ESP_LCD_ST7789_VER_PATCH);
 
     return ESP_OK;
 
@@ -186,11 +188,14 @@ static esp_err_t panel_st7789_init(esp_lcd_panel_t *panel)
         st7789->colmod_val,
     }, 1), TAG, "send command failed");
 
-    const lcd_init_cmd_t *init_cmds = NULL;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds = NULL;
     uint16_t init_cmds_size = 0;
     if (st7789->init_cmds) {
         init_cmds = st7789->init_cmds;
         init_cmds_size = st7789->init_cmds_size;
+    } else {
+        init_cmds = NULL;
+        init_cmds_size = 0;
     }
 
     bool is_cmd_overwritten = false;

@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "soc/soc_caps.h"
-#include "esp_idf_version.h"
-
-#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
@@ -20,16 +16,28 @@
 #include "esp_log.h"
 
 #include "esp_lcd_custom_types.h"
+
 #include "esp_lcd_st7701.h"
+
+#define ST7701_CMD_SDIR     (0xC7)
+#define ST7701_CMD_SS_BIT   (1 << 2)
+
+#define ST7701_CMD_CND2BKxSEL       (0xFF)
+#define ST7701_CMD_BKxSEL_BYTE0     (0x77)
+#define ST7701_CMD_BKxSEL_BYTE1     (0x01)
+#define ST7701_CMD_BKxSEL_BYTE2     (0x00)
+#define ST7701_CMD_BKxSEL_BYTE3     (0x00)
+#define ST7701_CMD_CN2_BIT          (1 << 4)
 
 typedef struct {
     esp_lcd_panel_io_handle_t io;
     int reset_gpio_num;
     uint8_t madctl_val; // Save current value of LCD_CMD_MADCTL register
     uint8_t colmod_val; // Save current value of LCD_CMD_COLMOD register
-    const lcd_init_cmd_t *init_cmds;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds;
     uint16_t init_cmds_size;
     struct {
+        unsigned int mirror_by_cmd: 1;
         unsigned int auto_del_panel_io: 1;
         unsigned int display_on_off_use_cmd: 1;
         unsigned int reset_level: 1;
@@ -38,6 +46,7 @@ typedef struct {
     esp_err_t (*init)(esp_lcd_panel_t *panel);
     esp_err_t (*del)(esp_lcd_panel_t *panel);
     esp_err_t (*reset)(esp_lcd_panel_t *panel);
+    esp_err_t (*mirror)(esp_lcd_panel_t *panel, bool x_axis, bool y_axis);
     esp_err_t (*disp_on_off)(esp_lcd_panel_t *panel, bool on_off);
 } st7701_panel_t;
 
@@ -48,14 +57,17 @@ static esp_err_t panel_st7701_send_init_cmds(st7701_panel_t *st7701);
 static esp_err_t panel_st7701_init(esp_lcd_panel_t *panel);
 static esp_err_t panel_st7701_del(esp_lcd_panel_t *panel);
 static esp_err_t panel_st7701_reset(esp_lcd_panel_t *panel);
+static esp_err_t panel_st7701_mirror(esp_lcd_panel_t *panel, bool mirror_x, bool mirror_y);
 static esp_err_t panel_st7701_disp_on_off(esp_lcd_panel_t *panel, bool off);
 
 esp_err_t esp_lcd_new_panel_st7701(const esp_lcd_panel_io_handle_t io, const esp_lcd_panel_dev_config_t *panel_dev_config,
                                    esp_lcd_panel_handle_t *ret_panel)
 {
     ESP_RETURN_ON_FALSE(io && panel_dev_config && ret_panel, ESP_ERR_INVALID_ARG, TAG, "invalid arguments");
-    lcd_vendor_config_t *vendor_config = (lcd_vendor_config_t *)panel_dev_config->vendor_config;
+    esp_lcd_panel_vendor_config_t *vendor_config = (esp_lcd_panel_vendor_config_t *)panel_dev_config->vendor_config;
     ESP_RETURN_ON_FALSE(vendor_config && vendor_config->rgb_config, ESP_ERR_INVALID_ARG, TAG, "`verndor_config` and `rgb_config` are necessary");
+    ESP_RETURN_ON_FALSE(!vendor_config->flags.auto_del_panel_io || !vendor_config->flags.mirror_by_cmd,
+                        ESP_ERR_INVALID_ARG, TAG, "`mirror_by_cmd` and `auto_del_panel_io` cannot work together");
 
     esp_err_t ret = ESP_OK;
     st7701_panel_t *st7701 = (st7701_panel_t *)calloc(1, sizeof(st7701_panel_t));
@@ -101,6 +113,7 @@ esp_err_t esp_lcd_new_panel_st7701(const esp_lcd_panel_io_handle_t io, const esp
     st7701->init_cmds = vendor_config->init_cmds;
     st7701->init_cmds_size = vendor_config->init_cmds_size;
     st7701->reset_gpio_num = panel_dev_config->reset_gpio_num;
+    st7701->flags.mirror_by_cmd = vendor_config->flags.mirror_by_cmd;
     st7701->flags.display_on_off_use_cmd = (vendor_config->rgb_config->disp_gpio_num >= 0) ? 0 : 1;
     st7701->flags.auto_del_panel_io = vendor_config->flags.auto_del_panel_io;
     st7701->flags.reset_level = panel_dev_config->flags.reset_active_high;
@@ -135,14 +148,19 @@ esp_err_t esp_lcd_new_panel_st7701(const esp_lcd_panel_io_handle_t io, const esp
     st7701->init = (*ret_panel)->init;
     st7701->del = (*ret_panel)->del;
     st7701->reset = (*ret_panel)->reset;
+    st7701->mirror = (*ret_panel)->mirror;
     st7701->disp_on_off = (*ret_panel)->disp_on_off;
     // Overwrite the functions of RGB panel
     (*ret_panel)->init = panel_st7701_init;
     (*ret_panel)->del = panel_st7701_del;
     (*ret_panel)->reset = panel_st7701_reset;
+    (*ret_panel)->mirror = panel_st7701_mirror;
     (*ret_panel)->disp_on_off = panel_st7701_disp_on_off;
     (*ret_panel)->user_data = st7701;
     ESP_LOGD(TAG, "new st7701 panel @%p", st7701);
+
+    ESP_LOGI(TAG, "LCD panel create success, version: %d.%d.%d", ESP_LCD_ST7701_VER_MAJOR, ESP_LCD_ST7701_VER_MINOR,
+             ESP_LCD_ST7701_VER_PATCH);
 
     return ESP_OK;
 
@@ -156,7 +174,7 @@ err:
     return ret;
 }
 
-static const lcd_init_cmd_t vendor_specific_init_default[] = {
+static const esp_lcd_panel_vendor_init_cmd_t vendor_specific_init_default[] = {
 //  {cmd, { data }, data_size, delay_ms}
     {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x13}, 5, 0},
     {0xEF, (uint8_t []){0x08}, 1, 0},
@@ -198,54 +216,65 @@ static const lcd_init_cmd_t vendor_specific_init_default[] = {
 static esp_err_t panel_st7701_send_init_cmds(st7701_panel_t *st7701)
 {
     esp_lcd_panel_io_handle_t io = st7701->io;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds = NULL;
+    uint16_t init_cmds_size = 0;
+    bool is_command2_disable = true;
+    bool is_cmd_overwritten = false;
 
-    ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, 0xf0, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x00}, 1), TAG,
-                        "Write cmd failed");
+    ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, ST7701_CMD_CND2BKxSEL, (uint8_t []) {
+        ST7701_CMD_BKxSEL_BYTE0, ST7701_CMD_BKxSEL_BYTE1, ST7701_CMD_BKxSEL_BYTE2, ST7701_CMD_BKxSEL_BYTE3, 0x00
+    }, 5), TAG, "Write cmd failed");
     // Set color format
-    ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t []){
+    ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t []) {
         st7701->madctl_val
     }, 1), TAG, "Write cmd failed");
-    ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_COLMOD, (uint8_t []){
+    ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_COLMOD, (uint8_t []) {
         st7701->colmod_val
     }, 1), TAG, "Write cmd failed");
 
     // vendor specific initialization, it can be different between manufacturers
     // should consult the LCD supplier for initialization sequence code
-    const lcd_init_cmd_t *init_cmds = NULL;
-    uint16_t init_cmds_size = 0;
     if (st7701->init_cmds) {
         init_cmds = st7701->init_cmds;
         init_cmds_size = st7701->init_cmds_size;
     } else {
         init_cmds = vendor_specific_init_default;
-        init_cmds_size = sizeof(vendor_specific_init_default) / sizeof(lcd_init_cmd_t);
+        init_cmds_size = sizeof(vendor_specific_init_default) / sizeof(esp_lcd_panel_vendor_init_cmd_t);
     }
 
-    bool is_cmd_overwritten = false;
     for (int i = 0; i < init_cmds_size; i++) {
-        // Check if the command has been used or conflicts with the internal
-        switch (init_cmds[i].cmd) {
-        case LCD_CMD_MADCTL:
-            is_cmd_overwritten = true;
-            st7701->madctl_val = ((uint8_t *)init_cmds[i].data)[0];
-            break;
-        case LCD_CMD_COLMOD:
-            is_cmd_overwritten = true;
-            st7701->colmod_val = ((uint8_t *)init_cmds[i].data)[0];
-            break;
-        default:
-            is_cmd_overwritten = false;
-            break;
+        // Check if the command has been used or conflicts with the internal only when command2 is disable
+        if (is_command2_disable && (init_cmds[i].data_bytes > 0)) {
+            switch (init_cmds[i].cmd) {
+            case LCD_CMD_MADCTL:
+                is_cmd_overwritten = true;
+                st7701->madctl_val = ((uint8_t *)init_cmds[i].data)[0];
+                break;
+            case LCD_CMD_COLMOD:
+                is_cmd_overwritten = true;
+                st7701->colmod_val = ((uint8_t *)init_cmds[i].data)[0];
+                break;
+            default:
+                is_cmd_overwritten = false;
+                break;
+            }
+
+            if (is_cmd_overwritten) {
+                is_cmd_overwritten = false;
+                ESP_LOGW(TAG, "The %02Xh command has been used and will be overwritten by external initialization sequence",
+                         init_cmds[i].cmd);
+            }
         }
 
-        if (is_cmd_overwritten) {
-            ESP_LOGW(TAG, "The %02Xh command has been used and will be overwritten by external initialization sequence",
-                     init_cmds[i].cmd);
-        }
-
+        // Send command
         ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, init_cmds[i].cmd, init_cmds[i].data, init_cmds[i].data_bytes),
                             TAG, "send command failed");
         vTaskDelay(pdMS_TO_TICKS(init_cmds[i].delay_ms));
+
+        // Check if the current cmd is the command2 disable cmd
+        if ((init_cmds[i].cmd == ST7701_CMD_CND2BKxSEL) && (init_cmds[i].data_bytes > 4)) {
+            is_command2_disable = !(((uint8_t *)init_cmds[i].data)[4] & ST7701_CMD_CN2_BIT);
+        }
     }
     ESP_LOGD(TAG, "send init commands success");
 
@@ -300,6 +329,38 @@ static esp_err_t panel_st7701_reset(esp_lcd_panel_t *panel)
     return ESP_OK;
 }
 
+static esp_err_t panel_st7701_mirror(esp_lcd_panel_t *panel, bool mirror_x, bool mirror_y)
+{
+    st7701_panel_t *st7701 = (st7701_panel_t *)panel->user_data;
+    esp_lcd_panel_io_handle_t io = st7701->io;
+    uint8_t sdir_val = 0;
+
+    if (st7701->flags.mirror_by_cmd) {
+        ESP_RETURN_ON_FALSE(io, ESP_FAIL, TAG, "Panel IO is deleted, cannot send command");
+        // Control mirror through LCD command
+        if (mirror_x) {
+            sdir_val = ST7701_CMD_SS_BIT;
+        } else {
+            sdir_val = 0;
+        }
+        if (mirror_y) {
+            st7701->madctl_val |= LCD_CMD_ML_BIT;
+        } else {
+            st7701->madctl_val &= ~LCD_CMD_ML_BIT;
+        }
+        ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, ST7701_CMD_SDIR, (uint8_t[]) {
+            sdir_val,
+        }, 1), TAG, "send command failed");;
+        ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t[]) {
+            st7701->madctl_val,
+        }, 1), TAG, "send command failed");;
+    } else {
+        // Control mirror through RGB panel
+        ESP_RETURN_ON_ERROR(st7701->mirror(panel, mirror_x, mirror_y), TAG, "RGB panel mirror failed");
+    }
+    return ESP_OK;
+}
+
 static esp_err_t panel_st7701_disp_on_off(esp_lcd_panel_t *panel, bool on_off)
 {
     st7701_panel_t *st7701 = (st7701_panel_t *)panel->user_data;
@@ -321,5 +382,3 @@ static esp_err_t panel_st7701_disp_on_off(esp_lcd_panel_t *panel, bool on_off)
     }
     return ESP_OK;
 }
-
-#endif

@@ -16,6 +16,10 @@
 extern "C" {
 #endif
 
+#define ESP_LCD_ST7789_VER_MAJOR    (0)
+#define ESP_LCD_ST7789_VER_MINOR    (0)
+#define ESP_LCD_ST7789_VER_PATCH    (1)
+
 /**
  * @brief Create LCD panel for model ST7789
  *
@@ -36,16 +40,17 @@ esp_err_t esp_lcd_new_panel_st7789(const esp_lcd_panel_io_handle_t io, const esp
  *
  * @param[in] sclk SPI clock pin number
  * @param[in] mosi SPI MOSI pin number
+ * @param[in] max_trans_sz Maximum transfer size in bytes
  *
  */
-#define ST7789_PANEL_BUS_SPI_CONFIG(sclk, mosi)         \
-    {                                                   \
-        .sclk_io_num = sclk,                            \
-        .mosi_io_num = mosi,                            \
-        .miso_io_num = -1,                              \
-        .quadhd_io_num = -1,                            \
-        .quadwp_io_num = -1,                            \
-        .max_transfer_sz = SPI_LL_DMA_MAX_BIT_LEN >> 3, \
+#define ST7789_PANEL_BUS_SPI_CONFIG(sclk, mosi, max_trans_sz)   \
+    {                                                           \
+        .sclk_io_num = sclk,                                    \
+        .mosi_io_num = mosi,                                    \
+        .miso_io_num = -1,                                      \
+        .quadhd_io_num = -1,                                    \
+        .quadwp_io_num = -1,                                    \
+        .max_transfer_sz = max_trans_sz,                        \
     }
 
 /**

@@ -5,24 +5,23 @@
  */
 
 #include "soc/soc_caps.h"
-#include "esp_idf_version.h"
 
-#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
-#include "driver/gpio.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_check.h"
-#include "esp_lcd_panel_commands.h"
-#include "esp_lcd_panel_io.h"
-#include "esp_lcd_panel_rgb.h"
-#include "esp_lcd_panel_vendor.h"
-#include "esp_log.h"
-
-#include "../private/CheckResult.h"
-#include "../bus/RGB.h"
+#if SOC_LCD_RGB_SUPPORTED
+#include "ESP_PanelPrivate.h"
 #include "GC9503.h"
 
-static const char *TAG = "st7701";
+static const char *TAG = "GC9503";
+
+ESP_PanelLcd_GC9503::ESP_PanelLcd_GC9503(ESP_PanelBus *bus, int color_bits, int rst_io,
+        esp_lcd_panel_vendor_init_cmd_t init_cmd[], int init_cmd_size):
+    ESP_PanelLcd(bus, color_bits, rst_io, init_cmd, init_cmd_size)
+{
+}
+
+ESP_PanelLcd_GC9503::ESP_PanelLcd_GC9503(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config):
+    ESP_PanelLcd(bus, panel_config)
+{
+}
 
 ESP_PanelLcd_GC9503::~ESP_PanelLcd_GC9503()
 {
@@ -31,9 +30,12 @@ ESP_PanelLcd_GC9503::~ESP_PanelLcd_GC9503()
     }
 }
 
-void ESP_PanelLcd_GC9503::init()
+void ESP_PanelLcd_GC9503::init(void)
 {
+    ENABLE_TAG_PRINT_DEBUG_LOG();
+
     CHECK_NULL_RETURN(bus);
     CHECK_ERROR_RETURN(esp_lcd_new_panel_gc9503(bus->getHandle(), &panel_config, &handle));
 }
+
 #endif

@@ -3,16 +3,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP_PANEL_CONF_H
-#define ESP_PANEL_CONF_H
+
+#pragma once
 
 // *INDENT-OFF*
+/* Set to 1 if assert on error. Otherwise print error message and jump */
+#define ESP_PANEL_CHECK_RESULT_ASSERT       (0)         // 0/1
+
+/* Set to 1 if print debug message */
+#define ESP_PANEL_ENABLE_DEBUG_LOG          (0)         // 0/1
+
 /* Set to 0 if use a custom board */
-#define ESP_PANEL_USE_SUPPORTED_BOARD   (1)     // 0/1
+#define ESP_PANEL_USE_SUPPORTED_BOARD       (1)         // 0/1
 
 #if ESP_PANEL_USE_SUPPORTED_BOARD
 /*
- * Supported Boards.
+ * Supported Boards:
  *  - ESP32-C3-LCDkit: https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c3/esp32-c3-lcdkit/index.html
  *  - ESP32-S3-Box: https://github.com/espressif/esp-box/tree/master
  *  - ESP32-S3-Box-3: https://github.com/espressif/esp-box/tree/master
@@ -25,6 +31,7 @@
  *  - ESP32-S3-USB-OTG: https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html
  *
  * Uncomment one of the following macros to select an supported development board.
+ *
  */
 // #define ESP_PANEL_BOARD_ESP32_C3_LCDKIT
 // #define ESP_PANEL_BOARD_ESP32_S3_BOX
@@ -38,7 +45,7 @@
 // #define ESP_PANEL_BOARD_ESP32_S3_USB_OTG
 
 #else
-/*-------------------------------- LCD Related --------------------------------*/
+/*===================================== LCD Related =====================================*/
 /* Set to 0 if not using LCD */
 #define ESP_PANEL_USE_LCD           (0)     // 0/1
 #if ESP_PANEL_USE_LCD
@@ -64,8 +71,9 @@
  * LCD bus type. Choose one of the following:
  *      - 0: I2C (not supported yet)
  *      - 1: SPI
- *      - 2: I80 (not supported yet)
- *      - 3: RGB (only supported for ESP32-S3 and only available when using arduino-esp32 v3.x.x)
+ *      - 2: RGB (only supported for ESP32-S3)
+ *      - 3: I80 (not supported yet)
+ *      - 4: QSPI (not supported yet)
  */
 #define ESP_PANEL_LCD_BUS_TYPE      (1)
 /**
@@ -76,7 +84,9 @@
  *
  */
 #if ESP_PANEL_LCD_BUS_TYPE == 0         // I2C related parameters
+
 #error "This function is not implemented and will be implemented in the future."
+
 #elif ESP_PANEL_LCD_BUS_TYPE == 1       // SPI panel IO related parameters
     #define ESP_PANEL_LCD_BUS_HOST_ID           (1)
     #define ESP_PANEL_LCD_SPI_IO_CS             (5)
@@ -91,8 +101,11 @@
     #define ESP_PANEL_LCD_SPI_IO_MOSI           (6)
     #define ESP_PANEL_LCD_SPI_IO_MISO           (-1)
 #endif /* ESP_PANEL_LCD_BUS_SKIP_INIT_HOST */
+
 #elif ESP_PANEL_LCD_BUS_TYPE == 2       // I80 related parameters
+
 #error "This function is not implemented and will be implemented in the future."
+
 #elif ESP_PANEL_LCD_BUS_TYPE == 3       // RGB related parameters
     #define ESP_PANEL_LCD_RGB_CLK_HZ            (16 * 1000 * 1000)
     #define ESP_PANEL_LCD_RGB_HPW               (10)
@@ -102,7 +115,7 @@
     #define ESP_PANEL_LCD_RGB_VBP               (10)
     #define ESP_PANEL_LCD_RGB_VFP               (10)
     #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (0)     // 0: rising edge, 1: falling edge
-    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    // 8  | 16
+    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    //  8 | 16
     #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // 24 | 16
     #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM     (1)     // 1/2/3
     #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (ESP_PANEL_LCD_H_RES * 10)  // Bounce buffer size in bytes. Set to 0 if disable bounce buffer.
@@ -129,6 +142,7 @@
     #define ESP_PANEL_LCD_RGB_IO_DATA14         (2)
     #define ESP_PANEL_LCD_RGB_IO_DATA15         (1)
 #endif /* ESP_PANEL_LCD_RGB_DATA_WIDTH */
+
 #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST       // 3-wire SPI panel IO related parameters
     #define ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE     (0)     // 0: rising edge, 1: falling edge
     #define ESP_PANEL_LCD_3WIRE_SPI_AUTO_DEL_PANEL_IO   (0)     // Delete the panel IO instance automatically if set to 1.
@@ -141,13 +155,14 @@
     #define ESP_PANEL_LCD_3WIRE_SPI_IO_SCL              (1)
     #define ESP_PANEL_LCD_3WIRE_SPI_IO_SDA              (2)
 #endif /* ESP_PANEL_LCD_BUS_SKIP_INIT_HOST */
+
 #endif /* ESP_PANEL_LCD_BUS_TYPE */
 
 /**
  * LCD initialization commands.
  *
  * Vendor specific initialization can be different between manufacturers, should consult the LCD supplier for
- * initialization sequence code. Please uncomment the following macro definitions and modify them in the same format
+ * initialization sequence code. Please uncomment the following macro definitions and change them in the same format
  * if needed. Otherwise, the LCD driver will use the default initialization sequence code.
  *
  */
@@ -183,7 +198,7 @@
 
 #endif /* ESP_PANEL_USE_LCD */
 
-/*-------------------------------- LCD Touch Related --------------------------------*/
+/*===================================== LCD Touch Related =====================================*/
 /* Set to 0 if not using LCD touch */
 #define ESP_PANEL_USE_LCD_TOUCH     (0)         // 0/1
 #if ESP_PANEL_USE_LCD_TOUCH
@@ -195,11 +210,11 @@
  *      - TT21100
  *      - STMPE610
  */
-#define ESP_PANEL_LCD_TOUCH_NAME            TT21100
+#define ESP_PANEL_LCD_TOUCH_NAME    TT21100
 
 /* LCD Touch resolution in pixels */
-#define ESP_PANEL_LCD_TOUCH_H_RES           (ESP_PANEL_LCD_H_RES)
-#define ESP_PANEL_LCD_TOUCH_V_RES           (ESP_PANEL_LCD_V_RES)
+#define ESP_PANEL_LCD_TOUCH_H_RES   (ESP_PANEL_LCD_H_RES)
+#define ESP_PANEL_LCD_TOUCH_V_RES   (ESP_PANEL_LCD_V_RES)
 
 /* LCD Touch Bus Settings */
 /**
@@ -250,7 +265,7 @@
 
 #endif /* ESP_PANEL_USE_LCD_TOUCH */
 
-/*-------------------------------- Backlight Related --------------------------------*/
+/*===================================== Backlight Related =====================================*/
 #define ESP_PANEL_USE_BL                    (0)         // 0/1
 #if ESP_PANEL_USE_BL
 /* IO num of backlight pin */
@@ -267,16 +282,41 @@
  *
  *  Please refer to https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/ledc.html for details.
  */
-    #define ESP_PANEL_LCD_BL_PWM_TIMER          (0)
-    #define ESP_PANEL_LCD_BL_PWM_CHANNEL        (0)
-    #define ESP_PANEL_LCD_BL_PWM_RESOLUTION     (10)
-    #define ESP_PANEL_LCD_BL_PWM_FREQ_HZ        (5000)
+    #define ESP_PANEL_LCD_BL_PWM_TIMER      (0)
+    #define ESP_PANEL_LCD_BL_PWM_CHANNEL    (0)
+    #define ESP_PANEL_LCD_BL_PWM_RESOLUTION (10)
+    #define ESP_PANEL_LCD_BL_PWM_FREQ_HZ    (5000)
 #endif /* ESP_PANEL_LCD_BL_USE_PWM */
 #endif /* ESP_PANEL_USE_BL */
 
-/*-------------------------------- Others --------------------------------*/
-/* Set to 1 if assert on error. Otherwise return error code */
-#define ESP_PANEL_CHECK_RESULT_ASSERT       (0)         // 0/1
+/*===================================== IO Expander Related =====================================*/
+/* Set to 0 if not using IO Expander */
+#define ESP_PANEL_USE_EXPANDER              (0)         // 0/1
+#if ESP_PANEL_USE_EXPANDER
+/**
+ * IO expander IC name. Choose one of the following:
+ *      - HT8574
+ *      - TCA95xx_8bit
+ *      - TCA95xx_16bit
+ */
+#define ESP_PANEL_EXPANDER_NAME                 TCA95xx_8bit
+
+/* IO expander & host Settings */
+// Device parameters
+#define ESP_PANEL_EXPANDER_ADDRESS              (0x20)
+
+//  If set to 1, the driver will skip to initialize the corresponding host. Users need to initialize the host in advance.
+#define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (0)     // 0/1
+// Host parameters
+#if !ESP_PANEL_EXPANDER_SKIP_INIT_HOST
+    #define ESP_PANEL_EXPANDER_HOST_ID          (0)
+    #define ESP_PANEL_EXPANDER_I2C_CLK_HZ       (400 * 1000)
+    #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP   (0)     // 0/1
+    #define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP   (0)     // 0/1
+    #define ESP_PANEL_EXPANDER_I2C_IO_SCL       (18)
+    #define ESP_PANEL_EXPANDER_I2C_IO_SDA       (8)
+#endif
+#endif /* ESP_PANEL_USE_EXPANDER */
 
 #endif /* ESP_PANEL_USE_SUPPORTED_BOARD */
 // *INDENT-OFF*

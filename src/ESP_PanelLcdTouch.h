@@ -3,13 +3,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP_PANELLCDTOUCH_H
-#define ESP_PANELLCDTOUCH_H
 
-#include <stdint.h>
+#pragma once
 
 #include "lcd_touch/base/esp_lcd_touch.h"
-#include "../bus/ESP_PanelBus.h"
+#include "ESP_PanelBus.h"
 
 class TouchPoint {
 public:
@@ -26,13 +24,13 @@ public:
 
 class ESP_PanelLcdTouch {
 public:
-    ESP_PanelLcdTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t *config);
+    ESP_PanelLcdTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config);
     ESP_PanelLcdTouch(ESP_PanelBus *bus, uint16_t width, uint16_t height);
     virtual ~ESP_PanelLcdTouch() = default;
 
     void del(void);
     void readData(void);
-    bool getTouchState(void);
+    bool getLcdTouchState(void);
     TouchPoint getPoint(uint8_t n = 0);
     bool getButtonState(uint8_t n = 0);
     void swapAxes(bool en);
@@ -55,5 +53,3 @@ private:
     uint16_t y[LCD_TOUCH_MAX_POINTS];
     uint16_t z[LCD_TOUCH_MAX_POINTS];
 };
-
-#endif

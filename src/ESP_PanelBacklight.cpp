@@ -3,9 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+#include "ESP_PanelPrivate.h"
 #include "ESP_PanelBacklight.h"
-
-#include "private/CheckResult.h"
 
 #define BACKLIGHT_CONFIG_DEFAULT(io_num, on_level)  \
     {                                               \
@@ -24,8 +23,8 @@
 
 static const char *TAG = "ESP_PanelBacklight";
 
-ESP_PanelBacklight::ESP_PanelBacklight(const ESP_PanelBacklightConfig_t *config):
-    config(*config),
+ESP_PanelBacklight::ESP_PanelBacklight(const ESP_PanelBacklightConfig_t &config):
+    config(config),
     is_initialized(false)
 {
 }

@@ -17,7 +17,7 @@
 #include "esp_bit_defs.h"
 #include "base/esp_lcd_touch.h"
 
-#include "../private/CheckResult.h"
+#include "ESP_PanelPrivate.h"
 #include "TT21100.h"
 
 static const char *TAG = "TT21100";

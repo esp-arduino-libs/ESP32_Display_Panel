@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP_PANEL_CONF_INTERNAL_H
-#define ESP_PANEL_CONF_INTERNAL_H
+#pragma once
 
 #include <stdint.h>
 
@@ -47,11 +46,26 @@
     #endif
 #endif
 
-#ifndef ESP_PANEL_CONF_IGNORE
-#include "soc/soc_caps.h"
-#include "esp_idf_version.h"
+#ifndef ESP_PANEL_CHECK_RESULT_ASSERT
+    #ifdef CONFIG_ESP_PANEL_CHECK_RESULT_ASSERT
+        #define ESP_PANEL_CHECK_RESULT_ASSERT    CONFIG_ESP_PANEL_CHECK_RESULT_ASSERT
+    #else
+        #define ESP_PANEL_CHECK_RESULT_ASSERT    (0)
+    #endif
+#endif
 
-#include "bus/ESP_PanelBus.h"
+#ifndef ESP_PANEL_ENABLE_DEBUG_LOG
+    #ifdef CONFIG_ESP_PANEL_ENABLE_DEBUG_LOG
+        #define ESP_PANEL_ENABLE_DEBUG_LOG    CONFIG_ESP_PANEL_ENABLE_DEBUG_LOG
+    #else
+        #define ESP_PANEL_ENABLE_DEBUG_LOG    (0)
+    #endif
+#endif
+
+#ifndef ESP_PANEL_CONF_IGNORE
+#include "esp_idf_version.h"
+#include "soc/soc_caps.h"
+#include "ESP_PanelBus.h"
 
 #ifndef ESP_PANEL_USE_SUPPORTED_BOARD
     #ifdef CONFIG_ESP_PANEL_USE_SUPPORTED_BOARD
@@ -69,7 +83,7 @@
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3
         #include "board/esp32_s3_box_3.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_3_BETA
-        #include "board/esp32_s3_box_3_beta.h"
+        #include "board/ESP32_S3_BOX_3_BETA.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_BOX_LITE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_BOX_LITE
         #include "board/ESP32_S3_BOX_LITE.h"
     #elif defined(ESP_PANEL_BOARD_ESP32_S3_EYE) || CONFIG_ESP_PANEL_BOARD_ESP32_S3_EYE
@@ -258,7 +272,7 @@
         #endif
 
         #if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
-            #error "LCD RGB bus here is only supported in arduino-esp32 v3.x.x (ESP-IDF v5.0), please update the SDK."
+            #error "LCD RGB bus here is only supported in arduino-esp32 v3.x.x (ESP-IDF v5.1), please update the SDK."
         #endif
 
         #define ESP_PANEL_LCD_BUS_NAME      RGB
@@ -991,8 +1005,97 @@
         #endif
     #endif /* ESP_PANEL_LCD_BL_USE_PWM */
 #endif /* ESP_PANEL_USE_BL */
+
+/*-------------------------------- IO Expander Related --------------------------------*/
+/* Set to 0 if not using IO expander */
+#ifndef ESP_PANEL_USE_EXPANDER
+    #ifdef CONFIG_ESP_PANEL_USE_EXPANDER
+        #define ESP_PANEL_USE_EXPANDER    CONFIG_ESP_PANEL_USE_EXPANDER
+    #else
+        #define ESP_PANEL_USE_EXPANDER    (0)
+    #endif
+#endif
+
+#if ESP_PANEL_USE_EXPANDER
+    /* IO expander IC name. */
+    #ifndef ESP_PANEL_EXPANDER_NAME
+        #if defined(ESP_PANEL_EXPANDER_CONTROLLER_CST816S) || CONFIG_ESP_PANEL_EXPANDER_CONTROLLER_CST816S
+            #define ESP_PANEL_EXPANDER_NAME  CST816S
+        #elif defined(ESP_PANEL_EXPANDER_CONTROLLER_FT5X06) || CONFIG_ESP_PANEL_EXPANDER_CONTROLLER_FT5X06
+            #define ESP_PANEL_EXPANDER_NAME  FT5x06
+        #elif defined(ESP_PANEL_EXPANDER_CONTROLLER_GT1151) || CONFIG_ESP_PANEL_EXPANDER_CONTROLLER_GT1151
+            #define ESP_PANEL_EXPANDER_NAME  GT1151
+        #else
+            #error "Unkonw LCD Touch controller selected, please refer to the README for supported controllers."
+        #endif
+    #endif
+
+    /* LCD Touch Bus Settings */
+    /**
+     * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
+     * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
+     */
+    #ifndef ESP_PANEL_EXPANDER_SKIP_INIT_HOST
+        #ifdef CONFIG_ESP_PANEL_EXPANDER_SKIP_INIT_HOST
+            #define ESP_PANEL_EXPANDER_SKIP_INIT_HOST    CONFIG_ESP_PANEL_EXPANDER_SKIP_INIT_HOST
+        #else
+            #define ESP_PANEL_EXPANDER_SKIP_INIT_HOST    (0)
+        #endif
+    #endif
+
+    #ifndef ESP_PANEL_EXPANDER_HOST_ID
+        #ifdef CONFIG_ESP_PANEL_EXPANDER_HOST_ID
+            #define ESP_PANEL_EXPANDER_HOST_ID    CONFIG_ESP_PANEL_EXPANDER_HOST_ID
+        #else
+            #define ESP_PANEL_EXPANDER_HOST_ID    (0)
+        #endif
+    #endif
+
+    #include "hal/i2c_types.h"
+    #define ESP_PANEL_EXPANDER_HOST      ((i2c_port_t)ESP_PANEL_EXPANDER_HOST_ID)
+
+    #if !ESP_PANEL_EXPANDER_SKIP_INIT_HOST
+        #ifndef ESP_PANEL_EXPANDER_I2C_CLK_HZ
+            #ifdef CONFIG_ESP_PANEL_EXPANDER_I2C_CLK_HZ
+                #define ESP_PANEL_EXPANDER_I2C_CLK_HZ  CONFIG_ESP_PANEL_EXPANDER_I2C_CLK_HZ
+            #else
+                #define ESP_PANEL_EXPANDER_I2C_CLK_HZ  (400 * 1000)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_EXPANDER_I2C_SCL_PULLUP
+            #ifdef CONFIG_ESP_PANEL_EXPANDER_I2C_SCL_PULLUP
+                #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP  CONFIG_ESP_PANEL_EXPANDER_I2C_SCL_PULLUP
+            #else
+                #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP  (0)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_EXPANDER_I2C_SDA_PULLUP
+            #ifdef CONFIG_ESP_PANEL_EXPANDER_I2C_SDA_PULLUP
+                #define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP  CONFIG_ESP_PANEL_EXPANDER_I2C_SDA_PULLUP
+            #else
+                #define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP  (0)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_EXPANDER_I2C_IO_SCL
+            #ifdef CONFIG_ESP_PANEL_EXPANDER_I2C_IO_SCL
+                #define ESP_PANEL_EXPANDER_I2C_IO_SCL  CONFIG_ESP_PANEL_EXPANDER_I2C_IO_SCL
+            #else
+                #error "IO expander I2C SCL pin is not defined."
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_EXPANDER_I2C_IO_SDA
+            #ifdef CONFIG_ESP_PANEL_EXPANDER_I2C_IO_SDA
+                #define ESP_PANEL_EXPANDER_I2C_IO_SDA  CONFIG_ESP_PANEL_EXPANDER_I2C_IO_SDA
+            #else
+                #error "IO expander I2C SDA pin is not defined."
+            #endif
+        #endif
+    #endif /* ESP_PANEL_EXPANDER_SKIP_INIT_HOST */
+#endif /* ESP_PANEL_USE_EXPANDER */
 // *INDENT-OFF*
 
 #endif /* ESP_PANEL_CONF_IGNORE */
-
-#endif

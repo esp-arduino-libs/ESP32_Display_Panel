@@ -30,10 +30,10 @@
  * LCD bus type. Choose one of the following:
  *      - 0: I2C (not supported yet)
  *      - 1: SPI
- *      - 2: I80 (not supported yet)
- *      - 3: RGB
+ *      - 2: RGB
+ *      - 3: I80 (not supported yet)
  */
-#define ESP_PANEL_LCD_BUS_TYPE      (3)
+#define ESP_PANEL_LCD_BUS_TYPE      (2)
 /**
  * LCD bus parameters.
  *
@@ -118,7 +118,7 @@
  * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
  */
-#define ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST  (1)
+#define ESP_PANEL_LCD_TOUCH_BUS_SKIP_INIT_HOST  (0)
 /**
  * LCD touch bus type. Choose one of the following:
  *      - 0: I2C
@@ -151,7 +151,33 @@
 /*-------------------------------- Backlight Related --------------------------------*/
 #define ESP_PANEL_USE_BL                    (0)
 
-/*-------------------------------- Others --------------------------------*/
-/* Assert on error. Otherwise return error code */
-#define ESP_PANEL_CHECK_RESULT_ASSERT       (0)
+/*===================================== IO Expander Related =====================================*/
+/* Set to 0 if not using IO Expander */
+#define ESP_PANEL_USE_EXPANDER              (1)         // 0/1
+#if ESP_PANEL_USE_EXPANDER
+/**
+ * IO expander IC name. Choose one of the following:
+ *      - HT8574
+ *      - TCA95xx_8bit
+ *      - TCA95xx_16bit
+ */
+#define ESP_PANEL_EXPANDER_NAME                 TCA95xx_8bit
+
+/* IO expander & host Settings */
+// Device parameters
+#define ESP_PANEL_EXPANDER_ADDRESS              (0x20)
+
+//  If set to 1, the driver will skip to initialize the corresponding host. Users need to initialize the host in advance.
+#define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (0)     // 0/1
+// Host parameters
+#if !ESP_PANEL_EXPANDER_SKIP_INIT_HOST
+#define ESP_PANEL_EXPANDER_HOST_ID          (0)
+#define ESP_PANEL_EXPANDER_I2C_CLK_HZ       (400 * 1000)
+#define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP   (0)     // 0/1
+#define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP   (0)     // 0/1
+#define ESP_PANEL_EXPANDER_I2C_IO_SCL       (18)
+#define ESP_PANEL_EXPANDER_I2C_IO_SDA       (8)
+#endif
+#endif /* ESP_PANEL_USE_EXPANDER */
+
 #endif

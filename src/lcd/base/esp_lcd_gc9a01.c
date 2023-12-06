@@ -18,6 +18,7 @@
 #include "esp_check.h"
 
 #include "esp_lcd_custom_types.h"
+
 #include "esp_lcd_gc9a01.h"
 
 static const char *TAG = "gc9a01";
@@ -42,7 +43,7 @@ typedef struct {
     uint8_t fb_bits_per_pixel;
     uint8_t madctl_val; // save current value of LCD_CMD_MADCTL register
     uint8_t colmod_val; // save current value of LCD_CMD_COLMOD register
-    const lcd_init_cmd_t *init_cmds;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds;
     uint16_t init_cmds_size;
 } gc9a01_panel_t;
 
@@ -50,20 +51,19 @@ esp_err_t esp_lcd_new_panel_gc9a01(const esp_lcd_panel_io_handle_t io, const esp
 {
     esp_err_t ret = ESP_OK;
     gc9a01_panel_t *gc9a01 = NULL;
+    gpio_config_t io_conf = { 0 };
 
     ESP_GOTO_ON_FALSE(io && panel_dev_config && ret_panel, ESP_ERR_INVALID_ARG, err, TAG, "invalid argument");
     gc9a01 = (gc9a01_panel_t *)calloc(1, sizeof(gc9a01_panel_t));
     ESP_GOTO_ON_FALSE(gc9a01, ESP_ERR_NO_MEM, err, TAG, "no mem for gc9a01 panel");
 
     if (panel_dev_config->reset_gpio_num >= 0) {
-        gpio_config_t io_conf = {
-            .mode = GPIO_MODE_OUTPUT,
-            .pin_bit_mask = 1ULL << panel_dev_config->reset_gpio_num,
-        };
+        io_conf.mode = GPIO_MODE_OUTPUT;
+        io_conf.pin_bit_mask = 1ULL << panel_dev_config->reset_gpio_num;
         ESP_GOTO_ON_ERROR(gpio_config(&io_conf), err, TAG, "configure GPIO for RST line failed");
     }
 
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 4)
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0)
     switch (panel_dev_config->color_space) {
     case ESP_LCD_COLOR_SPACE_RGB:
         gc9a01->madctl_val = 0;
@@ -76,20 +76,19 @@ esp_err_t esp_lcd_new_panel_gc9a01(const esp_lcd_panel_io_handle_t io, const esp
         break;
     }
 #else
-    switch (panel_dev_config->rgb_ele_order) {
-    case LCD_RGB_ELEMENT_ORDER_RGB:
+    switch (panel_dev_config->rgb_endian) {
+    case LCD_RGB_ENDIAN_RGB:
         gc9a01->madctl_val = 0;
         break;
-    case LCD_RGB_ELEMENT_ORDER_BGR:
+    case LCD_RGB_ENDIAN_BGR:
         gc9a01->madctl_val |= LCD_CMD_BGR_BIT;
         break;
     default:
-        ESP_GOTO_ON_FALSE(false, ESP_ERR_NOT_SUPPORTED, err, TAG, "unsupported color element order");
+        ESP_GOTO_ON_FALSE(false, ESP_ERR_NOT_SUPPORTED, err, TAG, "unsupported rgb endian");
         break;
     }
 #endif
 
-    uint8_t fb_bits_per_pixel = 0;
     switch (panel_dev_config->bits_per_pixel) {
     case 16: // RGB565
         gc9a01->colmod_val = 0x55;
@@ -109,8 +108,8 @@ esp_err_t esp_lcd_new_panel_gc9a01(const esp_lcd_panel_io_handle_t io, const esp
     gc9a01->reset_gpio_num = panel_dev_config->reset_gpio_num;
     gc9a01->reset_level = panel_dev_config->flags.reset_active_high;
     if (panel_dev_config->vendor_config) {
-        gc9a01->init_cmds = ((lcd_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds;
-        gc9a01->init_cmds_size = ((lcd_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds_size;
+        gc9a01->init_cmds = ((esp_lcd_panel_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds;
+        gc9a01->init_cmds_size = ((esp_lcd_panel_vendor_config_t *)panel_dev_config->vendor_config)->init_cmds_size;
     }
     gc9a01->base.del = panel_gc9a01_del;
     gc9a01->base.reset = panel_gc9a01_reset;
@@ -127,6 +126,9 @@ esp_err_t esp_lcd_new_panel_gc9a01(const esp_lcd_panel_io_handle_t io, const esp
 #endif
     *ret_panel = &(gc9a01->base);
     ESP_LOGD(TAG, "new gc9a01 panel @%p", gc9a01);
+
+    ESP_LOGI(TAG, "LCD panel create success, version: %d.%d.%d", ESP_LCD_GC9A01_VER_MAJOR, ESP_LCD_GC9A01_VER_MINOR,
+             ESP_LCD_GC9A01_VER_PATCH);
 
     return ESP_OK;
 
@@ -171,7 +173,7 @@ static esp_err_t panel_gc9a01_reset(esp_lcd_panel_t *panel)
     return ESP_OK;
 }
 
-static const lcd_init_cmd_t vendor_specific_init_default[] = {
+static const esp_lcd_panel_vendor_init_cmd_t vendor_specific_init_default[] = {
 //  {cmd, { data }, data_size, delay_ms}
     // Enable Inter Register
     {0xfe, (uint8_t []){0x00}, 0, 0},
@@ -234,14 +236,14 @@ static esp_err_t panel_gc9a01_init(esp_lcd_panel_t *panel)
         gc9a01->colmod_val,
     }, 1), TAG, "send command failed");
 
-    const lcd_init_cmd_t *init_cmds = NULL;
+    const esp_lcd_panel_vendor_init_cmd_t *init_cmds = NULL;
     uint16_t init_cmds_size = 0;
     if (gc9a01->init_cmds) {
         init_cmds = gc9a01->init_cmds;
         init_cmds_size = gc9a01->init_cmds_size;
     } else {
         init_cmds = vendor_specific_init_default;
-        init_cmds_size = sizeof(vendor_specific_init_default) / sizeof(lcd_init_cmd_t);
+        init_cmds_size = sizeof(vendor_specific_init_default) / sizeof(esp_lcd_panel_vendor_init_cmd_t);
     }
 
     bool is_cmd_overwritten = false;

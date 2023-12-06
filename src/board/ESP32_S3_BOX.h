@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-#ifndef ESP32_S3_BOX_H
-#define ESP32_S3_BOX_H
+
+#pragma once
 
 /* For more information about it, please visit here: https://github.com/espressif/esp-box/tree/master */
 
@@ -14,7 +14,7 @@
 /**
  * LCD controller name.
  */
-#define ESP_PANEL_LCD_NAME          ST7789
+#define ESP_PANEL_LCD_NAME          ILI9341
 
 /* LCD resolution in pixels */
 #define ESP_PANEL_LCD_H_RES         (320)
@@ -144,4 +144,3 @@
 /*-------------------------------- Others --------------------------------*/
 /* Assert on error. Otherwise return error code */
 #define ESP_PANEL_CHECK_RESULT_ASSERT       (0)
-#endif

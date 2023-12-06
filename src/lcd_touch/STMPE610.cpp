@@ -16,7 +16,7 @@
 #include "esp_lcd_panel_io.h"
 #include "base/esp_lcd_touch.h"
 
-#include "../private/CheckResult.h"
+#include "ESP_PanelPrivate.h"
 #include "STMPE610.h"
 
 static const char *TAG = "STMPE610";

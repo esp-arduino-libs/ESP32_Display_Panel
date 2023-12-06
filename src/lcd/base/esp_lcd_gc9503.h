@@ -10,10 +10,6 @@
 
 #pragma once
 
-#include "soc/soc_caps.h"
-#include "esp_idf_version.h"
-
-#if SOC_LCD_RGB_SUPPORTED && (ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0))
 #include <stdint.h>
 
 #include "esp_lcd_panel_vendor.h"
@@ -22,6 +18,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define ESP_LCD_GC9503_VER_MAJOR    (3)
+#define ESP_LCD_GC9503_VER_MINOR    (0)
+#define ESP_LCD_GC9503_VER_PATCH    (1)
 
 /**
  * @brief Create LCD panel for model GC9503
@@ -83,8 +83,9 @@ esp_err_t esp_lcd_new_panel_gc9503(const esp_lcd_panel_io_handle_t io, const esp
         .vsync_pulse_width = 10,                    \
         .vsync_back_porch = 10,                     \
         .vsync_front_porch = 10,                    \
+        .flags.pclk_active_neg = 0,                 \
     }
+
 #ifdef __cplusplus
 }
-#endif
 #endif

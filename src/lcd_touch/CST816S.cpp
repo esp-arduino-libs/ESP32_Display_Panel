@@ -17,7 +17,7 @@
 #include "esp_lcd_panel_io.h"
 #include "base/esp_lcd_touch.h"
 
-#include "../private/CheckResult.h"
+#include "ESP_PanelPrivate.h"
 #include "CST816S.h"
 
 #define POINT_NUM_MAX       (1)
