@@ -2,7 +2,7 @@
 #include <ESP_IOExpander_Library.h>
 #include <ESP_Panel_Library.h>
 
-#define USE_IO_EXPANDER             (1)
+#define USE_IO_EXPANDER             (0)
 
 #define TEST_LCD_H_RES              (480)
 #define TEST_LCD_V_RES              (480)
