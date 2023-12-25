@@ -57,13 +57,13 @@
     }
 #define ESP_PANEL_HOST_QSPI_CONFIG_DEFAULT(sck_io, d0_io, d1_io, d2_io, d3_io) \
     {                                             \
-        .mosi_io_num = d0_io,                     \
-        .miso_io_num = -1,                        \
+        .data0_io_num = d0_io,                     \
+        .data1_io_num = d1_io,                        \
         .sclk_io_num = sck_io,                    \
-        .quadwp_io_num = d0_io,                   \
-        .quadhd_io_num = d1_io,                   \
-        .data4_io_num = d2_io,                    \
-        .data5_io_num = d3_io,                    \
+        .data2_io_num = d2_io,                   \
+        .data3_io_num = d3_io,                   \
+        .data4_io_num = -1,                    \
+        .data5_io_num = -1,                    \
         .data6_io_num = -1,                       \
         .data7_io_num = -1,                       \
         .max_transfer_sz = SPI_MAX_TRANSFER_SIZE, \

@@ -13,7 +13,7 @@
 static const char *TAG = "GC9503";
 
 ESP_PanelLcd_GC9503::ESP_PanelLcd_GC9503(ESP_PanelBus *bus, int color_bits, int rst_io,
-        esp_lcd_panel_vendor_init_cmd_t init_cmd[], int init_cmd_size):
+        const esp_lcd_panel_vendor_init_cmd_t init_cmd[], int init_cmd_size):
     ESP_PanelLcd(bus, color_bits, rst_io, init_cmd, init_cmd_size)
 {
 }

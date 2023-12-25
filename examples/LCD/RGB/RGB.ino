@@ -2,7 +2,7 @@
 #include <ESP_IOExpander_Library.h>
 #include <ESP_Panel_Library.h>
 
-#define USE_IO_EXPANDER             (0)
+#define USE_IO_EXPANDER             (1)
 
 #define TEST_LCD_H_RES              (480)
 #define TEST_LCD_V_RES              (480)
@@ -120,6 +120,7 @@ void setup()
 #if USE_IO_EXPANDER
     lcd_bus->configSpiLine(true, false, false, expander);
 #endif
+    lcd_bus->init();
     lcd_bus->begin();
 
     Serial.println("Create LCD");

@@ -33,13 +33,19 @@ ESP_PanelLcd::ESP_PanelLcd(ESP_PanelBus *bus, uint8_t color_bits, int rst_io,
     sem_draw_bitmap_finish(NULL),
     callback_data(CALLBACK_DATA_DEFAULT())
 {
+    switch (bus->getType()) {
+    case ESP_PANEL_BUS_TYPE_QSPI:
+        vendor_config.flags.use_qspi_interface = 1;
+        break;
 #if SOC_LCD_RGB_SUPPORTED
-    /* Retrieve RGB configuration from the bus and register it into the vendor configuration */
-    if (bus->getType() == ESP_PANEL_BUS_TYPE_RGB) {
-        const esp_lcd_rgb_panel_config_t *rgb_config = static_cast<ESP_PanelBus_RGB *>(bus)->rgbConfig();
-        vendor_config.rgb_config = rgb_config;
-    }
+     /* Retrieve RGB configuration from the bus and register it into the vendor configuration */
+    case ESP_PANEL_BUS_TYPE_RGB:
+        vendor_config.rgb_config = static_cast<ESP_PanelBus_RGB *>(bus)->rgbConfig();
+        break;
 #endif
+    default:
+        break;
+    }
 }
 
 ESP_PanelLcd::ESP_PanelLcd(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config):
