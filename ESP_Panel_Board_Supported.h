@@ -56,4 +56,13 @@
  */
 // #define BOARD_ESP32_4848S040C_I_Y_3
 
+/*
+ * QMZX (http://en.smartpanle.com/):
+ *
+ *  - ZX7D00CE01S-8048: https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/datasheet/ZX7D00CE01S-8048.pdf
+ *  - ZX2D10GE01R-V4848: https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/datasheet/ZX2D10GE01R-V4848.pdf
+ *
+ */
+// #define BOARD_ZX7D00CE01S_8048
+
 #endif

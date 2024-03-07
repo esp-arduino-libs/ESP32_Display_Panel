@@ -36,6 +36,9 @@
 /* Jingcai */
 #elif defined(BOARD_ESP32_4848S040C_I_Y_3) || CONFIG_BOARD_ESP32_4848S040C_I_Y_3
     #include "board/jingcai/ESP32_4848S040C_I_Y_3.h"
+/* QMZX */
+#elif defined(BOARD_ZX7D00CE01S_8048) || CONFIG_BOARD_ZX7D00CE01S_8048
+    #include "board/qmsd/ZX7D00CE01S_8048.h"
 #else
     #error "Unkonw board selected, please refer to the README for supported boards."
 #endif
