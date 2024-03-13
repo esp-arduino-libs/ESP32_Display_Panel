@@ -494,8 +494,9 @@ bool ESP_Panel::begin(void)
      *   - The LCD bus is RGB (with or without 3-wire SPI) bus and the `ESP_PANEL_LCD_RGB_IO_DISP` pin is used
      *
      */
-#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || ((ESP_PANEL_LCD_RGB_IO_DISP != -1) || \
-    (!ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO))
+#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || \
+    (defined(ESP_PANEL_LCD_RGB_IO_DISP) && (ESP_PANEL_LCD_RGB_IO_DISP != -1)) || \
+    (defined(ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO) && !ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO)
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->displayOn(), false, "Display on failed");
 #endif
     // Run additional code after the LCD is started if needed

@@ -90,7 +90,7 @@
  * Here, some important configurations will be set based on different anti-tearing modes and rotation angles.
  * No modification is required here.
  *
- * Users should use `lcd_bus->configRgbFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);` to set the buffer number before
+ * Users should use `lcd_bus->configRgbFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);` to set the buffer number before. If screen drifting occurs, please refer to the Troubleshooting section in the README.
  * initializing the LCD bus
  *
  */

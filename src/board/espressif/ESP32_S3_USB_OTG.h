@@ -121,7 +121,7 @@
 #if ESP_PANEL_USE_BACKLIGHT
 /* IO num of backlight pin */
 #define ESP_PANEL_BACKLIGHT_IO          (9)
-#define ESP_PANEL_BACKLIGHT_ON_LEVEL    (0)         // 0: low level, 1: high level
+#define ESP_PANEL_BACKLIGHT_ON_LEVEL    (1)         // 0: low level, 1: high level
 
 /* Set to 1 if you want to turn off the backlight after initializing the panel; otherwise, set it to turn on */
 #define ESP_PANEL_BACKLIGHT_IDLE_OFF    (0)         // 0: on, 1: off
