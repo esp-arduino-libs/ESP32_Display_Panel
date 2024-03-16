@@ -46,6 +46,11 @@
 // #define BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5
 // #define BOARD_ESP32_S3_USB_OTG
 
+#if defined(BOARD_ESP32_C3_LCDKIT) + defined(BOARD_ESP32_S3_BOX) + defined(BOARD_ESP32_S3_BOX_3) + defined(BOARD_ESP32_S3_BOX_3_BETA) + defined(BOARD_ESP32_S3_BOX_LITE) + defined(BOARD_ESP32_S3_EYE) + defined(BOARD_ESP32_S3_KORVO_2) + defined(BOARD_ESP32_S3_LCD_EV_BOARD) + defined(BOARD_ESP32_S3_LCD_EV_BOARD_V1_5) + defined(BOARD_ESP32_S3_LCD_EV_BOARD_2) + defined(BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5) + defined(BOARD_ESP32_S3_USB_OTG) > 1
+#error "Multiple boards defined!"
+#endif
+
+
 /*
  * Shenzhen Jingcai Intelligent Supported Boards (https://www.displaysmodule.com/):
  *
