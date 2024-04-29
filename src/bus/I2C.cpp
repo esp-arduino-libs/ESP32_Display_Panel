@@ -52,7 +52,7 @@ ESP_PanelBus_I2C::~ESP_PanelBus_I2C()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 void ESP_PanelBus_I2C::configI2cPullupEnable(bool sda_pullup_en, bool scl_pullup_en)

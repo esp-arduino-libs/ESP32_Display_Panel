@@ -32,7 +32,7 @@ ESP_PanelLcd_ILI9341::~ESP_PanelLcd_ILI9341()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 bool ESP_PanelLcd_ILI9341::init(void)

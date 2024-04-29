@@ -81,7 +81,7 @@ ESP_Panel::~ESP_Panel()
 
 end:
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 void ESP_Panel::configExpander(ESP_IOExpander *expander)

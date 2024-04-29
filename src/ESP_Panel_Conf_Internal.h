@@ -79,7 +79,7 @@
         #include "../../ESP_Panel_Board_Supported.h"
     #endif
 
-    #ifdef ESP_PANEL_CUSTOM_BOARD_PATH                       /* If there is a path defined for "ESP_Panel_Board_Supported.h" use it */
+    #ifdef ESP_PANEL_CUSTOM_BOARD_PATH                       /* If there is a path defined for "ESP_Panel_Board_Custom.h" use it */
         #define __TO_STR_AUX(x) #x
         #define __TO_STR(x) __TO_STR_AUX(x)
         #include __TO_STR(ESP_PANEL_CUSTOM_BOARD_PATH)

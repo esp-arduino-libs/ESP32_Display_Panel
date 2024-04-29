@@ -34,7 +34,7 @@ ESP_PanelLcd_SPD2010::~ESP_PanelLcd_SPD2010()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 bool ESP_PanelLcd_SPD2010::init(void)

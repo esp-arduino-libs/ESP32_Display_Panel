@@ -33,7 +33,7 @@ ESP_PanelTouch_TT21100::~ESP_PanelTouch_TT21100()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 bool ESP_PanelTouch_TT21100::begin(void)

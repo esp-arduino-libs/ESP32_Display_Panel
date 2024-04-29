@@ -33,7 +33,7 @@ ESP_PanelTouch_CST816S::~ESP_PanelTouch_CST816S()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 bool ESP_PanelTouch_CST816S::begin(void)

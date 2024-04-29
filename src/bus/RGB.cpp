@@ -100,7 +100,7 @@ ESP_PanelBus_RGB::~ESP_PanelBus_RGB()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 void ESP_PanelBus_RGB::configRgbTimingFreqHz(uint32_t hz)
