@@ -59,7 +59,7 @@ ESP_PanelBus_SPI::~ESP_PanelBus_SPI()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 void ESP_PanelBus_SPI::configSpiMode(uint8_t mode)

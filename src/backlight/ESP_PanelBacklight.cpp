@@ -35,7 +35,7 @@ ESP_PanelBacklight::~ESP_PanelBacklight()
         ESP_LOGE(TAG, "Delete device failed");
     }
 
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 bool ESP_PanelBacklight::begin(void)

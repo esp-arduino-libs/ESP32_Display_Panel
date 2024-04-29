@@ -33,7 +33,7 @@ ESP_PanelTouch_GT911::~ESP_PanelTouch_GT911()
     }
 
 end:
-    ESP_LOGD(TAG, "Destory");
+    ESP_LOGD(TAG, "Destroyed");
 }
 
 bool ESP_PanelTouch_GT911::begin(void)
