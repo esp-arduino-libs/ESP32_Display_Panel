@@ -21,6 +21,8 @@ public:
     /**
      * @brief Construct a I2C bus object in a common way, the host will be initialized by the driver
      *
+     * @note  This function uses some default values (ESP_PANEL_HOST_I2C_CONFIG_DEFAULT) to config the bus object,
+     *        use `config*()` functions to change them
      * @note  The `init()` function should be called after this function
      *
      * @param scl_io    I2C SCL pin

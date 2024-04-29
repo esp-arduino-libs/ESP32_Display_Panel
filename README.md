@@ -86,13 +86,14 @@ Below is a list of [supported touch controllers](src/touch/README.md):
 | GOODiX | GT911, GT1151 |
 | Sitronix | ST7123 |
 | Parade | TT21100 |
+| Xptek | XPT2046 |
 
 ## Dependencies and Versions
 
 | **Dependency** | **Version** |
 | -------------- | ----------- |
 | [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.3 |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1 |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 0.0.1 && < 0.1.0 |
 
 ## How to Use
 
@@ -270,6 +271,7 @@ The following examples demonstrate how to develop different interface and model 
 The following example demonstrates how to develop touch screens of different interfaces and models using standalone drivers and test them by printing touch point coordinates:
 
 * [I2C](examples/Touch/I2C/)
+* [SPI](examples/Touch/SPI/)
 
 #### Panel
 

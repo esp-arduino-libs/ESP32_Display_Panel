@@ -2,12 +2,12 @@
  * | Supported ESP SoCs | ESP32 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-S2 | ESP32-S3 |
  * | ------------------ | ----- | -------- | -------- | -------- | -------- | -------- |
  *
- * | Supported Touch Controllers | CST816S | FT5x06 | GT911 | GT1151 | ST7123 | TT21100 |
- * | --------------------------- | ------- | ------ | ----- | ------ | ------ | ------- |
+ * | Supported Touch Controllers | XPT2046 |
+ * | --------------------------- | ------- |
  *
- * # I2C Touch Example
+ * # SPI Touch Example
  *
- * The example demonstrates how to develop different model touches with I2C interface using standalone drivers and test them by printing touch point coordinates.
+ * The example demonstrates how to develop different model touches with SPI interface using standalone drivers and test them by printing touch point coordinates.
  *
  * ## How to use
  *
@@ -20,10 +20,10 @@
  *
  * ```
  * ...
- * I2C touch example start
- * Create I2C bus
+ * SPI touch example start
+ * Create SPI bus
  * Create touch device
- * I2C touch example end
+ * SPI touch example end
  * Touch point(0): x 134, y 169, strength 50
  * Touch point(1): x 154, y 301, strength 51
  * Touch point(2): x 245, y 379, strength 30
@@ -45,24 +45,22 @@
 //////////////////// Please update the following configuration according to your touch spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Currently, the library supports the following I2C touch devices:
- *      - CST816S
- *      - FT5x06
- *      - GT911, GT1151
- *      - TT21100
- *      - ST7123
+ * Currently, the library supports the following SPI touch devices:
+ *      - XPT2046
  */
-#define EXAMPLE_TOUCH_NAME              GT911
-#define EXAMPLE_TOUCH_WIDTH             (480)
-#define EXAMPLE_TOUCH_HEIGHT            (480)
-#define EXAMPLE_TOUCH_I2C_FREQ_HZ       (400 * 1000)
-#define EXAMPLE_TOUCH_READ_POINTS_NUM   (5)
+#define EXAMPLE_TOUCH_NAME              XPT2046
+#define EXAMPLE_TOUCH_WIDTH             (240)
+#define EXAMPLE_TOUCH_HEIGHT            (320)
+#define EXAMPLE_TOUCH_SPI_FREQ_HZ       (1 * 1000 * 1000)
+#define EXAMPLE_TOUCH_READ_POINTS_NUM   (1)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EXAMPLE_TOUCH_PIN_NUM_I2C_SCL   (45)
-#define EXAMPLE_TOUCH_PIN_NUM_I2C_SDA   (19)
+#define EXAMPLE_TOUCH_PIN_NUM_SPI_CS    (46)
+#define EXAMPLE_TOUCH_PIN_NUM_SPI_SCK   (10)
+#define EXAMPLE_TOUCH_PIN_NUM_SPI_MOSI  (14)
+#define EXAMPLE_TOUCH_PIN_NUM_SPI_MISO  (8)
 #define EXAMPLE_TOUCH_PIN_NUM_RST       (-1)
 #define EXAMPLE_TOUCH_PIN_NUM_INT       (-1)
 
@@ -83,30 +81,32 @@ ESP_PanelTouch *touch = nullptr;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("I2C touch example start");
+    Serial.println("SPI touch example start");
 
-    Serial.println("Create I2C bus");
-    ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
-                                                       ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(EXAMPLE_TOUCH_NAME));
-    // Taking GT911 as an example, the following is the code after macro expansion:
-    // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
-    //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG());
-    touch_bus->configI2cFreqHz(EXAMPLE_TOUCH_I2C_FREQ_HZ);
+    Serial.println("Create SPI bus");
+    ESP_PanelBus_SPI *touch_bus = new ESP_PanelBus_SPI(
+                        EXAMPLE_TOUCH_PIN_NUM_SPI_SCK, EXAMPLE_TOUCH_PIN_NUM_SPI_MOSI, EXAMPLE_TOUCH_PIN_NUM_SPI_MISO,
+                        ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(EXAMPLE_TOUCH_NAME, EXAMPLE_TOUCH_PIN_NUM_SPI_CS));
+    // Taking XPT2046 as an example, the following is the code after macro expansion:
+    // ESP_PanelBus_SPI *touch_bus = new ESP_PanelBus_SPI(
+    //                  EXAMPLE_TOUCH_PIN_NUM_SPI_SCK, EXAMPLE_TOUCH_PIN_NUM_SPI_MOSI, EXAMPLE_TOUCH_PIN_NUM_SPI_MISO,
+    //                  ESP_LCD_TOUCH_IO_SPI_XPT2046_CONFIG(EXAMPLE_TOUCH_PIN_NUM_SPI_CS));
+    touch_bus->configSpiFreqHz(EXAMPLE_TOUCH_SPI_FREQ_HZ);
     touch_bus->begin();
 
     Serial.println("Create touch device");
     touch = new EXAMPLE_TOUCH_CLASS(EXAMPLE_TOUCH_NAME, touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
                                     EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
-    // Taking GT911 as an example, the following is the code after macro expansion:
-    // touch = new ESP_PanelTouch_GT911(touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
-    //                                  EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
+    // Taking XPT2046 as an example, the following is the code after macro expansion:
+    // touch = new ESP_PanelTouch_XPT2046(touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
+    //                                    EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
     touch->init();
     touch->begin();
 #if EXAMPLE_TOUCH_PIN_NUM_INT >= 0
     touch->attachInterruptCallback(onTouchInterruptCallback, NULL);
 #endif
 
-    Serial.println("I2C touch example end");
+    Serial.println("SPI touch example end");
 }
 
 void loop()

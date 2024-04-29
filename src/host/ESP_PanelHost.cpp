@@ -34,9 +34,9 @@ bool ESP_PanelHost::addHostI2C(const i2c_config_t &host_config, i2c_port_t host_
 
         return true;
     }
-    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(i2c_config_t)), false,
-                              "Host I2C[%d] is already exist and attempt to add with a different configuartion", (int)host_id);
     ESP_LOGD(TAG, "Host I2C[%d] is already exist", (int)host_id);
+    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(i2c_config_t)), false,
+                              "Attempt to add with a different configuartion");
 
     return true;
 }
@@ -54,9 +54,9 @@ bool ESP_PanelHost::addHostI2C(int scl_io, int sda_io, i2c_port_t host_id)
 
         return true;
     }
-    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(i2c_config_t)), false,
-                              "Host I2C[%d] is already exist and attempt to add with a different configuartion", (int)host_id);
     ESP_LOGD(TAG, "Host I2C[%d] is already exist", (int)host_id);
+    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(i2c_config_t)), false,
+                              "Attempt to add with a different configuartion");
 
     return true;
 }
@@ -72,9 +72,10 @@ bool ESP_PanelHost::addHostSPI(const spi_bus_config_t &host_config, spi_host_dev
 
         return true;
     }
-    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
-                              "Host SPI[%d] is already exist and attempt to add with a different configuartion", (int)host_id);
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
+
+    ESP_PANEL_CHECK_FALSE_RET(compare_spi_host_config(ret->second, host_config), false,
+                              "Attempt to add with a different configuartion");
 
     return true;
 }
@@ -92,9 +93,10 @@ bool ESP_PanelHost::addHostSPI(int sck_io, int sda_io, int sdo_io, spi_host_devi
 
         return true;
     }
-    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
-                              "SPI[%d] is already exist and attempt to add with a different configuartion", (int)host_id);
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
+
+    ESP_PANEL_CHECK_FALSE_RET(compare_spi_host_config(ret->second, host_config), false,
+                              "Attempt to add with a different configuartion");
 
     return true;
 }
@@ -110,9 +112,9 @@ bool ESP_PanelHost::addHostQSPI(const spi_bus_config_t &host_config, spi_host_de
 
         return true;
     }
-    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
-                              "Host SPI[%d] is already exist and attempt to add with a different configuartion", (int)host_id);
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
+    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
+                              "Attempt to add with a different configuartion");
 
     return true;
 }
@@ -130,9 +132,9 @@ bool ESP_PanelHost::addHostQSPI(int sck_io, int d0_io, int d1_io, int d2_io, int
 
         return true;
     }
-    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
-                              "SPI[%d] is already exist and attempt to add with a different configuartion", (int)host_id);
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
+    ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
+                              "Attempt to add with a different configuartion");
 
     return true;
 }
@@ -161,4 +163,18 @@ bool ESP_PanelHost::begin(void)
     }
 
     return true;
+}
+
+bool ESP_PanelHost::compare_spi_host_config(spi_bus_config_t &old_config, const spi_bus_config_t &new_config)
+{
+    spi_bus_config_t temp_config = { };
+    memcpy(&temp_config, &new_config, sizeof(spi_bus_config_t));
+
+    if (temp_config.miso_io_num == -1) {
+        temp_config.miso_io_num = old_config.miso_io_num;
+    } else if (old_config.miso_io_num == -1) {
+        old_config.miso_io_num = temp_config.miso_io_num;
+    }
+
+    return !memcmp(&old_config, &temp_config, sizeof(spi_bus_config_t));
 }

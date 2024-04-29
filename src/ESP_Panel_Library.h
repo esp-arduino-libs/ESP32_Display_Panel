@@ -42,6 +42,7 @@
 #include "touch/GT911.h"
 #include "touch/ST7123.h"
 #include "touch/TT21100.h"
+#include "touch/XPT2046.h"
 
 /* Backlight */
 #include "backlight/ESP_PanelBacklight.h"

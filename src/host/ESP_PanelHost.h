@@ -90,6 +90,8 @@ public:
     bool begin(void);
 
 private:
+    bool compare_spi_host_config(spi_bus_config_t &old_config, const spi_bus_config_t &new_config);
+
     std::map<i2c_port_t, i2c_config_t> _i2c_host_config_map;
     std::map<spi_host_device_t, spi_bus_config_t> _spi_host_config_map;
 };
