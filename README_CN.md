@@ -86,13 +86,14 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 | GOODiX | GT911, GT1151 |
 | Sitronix | ST7123 |
 | Parade | TT21100 |
+| Xptek | XPT2046 |
 
 ## 依赖项及版本
 
 | **依赖项** | **版本** |
 | ---------- | -------- |
 | [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.3 |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= v0.0.1 |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 0.0.1 && < 0.1.0 |
 
 ## 如何使用
 
@@ -270,6 +271,7 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 以下示例演示了如何使用独立的驱动开发不同接口和不同型号的触摸屏，并通过打印触摸点坐标进行测试：
 
 * [I2C](examples/Touch/I2C/)
+* [SPI](examples/Touch/SPI/)
 
 #### Panel
 

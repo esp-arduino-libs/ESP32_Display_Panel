@@ -143,6 +143,12 @@
         #define ESP_PANEL_TOUCH_BUS_NAME    I2C
         #define ESP_PANEL_TOUCH_BUS_HOST      ((i2c_port_t)ESP_PANEL_TOUCH_BUS_HOST_ID)
 
+    #elif ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_SPI
+
+        #include "hal/spi_types.h"
+        #define ESP_PANEL_TOUCH_BUS_NAME    SPI
+        #define ESP_PANEL_TOUCH_BUS_HOST    ((spi_host_device_t)ESP_PANEL_TOUCH_BUS_HOST_ID)
+
     #else
 
         #error "Unkonw Touch bus type selected, please refer to the README for supported bus types."

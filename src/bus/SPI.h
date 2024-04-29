@@ -45,8 +45,8 @@ public:
     /**
      * @brief Construct a SPI bus object in a common way, the host will be initialized by the driver
      *
-     * @note  This function uses some default values (ESP_PANEL_IO_SPI_CONFIG_DEFAULT) to config the bus object,
-     *        use `config*()` functions to change them
+     * @note  This function uses some default values (ESP_PANEL_HOST_SPI_CONFIG_DEFAULT && ESP_PANEL_IO_SPI_CONFIG_DEFAULT)
+     *        to config the bus object, use `config*()` functions to change them
      * @note  The `init()` function should be called after this function
      *
      * @param cs_io  SPI CS pin
@@ -58,9 +58,23 @@ public:
     ESP_PanelBus_SPI(int cs_io, int dc_io, int sck_io, int sda_io, int sdo_io = -1);
 
     /**
-     * @brief Construct a I2C bus object in a common way, the host needs to be initialized by the user
+     * @brief Construct a SPI bus object in a common way, the host will be initialized by the driver
      *
-     * @note  This function uses some default values (ESP_PANEL_IO_I2C_CONFIG_DEFAULT) to config the bus object,
+     * @note  This function uses some default values (ESP_PANEL_HOST_SPI_CONFIG_DEFAULT) to config the bus object,
+     *        use `config*()` functions to change them
+     * @note  The `init()` function should be called after this function
+     *
+     * @param sck_io    SPI SCK pin
+     * @param mosi_io   SPI MOSI pin
+     * @param miso_io   SPI MISO pin
+     * @param io_config SPI panel IO configuration
+     */
+    ESP_PanelBus_SPI(int sck_io, int mosi_io, int miso_io, const esp_lcd_panel_io_spi_config_t &io_config);
+
+    /**
+     * @brief Construct a SPI bus object in a common way, the host needs to be initialized by the user
+     *
+     * @note  This function uses some default values (ESP_PANEL_IO_SPI_CONFIG_DEFAULT) to config the bus object,
      *        use `config*()` functions to change them
      * @note  The `init()` function should be called after this function
      *
@@ -70,7 +84,7 @@ public:
     ESP_PanelBus_SPI(int cs_io, int dc_io);
 
     /**
-     * @brief Construct a I2C bus object in a complex way, the host will be initialized by the driver
+     * @brief Construct a SPI bus object in a complex way, the host will be initialized by the driver
      *
      * @note  The `init()` function should be called after this function
      *
@@ -82,7 +96,7 @@ public:
                      spi_host_device_t host_id = ESP_PANEL_HOST_SPI_ID_DEFAULT);
 
     /**
-     * @brief Construct a I2C bus object in a complex way, the host needs to be initialized by the user
+     * @brief Construct a SPI bus object in a complex way, the host needs to be initialized by the user
      *
      * @note  The `init()` function should be called after this function
      *

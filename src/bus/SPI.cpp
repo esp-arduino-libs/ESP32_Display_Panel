@@ -20,6 +20,13 @@ ESP_PanelBus_SPI::ESP_PanelBus_SPI(int cs_io, int dc_io, int sck_io, int sda_io,
 {
 }
 
+ESP_PanelBus_SPI::ESP_PanelBus_SPI(int sck_io, int mosi_io, int miso_io, const esp_lcd_panel_io_spi_config_t &io_config):
+    ESP_PanelBus((int)ESP_PANEL_HOST_SPI_ID_DEFAULT, ESP_PANEL_BUS_TYPE_SPI, true),
+    host_config((spi_bus_config_t)ESP_PANEL_HOST_SPI_CONFIG_DEFAULT(sck_io, mosi_io, miso_io)),
+    io_config(io_config)
+{
+}
+
 ESP_PanelBus_SPI::ESP_PanelBus_SPI(int cs_io, int dc_io):
     ESP_PanelBus((int)ESP_PANEL_HOST_SPI_ID_DEFAULT, ESP_PANEL_BUS_TYPE_SPI, false),
     io_config((esp_lcd_panel_io_spi_config_t)ESP_PANEL_IO_SPI_CONFIG_DEFAULT(cs_io, dc_io))

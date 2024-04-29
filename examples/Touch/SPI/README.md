@@ -4,9 +4,9 @@
 | Supported Touch Controllers | CST816S | FT5x06 | GT911 | GT1151 | ST7123 | TT21100 |
 | --------------------------- | ------- | ------ | ----- | ------ | ------ | ------- |
 
-# I2C Touch Example
+# SPI Touch Example
 
-The example demonstrates how to develop different model touches with I2C interface using standalone drivers and test them by printing touch point coordinates.
+The example demonstrates how to develop different model touches with SPI interface using standalone drivers and test them by printing touch point coordinates.
 
 ## How to use
 
@@ -19,10 +19,10 @@ The example demonstrates how to develop different model touches with I2C interfa
 
 ```
 ...
-I2C touch example start
-Create I2C bus
+SPI touch example start
+Create SPI bus
 Create touch device
-I2C touch example end
+SPI touch example end
 Touch point(0): x 134, y 169, strength 50
 Touch point(1): x 154, y 301, strength 51
 Touch point(2): x 245, y 379, strength 30

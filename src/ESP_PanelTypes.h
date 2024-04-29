@@ -24,13 +24,23 @@
 
 #define _ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(name) ESP_LCD_TOUCH_IO_I2C_ ## name ## _CONFIG()
 /**
- * @brief This macro is used to generate the panel IO configuration according to the touch panel name.
+ * @brief This macro is used to generate the I2C panel IO configuration according to the touch panel name.
  *
  * Taking GT911 as an example, the following is the actual code after macro expansion:
  *
  *      ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(GT911) => ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG()
  */
 #define ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(name)  _ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(name)
+
+#define _ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(name, cs_io) ESP_LCD_TOUCH_IO_SPI_ ## name ## _CONFIG(cs_io)
+/**
+ * @brief This macro is used to generate the SPI panel IO configuration according to the touch panel name.
+ *
+ * Taking XPT2046 as an example, the following is the actual code after macro expansion:
+ *
+ *      ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(XPT2046, 5) => ESP_LCD_TOUCH_IO_SPI_XPT2046_CONFIG(5)
+ */
+#define ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(name, cs_io)  _ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(name, cs_io)
 
 /**
  * @brief Formater for single LCD vendor command with 8-bit parameter
