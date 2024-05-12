@@ -92,7 +92,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 
 | **依赖项** | **版本** |
 | ---------- | -------- |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.3 |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.0-alpha3 |
 | [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 0.0.1 && < 0.1.0 |
 
 ## 如何使用
