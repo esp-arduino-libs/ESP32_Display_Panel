@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v0.1.1 - 2024-05-16
+
+### Enhancements:
+
 ## v0.1.0 - 2024-03-07
 
 ### Breaking changes:

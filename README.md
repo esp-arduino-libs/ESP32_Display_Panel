@@ -92,7 +92,7 @@ Below is a list of [supported touch controllers](src/touch/README.md):
 
 | **Dependency** | **Version** |
 | -------------- | ----------- |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.3 |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= v3.0.0-alpha3 |
 | [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 0.0.1 && < 0.1.0 |
 
 ## How to Use
