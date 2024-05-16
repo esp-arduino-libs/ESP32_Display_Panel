@@ -4,6 +4,14 @@
 
 ### Enhancements:
 
+* feat(touch): add spi xpt2046 by @Lzw655 (#21)
+* feat(config): add new IO expander CH422G
+
+### Bugfixes:
+
+* fix some typo by @leeebo (#16, #17)
+* fix(docs): add more details on the version by @leeebo (#23)
+
 ## v0.1.0 - 2024-03-07
 
 ### Breaking changes:
