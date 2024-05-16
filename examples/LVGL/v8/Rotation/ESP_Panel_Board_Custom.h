@@ -305,6 +305,7 @@
 #if ESP_PANEL_USE_EXPANDER
 /**
  * IO expander name. Choose one of the following:
+ *      - CH422G
  *      - HT8574
  *      - TCA95xx_8bit
  *      - TCA95xx_16bit
@@ -318,7 +319,9 @@
  */
 #define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (0)     // 0/1
 /* IO expander parameters */
-#define ESP_PANEL_EXPANDER_I2C_ADDRESS          (0x20)
+#define ESP_PANEL_EXPANDER_I2C_ADDRESS          (0x20)  // The actual I2C address. Even for the same model of IC,
+                                                        // the I2C address may be different, and confirmation based on
+                                                        // the actual hardware connection is required
 #if !ESP_PANEL_EXPANDER_SKIP_INIT_HOST
     #define ESP_PANEL_EXPANDER_HOST_ID          (0)     // Typically set to 0
     #define ESP_PANEL_EXPANDER_I2C_CLK_HZ       (400 * 1000)
