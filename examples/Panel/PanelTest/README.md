@@ -7,9 +7,9 @@ The example demonstrates how to develop built-in or custom development boards us
 Follow the steps below to configure:
 
 1. [Configure drivers](../../../README.md#configuring-drivers) if needed.
-2. If using a supported development board, follow the [steps](../../../../README.md#using-supported-development-boards) to configure it.
-3. If using a custom board, follow the [steps](../../../../README.md#using-custom-development-boards) to configure it.
-4. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](../../../../README.md#configuring-supported-development-boards)
+2. If using a supported development board, follow the [steps](../../../README.md#using-supported-development-boards) to configure it.
+3. If using a custom board, follow the [steps](../../../README.md#using-custom-development-boards) to configure it.
+4. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](../../../README.md#configuring-supported-development-boards)
 5. Verify and upload the example to your ESP board.
 
 ## Serial Output
