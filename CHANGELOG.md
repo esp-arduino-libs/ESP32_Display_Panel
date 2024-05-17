@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.2 - 2024-05-17
+
+### Bugfixes:
+
+* fix(docs): fix broken links in 'Panel Test Example' README by @lboue (#27)
+
 ## v0.1.1 - 2024-05-16
 
 ### Enhancements:

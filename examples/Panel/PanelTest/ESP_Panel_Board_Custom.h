@@ -39,6 +39,8 @@
 /**
  * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
+ *
+ * Set to 1 if only the RGB interface is used without the 3-wire SPI interface,
  */
 #define ESP_PANEL_LCD_BUS_SKIP_INIT_HOST    (0)     // 0/1
 /**
