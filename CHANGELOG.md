@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.3 - 2024-05-26
+
+### Enhancements:
+
+* feat(config): add version control for all configuration files by @lzw655 (#32)
+
 ## v0.1.2 - 2024-05-17
 
 ### Bugfixes:

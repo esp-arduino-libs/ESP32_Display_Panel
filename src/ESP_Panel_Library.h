@@ -7,8 +7,10 @@
 
 /* Drivers */
 #include "ESP_Panel_Conf_Internal.h"
+#include "ESP_Panel_Board_Internal.h"
 #include "ESP_PanelLog.h"
 #include "ESP_PanelTypes.h"
+#include "ESP_PanelVersions.h"
 
 /* Host */
 #include "host/ESP_PanelHost.h"
@@ -46,6 +48,9 @@
 
 /* Backlight */
 #include "backlight/ESP_PanelBacklight.h"
+
+/* 3rd-party Libraries */
+#include "ESP_IOExpander_Library.h"
 
 /* Panel */
 #include "ESP_Panel.h"
