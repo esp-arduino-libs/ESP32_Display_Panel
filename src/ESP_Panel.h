@@ -5,16 +5,10 @@
  */
 #pragma once
 
-#include "ESP_Panel_Conf_Internal.h"
+#include "ESP_Panel_Library.h"
 
 #ifdef ESP_PANEL_USE_BOARD
 #include <memory>
-#include <ESP_IOExpander_Library.h>
-#include "host/ESP_PanelHost.h"
-#include "bus/ESP_PanelBus.h"
-#include "lcd/ESP_PanelLcd.h"
-#include "touch/ESP_PanelTouch.h"
-#include "backlight/ESP_PanelBacklight.h"
 
 /**
  * @brief Panel device class

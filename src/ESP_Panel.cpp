@@ -4,15 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "ESP_Panel_Conf_Internal.h"
+#include "ESP_Panel_Library.h"
 
 #ifdef ESP_PANEL_USE_BOARD
 #include <iostream>
 #include <memory>
-#include "ESP_PanelLog.h"
 #include "driver/gpio.h"
-#include <ESP_IOExpander_Library.h>
-#include "ESP_Panel_Library.h"
 
 using namespace std;
 

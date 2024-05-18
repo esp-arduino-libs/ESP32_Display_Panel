@@ -58,3 +58,18 @@
  *
  */
 #define ESP_PANEL_TOUCH_XPT2046_ENABLE_LOCKING          (0)     // 0/1
+
+/**
+ * Do not change the following versions, they are used to check if the configurations in this file are compatible with
+ * the current version of `ESP_Panel_Board_Custom.h` in the library. The detailed rules are as follows:
+ *
+ *   1. If the major version is not consistent, then the configurations in this file are incompatible with the library
+ *      and must be replaced with the file from the library.
+ *   2. If the minor version is not consistent, this file might be missing some new configurations, which will be set to
+ *      default values. It is recommended to replace it with the file from the library.
+ *   3. Even if the patch version is not consistent, it will not affect normal functionality.
+ *
+ */
+#define ESP_PANEL_CONF_FILE_VERSION_MAJOR 0
+#define ESP_PANEL_CONF_FILE_VERSION_MINOR 1
+#define ESP_PANEL_CONF_FILE_VERSION_PATCH 0

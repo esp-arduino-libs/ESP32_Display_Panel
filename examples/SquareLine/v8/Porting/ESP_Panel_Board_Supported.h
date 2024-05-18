@@ -12,7 +12,7 @@
 #if ESP_PANEL_USE_SUPPORTED_BOARD
 /**
  * Uncomment one of the following macros to select an supported development board. If multiple macros are uncommented
- * simultaneously, only the first one will take effect.
+ * at the same time, an error will be prompted during compilation.
  *
  */
 
@@ -55,5 +55,20 @@
  *
  */
 // #define BOARD_ESP32_4848S040C_I_Y_3
+
+/**
+ * Do not change the following versions, they are used to check if the configurations in this file are compatible with
+ * the current version of `ESP_Panel_Board_Supported.h` in the library. The detailed rules are as follows:
+ *
+ *   1. If the major version is not consistent, then the configurations in this file are incompatible with the library
+ *      and must be replaced with the file from the library.
+ *   2. If the minor version is not consistent, this file might be missing some new configurations, which will be set to
+ *      default values. It is recommended to replace it with the file from the library.
+ *   3. If the patch version is not consistent, it will not affect normal functionality.
+ *
+ */
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 0
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 1
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
 
 #endif
