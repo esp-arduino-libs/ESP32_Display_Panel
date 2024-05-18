@@ -56,6 +56,14 @@
  */
 // #define BOARD_ESP32_4848S040C_I_Y_3
 
+/*
+ * m5stack (https://m5stack.com/):
+ *
+ *  - M5STACK_M5CORE2: https://docs.m5stack.com/zh_CN/core/core2
+ *
+ */
+// #define BOARD_M5STACK_M5CORE2
+
 /**
  * Do not change the following versions, they are used to check if the configurations in this file are compatible with
  * the current version of `ESP_Panel_Board_Supported.h` in the library. The detailed rules are as follows:
