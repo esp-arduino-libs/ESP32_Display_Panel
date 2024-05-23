@@ -2,8 +2,8 @@
  * | Supported ESP SoCs | ESP32 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-S2 | ESP32-S3 |
  * | ------------------ | ----- | -------- | -------- | -------- | -------- | -------- |
  *
- * | Supported Touch Controllers | CST816S | FT5x06 | GT911 | GT1151 | ST7123 | TT21100 |
- * | --------------------------- | ------- | ------ | ----- | ------ | ------ | ------- |
+ * | Supported Touch Controllers | CST816S | FT5x06 | GT911 | GT1151 | ST1633 | ST7123  | TT21100 |
+ * | --------------------------- | ------- | ------ | ----- | ------ | ------ | ------- | ------- |
  *
  * # I2C Touch Example
  *
@@ -50,9 +50,9 @@
  *      - FT5x06
  *      - GT911, GT1151
  *      - TT21100
- *      - ST7123
+ *      - ST1633, ST7123
  */
-#define EXAMPLE_TOUCH_NAME              GT911
+#define EXAMPLE_TOUCH_NAME              ST1633
 #define EXAMPLE_TOUCH_WIDTH             (480)
 #define EXAMPLE_TOUCH_HEIGHT            (480)
 #define EXAMPLE_TOUCH_I2C_FREQ_HZ       (400 * 1000)
