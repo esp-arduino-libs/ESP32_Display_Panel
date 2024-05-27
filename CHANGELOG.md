@@ -1,16 +1,15 @@
 # ChangeLog
 
-## v0.1.3 - 2024-05-26
+## v0.1.2 - 2024-05-27
 
 ### Enhancements:
 
 * feat(config): add version control for all configuration files by @lzw655 (#32)
 
-## v0.1.2 - 2024-05-17
-
 ### Bugfixes:
 
 * fix(docs): fix broken links in 'Panel Test Example' README by @lboue (#27)
+* fix(config): fix wrong header order by @lzw655 (#35)
 
 ## v0.1.1 - 2024-05-16
 
