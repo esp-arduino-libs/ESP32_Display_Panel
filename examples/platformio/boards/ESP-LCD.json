@@ -34,6 +34,6 @@
       "require_upload_port": true,
       "speed": 921600
     },
-    "url": "https://www.lilygo.cc",
-    "vendor": "LilyGo"
+    "url": "https://www.espressif.com",
+    "vendor": "ESP-LCD"
   }
