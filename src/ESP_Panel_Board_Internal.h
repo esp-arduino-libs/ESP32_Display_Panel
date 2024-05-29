@@ -16,6 +16,8 @@
     #endif
 #endif
 
+#include "ESP_PanelTypes.h"
+
 /* If "ESP_Panel_*_Board.h" are available from here, try to use them later */
 #ifdef __has_include
     #if __has_include("ESP_Panel_Board_Supported.h")
@@ -82,8 +84,6 @@
 // Include the supported board header file
 #include "board/ESP_PanelBoard.h"
 #endif
-
-#include "ESP_PanelTypes.h"
 
 /* Define some special macros for devices */
 /*-------------------------------- LCD Related --------------------------------*/
