@@ -80,13 +80,15 @@ def extract_version(file_path):
     file_contents = []
     with open(file_path, 'r') as file:
         file_contents.append(file.readlines())
+        for content in file_contents:
+            content_str = ''.join(content)
 
     for version_dict in file_version_macros:
-        major_version = re.search(r'#define ' + version_dict["major"] + r' (\d+)', file_contents)
-        minor_version = re.search(r'#define ' + version_dict["minor"] + r' (\d+)', file_contents)
-        patch_version = re.search(r'#define ' + version_dict["patch"] + r' (\d+)', file_contents)
-
         print(f"Version macros: {version_dict['major']}, {version_dict['minor']}, {version_dict['patch']}")
+
+        major_version = re.search(r'#define ' + version_dict["major"] + r' (\d+)', content_str)
+        minor_version = re.search(r'#define ' + version_dict["minor"] + r' (\d+)', content_str)
+        patch_version = re.search(r'#define ' + version_dict["patch"] + r' (\d+)', content_str)
 
         if major_version and minor_version and patch_version:
             return f"{major_version.group(1)}.{minor_version.group(1)}.{patch_version.group(1)}"
