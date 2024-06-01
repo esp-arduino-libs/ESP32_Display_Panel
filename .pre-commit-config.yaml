@@ -39,6 +39,6 @@ repos:
     hooks:
       - id: sync-conf-files
         name: Update when configuration files change
-        entry: python .github/ci/sync_conf_files.py ./
+        entry: python .github/scripts/sync_conf_files.py ./
         language: system
         files: '.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h'

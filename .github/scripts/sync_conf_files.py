@@ -4,9 +4,26 @@
 import os
 import sys
 import shutil
-
+import re
 
 exclude_dirs = ["./build"]
+file_version_macros = [
+    {
+        "major": "ESP_PANEL_CONF_FILE_VERSION_MAJOR",
+        "minor": "ESP_PANEL_CONF_FILE_VERSION_MINOR",
+        "patch": "ESP_PANEL_CONF_FILE_VERSION_PATCH"
+    },
+    {
+        "major": "ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR",
+        "minor": "ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR",
+        "patch": "ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH"
+    },
+    {
+        "major": "ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR",
+        "minor": "ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR",
+        "patch": "ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH"
+    },
+]
 
 
 def is_in_directory(file_path, directory):
@@ -54,6 +71,25 @@ def replace_files(search_directory, file_path):
             shutil.copy(src_file, file_path)
 
 
+def extract_version(file_path):
+    if os.path.dirname(file_path) == "":
+        file_path = os.path.join(search_directory, file_path)
+
+    file_contents = []
+    with open(file_path, 'r') as file:
+        file_contents.append(file.readlines())
+
+    for version_dict in file_version_macros:
+        major_version = re.search(r'#define ' + version_dict["major"] + r' (\d+)', file_contents)
+        minor_version = re.search(r'#define ' + version_dict["minor"] + r' (\d+)', file_contents)
+        patch_version = re.search(r'#define ' + version_dict["patch"] + r' (\d+)', file_contents)
+
+        if major_version and minor_version and patch_version:
+            return f"{major_version.group(1)}.{minor_version.group(1)}.{patch_version.group(1)}"
+
+    return None
+
+
 if __name__ == "__main__":
     if len(sys.argv) >= 3:
         search_directory = sys.argv[1]
@@ -61,5 +97,8 @@ if __name__ == "__main__":
         for i in range(2, len(sys.argv)):
             file_path = sys.argv[i]
             replace_files(search_directory, file_path)
+            versions = extract_version(file_path)
+            if versions:
+                print(f"Version extracted from '{file_path}': {versions}")
 
         print("Replacement completed.")
