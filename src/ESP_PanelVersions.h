@@ -16,12 +16,12 @@
 /* File `ESP_Panel_Conf.h` */
 #define ESP_PANEL_CONF_VERSION_MAJOR 0
 #define ESP_PANEL_CONF_VERSION_MINOR 1
-#define ESP_PANEL_CONF_VERSION_PATCH 0
+#define ESP_PANEL_CONF_VERSION_PATCH 1
 
 /* File `ESP_Panel_Board_Custom.h` */
 #define ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR 0
 #define ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR 1
-#define ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH 0
+#define ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH 1
 
 /* File `ESP_Panel_Board_Supported.h` */
 #define ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR 0
@@ -42,7 +42,9 @@
 #if ESP_PANEL_CONF_FILE_VERSION_MAJOR != ESP_PANEL_CONF_VERSION_MAJOR
 #error "The file `ESP_Panel_Conf.h` version is not compatible. Please update it with the file from the library"
 #elif ESP_PANEL_CONF_FILE_VERSION_MINOR < ESP_PANEL_CONF_VERSION_MINOR
-#warning "The file `ESP_Panel_Conf.h` version is outdated. Some new configurations might be missing"
+#warning "The file `ESP_Panel_Conf.h` version is outdated. Some new configurations are missing"
+#elif ESP_PANEL_CONF_FILE_VERSION_MINOR > ESP_PANEL_CONF_VERSION_MINOR
+#warning "The file `ESP_Panel_Conf.h` version is newer than the library. Some new configurations are not supported"
 #endif /* ESP_PANEL_CONF_INCLUDE_INSIDE */
 
 // File `ESP_Panel_Board_Custom.h` & `ESP_Panel_Board_Supported.h`
@@ -61,7 +63,9 @@
 #if ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR != ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR
 #error "The file `ESP_Panel_Board_Supported.h` version is not compatible. Please update it with the file from the library"
 #elif ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR < ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR
-#warning "The file `ESP_Panel_Board_Supported.h` version is outdated. Some new configurations might be missing"
+#warning "The file `ESP_Panel_Board_Supported.h` version is outdated. Some new configurations are missing"
+#elif ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR > ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR
+#warning "The file `ESP_Panel_Board_Supported.h` version is newer than the library. Some new configurations are not supported"
 #endif
 
 #else /* For using a custom board */
@@ -78,7 +82,9 @@
 #if ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR != ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR
 #error "The file `ESP_Panel_Board_Custom.h` version is not compatible. Please update it with the file from the library"
 #elif ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR < ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR
-#warning "The file `ESP_Panel_Board_Custom.h` version is outdated. Some new configurations might be missing"
+#warning "The file `ESP_Panel_Board_Custom.h` version is outdated. Some new configurations are missing"
+#elif ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR > ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR
+#warning "The file `ESP_Panel_Board_Custom.h` version is newer than the library. Some new configurations are not supported"
 #endif
 #endif /* CONFIG_ESP_PANEL_USE_SUPPORTED_BOARD || ESP_PANEL_USE_SUPPORTED_BOARD */
 #endif /* ESP_PANEL_USE_BOARD */
