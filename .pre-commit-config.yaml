@@ -42,3 +42,11 @@ repos:
         entry: python .github/scripts/sync_conf_files.py ./
         language: system
         files: '.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h'
+
+  - repo: local
+    hooks:
+      - id: check-file-versions
+        name: Update when versions change
+        entry: python .github/scripts/check_file_version.py ./
+        language: system
+        files: '.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h'
