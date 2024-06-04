@@ -42,6 +42,7 @@
 #include "touch/FT5x06.h"
 #include "touch/GT1151.h"
 #include "touch/GT911.h"
+#include "touch/ST1633.h"
 #include "touch/ST7123.h"
 #include "touch/TT21100.h"
 #include "touch/XPT2046.h"

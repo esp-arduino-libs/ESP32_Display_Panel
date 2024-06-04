@@ -1,10 +1,12 @@
 # ChangeLog
 
-## v0.1.2 - 2024-05-27
+## v0.1.2 - 2024-06-01
 
 ### Enhancements:
 
 * feat(config): add version control for all configuration files by @lzw655 (#32)
+* feat(touch): add i2c st1633 by @lzw655 (#22)
+* feat(pre-commit): support to check file versions
 
 ### Bugfixes:
 

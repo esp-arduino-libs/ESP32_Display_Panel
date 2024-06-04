@@ -39,6 +39,14 @@ repos:
     hooks:
       - id: sync-conf-files
         name: Update when configuration files change
-        entry: python .github/ci/sync_conf_files.py ./
+        entry: python tools/sync_conf_files.py ./
         language: system
         files: '.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h'
+
+  - repo: local
+    hooks:
+      - id: check-file-versions
+        name: Update when versions change
+        entry: python tools/check_file_version.py ./
+        language: system
+        files: '(.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h|library.properties|.*ESP_PanelVersions.h)'
