@@ -47,6 +47,14 @@
 // #define BOARD_ESP32_S3_USB_OTG
 
 /*
+ * M5Stack (https://m5stack.com/):
+ *
+ *  - M5STACK_M5CORE2: https://docs.m5stack.com/zh_CN/core/core2
+ *
+ */
+// #define BOARD_M5STACK_M5CORE2
+
+/*
  * Shenzhen Jingcai Intelligent Supported Boards (https://www.displaysmodule.com/):
  *
  *  - ESP32-4848S040C_I_Y_3:
@@ -55,14 +63,6 @@
  *
  */
 // #define BOARD_ESP32_4848S040C_I_Y_3
-
-/*
- * m5stack (https://m5stack.com/):
- *
- *  - M5STACK_M5CORE2: https://docs.m5stack.com/zh_CN/core/core2
- *
- */
-// #define BOARD_M5STACK_M5CORE2
 
 /**
  * Do not change the following versions, they are used to check if the configurations in this file are compatible with
@@ -77,6 +77,6 @@
  */
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 0
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 1
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 1
 
 #endif

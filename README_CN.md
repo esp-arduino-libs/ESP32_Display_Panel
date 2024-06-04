@@ -30,7 +30,6 @@ ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressi
       - [LVGL v8](#lvgl-v8)
       - [SquareLine](#squareline)
   - [其他相关说明](#其他相关说明)
-    - [配置支持的开发板](#配置支持的开发板)
     - [配置 LVGL](#配置-lvgl)
     - [移植 SquareLine 工程](#移植-squareline-工程)
   - [常见问题解答](#常见问题解答)
@@ -60,6 +59,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 | **厂商** | **开发板型号** |
 | -------- | -------------- |
 | [Espressif](src/board/README.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2 |
 | [Jingcai](src/board/README.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
 欢迎开发者和厂商提交 PR 来添加更多的开发板。
@@ -294,35 +294,6 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 - [WiFiClock](examples/SquareLine/v8/WiFiClock): 此示例实现了一个简单的 Wi-Fi 时钟，并且可以显示天气信息。
 
 ## 其他相关说明
-
-### 配置支持的开发板
-
-下面是在不同开发板上开发 GUI 应用程序的建议配置，这些设置能够根据实际需求进行调整，用户可以前往 Arduino IDE 中的工具菜单来配置以下设置
-
-|    Supported Boards     |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
-| :---------------------: | :----------------: | :------: | :--------: | :--------: | :-------------: | :---------------------: |
-|     ESP32-C3-LCDkit     | ESP32C3 Dev Module | Disabled |    QIO     | 4MB (32Mb) |     Enabled     | Default 4MB with spiffs |
-|      ESP32-S3-Box       |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
-|     ESP32-S3-Box-3      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
-|  ESP32-S3-Box-3(beta)   | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
-|    ESP32-S3-Box-Lite    |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
-|      ESP32-S3-EYE       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |     Enabled     |     8M with spiffs      |
-|    ESP32-S3-Korvo-2     | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
-|  ESP32-S3-LCD-EV-Board  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
-| ESP32-S3-LCD-EV-Board-2 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
-|    ESP32-S3-USB-OTG     |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
-|  ESP32-4848S040C_I_Y_3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
-
-**Notes:**
-
-1. 根据使用的端口类型启用或关闭 `USB CDC On Boot`：
-
-   * 如果使用 **UART** 端口，则禁用此配置；如果使用 **USB** 端口，则启用它。
-   * 如果此配置与先前的刷写不同，应首先启用 `Erase All Flash Before Sketch Upload`，然后在刷写后可以禁用它。
-   * 如果此配置不符合实际端口类型，将导致开发板无法正常打印串口日志。
-
-2. 若要查看更多输出日志，请将 `Core Debug Level` 设置为 `Info` 或更低级别
-3. 若 esp32 提供的预设分区方案都不满足需求，用户也可以在 "Partition Scheme" 中选择 `Custom`，并在 [arduino-esp32 安装目录](#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)下的 `hardware/esp32/3.x.x/tools/partitions` 目录中创建自定义的分区表文件 `Custome.csv`，关于分区表的详细信息请参考 [ESP-IDF 文档](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/partition-tables.html)。
 
 ### 配置 LVGL
 

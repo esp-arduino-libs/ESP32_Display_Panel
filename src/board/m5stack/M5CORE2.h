@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023-2024 Espressif Systems (Shanghai) CO LTD
+ * SPDX-FileCopyrightText: 2024 Espressif Systems (Shanghai) CO LTD
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,7 +49,7 @@
 #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
     #define ESP_PANEL_LCD_SPI_IO_SCK            (18)
     #define ESP_PANEL_LCD_SPI_IO_MOSI           (23)
-    #define ESP_PANEL_LCD_SPI_IO_MISO           (38)    // -1 if not used
+    #define ESP_PANEL_LCD_SPI_IO_MISO           (-1)    // -1 if not used
 #endif
     #define ESP_PANEL_LCD_SPI_IO_DC             (15)
     #define ESP_PANEL_LCD_SPI_MODE              (0)     // 0/1/2/3, typically set to 0
@@ -117,6 +117,7 @@
 #if ESP_PANEL_USE_TOUCH
 /**
  * Touch controller name.
+ * Touch Controller of M5Core2 is FT6336U, but the driver is compatible with FT5x06.
  */
 #define ESP_PANEL_TOUCH_NAME        FT5x06
 
@@ -190,7 +191,6 @@
 // #define ESP_PANEL_BEGIN_BACKLIGHT_END_FUNCTION( panel )
 #define ESP_PANEL_BEGIN_END_FUNCTION( panel ) \
     { \
-        static const char *TAG = "DEBUG"; \
         static const uint8_t AXP_ADDR = 0x34; \
         static const uint8_t I2C_MASTER_TIMEOUT_MS = 1000; \
         static i2c_port_t i2c_master_port = I2C_NUM_0; \

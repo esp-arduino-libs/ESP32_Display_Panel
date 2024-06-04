@@ -1,5 +1,16 @@
 # ChangeLog
 
+## v0.1.3 - 2024-06-04
+
+### Enhancements:
+
+* feat(board): add add new board M5CORE2 by @MacChu0315-Espressif (#40)
+
+### Bugfixes:
+
+* fix(version): fix version mismatch
+* fix(docs): update files related to version and board M5CORE2
+
 ## v0.1.2 - 2024-06-01
 
 ### Enhancements:

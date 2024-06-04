@@ -30,7 +30,6 @@ ESP32_Display_Panel encapsulates various components from the [Espressif Componen
       - [LVGL v8](#lvgl-v8)
       - [SquareLine](#squareline)
   - [Other Relevant Instructions](#other-relevant-instructions)
-    - [Configuring Supported Development Boards](#configuring-supported-development-boards)
     - [Configuring LVGL](#configuring-lvgl)
     - [Porting SquareLine Project](#porting-squareline-project)
   - [FAQ](#faq)
@@ -60,6 +59,7 @@ Below is a list of [supported development boards](src/board/README.md):
 | **Manufacturer** | **Board Model** |
 | --------------- | --------------- |
 | [Espressif](src/board/README.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2 |
 | [Jingcai](src/board/README.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
 Developers and manufacturers are welcome to submit PRs to add more development boards.
@@ -294,35 +294,6 @@ To port the SquareLine project (v1.3.x), please refer to [here](#porting-squarel
 - [WiFiClock](examples/SquareLine/v8/WiFiClock/): This example implements a simple Wi-Fi clock and can display weather information.
 
 ## Other Relevant Instructions
-
-### Configuring Supported Development Boards
-
-Below are recommended configurations for developing GUI applications on different development boards. These settings can be adjusted according to specific requirements, and users can navigate to the `Tools` menu in the Arduino IDE to configure the following settings.
-
-|    Supported Boards     |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
-| :---------------------: | :----------------: | :------: | :--------: | :--------: | :-------------: | :---------------------: |
-|     ESP32-C3-LCDkit     | ESP32C3 Dev Module | Disabled |    QIO     | 4MB (32Mb) |     Enabled     | Default 4MB with spiffs |
-|      ESP32-S3-Box       |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
-|     ESP32-S3-Box-3      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
-|  ESP32-S3-Box-3(beta)   | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
-|    ESP32-S3-Box-Lite    |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
-|      ESP32-S3-EYE       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |     Enabled     |     8M with spiffs      |
-|    ESP32-S3-Korvo-2     | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
-|  ESP32-S3-LCD-EV-Board  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
-| ESP32-S3-LCD-EV-Board-2 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
-|    ESP32-S3-USB-OTG     |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
-|  ESP32-4848S040C_I_Y_3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
-
-**Notes:**
-
-1. Enable or disable `USB CDC On Boot` based on the type of port used:
-
-   * Disable this configuration if using **UART** port; enable it if using **USB** port.
-   * If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
-   * If this configuration does not match the actual port type, it will prevent the development board from printing serial logs correctly.
-
-2. To view more output logs, set `Core Debug Level` to `Info` or a lower level.
-3. If the predefined partition schemes provided by ESP32 do not meet the requirements, users can also select `Custom` in the "Partition Scheme" and create a custom partition table file `Custom.csv` in the `hardware/esp32/3.x.x/tools/partitions` directory under the [arduino-esp32 installation directory](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located). For detailed information on partition tables, please refer to the [ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html).
 
 ### Configuring LVGL
 
