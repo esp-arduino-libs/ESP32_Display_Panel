@@ -1,10 +1,11 @@
 # ChangeLog
 
-## v0.1.3 - 2024-06-04
+## v0.1.3 - 2024-06-14
 
 ### Enhancements:
 
 * feat(board): add add new board M5CORE2 by @MacChu0315-Espressif (#40)
+* feat(board): add add new board M5DIAL by @MacChu0315-Espressif (#41)
 
 ### Bugfixes:
 
