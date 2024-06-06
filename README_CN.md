@@ -24,11 +24,13 @@ ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressi
       - [使用支持的开发板](#使用支持的开发板)
       - [使用自定义开发板](#使用自定义开发板)
     - [示例说明](#示例说明)
-      - [LCD](#lcd)
-      - [Touch](#touch)
-      - [Panel](#panel)
-      - [LVGL v8](#lvgl-v8)
-      - [SquareLine](#squareline)
+      - [Arduino IDE](#arduino-ide)
+        - [LCD](#lcd)
+        - [Touch](#touch)
+        - [Panel](#panel)
+        - [LVGL v8](#lvgl-v8)
+        - [SquareLine](#squareline)
+      - [PlatformIO](#platformio)
   - [其他相关说明](#其他相关说明)
     - [配置支持的开发板](#配置支持的开发板)
     - [配置 LVGL](#配置-lvgl)
@@ -38,6 +40,7 @@ ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressi
     - [如何在 Arduino IDE 中安装 ESP32\_Display\_Panel？](#如何在-arduino-ide-中安装-esp32_display_panel)
     - [arduino-eps32 的安装目录以及 SDK 的目录在哪儿？](#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)
     - [使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](#使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
+    - [如何在 PlatformIO 上使用 ESP32\_Display\_Panel？](#如何在-platformio-上使用-esp32_display_panel)
 
 ## 概述
 
@@ -256,9 +259,13 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 
 ### 示例说明
 
-以下是使用 ESP32_Display_Panel 的一些示例，你可以在 Arduino IDE 中导航到 `File` > `Examples` > `ESP32_Display_Panel` 来访问它们。如果你找不到 `ESP32_Display_Panel` 选项，请检查库是否已正确安装，并确认选择了一个 ESP 开发板。
+以下是在不同开发平台下使用 ESP32_Display_Panel 的一些示例。
 
-#### LCD
+#### Arduino IDE
+
+你可以在 Arduino IDE 中导航到 `File` > `Examples` > `ESP32_Display_Panel` 来访问它们。如果你找不到 `ESP32_Display_Panel` 选项，请检查库是否已正确安装，并确认选择了一个 ESP 开发板。
+
+##### LCD
 
 以下示例演示了如何使用独立的驱动开发不同接口和不同型号的 LCD，并通过显示彩条进行测试：
 
@@ -267,32 +274,36 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 * [Single RGB](examples/LCD/RGB/)
 * [3-wire SPI + RGB](examples/LCD/3wireSPI_RGB/)
 
-#### Touch
+##### Touch
 
 以下示例演示了如何使用独立的驱动开发不同接口和不同型号的触摸屏，并通过打印触摸点坐标进行测试：
 
 * [I2C](examples/Touch/I2C/)
 * [SPI](examples/Touch/SPI/)
 
-#### Panel
+##### Panel
 
 以下示例演示了如何使用 `ESP_Panel` 驱动开发内置或自定义的开发板：
 
 * [Panel Test](examples/Panel/PanelTest/)：此示例通过显示彩条和打印触摸点坐标进行测试。
 
-#### LVGL v8
+##### LVGL v8
 
 关于如何配置 LVGL（v8.3.x），请参阅[此处](#配置-lvgl)以获取更多详细信息。
 
 * [Porting](examples/LVGL/v8/Porting/): 此示例演示了如何移植 LVGL（v8.3.x）。对于 RGB LCD，它还可以启用防撕裂功能。
 * [Rotation](examples/LVGL/v8/Rotation/): 此示例演示了如何使用 LVGL 来旋转显示屏。
 
-#### SquareLine
+##### SquareLine
 
 ​	要移植 Squarelina 项目（v1.3.x），请参阅[此处](#移植-SquareLine-工程)获取更多详细信息。
 
 - [Porting](examples/SquareLine/v8/Porting): 此示例演示了如何移植 SquareLine 项目。
 - [WiFiClock](examples/SquareLine/v8/WiFiClock): 此示例实现了一个简单的 Wi-Fi 时钟，并且可以显示天气信息。
+
+#### PlatformIO
+
+- [PlatformIO](examples/PlatformIO/): 此示例演示了如何在 PlatformIO 中使用 ESP32_Display_Panel。它默认情况下适用于 **ESP32-S3-LCD-EV-Board** and **ESP32-S3-LCD-EV-Board-2** 开发板，用户需要根据实际情况修改 [boards/ESP-LCD.json](examples/PlatformIO/boards/ESP-LCD.json) 文件。
 
 ## 其他相关说明
 
@@ -446,3 +457,7 @@ arduino-esp32 v3.x.x 版本的 SDK 位于默认安装路径下的 `tools > esp32
     lcd_bus->begin();
     ...
     ```
+
+### 如何在 PlatformIO 上使用 ESP32_Display_Panel？
+
+您可以参考示例 [PlatformIO](examples/PlatformIO/) 在 PlatformIO 中使用 ESP32_Display_Panel 库，它默认情况下适用于 **ESP32-S3-LCD-EV-Board** and **ESP32-S3-LCD-EV-Board-2** 开发板，您需要根据实际情况修改 [boards/ESP-LCD.json](examples/PlatformIO/boards/ESP-LCD.json) 文件。

@@ -24,11 +24,13 @@ ESP32_Display_Panel encapsulates various components from the [Espressif Componen
       - [Using Supported Development Boards](#using-supported-development-boards)
       - [Using Custom Development Boards](#using-custom-development-boards)
     - [Usage Examples](#usage-examples)
-      - [LCD](#lcd)
-      - [Touch](#touch)
-      - [Panel](#panel)
-      - [LVGL v8](#lvgl-v8)
-      - [SquareLine](#squareline)
+      - [Arduino IDE](#arduino-ide)
+        - [LCD](#lcd)
+        - [Touch](#touch)
+        - [Panel](#panel)
+        - [LVGL v8](#lvgl-v8)
+        - [SquareLine](#squareline)
+      - [PlatformIO](#platformio)
   - [Other Relevant Instructions](#other-relevant-instructions)
     - [Configuring Supported Development Boards](#configuring-supported-development-boards)
     - [Configuring LVGL](#configuring-lvgl)
@@ -38,6 +40,7 @@ ESP32_Display_Panel encapsulates various components from the [Espressif Componen
     - [How to Install ESP32\_Display\_Panel in Arduino IDE?](#how-to-install-esp32_display_panel-in-arduino-ide)
     - [Where are the installation directory for arduino-esp32 and the SDK located?](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located)
     - [How to fix screen drift issue when driving RGB LCD with ESP32-S3?](#how-to-fix-screen-drift-issue-when-driving-rgb-lcd-with-esp32-s3)
+    - [How to Use ESP32\_Display\_Panel on PlatformIO?](#how-to-use-esp32_display_panel-on-platformio)
 
 ## Overview
 
@@ -256,9 +259,13 @@ Here is a snippet of the modified `ESP_Panel_Board_Custom.h` file:
 
 ### Usage Examples
 
-Below are some examples of using ESP32_Display_Panel. You can access them in the Arduino IDE by navigating to `File` > `Examples` > `ESP32_Display_Panel`. If you cannot find the `ESP32_Display_Panel` option, please check if the library has been installed correctly and ensure that an ESP development board is selected.
+The following are some examples of using ESP32_Display_Panel on different development platforms.
 
-#### LCD
+#### Arduino IDE
+
+You can access them in the Arduino IDE by navigating to `File` > `Examples` > `ESP32_Display_Panel`. If you cannot find the `ESP32_Display_Panel` option, please check if the library has been installed correctly and ensure that an ESP development board is selected.
+
+##### LCD
 
 The following examples demonstrate how to develop different interface and model LCDs using standalone drivers and test them by displaying color bars:
 
@@ -267,32 +274,36 @@ The following examples demonstrate how to develop different interface and model 
 * [Single RGB](examples/LCD/RGB/)
 * [3-wire SPI + RGB](examples/LCD/3wireSPI_RGB/)
 
-#### Touch
+##### Touch
 
 The following example demonstrates how to develop touch screens of different interfaces and models using standalone drivers and test them by printing touch point coordinates:
 
 * [I2C](examples/Touch/I2C/)
 * [SPI](examples/Touch/SPI/)
 
-#### Panel
+##### Panel
 
 The following example demonstrates how to develop built-in or custom development boards using the `ESP_Panel` driver:
 
 * [Panel Test](examples/Panel/PanelTest/): This example tests by displaying color bars and printing touch point coordinates.
 
-#### LVGL v8
+##### LVGL v8
 
 For configuring LVGL (v8.3.x), please refer to [here](#configuring-lvgl) for more detailed information.
 
 * [Porting](examples/LVGL/v8/Porting/): This example demonstrates how to port LVGL (v8.3.x). And for RGB LCD, it can enable the avoid tearing fucntion.
 * [Rotation](examples/LVGL/v8/Rotation/): This example demonstrates how to use LVGL to rotate the display.
 
-#### SquareLine
+##### SquareLine
 
 To port the SquareLine project (v1.3.x), please refer to [here](#porting-squareline-project) for more detailed information.
 
 - [Porting](examples/SquareLine/v8/Porting/): This example demonstrates how to port the SquareLine project.
 - [WiFiClock](examples/SquareLine/v8/WiFiClock/): This example implements a simple Wi-Fi clock and can display weather information.
+
+#### PlatformIO
+
+- [PlatformIO](examples/PlatformIO/): This example demonstrates how to use ESP32_Display_Panel in PlatformIO. By default, it is suitable for the **ESP32-S3-LCD-EV-Board** and **ESP32-S3-LCD-EV-Board-2** development boards. Users need to modify the [boards/ESP-LCD.json](examples/PlatformIO/boards/ESP-LCD.json) file according to the actual situation.
 
 ## Other Relevant Instructions
 
@@ -446,3 +457,7 @@ When encountering screen drift issue when driving RGB LCD with ESP32-S3, you can
     lcd_bus->begin();
     ...
     ```
+
+### How to Use ESP32_Display_Panel on PlatformIO?
+
+You can refer to the example [PlatformIO](examples/PlatformIO/) to use the ESP32_Display_Panel library in PlatformIO. By default, it is suitable for the **ESP32-S3-LCD-EV-Board** and **ESP32-S3-LCD-EV-Board-2** development boards. You need to modify the [boards/ESP-LCD.json](examples/PlatformIO/boards/ESP-LCD.json) file according to the actual situation.
