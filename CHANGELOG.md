@@ -6,6 +6,7 @@
 
 * feat(board): add add new board M5CORE2 by @MacChu0315-Espressif (#40)
 * feat(board): add add new board M5DIAL by @MacChu0315-Espressif (#41)
+* feat(board): add add new board M5CORES3 by @MacChu0315-Espressif (#45)
 
 ### Bugfixes:
 
