@@ -21,8 +21,10 @@
 
 |                                                                                                                                       **Picture**                                                                                                                                       |                                                **Name**                                                 |   **LCD Bus**    | **LCD Controller** | **Touch Bus** | **Touch Controller** |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
-| [<img src="https://static-cdn.m5stack.com/resource/docs/products/core/core2/core2_01.webp" width="150">](https://www.displaysmodule.com/sale-41828962-experience-the-power-of-the-esp32-display-module-sku-esp32-4848s040c-i-y-3.html) | [M5STACK_M5CORE2](https://docs.m5stack.com/zh_CN/core/core2) | SPI |       ILI9342C       |      I2C      |        FT6336U         |
-| [<img src="https://static-cdn.m5stack.com/resource/docs/products/core/M5Dial/img-2afd549e-8af8-47b4-823a-e90e063a0139.webp" width="150">](https://www.displaysmodule.com/sale-41828962-experience-the-power-of-the-esp32-display-module-sku-esp32-4848s040c-i-y-3.html) | [M5STACK_M5DIAL](https://docs.m5stack.com/zh_CN/core/M5Dial) | SPI |       GC9A01       |      I2C      |        FT5x06         |
+| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/core2/core2_01.webp" width="150"> | [M5STACK_M5CORE2](https://docs.m5stack.com/zh_CN/core/core2) | SPI |       ILI9342C       |      I2C      |        FT6336U         |
+| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/M5Dial/img-2afd549e-8af8-47b4-823a-e90e063a0139.webp" width="150"> | [M5STACK_M5DIAL](https://docs.m5stack.com/zh_CN/core/M5Dial) | SPI |       GC9A01       |      I2C      |        FT5x06         |
+| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/CoreS3/img-96063e2a-637a-4d11-ac47-1ce4f1cdfd3e.webp" width="150"> | [M5STACK_M5CORES3](https://docs.m5stack.com/zh_CN/core/CoreS3) | SPI |       ILI9342C       |      I2C      |        FT6336U         |
+
 
 ### [Shenzhen Jingcai Intelligent](https://www.displaysmodule.com/)
 
@@ -48,6 +50,7 @@ Below are recommended configurations for developing GUI applications on differen
 |    ESP32-S3-USB-OTG     |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
 |     M5STACK-M5CORE2     |    M5Stack-Core2   | Enabled  |     -      |     -      |        -        |         Default         |
 |     M5STACK-M5DIAL      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |         Default         |
+|    M5STACK-M5CORES3     | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     | Default 4MB with spiffs |
 |  ESP32-4848S040C_I_Y_3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
 
 **Notes:**

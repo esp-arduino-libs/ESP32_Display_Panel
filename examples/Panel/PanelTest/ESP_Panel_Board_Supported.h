@@ -51,10 +51,11 @@
  *
  *  - M5STACK_M5CORE2: https://docs.m5stack.com/zh_CN/core/core2
  *  - M5STACK_M5DIAL: https://docs.m5stack.com/zh_CN/core/M5Dial
- *
+ *  - M5STACK_M5CORES3: https://docs.m5stack.com/zh_CN/core/CoreS3
  */
 // #define BOARD_M5STACK_M5CORE2
 // #define BOARD_M5STACK_M5DIAL
+// #define BOARD_M5STACK_M5CORES3
 
 /*
  * Shenzhen Jingcai Intelligent Supported Boards (https://www.displaysmodule.com/):
@@ -78,7 +79,7 @@
  *
  */
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 3
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 2
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
 
 #endif

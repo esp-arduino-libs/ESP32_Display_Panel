@@ -60,7 +60,7 @@ Below is a list of [supported development boards](src/board/Board_Instructions.m
 | **Manufacturer** | **Board Model** |
 | --------------- | --------------- |
 | [Espressif](src/board/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
-| [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2, M5STACK-M5DIAL |
+| [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](src/board/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
 Developers and manufacturers are welcomed to contribute PRs to add more development boards. For detailed instructions, please refer to the [`Board Development Guide`](./src/board/Board_Contribution_Guide.md).
