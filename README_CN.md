@@ -4,7 +4,7 @@
 
 * [English Version](./README.md)
 
-ESP32_Display_Panel 是专为 ESP SoCs 设计的 Arduino 库，用于驱动显示屏并实现快速 GUI 开发。用户不仅可以直接开发多款[内部支持的开发板](src/board/README.md)，还可以通过简单的适配来开发自定义的开发板。此外，ESP32_Display_Panel 还适配了多款 LCD 和触摸的驱动，用户也可以根据需要使用独立的驱动进行开发。
+ESP32_Display_Panel 是专为 ESP SoCs 设计的 Arduino 库，用于驱动显示屏并实现快速 GUI 开发。用户不仅可以直接开发多款[内部支持的开发板](src/board/Board_Instructions.md)，还可以通过简单的适配来开发自定义的开发板。此外，ESP32_Display_Panel 还适配了多款 LCD 和触摸的驱动，用户也可以根据需要使用独立的驱动进行开发。
 
 ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressif.com/)中相关的组件，需要基于 [arduino-esp32](https://github.com/espressif/arduino-esp32) 进行开发，并且可以直接从 Arduino IDE 中下载获取。
 
@@ -30,6 +30,7 @@ ESP32_Display_Panel 封装了多种[乐鑫组件库](https://components.espressi
       - [LVGL v8](#lvgl-v8)
       - [SquareLine](#squareline)
   - [其他相关说明](#其他相关说明)
+    - [配置支持的开发板](#配置支持的开发板)
     - [配置 LVGL](#配置-lvgl)
     - [移植 SquareLine 工程](#移植-squareline-工程)
   - [常见问题解答](#常见问题解答)
@@ -54,15 +55,15 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 
 ### 开发板
 
-下面是支持的[开发板列表](src/board/README.md)：
+下面是支持的[开发板列表](src/board/Board_Instructions.md)：
 
 | **厂商** | **开发板型号** |
 | -------- | -------------- |
-| [Espressif](src/board/README.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [Espressif](src/board/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
 | [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2 |
-| [Jingcai](src/board/README.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
+| [Jingcai](src/board/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
-欢迎开发者和厂商提交 PR 来添加更多的开发板。
+欢迎开发者和厂商贡献 PR 来添加更多的开发板，详细说明请参考 [`开发板贡献指南`](./src/board/Board_Development_Guide_CN.md)。
 
 ### LCD 控制器
 
@@ -294,6 +295,10 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 - [WiFiClock](examples/SquareLine/v8/WiFiClock): 此示例实现了一个简单的 Wi-Fi 时钟，并且可以显示天气信息。
 
 ## 其他相关说明
+
+### 配置支持的开发板
+
+关于如何在 Arduino IDE 中配置支持的开发板，请参考 [Board_Instructions.md](./src/board/Board_Instructions.md).
 
 ### 配置 LVGL
 

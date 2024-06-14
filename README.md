@@ -4,7 +4,7 @@
 
 * [中文版本](./README_CN.md)
 
-ESP32_Display_Panel is an Arduino library designed for ESP SoCs to drive display panels and facilitate rapid GUI development. Users can develop directly for a variety of [supported development boards](src/board/README.md) or create custom ones through simple adaptation. Additionally, ESP32_Display_Panel is compatible with various LCD and touch drivers, allowing users to develop using standalone drivers as needed.
+ESP32_Display_Panel is an Arduino library designed for ESP SoCs to drive display panels and facilitate rapid GUI development. Users can develop directly for a variety of [supported development boards](src/board/Board_Instructions.md) or create custom ones through simple adaptation. Additionally, ESP32_Display_Panel is compatible with various LCD and touch drivers, allowing users to develop using standalone drivers as needed.
 
 ESP32_Display_Panel encapsulates various components from the [Espressif Components Registry](https://components.espressif.com/), requiring development based on [arduino-esp32](https://github.com/espressif/arduino-esp32), and can be directly downloaded from the Arduino IDE.
 
@@ -30,6 +30,7 @@ ESP32_Display_Panel encapsulates various components from the [Espressif Componen
       - [LVGL v8](#lvgl-v8)
       - [SquareLine](#squareline)
   - [Other Relevant Instructions](#other-relevant-instructions)
+    - [Configuring Supported Development Boards](#configuring-supported-development-boards)
     - [Configuring LVGL](#configuring-lvgl)
     - [Porting SquareLine Project](#porting-squareline-project)
   - [FAQ](#faq)
@@ -54,15 +55,15 @@ The functional block diagram of ESP32_Display_Panel is as follows, mainly compri
 
 ### Development Boards
 
-Below is a list of [supported development boards](src/board/README.md):
+Below is a list of [supported development boards](src/board/Board_Instructions.md):
 
 | **Manufacturer** | **Board Model** |
 | --------------- | --------------- |
-| [Espressif](src/board/README.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [Espressif](src/board/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
 | [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2 |
-| [Jingcai](src/board/README.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
+| [Jingcai](src/board/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
-Developers and manufacturers are welcome to submit PRs to add more development boards.
+Developers and manufacturers are welcomed to contribute PRs to add more development boards. For detailed instructions, please refer to the [`Board Development Guide`](./src/board/Board_Development_Guide.md).
 
 ### LCD Controllers
 
@@ -294,6 +295,10 @@ To port the SquareLine project (v1.3.x), please refer to [here](#porting-squarel
 - [WiFiClock](examples/SquareLine/v8/WiFiClock/): This example implements a simple Wi-Fi clock and can display weather information.
 
 ## Other Relevant Instructions
+
+### Configuring Supported Development Boards
+
+For details on how to configure the supported development boards in the Arduino IDE, see [Board_Instructions.md](./src/board/Board_Instructions.md).
 
 ### Configuring LVGL
 
