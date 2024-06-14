@@ -63,7 +63,7 @@ Below is a list of [supported development boards](src/board/Board_Instructions.m
 | [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2 |
 | [Jingcai](src/board/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
-Developers and manufacturers are welcomed to contribute PRs to add more development boards. For detailed instructions, please refer to the [`Board Development Guide`](./src/board/Board_Development_Guide.md).
+Developers and manufacturers are welcomed to contribute PRs to add more development boards. For detailed instructions, please refer to the [`Board Development Guide`](./src/board/Board_Contribution_Guide.md).
 
 ### LCD Controllers
 

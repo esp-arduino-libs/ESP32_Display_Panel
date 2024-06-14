@@ -63,7 +63,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 | [M5Stack](https://m5stack.com/) | M5STACK-M5CORE2 |
 | [Jingcai](src/board/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
-欢迎开发者和厂商贡献 PR 来添加更多的开发板，详细说明请参考 [`开发板贡献指南`](./src/board/Board_Development_Guide_CN.md)。
+欢迎开发者和厂商贡献 PR 来添加更多的开发板，详细说明请参考 [`开发板贡献指南`](./src/board/Board_Contribution_Guide_CN.md)。
 
 ### LCD 控制器
 

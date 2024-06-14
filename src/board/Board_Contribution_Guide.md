@@ -1,16 +1,18 @@
-# Modification Requirements
+# Board Contribution Guide
 
 1. Newly added development boards must ensure the hardware schematics are open-source. Please provide a link or file.
 2. This library currently only supports the APIs provided in ESP-IDF. It does not support other Arduino library APIs, such as Wire.
-3. It is recommended to use the vscode + Arduino CLI development environment.
-4. Pull the ESP32_Display_Panel repository into the Arduino library directory before making modifications.
-5. The project uses pre-commit to enforce commit standards. It is recommended to install the pre-commit library before committing using the following command:
+
+**Note**:
+1. It is recommended to use the vscode + Arduino CLI development environment.
+2. Pull the ESP32_Display_Panel repository into the Arduino library directory before making modifications.
+3. The project uses pre-commit to enforce commit standards. It is recommended to install the pre-commit library before committing using the following command:
 
 ```
-pip3 install pre-commit
+pip3 install pre-commit && pre-commit install
 ```
 
-# Modification Content
+## Modification Content
 
 Using the adaption of the `M5Stack M5CORE2` development board as an example. Following this guide, changes below will be made under the project:
 
@@ -32,7 +34,7 @@ Using the adaption of the `M5Stack M5CORE2` development board as an example. Fol
 ```
 Note: [A] stands for 'append' and [M] stands for 'modify'
 
-# Modification Process
+## Modification Process
 
 Using the adaption of `M5Stack M5CORE2` as an example, follow these steps to modify the relevant files:
 

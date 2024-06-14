@@ -1,16 +1,18 @@
-# 修改要求
+# 开发板贡献指南
 
 1. 新添加的开发板需要确保硬件原理图开源，需要提供链接或文件。
 2. 该库目前仅支持 ESP-IDF 提供的 API，不支持其他 Arduino 库 API，如 Wire。
-3. 推荐使用 vscode + Arduino CLI 开发环境。
-4. 在进行修改之前，将 ESP32_Display_Panel 仓库拉入 Arduino 库目录中。
-5. 项目使用 pre-commit 来规范提交内容，因此建议在提交之前安装 pre-commit 库，使用以下命令：
+
+**注意**：
+1. 推荐使用 vscode + Arduino CLI 开发环境。
+2. 在进行修改之前，将 ESP32_Display_Panel 仓库拉入 Arduino 库目录中。
+3. 项目使用 pre-commit 来规范提交内容，因此建议在提交之前安装 pre-commit 库，使用以下命令：
 
 ```
-pip3 install pre-commit
+pip3 install pre-commit && pre-commit install
 ```
 
-# 修改内容
+## 需修改内容
 
 以适配 `M5Stack M5CORE2` 开发板为例。按照本指南，以下更改将在项目中进行：
 
@@ -32,7 +34,7 @@ pip3 install pre-commit
 ```
 注：[A] 代表 '添加'，[M] 代表 '修改'
 
-# 修改流程
+## 各文件修改流程
 
 以适配 `M5Stack M5CORE2` 为例，按照以下步骤修改相关文件：
 
