@@ -1,4 +1,4 @@
-# Development board
+# Board Instructions
 
 ## Internal Supported Development Boards
 
