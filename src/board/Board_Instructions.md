@@ -1,6 +1,8 @@
-# Internal Supported Development Boards
+# Development board
 
-## [Espressif](https://www.espressif.com/en/products/devkits)
+## Internal Supported Development Boards
+
+### [Espressif](https://www.espressif.com/en/products/devkits)
 
 |                                                         **Picture**                                                          |                                                              **Name**                                                              |   **LCD Bus**    | **LCD Controller** | **Touch Bus** | **Touch Controller** |
 | :--------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
@@ -15,8 +17,44 @@
 | <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/ESP32-S3-LCD-EV-Board_800x480.png" width="150"> |   [ESP32-S3-LCD-EV-Board-2](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/index.html)   |       RGB        |     ST7262E43      |      I2C      |        GT1151        |
 |   <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/pic_product_esp32_s3_otg.png" width="150">    |         [ESP32-S3-USB-OTG](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html)         |       SPI        |       ST7789       |       -       |          -           |
 
-## [Shenzhen Jingcai Intelligent](https://www.displaysmodule.com/)
+### [M5Stack](https://m5stack.com/)
+
+|                                                                                                                                       **Picture**                                                                                                                                       |                                                **Name**                                                 |   **LCD Bus**    | **LCD Controller** | **Touch Bus** | **Touch Controller** |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
+| [<img src="https://static-cdn.m5stack.com/resource/docs/products/core/core2/core2_01.webp" width="150">](https://www.displaysmodule.com/sale-41828962-experience-the-power-of-the-esp32-display-module-sku-esp32-4848s040c-i-y-3.html) | [M5STACK_M5CORE2](https://docs.m5stack.com/zh_CN/core/core2) | SPI |       ILI9342C       |      I2C      |        FT6336U         |
+
+### [Shenzhen Jingcai Intelligent](https://www.displaysmodule.com/)
 
 |                                                                                                                                       **Picture**                                                                                                                                       |                                                **Name**                                                 |   **LCD Bus**    | **LCD Controller** | **Touch Bus** | **Touch Controller** |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
 | [<img src="https://www.displaysmodule.com/photo/ps162171631-experience_the_power_of_the_esp32_display_module_sku_esp32_4848s040c_i_y_3.jpg" width="150">](https://www.displaysmodule.com/sale-41828962-experience-the-power-of-the-esp32-display-module-sku-esp32-4848s040c-i-y-3.html) | [ESP32-4848S040C_I_Y_3](http://pan.jczn1688.com/directlink/1/ESP32%20module/4.0inch_ESP32-4848S040.zip) | 3-wire SPI + RGB |       ST7701       |      I2C      |        GT911         |
+
+## Recommended Configurations in the Arduino IDE
+
+Below are recommended configurations for developing GUI applications on different development boards. These settings can be adjusted according to specific requirements, and users can navigate to the `Tools` menu in the Arduino IDE to configure the following settings.
+
+|    Supported Boards     |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
+| :---------------------: | :----------------: | :------: | :--------: | :--------: | :-------------: | :---------------------: |
+|     ESP32-C3-LCDkit     | ESP32C3 Dev Module | Disabled |    QIO     | 4MB (32Mb) |     Enabled     | Default 4MB with spiffs |
+|      ESP32-S3-Box       |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
+|     ESP32-S3-Box-3      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+|  ESP32-S3-Box-3(beta)   | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+|    ESP32-S3-Box-Lite    |    ESP32-S3-Box    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
+|      ESP32-S3-EYE       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |     Enabled     |     8M with spiffs      |
+|    ESP32-S3-Korvo-2     | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
+|  ESP32-S3-LCD-EV-Board  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
+| ESP32-S3-LCD-EV-Board-2 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
+|    ESP32-S3-USB-OTG     |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
+|     M5STACK-M5CORE2     |    M5Stack-Core2   | Enabled  |     -      |     -      |        -        |         Default         |
+|  ESP32-4848S040C_I_Y_3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
+
+**Notes:**
+
+1. Enable or disable `USB CDC On Boot` based on the type of port used:
+
+   * Disable this configuration if using **UART** port; enable it if using **USB** port.
+   * If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
+   * If this configuration does not match the actual port type, it will prevent the development board from printing serial logs correctly.
+
+2. To view more output logs, set `Core Debug Level` to `Info` or a lower level.
+3. If the predefined partition schemes provided by ESP32 do not meet the requirements, users can also select `Custom` in the "Partition Scheme" and create a custom partition table file `Custom.csv` in the `hardware/esp32/3.x.x/tools/partitions` directory under the [arduino-esp32 installation directory](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located). For detailed information on partition tables, please refer to the [ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html).
