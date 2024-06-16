@@ -5,6 +5,7 @@
 ### Bugfixes:
 
 * fix(conf): fix error when include inside file (#52)
+* fix(docs): switch M5Stack doc links to english by @lboue (#50)
 
 ## v0.1.3 - 2024-06-14
 
