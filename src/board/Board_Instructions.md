@@ -19,11 +19,11 @@
 
 ### [M5Stack](https://m5stack.com/)
 
-|                                                                                                                                       **Picture**                                                                                                                                       |                                                **Name**                                                 |   **LCD Bus**    | **LCD Controller** | **Touch Bus** | **Touch Controller** |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | :-----------: | :------------------: |
-| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/core2/core2_01.webp" width="150"> | [M5STACK_M5CORE2](https://docs.m5stack.com/zh_CN/core/core2) | SPI |       ILI9342C       |      I2C      |        FT6336U         |
-| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/M5Dial/img-2afd549e-8af8-47b4-823a-e90e063a0139.webp" width="150"> | [M5STACK_M5DIAL](https://docs.m5stack.com/zh_CN/core/M5Dial) | SPI |       GC9A01       |      I2C      |        FT5x06         |
-| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/CoreS3/img-96063e2a-637a-4d11-ac47-1ce4f1cdfd3e.webp" width="150"> | [M5STACK_M5CORES3](https://docs.m5stack.com/zh_CN/core/CoreS3) | SPI |       ILI9342C       |      I2C      |        FT6336U         |
+|  **Picture** 	| **Name**             	| **LCD Bus** 	| **LCD Controller** 	| **LCD resolution** 	| **Touch Bus** 	| **Touch Controller** 	|
+|---------	|------------------	|---------	|----------------	|----------------	|-----------	|------------------	|
+| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/core2/core2_01.webp" width="150">	| [M5STACK_M5CORE2](https://docs.m5stack.com/en/core/core2)  	| SPI     	| ILI9342C       	| 320x240        	| I2C       	| FT6336U          	|
+| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/M5Dial/img-2afd549e-8af8-47b4-823a-e90e063a0139.webp" width="150">	| [M5STACK_M5DIAL](https://docs.m5stack.com/en/core/M5Dial)   	| SPI     	| GC9A01         	| 240x240        	| I2C       	| FT5x06           	|
+| <img src="https://static-cdn.m5stack.com/resource/docs/products/core/CoreS3/img-96063e2a-637a-4d11-ac47-1ce4f1cdfd3e.webp" width="150">	| [M5STACK_M5CORES3](https://docs.m5stack.com/en/core/CoreS3) 	| SPI     	| ILI9342C       	| 320x240        	| I2C       	| FT6336U          	|
 
 
 ### [Shenzhen Jingcai Intelligent](https://www.displaysmodule.com/)
