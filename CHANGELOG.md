@@ -2,6 +2,10 @@
 
 ## v0.1.4 - 2024-06-17
 
+### Enhancements:
+
+* feat(docs): add resolution column in board instructions by @lboue (#51)
+
 ### Bugfixes:
 
 * fix(conf): fix error when include inside file (#52)
