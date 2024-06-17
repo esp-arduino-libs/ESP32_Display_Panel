@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.4 - 2024-06-17
+
+### Bugfixes:
+
+* fix(conf): fix error when include inside file (#52)
+
 ## v0.1.3 - 2024-06-14
 
 ### Enhancements:
