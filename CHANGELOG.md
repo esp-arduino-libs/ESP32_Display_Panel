@@ -1,5 +1,16 @@
 # ChangeLog
 
+## v0.1.4 - 2024-06-17
+
+### Enhancements:
+
+* feat(docs): add resolution column in board instructions by @lboue (#51)
+
+### Bugfixes:
+
+* fix(conf): fix error when include inside file (#52)
+* fix(docs): switch M5Stack doc links to english by @lboue (#50)
+
 ## v0.1.3 - 2024-06-14
 
 ### Enhancements:

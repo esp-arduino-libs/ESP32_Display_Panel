@@ -48,7 +48,7 @@
     #endif
 #endif
 
-#if !ESP_PANEL_CONF_INCLUDE_INSIDE
+#ifndef ESP_PANEL_CONF_INCLUDE_INSIDE
 /* Supplement macro definitions based on sdkconfig, use default values if not defined */
 /*-------------------------------- Debug configurations --------------------------------*/
 #ifndef ESP_PANEL_CHECK_RESULT_ASSERT
