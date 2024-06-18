@@ -8,9 +8,12 @@
 
 #include <memory>
 #include <functional>
+#include "soc/soc_caps.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_vendor.h"
+#if SOC_LCD_RGB_SUPPORTED
 #include "esp_lcd_panel_rgb.h"
+#endif
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 #include "soc/soc_caps.h"
@@ -75,7 +78,7 @@ public:
      *        for initialization sequence code.
      * @note  There are two formats for the sequence code:
      *          1. Raw data: {command, (uint8_t []){ data0, data1, ... }, data_size, delay_ms}
-     *          2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
+     *          2. Formatter: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
      *                       ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
      *
      * @return true if success, otherwise false
@@ -99,7 +102,7 @@ public:
      *        `mirror()`function will be implemented by software
      * @note  This function is conflict with `configAutoReleaseBus()`, please don't use them at the same time
      *
-     * @param en ture: enable, false: disable
+     * @param en true: enable, false: disable
      *
      */
     void configMirrorByCommand(bool en);
@@ -114,7 +117,7 @@ public:
      *        cannot be used to transmit commands any more.
      * @note  This function is conflict with `configMirrorByCommand()`, please don't use them at the same time
      *
-     * @param en ture: enable, false: disable
+     * @param en true: enable, false: disable
      *
      */
     void configAutoReleaseBus(bool en);
@@ -227,7 +230,7 @@ public:
      * @brief Swap the X and Y axis
      *
      * @note  This function should be called after `begin()`
-     * @note  This function typically calls `esp_lcd_panel_swap_xy()` to mirror the axises
+     * @note  This function typically calls `esp_lcd_panel_swap_xy()` to mirror the axes
      *
      * @param en true: enable, false: disable
      *
@@ -260,7 +263,7 @@ public:
     bool setGapY(uint16_t gap);
 
     /**
-     * @brief Invert every bit of pixel color data, like frome `0x55` to `0xAA`
+     * @brief Invert every bit of pixel color data, like from `0x55` to `0xAA`
      *
      * @note  This function should be called after `begin()`
      * @note  This function typically calls `esp_lcd_panel_invert_color()` to invert the color

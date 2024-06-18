@@ -80,7 +80,7 @@
 #define LVGL_PORT_RGB_BOUNCE_BUFFER_SIZE        (LVGL_PORT_DISP_WIDTH * 10)
 /**
  * When avoid tearing is enabled, the LVGL software rotation `lv_disp_set_rotation()` is not supported.
- * But users can set the rotation degree(0/90/180/270) here, but this funciton will extremely reduce FPS.
+ * But users can set the rotation degree(0/90/180/270) here, but this function will extremely reduce FPS.
  * So it is recommended to be used when using a low resolution display.
  *
  * Set the rotation degree:
@@ -148,7 +148,7 @@ bool lvgl_port_init(ESP_PanelLcd *lcd, ESP_PanelTouch *tp);
  *
  * @param timeout_ms The timeout of the mutex lock, in milliseconds. If the timeout is set to `-1`, it will wait indefinitely.
  *
- * @return ture if success, otherwise false
+ * @return true if success, otherwise false
  */
 bool lvgl_port_lock(int timeout_ms);
 
@@ -156,7 +156,7 @@ bool lvgl_port_lock(int timeout_ms);
  * @brief Unlock the LVGL mutex. This function should be called after using LVGL APIs when not in LVGL task, and the
  *        `lvgl_port_lock()` function should be called before.
  *
- * @return ture if success, otherwise false
+ * @return true if success, otherwise false
  */
 bool lvgl_port_unlock(void);
 

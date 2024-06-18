@@ -138,7 +138,7 @@ static esp_err_t read_data(esp_lcd_touch_handle_t tp)
     ESP_RETURN_ON_ERROR( i2c_read_bytes(tp, READ_XY_REG, buf, DATA_BUFF_LEN(touch_cnt)), TAG, "I2C read failed");
     /* Clear all */
     i2c_write_byte(tp, READ_XY_REG, 0);
-    /* Caculate checksum */
+    /* Calculate checksum */
     uint8_t checksum = 0;
     for (int i = 0; i < DATA_BUFF_LEN(touch_cnt); i++) {
         checksum += buf[i];

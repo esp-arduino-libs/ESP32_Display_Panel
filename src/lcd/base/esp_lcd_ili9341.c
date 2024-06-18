@@ -177,7 +177,7 @@ static esp_err_t panel_ili9341_reset(esp_lcd_panel_t *panel)
 
 static const esp_lcd_panel_vendor_init_cmd_t vendor_specific_init_default[] = {
 //  {cmd, { data }, data_size, delay_ms}
-    /* Power contorl B, power control = 0, DC_ENA = 1 */
+    /* Power control B, power control = 0, DC_ENA = 1 */
     {0xCF, (uint8_t []){0x00, 0xAA, 0XE0}, 3, 0},
     /* Power on sequence control,
      * cp1 keeps 1 frame, 1st frame enable

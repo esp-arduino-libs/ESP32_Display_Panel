@@ -1,18 +1,26 @@
 # Board Contribution Guide
 
-1. Newly added development boards must ensure the hardware schematics are open-source. Please provide a link or file.
-2. This library currently only supports the APIs provided in ESP-IDF. It does not support other Arduino library APIs, such as Wire.
+## Contribution Guidelines
 
-**Note**:
-1. It is recommended to use the vscode + Arduino CLI development environment.
-2. Pull the ESP32_Display_Panel repository into the Arduino library directory before making modifications.
-3. The project uses pre-commit to enforce commit standards. It is recommended to install the pre-commit library before committing using the following command:
+1. The development board must at least ensure its hardware schematic is open-source, providing a link or file for reference.
+2. To maintain compatibility across platforms, this library only supports APIs provided by ESP-IDF. Please do not include or use headers or APIs specific to other platforms, such as Arduino's `Wire`.
 
-```
-pip3 install pre-commit && pre-commit install
-```
+**Notes**:
 
-## Modification Content
+- Before making changes, it is recommended to add the ESP32_Display_Panel repository to your Arduino library directory to facilitate validation in an Arduino project.
+- This project uses `pre-commit` to enforce commit standards. When making git commits, `pre-commit` will run automatically, so it is advised to install `pre-commit` beforehand by using the following commands:
+
+   ```bash
+   # Install pre-commit
+   pip3 install pre-commit && pre-commit install
+
+   # Run pre-commit on all files
+   pre-commit run --all-files
+   ```
+
+- If you encounter a commit failure, it may be due to `pre-commit` standards. These checks automatically verify and enforce code formatting, style, and other standards. Please confirm and apply any necessary modifications, then re-commit.
+
+## File Modifications
 
 Using the adaption of the [`M5Stack M5DIAL`](https://github.com/esp-arduino-libs/ESP32_Display_Panel/commit/1886c668468626b9dd2ae975f7db12df5413378e) development board as an example. Following this guide, changes below will be made under the project:
 
@@ -22,11 +30,10 @@ Using the adaption of the [`M5Stack M5DIAL`](https://github.com/esp-arduino-libs
       | -board
          | -m5stack                    [A]
             | -M5DIAL.h                [A]
-         | -ESP_PanelBoard             [M]
+         | -ESP_PanelBoard.h           [M]
          | -README.md                  [M]
       | -ESP_PanelVersions.h           [M]
    | -CHANGELOG.md                     [M]
-   | -ESP_Panel_Board_Custom.h
    | -ESP_Panel_Board_Supported.h      [M]
    | -library.properties               [M]
    | -README_CN.md                     [M]
@@ -34,7 +41,7 @@ Using the adaption of the [`M5Stack M5DIAL`](https://github.com/esp-arduino-libs
 ```
 Note: [A] stands for 'append' and [M] stands for 'modify'
 
-## Modification Process
+## Adaptation Process
 
 Using the adaption of `M5Stack M5DIAL` as an example, follow these steps to modify the relevant files:
 

@@ -113,8 +113,13 @@ bool ESP_PanelBus_I2C::begin(void)
         ESP_LOGD(TAG, "Init host[%d]", (int)host_id);
     }
 
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 2, 0)
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_io_i2c((esp_lcd_i2c_bus_handle_t)host_id, &io_config, &handle), false,
                             "Create panel io failed");
+#else
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_io_i2c_v1((esp_lcd_i2c_bus_handle_t)host_id, &io_config, &handle), false,
+                            "Create panel io failed");
+#endif
     ESP_LOGD(TAG, "Panel IO @%p created", handle);
 
     return true;

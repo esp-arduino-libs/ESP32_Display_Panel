@@ -39,7 +39,10 @@
 #define ESP_PANEL_HOST_SPI_MAX_TRANSFER_SIZE   ((1 << 24) >> 3)
 #elif CONFIG_IDF_TARGET_ESP32S2
 #define ESP_PANEL_HOST_SPI_MAX_TRANSFER_SIZE   ((1 << 23) >> 3)
-#elif CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32C3 || CONFIG_IDF_TARGET_ESP32C6 || CONFIG_IDF_TARGET_ESP32H2
+#else
+// ESP32-C3, ESP32-C3, ESP32-C5, ESP32-C6, ESP32-C61
+// ESP32-S3
+// ESP32-P4
 #define ESP_PANEL_HOST_SPI_MAX_TRANSFER_SIZE   ((1 << 18) >> 3)
 #endif
 #define ESP_PANEL_HOST_SPI_CONFIG_DEFAULT(sck_io, sda_io, sdo_io) \
@@ -88,6 +91,7 @@ public:
     bool addHostQSPI(int sck_io, int d0_io, int d1_io, int d2_io, int d3_io, spi_host_device_t host_id);
 
     bool begin(void);
+    bool del(void);
 
 private:
     bool compare_spi_host_config(spi_bus_config_t &old_config, const spi_bus_config_t &new_config);
