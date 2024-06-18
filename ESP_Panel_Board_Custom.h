@@ -176,18 +176,20 @@
  *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
  *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
-// #define ESP_PANEL_LCD_VENDOR_INIT_CMD()                                        \
-//     {                                                                          \
-//         {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},              \
-//         {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},                                \
-//         {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},                                \
-//         {0x29, (uint8_t []){0x00}, 0, 120},                                    \
-//         or                                                                     \
-//         ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}), \
-//         ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),                   \
-//         ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),                   \
-//         ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),                               \
-//     }
+/*
+#define ESP_PANEL_LCD_VENDOR_INIT_CMD()                                        \
+    {                                                                          \
+        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},              \
+        {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},                                \
+        {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},                                \
+        {0x29, (uint8_t []){0x00}, 0, 120},                                    \
+        or                                                                     \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}), \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),                   \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),                   \
+        ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),                               \
+    }
+*/
 
 /* LCD Color Settings */
 /* LCD color depth in bits */
@@ -379,7 +381,7 @@
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 0
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 2
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 2
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 3
 
 #endif /* ESP_PANEL_USE_CUSTOM_BOARD */
 

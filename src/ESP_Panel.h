@@ -77,8 +77,22 @@ public:
      * @brief Here are the functions to get the some parameters of the devices
      *
      */
-    uint16_t getLcdWidth(void);
-    uint16_t getLcdHeight(void);
+    uint16_t getLcdWidth(void)
+    {
+#ifdef ESP_PANEL_LCD_WIDTH
+        return ESP_PANEL_LCD_WIDTH;
+#else
+        return 0;
+#endif
+    }
+    uint16_t getLcdHeight(void)
+    {
+#ifdef ESP_PANEL_LCD_HEIGHT
+        return ESP_PANEL_LCD_HEIGHT;
+#else
+        return 0;
+#endif
+    }
 
 private:
     bool _is_initialed;
@@ -88,25 +102,8 @@ private:
     std::shared_ptr<ESP_PanelLcd> _lcd_ptr;
     std::shared_ptr<ESP_PanelTouch> _touch_ptr;
     std::shared_ptr<ESP_PanelBacklight> _backlight_ptr;
+    std::shared_ptr<ESP_PanelHost> _host_ptr;
     std::shared_ptr<ESP_IOExpander> _expander_ptr;
 };
-
-inline uint16_t ESP_Panel::getLcdWidth(void)
-{
-#ifdef ESP_PANEL_LCD_WIDTH
-    return ESP_PANEL_LCD_WIDTH;
-#else
-    return 0;
-#endif
-}
-
-inline uint16_t ESP_Panel::getLcdHeight(void)
-{
-#ifdef ESP_PANEL_LCD_HEIGHT
-    return ESP_PANEL_LCD_HEIGHT;
-#else
-    return 0;
-#endif
-}
 
 #endif /* ESP_PANEL_USE_BOARD */

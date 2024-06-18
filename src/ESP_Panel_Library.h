@@ -29,6 +29,7 @@
 #include "lcd/GC9A01.h"
 #include "lcd/GC9B71.h"
 #include "lcd/ILI9341.h"
+#include "lcd/NV3022B.h"
 #include "lcd/SH8601.h"
 #include "lcd/SPD2010.h"
 #include "lcd/ST7262.h"

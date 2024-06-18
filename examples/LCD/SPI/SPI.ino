@@ -113,7 +113,6 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
 #define EXAMPLE_LCD_PIN_NUM_RST         (-1)    // Set to -1 if not used
 #define EXAMPLE_LCD_PIN_NUM_BK_LIGHT    (45)    // Set to -1 if not used
 #define EXAMPLE_LCD_BK_LIGHT_ON_LEVEL   (1)
-
 #define EXAMPLE_LCD_BK_LIGHT_OFF_LEVEL !EXAMPLE_LCD_BK_LIGHT_ON_LEVEL
 
 /* Enable or disable the attachment of a callback function that is called after each bitmap drawing is completed */

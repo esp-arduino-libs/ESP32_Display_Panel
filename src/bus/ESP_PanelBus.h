@@ -55,7 +55,7 @@ public:
      *
      * @return true if success, otherwise false
      */
-    bool del(void);
+    virtual bool del(void);
 
     /**
      * @brief Read the register data

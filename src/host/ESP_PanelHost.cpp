@@ -20,6 +20,9 @@ ESP_PanelHost::~ESP_PanelHost()
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
+    if (!del()) {
+        ESP_LOGE(TAG, "Delete panel host failed");
+    }
     ESP_LOGD(TAG, "Destroyed");
 }
 
@@ -160,6 +163,31 @@ bool ESP_PanelHost::begin(void)
                                     it.first);
             ESP_LOGD(TAG, "Initialize host SPI[%d]", (int)it.first);
         }
+    }
+
+    return true;
+}
+
+bool ESP_PanelHost::del(void)
+{
+    ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
+
+    // Uninstall all I2C hosts
+    if (_i2c_host_config_map.size() > 0) {
+        for (auto &it : _i2c_host_config_map) {
+            ESP_PANEL_CHECK_ERR_RET(i2c_driver_delete(it.first), false, "I2C[%d] delete driver failed", it.first);
+            ESP_LOGD(TAG, "Delete host I2C[%d]", (int)it.first);
+        }
+        _i2c_host_config_map.clear();
+    }
+
+    // Uninstall all SPI hosts
+    if (_spi_host_config_map.size() > 0) {
+        for (auto &it : _spi_host_config_map) {
+            ESP_PANEL_CHECK_ERR_RET(spi_bus_free(it.first), false, "SPI[%d] free failed", it.first);
+            ESP_LOGD(TAG, "Delete host SPI[%d]", (int)it.first);
+        }
+        _spi_host_config_map.clear();
     }
 
     return true;

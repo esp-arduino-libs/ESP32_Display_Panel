@@ -214,10 +214,18 @@ void setup()
     // Configure external initialization commands, should called before `init()`
     lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
 #endif
+    // lcd->configAutoReleaseBus(true);    // If the "3-wire SPI" interface are sharing pins of the "RGB" interface to
+                                           // save GPIOs, please enable this function to release the bus object and pins
+                                           // (except CS signal). And then, the "3-wire SPI" interface cannot be used to
+                                           // transmit commands any more.
+    // lcd->configMirrorByCommand(true);   // This function is conflict with `configAutoReleaseBus(true)`, please don't
+                                           // enable them at the same time
     lcd->init();
-    lcd->reset();
+    lcd->reset();                          // If the `configAutoReleaseBus(true)` is called, here should not call `reset()`
+                                           // to deinit the LCD device
     lcd->begin();
-    lcd->displayOn();
+    lcd->displayOn();                      // This function is conflict with `configAutoReleaseBus(true)`, please don't
+                                           // enable them at the same time
 #if EXAMPLE_ENABLE_PRINT_LCD_FPS
     lcd->attachRefreshFinishCallback(onVsyncEndCallback, nullptr);
 #endif

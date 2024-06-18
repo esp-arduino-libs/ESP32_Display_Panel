@@ -88,6 +88,7 @@ public:
     bool addHostQSPI(int sck_io, int d0_io, int d1_io, int d2_io, int d3_io, spi_host_device_t host_id);
 
     bool begin(void);
+    bool del(void);
 
 private:
     bool compare_spi_host_config(spi_bus_config_t &old_config, const spi_bus_config_t &new_config);

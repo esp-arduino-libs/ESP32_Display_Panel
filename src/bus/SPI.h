@@ -112,6 +112,13 @@ public:
     ~ESP_PanelBus_SPI() override;
 
     /**
+     * @brief Delete the bus object, release the resources
+     *
+     * @return true if success, otherwise false
+     */
+    bool del(void) override;
+
+    /**
      * @brief Here are some functions to configure the SPI bus object. These functions should be called before `begin()`
      *
      */
