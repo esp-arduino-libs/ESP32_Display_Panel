@@ -1,0 +1,12 @@
+version: "0.1.0"
+
+description: ESP32_IO_Expander is a library designed for driving IO expander chips using ESP32 SoCs
+url: https://github.com/esp-arduino-libs/ESP32_IO_Expander
+repository: https://github.com/esp-arduino-libs/ESP32_IO_Expander.git
+issues: https://github.com/esp-arduino-libs/ESP32_IO_Expander/issues
+
+dependencies:
+  idf: ">=4.4"
+examples:
+  - path: ../../../examples/usb/device/usb_webcam
+  - path: ../../../examples/usb/device/usb_dual_uvc_device
