@@ -46,7 +46,7 @@
     #include "board/espressif/ESP32_S3_LCD_EV_BOARD_2_V1_5.h"
 #elif defined(BOARD_ESP32_S3_USB_OTG) || CONFIG_BOARD_ESP32_S3_USB_OTG
     #include "board/espressif/ESP32_S3_USB_OTG.h"
-/* Jingcai */
+/* Elecrow */
 #elif defined(BOARD_ELECROW_CROWPANEL_7_0) || CONFIG_BOARD_ELECROW_CROWPANEL_7_0
     #include "board/elecrow/CROWPANEL_7_0.h"
 /* M5Stack */
