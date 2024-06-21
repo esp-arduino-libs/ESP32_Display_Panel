@@ -49,7 +49,7 @@
     #define ESP_PANEL_LCD_RGB_HFP               (40)    // Hsync front porch x
     #define ESP_PANEL_LCD_RGB_VPW               (31)    // Vsync pulse width x
     #define ESP_PANEL_LCD_RGB_VBP               (13)    // Vsync back porch x
-    #define ESP_PANEL_LCD_RGB_VFP               (1)    // Vsync front porch 
+    #define ESP_PANEL_LCD_RGB_VFP               (1)    // Vsync front porch
     #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (1)     // 0: rising edge, 1: falling edge
     #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    //  8 | 16
     #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // 24 | 16
