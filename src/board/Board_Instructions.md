@@ -17,6 +17,12 @@
 | <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/ESP32-S3-LCD-EV-Board_800x480.png" width="150"> |   [ESP32-S3-LCD-EV-Board-2](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/index.html)   |       RGB        |     ST7262E43      |     800x480     |      I2C      |        GT1151        |
 |   <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/pic_product_esp32_s3_otg.png" width="150">    |         [ESP32-S3-USB-OTG](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html)         |       SPI        |       ST7789       |     240x240     |       -       |          -           |
 
+### [Elecrow](https://www.elecrow.com/)
+
+|                                                                                                                                       **Picture**                                                                                                                                       |                                                **Name**                                                 |   **LCD Bus**    | **LCD Controller** | **LCD resolution** 	| **Touch Bus** | **Touch Controller** |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :--------------: | :----------------: | :-----------: | :------------------: |
+| <img src="https://www.elecrow.com/media/catalog/product/cache/acf3559c3a3e20af42aec3d2d8cc99f6/e/s/esp32_7inch_display_1_1.png" width="150"> | [CrowPanel 7.0"](https://www.elecrow.com/esp32-display-7-inch-hmi-display-rgb-tft-lcd-touch-screen-support-lvgl.html) | RGB |     EK9716BD3 & EK73002ACGB     |       800x480       |      I2C      |        GT911         |
+
 ### [M5Stack](https://m5stack.com/)
 
 |  **Picture** 	| **Name**             	| **LCD Bus** 	| **LCD Controller** 	| **LCD resolution** 	| **Touch Bus** 	| **Touch Controller** 	|
