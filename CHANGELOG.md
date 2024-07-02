@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.5 - 2024-07-01
+
+### Bugfixes:
+
+* fix(panel): init expander host with correct macro (#65)
+
 ## v0.1.4 - 2024-06-17
 
 ### Enhancements:

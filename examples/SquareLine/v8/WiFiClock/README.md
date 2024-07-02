@@ -14,20 +14,24 @@ Then follow the steps below to configure the example.
 
 1. For **ESP32_Display_Panel**:
 
-    - [Configure drivers](../../../README.md#configuring-drivers) if needed.
-    - If using a supported development board, follow the [steps](../../../../README.md#using-supported-development-boards) to configure it.
-    - If using a custom board, follow the [steps](../../../../README.md#using-custom-development-boards) to configure it.
+   - [Configure drivers](../../../../README.md#configuring-drivers) if needed.
+   - If using a supported development board, follow the [steps](../../../../README.md#using-supported-development-boards) to configure it.
+   - If using a custom board, follow the [steps](../../../../README.md#using-custom-development-boards) to configure it.
 
 2. Copy the [ui](./libraries/ui/) folder from `libraries` to [Arduino Library directory](../../../../README.md#where-is-the-directory-for-arduino-libraries).
 
-3. Follow the [steps](../../../../README.md#configuring-lvgl) to configure the **lvgl**. Additionally, set the following configurations to `1`:
+3. For **lvgl**:
 
-   - `LV_FONT_MONTSERRAT_12`
-   - `LV_FONT_MONTSERRAT_14`
-   - `LV_FONT_MONTSERRAT_16`
-   - `LV_FONT_MONTSERRAT_32`
-   - `LV_FONT_MONTSERRAT_48`
-   - `LV_USE_LARGE_COORD`
+   - Follow the [steps](../../../../README.md#configuring-lvgl) to add *lv_conf.h* file and change the configurations. Additionally, set the following configurations to `1`:
+
+      - `LV_FONT_MONTSERRAT_12`
+      - `LV_FONT_MONTSERRAT_14`
+      - `LV_FONT_MONTSERRAT_16`
+      - `LV_FONT_MONTSERRAT_32`
+      - `LV_FONT_MONTSERRAT_48`
+      - `LV_USE_LARGE_COORD`
+
+   - Modify the macros in the [lvgl_port_v8.h](./lvgl_port_v8.h) file to configure the LVGL porting parameters.
 
 4. Modify the macros in the [lvgl_port_v8.h](./lvgl_port_v8.h) file to configure the LVGL porting parameters.
 5. To obtain weather information after connecting to Wi-Fi, please follow these steps to configure the example:
@@ -59,4 +63,4 @@ wifi_list_switch: false
 
 ## Troubleshooting
 
-Please check the [FAQ](../../../../README.md#faq) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
+Please check the [FAQ](../../../../README.md#faq) first to see if the same question exists. If not, please create a [Github issue](../../../../README.md/issues). We will get back to you as soon as possible.

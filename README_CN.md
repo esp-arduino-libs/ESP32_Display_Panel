@@ -309,7 +309,7 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 
 ### 配置支持的开发板
 
-关于如何在 Arduino IDE 中配置支持的开发板，请参考 [Board_Instructions.md](./src/board/Board_Instructions.md).
+关于如何在 Arduino IDE 中配置支持的开发板，请参考 [Board_Instructions.md](./src/board/Board_Instructions.md#recommended-configurations-in-the-arduino-ide).
 
 ### 配置 LVGL
 

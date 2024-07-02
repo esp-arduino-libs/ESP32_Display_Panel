@@ -434,7 +434,7 @@ bool ESP_Panel::init(void)
             },
             .clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL,
         };
-        ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(I2C, host, expander_host_config, ESP_PANEL_TOUCH_BUS_HOST), false,
+        ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(I2C, host, expander_host_config, ESP_PANEL_EXPANDER_HOST), false,
                                   "Add host failed");
 #endif
         expander_ptr = CREATE_EXPANDER(ESP_PANEL_EXPANDER_NAME, ESP_PANEL_EXPANDER_HOST, ESP_PANEL_EXPANDER_I2C_ADDRESS);

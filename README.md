@@ -309,7 +309,7 @@ To port the SquareLine project (v1.3.x), please refer to [here](#porting-squarel
 
 ### Configuring Supported Development Boards
 
-For details on how to configure the supported development boards in the Arduino IDE, see [Board_Instructions.md](./src/board/Board_Instructions.md).
+For details on how to configure the supported development boards in the Arduino IDE, see [Board_Instructions.md](./src/board/Board_Instructions.md#recommended-configurations-in-the-arduino-ide).
 
 ### Configuring LVGL
 
