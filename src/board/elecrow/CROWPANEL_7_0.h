@@ -141,7 +141,7 @@
 /**
  * Touch controller name.
  */
-#define ESP_PANEL_TOUCH_NAME        GT1151
+#define ESP_PANEL_TOUCH_NAME        GT911
 
 /* Touch resolution in pixels */
 #define ESP_PANEL_TOUCH_H_RES       (ESP_PANEL_LCD_WIDTH)   // Typically set to the same value as the width of LCD
