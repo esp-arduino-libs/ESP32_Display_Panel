@@ -21,14 +21,19 @@
  *
  * 2. Copy the [ui](./libraries/ui/) folder from `libraries` to [Arduino Library directory](https://github.com/esp-arduino-libs/ESP32_Display_Panel#where-is-the-directory-for-arduino-libraries).
  *
- * 3. Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel#configuring-lvgl) to configure the **lvgl**. Additionally, set the following configurations to `1`:
+ * 3. For **lvgl**:
  *
- *    - `LV_FONT_MONTSERRAT_12`
- *    - `LV_FONT_MONTSERRAT_14`
- *    - `LV_FONT_MONTSERRAT_16`
- *    - `LV_FONT_MONTSERRAT_32`
- *    - `LV_FONT_MONTSERRAT_48`
- *    - `LV_USE_LARGE_COORD`
+ *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel#configuring-lvgl) to add *lv_conf.h*
+ *       file and change the configurations. Additionally, set the following configurations to `1`:
+ *
+ *          - `LV_FONT_MONTSERRAT_12`
+ *          - `LV_FONT_MONTSERRAT_14`
+ *          - `LV_FONT_MONTSERRAT_16`
+ *          - `LV_FONT_MONTSERRAT_32`
+ *          - `LV_FONT_MONTSERRAT_48`
+ *          - `LV_USE_LARGE_COORD`
+ *
+ *     - Modify the macros in the [lvgl_port_v8.h](./lvgl_port_v8.h) file to configure the LVGL porting parameters.
  *
  * 4. Modify the macros in the [lvgl_port_v8.h](./lvgl_port_v8.h) file to configure the LVGL porting parameters.
  * 5. To obtain weather information after connecting to Wi-Fi, please follow these steps to configure the example:
