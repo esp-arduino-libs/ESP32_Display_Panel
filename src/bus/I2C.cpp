@@ -97,6 +97,11 @@ void ESP_PanelBus_I2C::configI2cFlags(bool dc_low_on_data, bool disable_control_
     io_config.flags.disable_control_phase = disable_control_phase;
 }
 
+uint32_t ESP_PanelBus_I2C::getI2cAddress(void)
+{
+    return io_config.dev_addr;
+}
+
 bool ESP_PanelBus_I2C::begin(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();

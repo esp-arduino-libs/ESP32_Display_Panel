@@ -52,7 +52,9 @@
  *      - TT21100
  *      - ST1633, ST7123
  */
-#define EXAMPLE_TOUCH_NAME              ST1633
+#define EXAMPLE_TOUCH_NAME              GT911
+#define EXAMPLE_TOUCH_ADDRESS           (0)     // Typically set to `0` to use the default address
+                                                // For GT911, there are two addresses: 0x5D(default) and 0x14
 #define EXAMPLE_TOUCH_WIDTH             (480)
 #define EXAMPLE_TOUCH_HEIGHT            (480)
 #define EXAMPLE_TOUCH_I2C_FREQ_HZ       (400 * 1000)
@@ -61,10 +63,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EXAMPLE_TOUCH_PIN_NUM_I2C_SCL   (45)
-#define EXAMPLE_TOUCH_PIN_NUM_I2C_SDA   (19)
-#define EXAMPLE_TOUCH_PIN_NUM_RST       (-1)
-#define EXAMPLE_TOUCH_PIN_NUM_INT       (-1)
+#define EXAMPLE_TOUCH_PIN_NUM_I2C_SCL   (10)
+#define EXAMPLE_TOUCH_PIN_NUM_I2C_SDA   (9)
+#define EXAMPLE_TOUCH_PIN_NUM_RST       (13)    // Set to `-1` if not used
+                                                // For GT911, the RST pin is also used to configure the I2C address
+#define EXAMPLE_TOUCH_PIN_NUM_INT       (14)    // Set to `-1` if not used
+                                                // For GT911, the INT pin is also used to configure the I2C address
 
 #define _EXAMPLE_TOUCH_CLASS(name, ...) ESP_PanelTouch_##name(__VA_ARGS__)
 #define EXAMPLE_TOUCH_CLASS(name, ...)  _EXAMPLE_TOUCH_CLASS(name, ##__VA_ARGS__)
@@ -86,11 +90,19 @@ void setup()
     Serial.println("I2C touch example start");
 
     Serial.println("Create I2C bus");
+#if EXAMPLE_TOUCH_ADDRESS == 0
     ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
                                                        ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(EXAMPLE_TOUCH_NAME));
     // Taking GT911 as an example, the following is the code after macro expansion:
     // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
     //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG());
+#else
+    ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
+                            ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG_WITH_ADDR(EXAMPLE_TOUCH_NAME, EXAMPLE_TOUCH_ADDRESS));
+    // Taking GT911 as an example, the following is the code after macro expansion:
+    // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
+    //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR());
+#endif
     touch_bus->configI2cFreqHz(EXAMPLE_TOUCH_I2C_FREQ_HZ);
     touch_bus->begin();
 

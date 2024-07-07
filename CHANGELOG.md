@@ -1,6 +1,10 @@
 # ChangeLog
 
-## v0.1.5 - 2024-07-07
+## v0.1.5 - 2024-07-08
+
+### Enhancements:
+
+* feat(gt911): support set I2C address by using RST and INT pins
 
 ### Bugfixes:
 

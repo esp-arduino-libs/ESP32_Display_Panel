@@ -8,6 +8,7 @@
 
 #include "base/esp_lcd_touch_gt911.h"
 #include "ESP_PanelTouch.h"
+#include "bus/I2C.h"
 
 /**
  * @brief GT911 touch device object class
@@ -19,19 +20,20 @@ public:
     /**
      * @brief Construct a new touch device in a simple way, the `init()` function should be called after this function
      *
-     * @param bus    Pointer to panel bus
-     * @param width  The width of the touch screen
-     * @param height The height of the touch screen
-     * @param rst_io The reset pin of the touch screen, set to `-1` if not used
-     * @param int_io The interrupt pin of the touch screen, set to `-1` if not used
+     * @param bus     Pointer to panel bus
+     * @param width   The width of the touch screen
+     * @param height  The height of the touch screen
+     * @param rst_io  The reset pin of the touch screen, set to `-1` if not used
+     * @param int_io  The interrupt pin of the touch screen, set to `-1` if not used
      */
     ESP_PanelTouch_GT911(ESP_PanelBus *bus, uint16_t width, uint16_t height, int rst_io = -1, int int_io = -1);
 
     /**
      * @brief Construct a new touch device in a complex way, the `init()` function should be called after this function
      *
-     * @param bus    Pointer to panel bus
-     * @param config Touch device configuration
+     * @param bus     Pointer to panel bus
+     * @param config  Touch device configuration
+     * @param address The address of the touch device, default set to `0` to use the default address
      */
     ESP_PanelTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config);
 

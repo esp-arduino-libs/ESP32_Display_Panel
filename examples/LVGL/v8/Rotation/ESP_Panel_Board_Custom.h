@@ -197,9 +197,9 @@
 #define ESP_PANEL_LCD_MIRROR_Y      (0)         // 0/1
 
 /* LCD Other Settings */
-/* IO num of RESET pin, set to -1 if not use */
-#define ESP_PANEL_LCD_IO_RST        (-1)
-#define ESP_PANEL_LCD_RST_LEVEL     (0)         // 0: low level, 1: high level
+/* Reset pin */
+#define ESP_PANEL_LCD_IO_RST          (-1)      // IO num of RESET pin, set to -1 if not use
+#define ESP_PANEL_LCD_RST_LEVEL       (0)       // Active level. 0: low level, 1: high level
 
 #endif /* ESP_PANEL_USE_LCD */
 
@@ -239,8 +239,8 @@
 /* Touch panel bus parameters */
 #if ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C
 
-    #define ESP_PANEL_TOUCH_BUS_HOST_ID     (0)     // Typically set to 0
-    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0)     // Typically set to 0 to use default address
+    #define ESP_PANEL_TOUCH_BUS_HOST_ID     (0)     // Typically set to 0 to use the default address
+    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0)     // For GT911, there are two addresses: 0x5D(default) and 0x14
 #if !ESP_PANEL_TOUCH_BUS_SKIP_INIT_HOST
     #define ESP_PANEL_TOUCH_I2C_CLK_HZ      (400 * 1000)
                                                     // Typically set to 400K
@@ -274,12 +274,14 @@
 #define ESP_PANEL_TOUCH_MIRROR_Y        (0)         // 0/1
 
 /* Touch Other Settings */
-/* IO num of RESET pin, set to -1 if not use */
-#define ESP_PANEL_TOUCH_IO_RST          (-1)
-#define ESP_PANEL_TOUCH_RST_LEVEL       (0)         // 0: low level, 1: high level
-/* IO num of INT pin, set to -1 if not use */
-#define ESP_PANEL_TOUCH_IO_INT          (-1)
-#define ESP_PANEL_TOUCH_INT_LEVEL       (0)         // 0: low level, 1: high level
+/* Reset pin */
+#define ESP_PANEL_TOUCH_IO_RST          (-1)        // IO num of RESET pin, set to -1 if not use
+                                                    // For GT911, the RST pin is also used to configure the I2C address
+#define ESP_PANEL_TOUCH_RST_LEVEL       (0)         // Active level. 0: low level, 1: high level
+/* Interrupt pin */
+#define ESP_PANEL_TOUCH_IO_INT          (-1)        // IO num of INT pin, set to -1 if not use
+                                                    // For GT911, the INT pin is also used to configure the I2C address
+#define ESP_PANEL_TOUCH_INT_LEVEL       (0)         // Active level. 0: low level, 1: high level
 
 #endif /* ESP_PANEL_USE_TOUCH */
 
@@ -288,8 +290,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define ESP_PANEL_USE_BACKLIGHT         (0)         // 0/1
 #if ESP_PANEL_USE_BACKLIGHT
-/* IO num of backlight pin */
-#define ESP_PANEL_BACKLIGHT_IO          (45)
+/* Backlight pin */
+#define ESP_PANEL_BACKLIGHT_IO          (45)        // IO num of backlight pin
 #define ESP_PANEL_BACKLIGHT_ON_LEVEL    (1)         // 0: low level, 1: high level
 
 /* Set to 1 if you want to turn off the backlight after initializing the panel; otherwise, set it to turn on */
@@ -362,7 +364,7 @@
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 0
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 1
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 2
 
 #endif /* ESP_PANEL_USE_CUSTOM_BOARD */
 
