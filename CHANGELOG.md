@@ -1,10 +1,11 @@
 # ChangeLog
 
-## v0.1.5 - 2024-07-01
+## v0.1.5 - 2024-07-07
 
 ### Bugfixes:
 
 * fix(panel): init expander host with correct macro (#65)
+* fix(examples): fix lvgl port rotation issue when enabling avoid tearing by @NecroMancer05
 
 ## v0.1.4 - 2024-06-17
 
