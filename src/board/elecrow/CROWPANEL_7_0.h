@@ -18,7 +18,7 @@
 /**
  * LCD Controller Name.
  */
-#define ESP_PANEL_LCD_NAME          ST7262
+#define ESP_PANEL_LCD_NAME          EK9716BD3
 
 /* LCD resolution in pixels */
 #define ESP_PANEL_LCD_WIDTH         (800)
