@@ -183,7 +183,7 @@
 #define ESP_PANEL_TOUCH_IO_RST          (-1)
 #define ESP_PANEL_TOUCH_RST_LEVEL       (0)         // 0: low level, 1: high level
 /* IO num of INT pin, set to -1 if not use */
-#define ESP_PANEL_TOUCH_IO_INT          (-1)
+#define ESP_PANEL_TOUCH_IO_INT          (38)
 #define ESP_PANEL_TOUCH_INT_LEVEL       (0)         // 0: low level, 1: high level
 
 #endif /* ESP_PANEL_USE_TOUCH */
