@@ -144,8 +144,8 @@
 #define ESP_PANEL_TOUCH_NAME        GT911
 
 /* Touch resolution in pixels */
-#define ESP_PANEL_TOUCH_H_RES       (ESP_PANEL_LCD_WIDTH)   // Typically set to the same value as the width of LCD
-#define ESP_PANEL_TOUCH_V_RES       (ESP_PANEL_LCD_HEIGHT)  // Typically set to the same value as the height of LCD
+#define ESP_PANEL_TOUCH_H_RES       (ESP_PANEL_LCD_HEIGHT)   // Typically set to the same value as the width of LCD
+#define ESP_PANEL_TOUCH_V_RES       (ESP_PANEL_LCD_WIDTH)    // Typically set to the same value as the height of LCD
 
 /* Touch Panel Bus Settings */
 /**
