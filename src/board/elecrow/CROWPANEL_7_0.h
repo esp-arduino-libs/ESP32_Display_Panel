@@ -44,7 +44,7 @@
 #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 
     #define ESP_PANEL_LCD_RGB_CLK_HZ            (14 * 1000 * 1000)
-    #define ESP_PANEL_LCD_RGB_HPW               (40)    // Hsync pulse width x
+    #define ESP_PANEL_LCD_RGB_HPW               (48)    // Hsync pulse width x
     #define ESP_PANEL_LCD_RGB_HBP               (40)    // Hsync back porch x
     #define ESP_PANEL_LCD_RGB_HFP               (40)    // Hsync front porch x
     #define ESP_PANEL_LCD_RGB_VPW               (31)    // Vsync pulse width x
