@@ -9,6 +9,7 @@
 ### Bugfixes:
 
 * fix(panel): init expander host with correct macro (#65)
+* fix(panel): don't reset the LCD if the bus is RGB bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is enabled
 * fix(examples): fix lvgl port rotation issue when enabling avoid tearing by @NecroMancer05
 
 ## v0.1.4 - 2024-06-17

@@ -509,8 +509,11 @@ bool ESP_Panel::begin(void)
 #endif
     ESP_PANEL_CHECK_FALSE_RET(_lcd_bus_ptr->begin(), false, "Begin LCD bus failed");
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->init(), false, "Initialize LCD failed");
-    ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->reset(), false, "Reset LCD failed");
     // Operate LCD device according to the optional configurations
+#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || !ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
+    // We can't reset the LCD if the bus is RGB bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is enabled
+    ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->reset(), false, "Reset LCD failed");
+#endif
 #ifdef ESP_PANEL_LCD_SWAP_XY
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->swapXY(ESP_PANEL_LCD_SWAP_XY), false, "Swap XY failed");
 #endif
