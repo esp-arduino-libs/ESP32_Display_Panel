@@ -9,8 +9,7 @@
 
 static const char *TAG = "GT911_CPP";
 
-ESP_PanelTouch_GT911::ESP_PanelTouch_GT911(ESP_PanelBus *bus, uint16_t width, uint16_t height,
-        int rst_io, int int_io):
+ESP_PanelTouch_GT911::ESP_PanelTouch_GT911(ESP_PanelBus *bus, uint16_t width, uint16_t height, int rst_io, int int_io):
     ESP_PanelTouch(bus, width, height, rst_io, int_io)
 {
 }
@@ -38,7 +37,18 @@ end:
 
 bool ESP_PanelTouch_GT911::begin(void)
 {
+    ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
+
     ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
+
+    ESP_PanelBus_I2C *i2c_bus = static_cast<ESP_PanelBus_I2C *>(bus);
+    esp_lcd_touch_io_gt911_config_t tp_gt911_config = {
+        .dev_addr = i2c_bus->getI2cAddress(),
+    };
+    if (config.driver_data == NULL) {
+        ESP_LOGD(TAG, "Use default GT911 driver data(address: 0x%02x)", tp_gt911_config.dev_addr);
+        config.driver_data = (void *)&tp_gt911_config;
+    }
 
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_gt911(bus->getHandle(), &config, &handle), false, "New driver failed");
 

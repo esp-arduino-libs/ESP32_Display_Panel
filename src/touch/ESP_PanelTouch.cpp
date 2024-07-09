@@ -211,6 +211,16 @@ int ESP_PanelTouch::readButtonState(uint8_t n, int timeout_ms)
     return getButtonState(n);
 }
 
+void ESP_PanelTouch::configResetActiveLevel(uint8_t level)
+{
+    config.levels.reset = level;
+}
+
+void ESP_PanelTouch::configInterruptActiveLevel(uint8_t level)
+{
+    config.levels.interrupt = level;
+}
+
 bool ESP_PanelTouch::isInterruptEnabled(void)
 {
     return (config.interrupt_callback == onTouchInterrupt);

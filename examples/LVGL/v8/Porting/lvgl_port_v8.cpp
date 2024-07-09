@@ -485,7 +485,7 @@ static lv_disp_t *display_init(ESP_PanelLcd *lcd)
     ESP_LOGD(TAG, "Register display driver to LVGL");
     lv_disp_drv_init(&disp_drv);
     disp_drv.flush_cb = flush_callback;
-#if LVGL_PORT_ROTATION_90 || LVGL_PORT_ROTATION_270
+#if (LVGL_PORT_ROTATION_DEGREE == 90) || (LVGL_PORT_ROTATION_DEGREE == 270)
     disp_drv.hor_res = LVGL_PORT_DISP_HEIGHT;
     disp_drv.ver_res = LVGL_PORT_DISP_WIDTH;
 #else

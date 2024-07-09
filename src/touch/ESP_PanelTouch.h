@@ -32,6 +32,7 @@
         .process_coordinates = NULL,            \
         .interrupt_callback = NULL,             \
         .user_data = NULL,                      \
+        .driver_data = NULL,                    \
     }
 
 /**
@@ -229,6 +230,20 @@ public:
      * @return The state of the button, `-1` if failed
      */
     int readButtonState(uint8_t index = 0, int timeout_ms = 0);
+
+    /**
+     * @brief Configure the active level of reset signal
+     *
+     * @param level 1: high level, 0: low level
+     */
+    void configResetActiveLevel(uint8_t level);
+
+    /**
+     * @brief Configure the active level of interrupt signal
+     *
+     * @param level 1: high level, 0: low level
+     */
+    void configInterruptActiveLevel(uint8_t level);
 
     /**
      * @brief Check if the interrupt function is enabled

@@ -72,6 +72,8 @@ public:
     void configI2cParamBits(uint32_t num);
     void configI2cFlags(bool dc_low_on_data, bool disable_control_phase);
 
+    uint32_t getI2cAddress(void);
+
     /**
      * @brief Startup the bus
      *
