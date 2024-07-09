@@ -1,10 +1,11 @@
 # ChangeLog
 
-## v0.1.5 - 2024-07-08
+## v0.1.5 - 2024-07-09
 
 ### Enhancements:
 
 * feat(gt911): support set I2C address by using RST and INT pins
+* feat(lvgl_port): set the lvgl task to run on the same core as the Arduino task by default
 
 ### Bugfixes:
 
