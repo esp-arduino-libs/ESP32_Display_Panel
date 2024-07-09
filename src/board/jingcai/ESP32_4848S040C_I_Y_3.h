@@ -43,7 +43,7 @@
  */
 #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 
-    #define ESP_PANEL_LCD_RGB_CLK_HZ            (11 * 1000 * 1000)
+    #define ESP_PANEL_LCD_RGB_CLK_HZ            (26 * 1000 * 1000)
     #define ESP_PANEL_LCD_RGB_HPW               (10)
     #define ESP_PANEL_LCD_RGB_HBP               (10)
     #define ESP_PANEL_LCD_RGB_HFP               (20)

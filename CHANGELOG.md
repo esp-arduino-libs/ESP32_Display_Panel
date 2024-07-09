@@ -6,6 +6,7 @@
 
 * feat(gt911): support set I2C address by using RST and INT pins
 * feat(lvgl_port): set the lvgl task to run on the same core as the Arduino task by default
+* feat(board): increase the RGB pclk frequency to 26MHz for `ESP32_4848S040C_I_Y_3`
 
 ### Bugfixes:
 
