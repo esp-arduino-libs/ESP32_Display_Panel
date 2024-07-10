@@ -104,8 +104,12 @@
     #define ESP_PANEL_LCD_RGB_VBP               (10)
     #define ESP_PANEL_LCD_RGB_VFP               (10)
     #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (0)     // 0: rising edge, 1: falling edge
-    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    //  8 | 16
-    #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // 24 | 16
+
+                                                        // | 8-bit RGB888 | 16-bit RGB565 |
+                                                        // |--------------|---------------|
+    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    // |      8       |      16       |
+    #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // |      24      |      16       |
+
     #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM     (1)     // 1/2/3
     #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (0)     // Bounce buffer size in bytes. This function is used to avoid screen drift.
                                                         // To enable the bounce buffer, set it to a non-zero value. Typically set to `ESP_PANEL_LCD_WIDTH * 10`
@@ -113,27 +117,31 @@
                                                         // where N is an even number.
     #define ESP_PANEL_LCD_RGB_IO_HSYNC          (46)
     #define ESP_PANEL_LCD_RGB_IO_VSYNC          (3)
-    #define ESP_PANEL_LCD_RGB_IO_DE             (17)   // -1 if not used
+    #define ESP_PANEL_LCD_RGB_IO_DE             (17)    // -1 if not used
     #define ESP_PANEL_LCD_RGB_IO_PCLK           (9)
     #define ESP_PANEL_LCD_RGB_IO_DISP           (-1)    // -1 if not used
-    #define ESP_PANEL_LCD_RGB_IO_DATA0          (10)
-    #define ESP_PANEL_LCD_RGB_IO_DATA1          (11)
-    #define ESP_PANEL_LCD_RGB_IO_DATA2          (12)
-    #define ESP_PANEL_LCD_RGB_IO_DATA3          (13)
-    #define ESP_PANEL_LCD_RGB_IO_DATA4          (14)
-    #define ESP_PANEL_LCD_RGB_IO_DATA5          (21)
-    #define ESP_PANEL_LCD_RGB_IO_DATA6          (47)
-    #define ESP_PANEL_LCD_RGB_IO_DATA7          (48)
+
+                                                        // | RGB565 | RGB666 | RGB888 |
+                                                        // |--------|--------|--------|
+    #define ESP_PANEL_LCD_RGB_IO_DATA0          (10)    // |   B0   |  B0-1  |   B0-3 |
+    #define ESP_PANEL_LCD_RGB_IO_DATA1          (11)    // |   B1   |  B2    |   B4   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA2          (12)    // |   B2   |  B3    |   B5   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA3          (13)    // |   B3   |  B4    |   B6   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA4          (14)    // |   B4   |  B5    |   B7   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA5          (21)    // |   G0   |  G0    |   G0-2 |
+    #define ESP_PANEL_LCD_RGB_IO_DATA6          (47)    // |   G1   |  G1    |   G3   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA7          (48)    // |   G2   |  G2    |   G4   |
 #if ESP_PANEL_LCD_RGB_DATA_WIDTH > 8
-    #define ESP_PANEL_LCD_RGB_IO_DATA8          (45)
-    #define ESP_PANEL_LCD_RGB_IO_DATA9          (38)
-    #define ESP_PANEL_LCD_RGB_IO_DATA10         (39)
-    #define ESP_PANEL_LCD_RGB_IO_DATA11         (40)
-    #define ESP_PANEL_LCD_RGB_IO_DATA12         (41)
-    #define ESP_PANEL_LCD_RGB_IO_DATA13         (42)
-    #define ESP_PANEL_LCD_RGB_IO_DATA14         (2)
-    #define ESP_PANEL_LCD_RGB_IO_DATA15         (1)
+    #define ESP_PANEL_LCD_RGB_IO_DATA8          (45)    // |   G3   |  G3    |   G5   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA9          (38)    // |   G4   |  G4    |   G6   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA10         (39)    // |   G5   |  G5    |   G7   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA11         (40)    // |   R0   |  R0-1  |   R0-3 |
+    #define ESP_PANEL_LCD_RGB_IO_DATA12         (41)    // |   R1   |  R2    |   R4   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA13         (42)    // |   R2   |  R3    |   R5   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA14         (2)     // |   R3   |  R4    |   R6   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA15         (1)     // |   R4   |  R5    |   R7   |
 #endif
+
 #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
     #define ESP_PANEL_LCD_3WIRE_SPI_IO_CS               (0)
     #define ESP_PANEL_LCD_3WIRE_SPI_IO_SCK              (1)
@@ -364,7 +372,7 @@
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 0
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 2
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 3
 
 #endif /* ESP_PANEL_USE_CUSTOM_BOARD */
 
