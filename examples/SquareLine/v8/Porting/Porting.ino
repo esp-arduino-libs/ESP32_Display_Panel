@@ -7,7 +7,7 @@
  *
  * To use this example, please firstly install the following dependent libraries:
  *
- * - lvgl (v8.3.x)
+ * - lvgl (>= v8.3.9, < v9)
  *
  * Follow the steps below to configure:
  *

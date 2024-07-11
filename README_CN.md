@@ -294,6 +294,9 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
 * [Porting](examples/LVGL/v8/Porting/): 此示例演示了如何移植 LVGL（v8.3.x）。对于 RGB LCD，它还可以启用防撕裂功能。
 * [Rotation](examples/LVGL/v8/Rotation/): 此示例演示了如何使用 LVGL 来旋转显示屏。
 
+> [!WARNING]
+> 目前，防撕裂功能仅支持 RGB LCD，并且需要 LVGL 的版本满足 >= v8.3.9，如果使用的是其他类型的 LCD 或不符合要求的 LVGL 版本，请不要启用此功能。
+
 ##### SquareLine
 
 ​	要移植 Squarelina 项目（v1.3.x），请参阅[此处](#移植-SquareLine-工程)获取更多详细信息。

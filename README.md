@@ -294,6 +294,9 @@ For configuring LVGL (v8.3.x), please refer to [here](#configuring-lvgl) for mor
 * [Porting](examples/LVGL/v8/Porting/): This example demonstrates how to port LVGL (v8.3.x). And for RGB LCD, it can enable the avoid tearing fucntion.
 * [Rotation](examples/LVGL/v8/Rotation/): This example demonstrates how to use LVGL to rotate the display.
 
+> [!WARNING]
+> Currently, the anti-tearing feature is only supported for RGB LCD and requires LVGL version >= v8.3.9. If you are using a different type of LCD or an LVGL version that does not meet the requirements, please do not enable this feature.
+
 ##### SquareLine
 
 To port the SquareLine project (v1.3.x), please refer to [here](#porting-squareline-project) for more detailed information.
