@@ -47,6 +47,13 @@
 // #define BOARD_ESP32_S3_USB_OTG
 
 /*
+ * Elecrow (https://www.elecrow.com):
+ *
+ *  - ELECROW_CROWPANEL_7_0: https://www.elecrow.com/esp32-display-7-inch-hmi-display-rgb-tft-lcd-touch-screen-support-lvgl.html
+ */
+// #define BOARD_ELECROW_CROWPANEL_7_0
+
+/*
  * M5Stack (https://m5stack.com/):
  *
  *  - M5STACK_M5CORE2: https://docs.m5stack.com/zh_CN/core/core2
