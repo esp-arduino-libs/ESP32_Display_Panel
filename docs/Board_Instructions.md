@@ -58,6 +58,7 @@ Below are recommended configurations for developing GUI applications on differen
 |     M5STACK-M5DIAL      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |         Default         |
 |    M5STACK-M5CORES3     | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     | Default 4MB with spiffs |
 |  ESP32-4848S040C_I_Y_3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
+|  ElecrowCrowPanel 7.0"  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    4MB     |    Disabled     |     Huge App (3MB)      |
 
 **Notes:**
 
