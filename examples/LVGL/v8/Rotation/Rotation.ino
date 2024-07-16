@@ -1,13 +1,13 @@
 /**
  * # LVGL Rotation Example
  *
- * The example demonstrates how to use LVGL to rotate the display.
+ * The example demonstrates how to use LVGL(v8) to rotate the display.
  *
  * ## How to Use
  *
  * To use this example, please firstly install the following dependent libraries:
  *
- * - lvgl (v8.3.x)
+ * - lvgl (>= v8.3.9, < v9)
  *
  * Follow the steps below to configure:
  *

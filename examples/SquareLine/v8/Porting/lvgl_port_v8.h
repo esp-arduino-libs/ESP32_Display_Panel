@@ -59,7 +59,7 @@
 /**
  * Avoid tering related configurations, can be adjusted by users.
  *
- *  (Currently, This function only supports RGB LCD)
+ *  (Currently, This function only supports RGB LCD and the version of LVGL must be >= 8.3.9)
  *
  */
 /**
