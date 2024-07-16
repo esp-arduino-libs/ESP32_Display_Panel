@@ -62,7 +62,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 
 | **厂商** | **开发板型号** |
 | -------- | -------------- |
-| [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
@@ -130,7 +130,7 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Conf.h](./ESP_Panel_Conf.h) 文件来�
 
 #### 使用支持的开发板
 
-ESP32_Display_Panel 会根据 [ESP_Panel_Board_Supported.h](./ESP_Panel_Board_Supported.h) 文件来配置 `ESP_Panel` 成为目标开发板的驱动，用户可以通过修改此文件中的宏定义来选择支持的开发板。以使用 *ESP32-S3-Box-3* 开发板为例，修改步骤如下：
+ESP32_Display_Panel 会根据 [ESP_Panel_Board_Supported.h](./ESP_Panel_Board_Supported.h) 文件来配置 `ESP_Panel` 成为目标开发板的驱动，用户可以通过修改此文件中的宏定义来选择支持的开发板。以使用 *ESP32-S3-BOX-3* 开发板为例，修改步骤如下：
 
 1. 设置 `ESP_Panel_Board_Supported.h` 文件中的 `ESP_PANEL_USE_SUPPORTED_BOARD` 宏定义为 `1`。
 2. 根据目标开发板的型号，取消对应的宏定义的注释。

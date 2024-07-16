@@ -62,7 +62,7 @@ Below is a list of [supported development boards](docs/Board_Instructions.md):
 
 | **Manufacturer** | **Board Model** |
 | --------------- | --------------- |
-| [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-Box, ESP32-S3-Box-3, ESP32-S3-Box-3(beta), ESP32-S3-Box-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
+| [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 
@@ -130,7 +130,7 @@ ESP32_Display_Panel configures driver functionality and parameters based on the 
 
 #### Using Supported Development Boards
 
-ESP32_Display_Panel configures `ESP_Panel` as the driver for the target development board based on the [ESP_Panel_Board_Supported.h](./ESP_Panel_Board_Supported.h) file. Users can select supported development boards by modifying macro definitions in this file. For example, to use the *ESP32-S3-Box-3* development board, follow these steps:
+ESP32_Display_Panel configures `ESP_Panel` as the driver for the target development board based on the [ESP_Panel_Board_Supported.h](./ESP_Panel_Board_Supported.h) file. Users can select supported development boards by modifying macro definitions in this file. For example, to use the *ESP32-S3-BOX-3* development board, follow these steps:
 
 1. Set the `ESP_PANEL_USE_SUPPORTED_BOARD` macro definition in the `ESP_Panel_Board_Supported.h` file to `1`.
 2. Uncomment the corresponding macro definition for the target development board model.

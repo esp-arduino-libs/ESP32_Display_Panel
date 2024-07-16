@@ -17,6 +17,7 @@
 * fix(examples): fix lvgl port rotation issue when enabling avoid tearing by @NecroMancer05
 * fix(pre-commit): switch to Python 3 for pre-commit @lboue (#70)
 * fix(docs): specify lvgl version >= v8.3.9 and < 9
+* fix(docs): update board ESP32-S3-BOX-3 & ESP32-S3-BOX-3B
 
 ## v0.1.4 - 2024-06-17
 
