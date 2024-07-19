@@ -149,9 +149,9 @@ void setup()
 
     Serial.println("Create LCD device");
     ESP_PanelLcd *lcd = new EXAMPLE_LCD_CLASS(EXAMPLE_LCD_NAME, panel_bus, EXAMPLE_LCD_COLOR_BITS, EXAMPLE_LCD_PIN_NUM_RST);
+    // lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
     lcd->init();
     lcd->reset();
-    // lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
     lcd->begin();
     lcd->displayOn();
 #if EXAMPLE_ENABLE_ATTACH_CALLBACK

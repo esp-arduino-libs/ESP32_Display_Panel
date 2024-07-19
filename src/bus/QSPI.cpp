@@ -88,6 +88,7 @@ bool ESP_PanelBus_QSPI::begin(void)
         ESP_LOGD(TAG, "Init host[%d]", host_id);
     }
 
+    esp_rom_printf("QSPI begin: %d\n", io_config.spi_mode);
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)host_id, &io_config, &handle), false,
                             "Create panel io failed");
     ESP_LOGD(TAG, "Panel IO @%p created", handle);
