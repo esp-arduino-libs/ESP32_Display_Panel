@@ -6,6 +6,7 @@
 
 * fix(examples): fix `LVGL_PORT_ROTATION_DEGREE` issue by @lboue (#76)
 * fix(examples): fix issue with I2C.ino EXAMPLE_TOUCH_ADDRESS missing as variable by @lboue (#84)
+* fix(gt911): allow to set the GT911 touch device address by @lboue (#86)
 
 ## v0.1.5 - 2024-07-09
 
