@@ -18,21 +18,21 @@
 
 #include "ESP_PanelLog.h"
 #include "bus/RGB.h"
-#include "EK9716BD3.h"
+#include "EK9716B.h"
 
-static const char *TAG = "EK9716BD3_CPP";
+static const char *TAG = "EK9716B_CPP";
 
-ESP_PanelLcd_EK9716BD3::ESP_PanelLcd_EK9716BD3(ESP_PanelBus *bus, uint8_t color_bits, int rst_io):
+ESP_PanelLcd_EK9716B::ESP_PanelLcd_EK9716B(ESP_PanelBus *bus, uint8_t color_bits, int rst_io):
     ESP_PanelLcd(bus, color_bits, rst_io)
 {
 }
 
-ESP_PanelLcd_EK9716BD3::ESP_PanelLcd_EK9716BD3(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config):
+ESP_PanelLcd_EK9716B::ESP_PanelLcd_EK9716B(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config):
     ESP_PanelLcd(bus, panel_config)
 {
 }
 
-ESP_PanelLcd_EK9716BD3::~ESP_PanelLcd_EK9716BD3()
+ESP_PanelLcd_EK9716B::~ESP_PanelLcd_EK9716B()
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
@@ -48,7 +48,7 @@ end:
     ESP_LOGD(TAG, "Destroyed");
 }
 
-bool ESP_PanelLcd_EK9716BD3::init(void)
+bool ESP_PanelLcd_EK9716B::init(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
@@ -69,7 +69,7 @@ bool ESP_PanelLcd_EK9716BD3::init(void)
     return true;
 }
 
-bool ESP_PanelLcd_EK9716BD3::reset(void)
+bool ESP_PanelLcd_EK9716B::reset(void)
 {
     ESP_PANEL_CHECK_NULL_RET(handle, false, "Invalid handle");
 
