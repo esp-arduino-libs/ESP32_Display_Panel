@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.6 - 2024-07-28
+
+### Bugfixes:
+
+* fix(examples): fix `LVGL_PORT_ROTATION_DEGREE` issue by @lboue (#76)
+
 ## v0.1.5 - 2024-07-09
 
 ### Enhancements:
