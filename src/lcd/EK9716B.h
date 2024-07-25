@@ -12,11 +12,11 @@
 #include "ESP_PanelLcd.h"
 
 /**
- * @brief EK9716BD3 LCD device object class
+ * @brief EK9716B LCD device object class
  *
  * @note  This class is a derived class of `ESP_PanelLcd`, user can use it directly
  */
-class ESP_PanelLcd_EK9716BD3: public ESP_PanelLcd {
+class ESP_PanelLcd_EK9716B: public ESP_PanelLcd {
 public:
     /**
      * @brief Construct a new LCD device in a simple way, the `init()` function should be called after this function
@@ -28,7 +28,7 @@ public:
      * @param color_bits    Bits per pixel (24)
      * @param rst_io        Reset pin, set to `-1` if no use
      */
-    ESP_PanelLcd_EK9716BD3(ESP_PanelBus *bus, uint8_t color_bits, int rst_io = -1);
+    ESP_PanelLcd_EK9716B(ESP_PanelBus *bus, uint8_t color_bits, int rst_io = -1);
 
     /**
      * @brief Construct a new LCD device in a complex way, the `init()` function should be called after this function
@@ -36,13 +36,13 @@ public:
      * @param bus           Pointer of panel bus
      * @param panel_config  LCD device configuration
      */
-    ESP_PanelLcd_EK9716BD3(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config);
+    ESP_PanelLcd_EK9716B(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config);
 
     /**
      * @brief Destroy the LCD device
      *
      */
-    ~ESP_PanelLcd_EK9716BD3() override;
+    ~ESP_PanelLcd_EK9716B() override;
 
     /**
      * @brief Initialize the LCD device, the `begin()` function should be called after this function
