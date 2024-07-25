@@ -24,6 +24,7 @@
 
 /* LCD */
 #include "lcd/ESP_PanelLcd.h"
+#include "lcd/EK9716B.h"
 #include "lcd/GC9503.h"
 #include "lcd/GC9A01.h"
 #include "lcd/GC9B71.h"
