@@ -66,9 +66,9 @@ extern lv_obj_t *ui_ButtonRetSet;
 extern lv_obj_t *ui_ImageRetSet;
 extern lv_obj_t *ui_LabelWifiList;
 extern lv_obj_t *ui_SpinnerLoadWifi;
-// SCREEN: ui_ScreenPassord
-void ui_ScreenPassord_screen_init(void);
-extern lv_obj_t *ui_ScreenPassord;
+// SCREEN: ui_ScreenPassword
+void ui_ScreenPassword_screen_init(void);
+extern lv_obj_t *ui_ScreenPassword;
 extern lv_obj_t *ui_TextPassword;
 void ui_event_KeyboardPassword( lv_event_t * e);
 extern lv_obj_t *ui_KeyboardPassword;

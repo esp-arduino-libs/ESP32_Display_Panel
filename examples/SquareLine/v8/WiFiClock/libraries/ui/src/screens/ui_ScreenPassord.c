@@ -5,14 +5,14 @@
 
 #include "../ui.h"
 
-void ui_ScreenPassord_screen_init(void)
+void ui_ScreenPassword_screen_init(void)
 {
-ui_ScreenPassord = lv_obj_create(NULL);
-lv_obj_clear_flag( ui_ScreenPassord, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_obj_set_style_bg_color(ui_ScreenPassord, lv_color_hex(0x112D4E), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_ScreenPassord, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
+ui_ScreenPassword = lv_obj_create(NULL);
+lv_obj_clear_flag( ui_ScreenPassword, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+lv_obj_set_style_bg_color(ui_ScreenPassword, lv_color_hex(0x112D4E), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_bg_opa(ui_ScreenPassword, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
-ui_TextPassword = lv_textarea_create(ui_ScreenPassord);
+ui_TextPassword = lv_textarea_create(ui_ScreenPassword);
 lv_obj_set_width( ui_TextPassword, 283);
 lv_obj_set_height( ui_TextPassword, 42);
 lv_obj_set_x( ui_TextPassword, -1 );
@@ -22,7 +22,7 @@ lv_textarea_set_placeholder_text(ui_TextPassword,"Please enter Wifi password");
 lv_obj_set_style_bg_color(ui_TextPassword, lv_color_hex(0xDBE2EF), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_bg_opa(ui_TextPassword, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
-ui_KeyboardPassword = lv_keyboard_create(ui_ScreenPassord);
+ui_KeyboardPassword = lv_keyboard_create(ui_ScreenPassword);
 lv_obj_set_width( ui_KeyboardPassword, 300);
 lv_obj_set_height( ui_KeyboardPassword, 120);
 lv_obj_set_x( ui_KeyboardPassword, 0 );
@@ -31,7 +31,7 @@ lv_obj_set_align( ui_KeyboardPassword, LV_ALIGN_CENTER );
 lv_obj_set_style_bg_color(ui_KeyboardPassword, lv_color_hex(0xDBE2EF), LV_PART_MAIN | LV_STATE_DEFAULT );
 lv_obj_set_style_bg_opa(ui_KeyboardPassword, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
-ui_ButtonRetWifi = lv_btn_create(ui_ScreenPassord);
+ui_ButtonRetWifi = lv_btn_create(ui_ScreenPassword);
 lv_obj_set_width( ui_ButtonRetWifi, 30);
 lv_obj_set_height( ui_ButtonRetWifi, 26);
 lv_obj_set_x( ui_ButtonRetWifi, -138 );
@@ -55,7 +55,7 @@ lv_img_set_zoom(ui_ImageRetWifi,30);
 lv_obj_set_style_img_recolor(ui_ImageRetWifi, lv_color_hex(0xDBE2EF), LV_PART_MAIN| LV_STATE_DEFAULT);
 lv_obj_set_style_img_recolor_opa(ui_ImageRetWifi, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
 
-ui_SpinnerLoadPassword = lv_spinner_create(ui_ScreenPassord,1000,90);
+ui_SpinnerLoadPassword = lv_spinner_create(ui_ScreenPassword,1000,90);
 lv_obj_set_width( ui_SpinnerLoadPassword, 80);
 lv_obj_set_height( ui_SpinnerLoadPassword, 80);
 lv_obj_set_align( ui_SpinnerLoadPassword, LV_ALIGN_CENTER );
