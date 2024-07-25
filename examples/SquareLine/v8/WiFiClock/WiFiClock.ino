@@ -512,7 +512,7 @@ void handleWifiListItemClick(lv_event_t * e)
         if (selected_wifi_name != NULL) {
             Serial.printf("%s\n", selected_wifi_name);
         }
-        _ui_screen_change(&ui_ScreenPassord, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_ScreenPassord_screen_init);
+        _ui_screen_change(&ui_ScreenPassword, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_ScreenPassword_screen_init);
         lvgl_port_unlock();
     }
 }
