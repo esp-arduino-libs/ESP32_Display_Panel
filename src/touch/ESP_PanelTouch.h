@@ -86,7 +86,7 @@ public:
      * @param address The address of the touch device, default set to `0` to use the default address
      */
     ESP_PanelTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config, int address);
-    
+
     /**
      * @brief Destroy the LCD device
      *
