@@ -35,7 +35,7 @@ public:
      * @param config  Touch device configuration
      */
     ESP_PanelTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config);
-    
+
     /**
      * @brief Construct a new touch device in a complex way, the `init()` function should be called after this function
      *
