@@ -74,6 +74,15 @@
  */
 // #define BOARD_ESP32_4848S040C_I_Y_3
 
+/*
+ * Waveshare Supported Boards (https://www.waveshare.com/):
+ *
+ *  - ESP32_S3_Touch_LCD_4_3:
+ *      - https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm
+ *
+ */
+// #define BOARD_ESP32_S3_Touch_LCD_4_3
+
 /**
  * Do not change the following versions, they are used to check if the configurations in this file are compatible with
  * the current version of `ESP_Panel_Board_Supported.h` in the library. The detailed rules are as follows:
