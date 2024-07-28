@@ -229,10 +229,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////// Please update the following macros to configure the backlight ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define ESP_PANEL_USE_BACKLIGHT         (1)         // 0/1
+#define ESP_PANEL_USE_BACKLIGHT         (0)         // 0/1
 #if ESP_PANEL_USE_BACKLIGHT
 /* IO num of backlight pin */
-#define ESP_PANEL_BACKLIGHT_IO          (38)
+#define ESP_PANEL_BACKLIGHT_IO          (-1)
 #define ESP_PANEL_BACKLIGHT_ON_LEVEL    (1)         // 0: low level, 1: high level
 
 /* Set to 1 if turn off the backlight after initializing the panel; otherwise, set it to turn on */
