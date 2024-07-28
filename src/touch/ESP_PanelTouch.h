@@ -79,15 +79,6 @@ public:
     ESP_PanelTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config);
 
     /**
-     * @brief Construct a new touch device in a complex way, the `init()` function should be called after this function
-     *
-     * @param bus    Pointer to panel bus
-     * @param config Touch device configuration
-     * @param address The address of the touch device, default set to `0` to use the default address
-     */
-    ESP_PanelTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config, int address);
-
-    /**
      * @brief Destroy the LCD device
      *
      */

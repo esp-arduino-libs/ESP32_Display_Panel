@@ -78,25 +78,6 @@ ESP_PanelTouch::ESP_PanelTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &
     }
 }
 
-ESP_PanelTouch::ESP_PanelTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config, int address):
-    bus(bus),
-    config(config),
-    handle(NULL),
-    _swap_xy(false),
-    _mirror_x(false),
-    _mirror_y(false),
-    _tp_points_num(0),
-    _tp_buttons_state{0},
-    onTouchInterruptCallback(NULL),
-    _isr_sem(NULL),
-    callback_data(CALLBACK_DATA_DEFAULT())
-{
-    if ((config.int_gpio_num != GPIO_NUM_NC) && (config.interrupt_callback == NULL) && (config.user_data == NULL)) {
-        this->config.interrupt_callback = onTouchInterrupt;
-        this->config.user_data = &callback_data;
-    }
-}
-
 bool ESP_PanelTouch::attachInterruptCallback(std::function<bool (void *)> callback, void *user_data)
 {
     ESP_PANEL_CHECK_FALSE_RET((config.interrupt_callback == onTouchInterrupt), false, "Interruption is not enabled");

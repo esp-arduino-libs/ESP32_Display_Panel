@@ -19,11 +19,6 @@ ESP_PanelTouch_GT911::ESP_PanelTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touc
 {
 }
 
-ESP_PanelTouch_GT911::ESP_PanelTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config, int address):
-    ESP_PanelTouch(bus, config, address)
-{
-}
-
 ESP_PanelTouch_GT911::~ESP_PanelTouch_GT911()
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();

@@ -45,8 +45,6 @@ using namespace std;
 #define CREATE_LCD(name, bus, cfg)  _CREATE_LCD(name, bus, cfg)
 #define _CREATE_TOUCH(name, bus, cfg) make_shared<ESP_PanelTouch_##name>(bus, cfg)
 #define CREATE_TOUCH(name, bus, cfg)  _CREATE_TOUCH(name, bus, cfg)
-#define _CREATE_TOUCH_WITH_ADDR(name, bus, cfg, addr) make_shared<ESP_PanelTouch_##name>(bus, cfg, addr)
-#define CREATE_TOUCH_WITH_ADDR(name, bus, cfg, addr)  _CREATE_TOUCH_WITH_ADDR(name, bus, cfg, addr)
 #define _CREATE_EXPANDER(name, host_id, address) make_shared<ESP_IOExpander_##name>(host_id, address)
 #define CREATE_EXPANDER(name, host_id, address)  _CREATE_EXPANDER(name, host_id, address)
 
@@ -414,12 +412,7 @@ bool ESP_Panel::init(void)
     ESP_PANEL_CHECK_NULL_RET(touch_bus_ptr, false, "Create touch bus failed");
 
     ESP_LOGD(TAG, "Create touch device");
-    touch_ptr =
-#if ESP_PANEL_TOUCH_I2C_ADDRESS == 0
-        CREATE_TOUCH(ESP_PANEL_TOUCH_NAME, touch_bus_ptr.get(), lcd_touch_config);
-#else
-        CREATE_TOUCH_WITH_ADDR(ESP_PANEL_TOUCH_NAME, touch_bus_ptr.get(), lcd_touch_config, ESP_PANEL_TOUCH_I2C_ADDRESS);
-#endif
+    touch_ptr = CREATE_TOUCH(ESP_PANEL_TOUCH_NAME, touch_bus_ptr.get(), lcd_touch_config);
     ESP_PANEL_CHECK_NULL_RET(touch_ptr, false, "Create touch device failed");
 #endif /* ESP_PANEL_USE_TOUCH */
 

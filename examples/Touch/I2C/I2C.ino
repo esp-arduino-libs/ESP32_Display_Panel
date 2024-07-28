@@ -53,8 +53,10 @@
  *      - ST1633, ST7123
  */
 #define EXAMPLE_TOUCH_NAME              GT911
-#define EXAMPLE_TOUCH_ADDRESS           (0)     // Typically set to `0` to use the default address
-                                                // For GT911, there are two addresses: 0x5D(default) and 0x14
+#define EXAMPLE_TOUCH_ADDRESS           (0)     // Typically set to 0 to use the default address.
+                                                // - For touchs with only one address, set to 0
+                                                // - For touchs with multiple addresses, set to 0 or the address
+                                                //   Like GT911, there are two addresses: 0x5D(default) and 0x14
 #define EXAMPLE_TOUCH_WIDTH             (480)
 #define EXAMPLE_TOUCH_HEIGHT            (480)
 #define EXAMPLE_TOUCH_I2C_FREQ_HZ       (400 * 1000)
