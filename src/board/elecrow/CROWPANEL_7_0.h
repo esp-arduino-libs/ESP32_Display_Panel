@@ -18,7 +18,7 @@
 /**
  * LCD Controller Name.
  */
-#define ESP_PANEL_LCD_NAME          EK9716BD3
+#define ESP_PANEL_LCD_NAME          EK9716B // Fitipower EK9716B
 
 /* LCD resolution in pixels */
 #define ESP_PANEL_LCD_WIDTH         (800)
