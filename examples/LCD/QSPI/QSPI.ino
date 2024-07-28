@@ -71,6 +71,8 @@
 #define EXAMPLE_LCD_HEIGHT              (300)
 #define EXAMPLE_LCD_COLOR_BITS          (16)
 #define EXAMPLE_LCD_SPI_FREQ_HZ         (40 * 1000 * 1000)
+#define EXAMPLE_LCD_USE_EXTERNAL_CMD    (0)
+#if EXAMPLE_LCD_USE_EXTERNAL_CMD
 /**
  * LCD initialization commands.
  *
@@ -85,17 +87,18 @@
  *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
  *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
-// const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
-//     {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},
-//     {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},
-//     {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},
-//     {0x29, (uint8_t []){0x00}, 0, 120},
-//     // or
-//     ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}),
-//     ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),
-//     ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),
-//     ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),
-// };
+const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
+    // {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},
+    // {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},
+    // {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},
+    // {0x29, (uint8_t []){0x00}, 0, 120},
+    // // or
+    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}),
+    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),
+    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),
+    // ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),
+};
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
@@ -106,10 +109,9 @@
 #define EXAMPLE_LCD_PIN_NUM_SPI_DATA1   (12)
 #define EXAMPLE_LCD_PIN_NUM_SPI_DATA2   (13)
 #define EXAMPLE_LCD_PIN_NUM_SPI_DATA3   (14)
-#define EXAMPLE_LCD_PIN_NUM_RST         (3)
-#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT    (-1)
+#define EXAMPLE_LCD_PIN_NUM_RST         (3)     // Set to -1 if not used
+#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT    (-1)    // Set to -1 if not used
 #define EXAMPLE_LCD_BK_LIGHT_ON_LEVEL   (1)
-
 #define EXAMPLE_LCD_BK_LIGHT_OFF_LEVEL !EXAMPLE_LCD_BK_LIGHT_ON_LEVEL
 
 /* Enable or disable the attachment of a callback function that is called after each bitmap drawing is completed */
@@ -148,9 +150,12 @@ void setup()
 
     Serial.println("Create LCD device");
     ESP_PanelLcd *lcd = new EXAMPLE_LCD_CLASS(EXAMPLE_LCD_NAME, panel_bus, EXAMPLE_LCD_COLOR_BITS, EXAMPLE_LCD_PIN_NUM_RST);
+#if EXAMPLE_LCD_USE_EXTERNAL_CMD
+    // Configure external initialization commands, should called before `init()`
+    lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
+#endif
     lcd->init();
     lcd->reset();
-    // lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
     lcd->begin();
     lcd->displayOn();
 #if EXAMPLE_ENABLE_ATTACH_CALLBACK

@@ -48,18 +48,19 @@
  * Currently, the library supports the following RGB (without 3-wire SPI) LCDs:
  *      - ST7262
  */
-#define EXAMPLE_LCD_NAME                        ST7262
-#define EXAMPLE_LCD_WIDTH                       (800)
-#define EXAMPLE_LCD_HEIGHT                      (480)
-#define EXAMPLE_LCD_COLOR_BITS                  (24)
-#define EXAMPLE_LCD_RGB_DATA_WIDTH              (16)
-#define EXAMPLE_LCD_RGB_TIMING_FREQ_HZ          (16 * 1000 * 1000)
-#define EXAMPLE_LCD_RGB_TIMING_HPW              (40)
-#define EXAMPLE_LCD_RGB_TIMING_HBP              (40)
-#define EXAMPLE_LCD_RGB_TIMING_HFP              (48)
-#define EXAMPLE_LCD_RGB_TIMING_VPW              (23)
-#define EXAMPLE_LCD_RGB_TIMING_VBP              (32)
-#define EXAMPLE_LCD_RGB_TIMING_VFP              (13)
+#define EXAMPLE_LCD_NAME                    ST7262
+#define EXAMPLE_LCD_WIDTH                   (800)
+#define EXAMPLE_LCD_HEIGHT                  (480)
+                                                    // | 8-bit RGB888 | 16-bit RGB565 |
+#define EXAMPLE_LCD_COLOR_BITS              (18)    // |      24      |   16/18/24    |
+#define EXAMPLE_LCD_RGB_DATA_WIDTH          (16)    // |      8       |      16       |
+#define EXAMPLE_LCD_RGB_TIMING_FREQ_HZ      (16 * 1000 * 1000)
+#define EXAMPLE_LCD_RGB_TIMING_HPW          (40)
+#define EXAMPLE_LCD_RGB_TIMING_HBP          (40)
+#define EXAMPLE_LCD_RGB_TIMING_HFP          (48)
+#define EXAMPLE_LCD_RGB_TIMING_VPW          (23)
+#define EXAMPLE_LCD_RGB_TIMING_VBP          (32)
+#define EXAMPLE_LCD_RGB_TIMING_VFP          (13)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
@@ -69,28 +70,29 @@
 #define EXAMPLE_LCD_PIN_NUM_RGB_HSYNC           (46)
 #define EXAMPLE_LCD_PIN_NUM_RGB_DE              (17)
 #define EXAMPLE_LCD_PIN_NUM_RGB_PCLK            (9)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA0           (10)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA1           (11)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA2           (12)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA3           (13)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA4           (14)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA5           (21)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA6           (47)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA7           (48)
+                                                        // | RGB565 | RGB666 | RGB888 |
+                                                        // |--------|--------|--------|
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA0           (10)    // |   B0   |  B0-1  |   B0-3 |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA1           (11)    // |   B1   |  B2    |   B4   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA2           (12)    // |   B2   |  B3    |   B5   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA3           (13)    // |   B3   |  B4    |   B6   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA4           (14)    // |   B4   |  B5    |   B7   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA5           (21)    // |   G0   |  G0    |   G0-2 |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA6           (47)    // |   G1   |  G1    |   G3   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA7           (48)    // |   G2   |  G2    |   G4   |
 #if EXAMPLE_LCD_RGB_DATA_WIDTH > 8
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA8           (45)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA9           (38)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA10          (39)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA11          (40)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA12          (41)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA13          (42)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA14          (2)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA15          (1)
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA8           (45)    // |   G3   |  G3    |   G5   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA9           (38)    // |   G4   |  G4    |   G6   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA10          (39)    // |   G5   |  G5    |   G7   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA11          (40)    // |   R0   |  R0-1  |   R0-3 |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA12          (41)    // |   R1   |  R2    |   R4   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA13          (42)    // |   R2   |  R3    |   R5   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA14          (2)     // |   R3   |  R4    |   R6   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA15          (1)     // |   R4   |  R5    |   R7   |
 #endif
-#define EXAMPLE_LCD_PIN_NUM_RST                 (-1)
-#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT            (-1)
+#define EXAMPLE_LCD_PIN_NUM_RST                 (-1)    // Set to -1 if not used
+#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT            (-1)    // Set to -1 if not used
 #define EXAMPLE_LCD_BK_LIGHT_ON_LEVEL           (1)
-
 #define EXAMPLE_LCD_BK_LIGHT_OFF_LEVEL !EXAMPLE_LCD_BK_LIGHT_ON_LEVEL
 
 /* Enable or disable printing RGB refresh rate */
