@@ -29,7 +29,7 @@
  * If set to 1, the bus will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
  */
-#define ESP_PANEL_LCD_BUS_SKIP_INIT_HOST    (0)     // 0/1
+#define ESP_PANEL_LCD_BUS_SKIP_INIT_HOST    (1)     // 0/1
 /**
  * LCD Bus Type.
  */
