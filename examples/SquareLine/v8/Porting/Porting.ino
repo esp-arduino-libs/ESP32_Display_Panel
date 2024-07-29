@@ -1,7 +1,7 @@
 /**
  * # SquareLine Porting Example
  *
- * The example demonstrates how to port SquareLine (v1.3.x) project. And for RGB LCD, it can enable the avoid tearing fucntion.
+ * The example demonstrates how to port SquareLine (v1.3.x) project. And for RGB LCD, it can enable the avoid tearing function.
  *
  * ## How to Use
  *
