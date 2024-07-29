@@ -15,3 +15,4 @@
 | [ST7796](https://components.espressif.com/components/espressif/esp_lcd_st7796)   | 1.2.1       |
 | [ST77916](https://components.espressif.com/components/espressif/esp_lcd_st77916) | 0.0.2       |
 | [ST77922](https://components.espressif.com/components/espressif/esp_lcd_st77922) | 0.0.2       |
+| EK9716B                                                                          | -       |

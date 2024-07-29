@@ -1,8 +1,12 @@
-| Supported ESP SoCs | ESP32-S3 |
-| ------------------ | -------- |
+| Supported ESP SoCs |
+| ------------------ |
+| ESP32-S3           |
 
-| Supported LCD Controllers | ST7262 |
-| ------------------------- | ------ |
+| Supported LCD Controllers | 
+| ------------------------- |
+| EK9716B |
+| ST7262  |
+
 
 # Single RGB LCD Example
 

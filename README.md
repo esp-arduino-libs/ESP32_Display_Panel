@@ -75,6 +75,7 @@ Below is a list of [supported LCD controllers](docs/LCD_Controllers.md):
 
 | **Manufacturer** | **Model** |
 | --------------- | --------- |
+| Fitipower | EK9716B |
 | GalaxyCore | GC9A01, GC9B71, GC9503 |
 | Ilitek | ILI9341 |
 | NewVision | NV3022B |
