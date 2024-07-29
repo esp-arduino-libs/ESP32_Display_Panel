@@ -1,6 +1,6 @@
 # LVGL Porting Example
 
-The example demonstrates how to port LVGL(v8). And for RGB LCD, it can enable the avoid tearing fucntion.
+The example demonstrates how to port LVGL(v8). And for RGB LCD, it can enable the avoid tearing function.
 
 ## How to Use
 
