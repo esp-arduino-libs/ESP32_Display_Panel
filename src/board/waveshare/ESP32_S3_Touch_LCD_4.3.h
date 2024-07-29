@@ -44,47 +44,53 @@
 #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 
     #define ESP_PANEL_LCD_RGB_CLK_HZ            (16 * 1000 * 1000)
-    #define ESP_PANEL_LCD_RGB_HPW               (40)
-    #define ESP_PANEL_LCD_RGB_HBP               (40)
-    #define ESP_PANEL_LCD_RGB_HFP               (48)
-    #define ESP_PANEL_LCD_RGB_VPW               (23)
-    #define ESP_PANEL_LCD_RGB_VBP               (32)
-    #define ESP_PANEL_LCD_RGB_VFP               (13)
-    #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (0)     // 0: rising edge, 1: falling edge
-    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    //  8 | 16
-    #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (24)    // 24 | 16
+    #define ESP_PANEL_LCD_RGB_HPW               (4)
+    #define ESP_PANEL_LCD_RGB_HBP               (8)
+    #define ESP_PANEL_LCD_RGB_HFP               (8)
+    #define ESP_PANEL_LCD_RGB_VPW               (4)
+    #define ESP_PANEL_LCD_RGB_VBP               (8)
+    #define ESP_PANEL_LCD_RGB_VFP               (8)
+    #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (1)     // 0: rising edge, 1: falling edge
+
+                                                        // | 8-bit RGB888 | 16-bit RGB565 |
+                                                        // |--------------|---------------|
+    #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    // |      8       |      16       |
+    #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // |      24      |      16       |
     #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM     (1)     // 1/2/3
-    #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (ESP_PANEL_LCD_WIDTH * 10)
-                                                        // Bounce buffer size in bytes. This function is used to avoid screen drift.
-                                                        // To enable the bounce buffer, set it to a non-zero value.
-                                                        // Typically set to `ESP_PANEL_LCD_WIDTH * 10`
+    #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (ESP_PANEL_LCD_WIDTH * 10)     // Bounce buffer size in bytes. This function is used to avoid screen drift.
+                                                        // To enable the bounce buffer, set it to a non-zero value. Typically set to `ESP_PANEL_LCD_WIDTH * 10`
+                                                        // The size of the Bounce Buffer must satisfy `width_of_lcd * height_of_lcd = size_of_buffer * N`,
+                                                        // where N is an even number.
     #define ESP_PANEL_LCD_RGB_IO_HSYNC          (46)
     #define ESP_PANEL_LCD_RGB_IO_VSYNC          (3)
-    #define ESP_PANEL_LCD_RGB_IO_DE             (5)   // -1 if not used
+    #define ESP_PANEL_LCD_RGB_IO_DE             (5)     // -1 if not used
     #define ESP_PANEL_LCD_RGB_IO_PCLK           (7)
     #define ESP_PANEL_LCD_RGB_IO_DISP           (-1)    // -1 if not used
-    #define ESP_PANEL_LCD_RGB_IO_DATA0          (1)
-    #define ESP_PANEL_LCD_RGB_IO_DATA1          (2)
-    #define ESP_PANEL_LCD_RGB_IO_DATA2          (42)
-    #define ESP_PANEL_LCD_RGB_IO_DATA3          (41)
-    #define ESP_PANEL_LCD_RGB_IO_DATA4          (40)
-    #define ESP_PANEL_LCD_RGB_IO_DATA5          (14)
-    #define ESP_PANEL_LCD_RGB_IO_DATA6          (38)
-    #define ESP_PANEL_LCD_RGB_IO_DATA7          (18)
+
+                                                        // | RGB565 | RGB666 | RGB888 |
+                                                        // |--------|--------|--------|
+    #define ESP_PANEL_LCD_RGB_IO_DATA0          (14)    // |   B0   |  B0-1  |   B0-3 |
+    #define ESP_PANEL_LCD_RGB_IO_DATA1          (38)    // |   B1   |  B2    |   B4   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA2          (18)    // |   B2   |  B3    |   B5   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA3          (17)    // |   B3   |  B4    |   B6   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA4          (10)    // |   B4   |  B5    |   B7   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA5          (39)    // |   G0   |  G0    |   G0-2 |
+    #define ESP_PANEL_LCD_RGB_IO_DATA6           (0)    // |   G1   |  G1    |   G3   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA7          (45)    // |   G2   |  G2    |   G4   |
 #if ESP_PANEL_LCD_RGB_DATA_WIDTH > 8
-    #define ESP_PANEL_LCD_RGB_IO_DATA8          (17)
-    #define ESP_PANEL_LCD_RGB_IO_DATA9          (10)
-    #define ESP_PANEL_LCD_RGB_IO_DATA10         (39)
-    #define ESP_PANEL_LCD_RGB_IO_DATA11         (0)
-    #define ESP_PANEL_LCD_RGB_IO_DATA12         (45)
-    #define ESP_PANEL_LCD_RGB_IO_DATA13         (48)
-    #define ESP_PANEL_LCD_RGB_IO_DATA14         (47)
-    #define ESP_PANEL_LCD_RGB_IO_DATA15         (21)
+    #define ESP_PANEL_LCD_RGB_IO_DATA8          (48)    // |   G3   |  G3    |   G5   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA9          (47)    // |   G4   |  G4    |   G6   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA10         (21)    // |   G5   |  G5    |   G7   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA11          (1)    // |   R0   |  R0-1  |   R0-3 |
+    #define ESP_PANEL_LCD_RGB_IO_DATA12          (2)    // |   R1   |  R2    |   R4   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA13         (42)    // |   R2   |  R3    |   R5   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA14         (41)    // |   R3   |  R4    |   R6   |
+    #define ESP_PANEL_LCD_RGB_IO_DATA15         (40)    // |   R4   |  R5    |   R7   |
 #endif
 #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
-    #define ESP_PANEL_LCD_3WIRE_SPI_IO_CS               (39)
-    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SCK              (48)
-    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SDA              (47)
+    #define ESP_PANEL_LCD_3WIRE_SPI_IO_CS               (0)
+    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SCK              (1)
+    #define ESP_PANEL_LCD_3WIRE_SPI_IO_SDA              (2)
     #define ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER     (0)     // 0/1
     #define ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER    (0)     // 0/1
     #define ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER    (0)     // 0/1
@@ -175,7 +181,7 @@
 #if ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C
 
     #define ESP_PANEL_TOUCH_BUS_HOST_ID     (0)     // Typically set to 0
-    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0)     // Typically set to 0 to use default address
+    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0x14)  // For GT911, there are two addresses: 0x5D(default) and 0x14
 #if !ESP_PANEL_TOUCH_BUS_SKIP_INIT_HOST
     #define ESP_PANEL_TOUCH_I2C_CLK_HZ      (400 * 1000)
                                                     // Typically set to 400K
@@ -222,7 +228,7 @@
 ///////////////////////////// Please update the following macros to configure the IO expander //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* Set to 0 if not using IO Expander */
-#define ESP_PANEL_USE_EXPANDER          (1)         // 0/1
+#define ESP_PANEL_USE_EXPANDER          (0)         // 0/1
 #if ESP_PANEL_USE_EXPANDER
 /**
  * IO expander name.
