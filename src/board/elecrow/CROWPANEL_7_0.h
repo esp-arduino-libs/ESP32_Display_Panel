@@ -18,7 +18,7 @@
 /**
  * LCD Controller Name.
  */
-#define ESP_PANEL_LCD_NAME          EK9716BD3
+#define ESP_PANEL_LCD_NAME          EK9716B // Fitipower EK9716B
 
 /* LCD resolution in pixels */
 #define ESP_PANEL_LCD_WIDTH         (800)
@@ -217,7 +217,6 @@
 // #define ESP_PANEL_BEGIN_EXPANDER_START_FUNCTION( panel )
 // #define ESP_PANEL_BEGIN_EXPANDER_END_FUNCTION( panel )
 #define ESP_PANEL_BEGIN_LCD_START_FUNCTION( panel )  \
-
     {  \
         /* Maintain the touch INT signal in a low state during the reset process to set its I2C address to `0x5D` */ \
         gpio_set_direction((gpio_num_t)ESP_PANEL_TOUCH_IO_INT, GPIO_MODE_OUTPUT); \
