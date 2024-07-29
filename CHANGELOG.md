@@ -1,6 +1,10 @@
 # ChangeLog
 
-## v0.1.6 - 2024-07-28
+## v0.1.6 - 2024-07-29
+
+### Enhancements:
+
+* feat(board): add support for Fitipower EK9716B LCD controller for CrowPanel 7.0" board by @lboue (#78)
 
 ### Bugfixes:
 
