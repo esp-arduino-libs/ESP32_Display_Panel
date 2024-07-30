@@ -17,6 +17,7 @@
 * fix(examples): fix WiFiClock log HTTP error code to serial console by @lboue (#97)
 * fix(gt911): allow to set the GT911 touch device address by @lboue (#86)
 * fix(conf): fix the issue that the `ESP_PANEL_EXPANDER_HOST_ID` flag is not working properly
+* fix(conf): fix `LCD Venbdor` typo (#92)
 
 ## v0.1.5 - 2024-07-09
 
