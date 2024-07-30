@@ -33,7 +33,6 @@ public:
      *
      * @param bus     Pointer to panel bus
      * @param config  Touch device configuration
-     * @param address The address of the touch device, default set to `0` to use the default address
      */
     ESP_PanelTouch_GT911(ESP_PanelBus *bus, const esp_lcd_touch_config_t &config);
 

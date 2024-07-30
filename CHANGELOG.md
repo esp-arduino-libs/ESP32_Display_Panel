@@ -1,5 +1,24 @@
 # ChangeLog
 
+## v0.1.6 - 2024-07-30
+
+### Enhancements:
+
+* feat(board): add support for Fitipower EK9716B LCD controller for CrowPanel 7.0" board by @lboue (#78)
+
+### Bugfixes:
+
+* fix(examples): fix `LVGL_PORT_ROTATION_DEGREE` issue by @lboue (#76)
+* fix(examples): fix issue with I2C.ino `EXAMPLE_TOUCH_ADDRESS` missing as variable by @lboue (#84)
+* fix(examples): fix WiFiClock wrong name `ScreenPassord` by @lboue (#82)
+* fix(examples): fix LCD using `configVendorCommands()` before `init()`
+* fix(examples): fix `LV_USE_DEMO_WIDGETS` typo by @lboue (#98)
+* fix(examples): fix `Tearing fucntion` typo by @lboue (#96)
+* fix(examples): fix WiFiClock log HTTP error code to serial console by @lboue (#97)
+* fix(gt911): allow to set the GT911 touch device address by @lboue (#86)
+* fix(conf): fix the issue that the `ESP_PANEL_EXPANDER_HOST_ID` flag is not working properly
+* fix(conf): fix `LCD Venbdor` typo (#92)
+
 ## v0.1.5 - 2024-07-09
 
 ### Enhancements:

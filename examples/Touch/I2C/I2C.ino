@@ -53,8 +53,10 @@
  *      - ST1633, ST7123
  */
 #define EXAMPLE_TOUCH_NAME              GT911
-#define EXAMPLE_TOUCH_ADDRESS           (0)     // Typically set to `0` to use the default address
-                                                // For GT911, there are two addresses: 0x5D(default) and 0x14
+#define EXAMPLE_TOUCH_ADDRESS           (0)     // Typically set to 0 to use the default address.
+                                                // - For touchs with only one address, set to 0
+                                                // - For touchs with multiple addresses, set to 0 or the address
+                                                //   Like GT911, there are two addresses: 0x5D(default) and 0x14
 #define EXAMPLE_TOUCH_WIDTH             (480)
 #define EXAMPLE_TOUCH_HEIGHT            (480)
 #define EXAMPLE_TOUCH_I2C_FREQ_HZ       (400 * 1000)
@@ -101,7 +103,7 @@ void setup()
                             ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG_WITH_ADDR(EXAMPLE_TOUCH_NAME, EXAMPLE_TOUCH_ADDRESS));
     // Taking GT911 as an example, the following is the code after macro expansion:
     // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
-    //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR());
+    //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR(EXAMPLE_TOUCH_ADDRESS));
 #endif
     touch_bus->configI2cFreqHz(EXAMPLE_TOUCH_I2C_FREQ_HZ);
     touch_bus->begin();

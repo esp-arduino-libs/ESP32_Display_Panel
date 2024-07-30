@@ -85,7 +85,7 @@
 #endif /* ESP_PANEL_LCD_BUS_TYPE */
 
 /**
- * LCD Venbdor Initialization Commands.
+ * LCD Vendor Initialization Commands.
  *
  * Vendor specific initialization can be different between manufacturers, should consult the LCD supplier for
  * initialization sequence code. Please uncomment and change the following macro definitions. Otherwise, the LCD driver
