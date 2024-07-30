@@ -181,7 +181,7 @@
 #if ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C
 
     #define ESP_PANEL_TOUCH_BUS_HOST_ID     (0)     // Typically set to 0
-    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0x14)  // For GT911, there are two addresses: 0x5D(default) and 0x14
+    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0)     // For GT911, there are two addresses: 0x5D(default) and 0x14
 #if !ESP_PANEL_TOUCH_BUS_SKIP_INIT_HOST
     #define ESP_PANEL_TOUCH_I2C_CLK_HZ      (400 * 1000)
                                                     // Typically set to 400K
@@ -221,14 +221,14 @@
 #define ESP_PANEL_BACKLIGHT_IDLE_OFF    (0)         // 0: on, 1: off
 
 /* Set to 1 if use PWM for brightness control */
-#define ESP_PANEL_LCD_BL_USE_PWM        (1)         // 0/1
+#define ESP_PANEL_LCD_BL_USE_PWM        (0)         // 0/1
 #endif /* ESP_PANEL_USE_BACKLIGHT */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////// Please update the following macros to configure the IO expander //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* Set to 0 if not using IO Expander */
-#define ESP_PANEL_USE_EXPANDER          (0)         // 0/1
+#define ESP_PANEL_USE_EXPANDER          (1)         // 0/1
 #if ESP_PANEL_USE_EXPANDER
 /**
  * IO expander name.
@@ -240,15 +240,15 @@
  * If set to 1, the driver will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
  */
-#define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (0)     // 0/1
+#define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (1)     // 0/1
 /* IO expander parameters */
-#define ESP_PANEL_EXPANDER_I2C_ADDRESS          (0x24)
+#define ESP_PANEL_EXPANDER_HOST_ID              (0)     // Typically set to 0
+#define ESP_PANEL_EXPANDER_I2C_ADDRESS          (0x20)
 #if !ESP_PANEL_EXPANDER_SKIP_INIT_HOST
-    #define ESP_PANEL_EXPANDER_HOST_ID          (0)     // Typically set to 0
     #define ESP_PANEL_EXPANDER_I2C_CLK_HZ       (400 * 1000)
                                                         // Typically set to 400K
-    #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP   (0)     // 0/1
-    #define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP   (0)     // 0/1
+    #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP   (1)     // 0/1
+    #define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP   (1)     // 0/1
     #define ESP_PANEL_EXPANDER_I2C_IO_SCL       (18)
     #define ESP_PANEL_EXPANDER_I2C_IO_SDA       (8)
 #endif
