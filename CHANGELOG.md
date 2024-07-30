@@ -1,6 +1,6 @@
 # ChangeLog
 
-## v0.1.6 - 2024-07-29
+## v0.1.6 - 2024-07-30
 
 ### Enhancements:
 
@@ -13,6 +13,7 @@
 * fix(examples): fix WiFiClock wrong name `ScreenPassord` by @lboue (#82)
 * fix(examples): fix LCD using 'configVendorCommands' before 'init'
 * fix(gt911): allow to set the GT911 touch device address by @lboue (#86)
+* fix(conf): fix the issue that the `ESP_PANEL_EXPANDER_HOST_ID` flag is not working properly
 
 ## v0.1.5 - 2024-07-09
 

@@ -335,11 +335,11 @@
  */
 #define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (0)     // 0/1
 /* IO expander parameters */
+#define ESP_PANEL_EXPANDER_HOST_ID              (0)     // Typically set to 0
 #define ESP_PANEL_EXPANDER_I2C_ADDRESS          (0x20)  // The actual I2C address. Even for the same model of IC,
                                                         // the I2C address may be different, and confirmation based on
                                                         // the actual hardware connection is required
 #if !ESP_PANEL_EXPANDER_SKIP_INIT_HOST
-    #define ESP_PANEL_EXPANDER_HOST_ID          (0)     // Typically set to 0
     #define ESP_PANEL_EXPANDER_I2C_CLK_HZ       (400 * 1000)
                                                         // Typically set to 400K
     #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP   (1)     // 0/1
@@ -375,8 +375,8 @@
  *
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 5
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 2
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
 
 #endif /* ESP_PANEL_USE_CUSTOM_BOARD */
 
