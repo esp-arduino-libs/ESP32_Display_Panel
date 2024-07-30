@@ -293,7 +293,7 @@ The following example demonstrates how to develop built-in or custom development
 
 For configuring LVGL (v8.3.x), please refer to [here](#configuring-lvgl) for more detailed information.
 
-* [Porting](examples/LVGL/v8/Porting/): This example demonstrates how to port LVGL (v8.3.x). And for RGB LCD, it can enable the avoid tearing fucntion.
+* [Porting](examples/LVGL/v8/Porting/): This example demonstrates how to port LVGL (v8.3.x). And for RGB LCD, it can enable the avoid tearing function.
 * [Rotation](examples/LVGL/v8/Rotation/): This example demonstrates how to use LVGL to rotate the display.
 
 > [!WARNING]

@@ -312,7 +312,7 @@ void ParseWeather(String url)
             Serial.printf("Weather: %s\n", Weather);
             Serial.printf("temperature: %d\n", temperature);
         } else {
-            Serial.printf("ERROR: HTTP_CODE Weather\n");
+            Serial.printf("ERROR: [ParseWeather] OpenWeather API --> HTTP code %d\n", httpGet);
         }
     } else {
         Serial.printf("ERROR: httpGet Weather\n");
@@ -338,7 +338,7 @@ void Parselatlon(String url)
             Serial.printf("lat: %s\n", lat);
             Serial.printf("lon: %s\n", lon);
         } else {
-            Serial.printf("ERROR: HTTP_CODE latlon\n");
+            Serial.printf("ERROR: [Parselatlon] OpenWeather API --> HTTP code %d\n", httpGet);
         }
     } else {
         Serial.printf("ERROR: httpGet latlon\n");
