@@ -55,7 +55,7 @@ void setup()
 
     /**
      * Or try out a demo.
-     * Don't forget to uncomment header and enable the demos in `lv_conf.h`. E.g. `LV_USE_DEMOS_WIDGETS`
+     * Don't forget to uncomment header and enable the demos in `lv_conf.h`. E.g. `LV_USE_DEMO_WIDGETS`
      */
     // lv_demo_widgets();
     // lv_demo_benchmark();
