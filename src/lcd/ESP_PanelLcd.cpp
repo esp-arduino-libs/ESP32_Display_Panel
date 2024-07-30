@@ -276,14 +276,14 @@ bool ESP_PanelLcd::invertColor(bool en)
 
 bool ESP_PanelLcd::displayOn(void)
 {
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_panel_disp_off(handle, false), false, "Display on failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_panel_disp_on_off(handle, true), false, "Display on failed");
 
     return true;
 }
 
 bool ESP_PanelLcd::displayOff(void)
 {
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_panel_disp_off(handle, true), false, "Display off failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_panel_disp_on_off(handle, false), false, "Display off failed");
 
     return true;
 }

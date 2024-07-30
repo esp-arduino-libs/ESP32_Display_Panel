@@ -58,9 +58,9 @@ lv_obj_t *ui_LabelWifiList;
 lv_obj_t *ui_SpinnerLoadWifi;
 
 
-// SCREEN: ui_ScreenPassord
-void ui_ScreenPassord_screen_init(void);
-lv_obj_t *ui_ScreenPassord;
+// SCREEN: ui_ScreenPassword
+void ui_ScreenPassword_screen_init(void);
+lv_obj_t *ui_ScreenPassword;
 lv_obj_t *ui_TextPassword;
 void ui_event_KeyboardPassword( lv_event_t * e);
 lv_obj_t *ui_KeyboardPassword;
@@ -181,7 +181,7 @@ lv_disp_set_theme(dispp, theme);
 ui_ScreenClock_screen_init();
 ui_ScreenSet_screen_init();
 ui_ScreenWifiList_screen_init();
-ui_ScreenPassord_screen_init();
+ui_ScreenPassword_screen_init();
 ui_ScreenAla_screen_init();
 ui____initial_actions0 = lv_obj_create(NULL);
 lv_disp_load_scr( ui_ScreenClock);

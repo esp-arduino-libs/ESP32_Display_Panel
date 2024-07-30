@@ -1,7 +1,7 @@
 screens/ui_ScreenClock.c
 screens/ui_ScreenSet.c
 screens/ui_ScreenWifiList.c
-screens/ui_ScreenPassord.c
+screens/ui_ScreenPassword.c
 screens/ui_ScreenAla.c
 ui.c
 components/ui_comp_hook.c
