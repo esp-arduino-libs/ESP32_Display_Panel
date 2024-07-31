@@ -83,6 +83,9 @@
  */
 // #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////// File Version ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Do not change the following versions, they are used to check if the configurations in this file are compatible with
  * the current version of `ESP_Panel_Board_Supported.h` in the library. The detailed rules are as follows:
@@ -95,7 +98,7 @@
  *
  */
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 2
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 1
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 3
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
 
 #endif

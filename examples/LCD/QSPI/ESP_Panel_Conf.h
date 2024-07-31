@@ -63,7 +63,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Do not change the following versions, they are used to check if the configurations in this file are compatible with
- * the current version of `ESP_Panel_Board_Custom.h` in the library. The detailed rules are as follows:
+ * the current version of `ESP_Panel_Conf.h` in the library. The detailed rules are as follows:
  *
  *   1. If the major version is not consistent, then the configurations in this file are incompatible with the library
  *      and must be replaced with the file from the library.
@@ -74,4 +74,4 @@
  */
 #define ESP_PANEL_CONF_FILE_VERSION_MAJOR 0
 #define ESP_PANEL_CONF_FILE_VERSION_MINOR 1
-#define ESP_PANEL_CONF_FILE_VERSION_PATCH 1
+#define ESP_PANEL_CONF_FILE_VERSION_PATCH 2
