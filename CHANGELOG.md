@@ -5,6 +5,7 @@
 ### Enhancements:
 
 * feat(board): add support for Fitipower EK9716B LCD controller for CrowPanel 7.0" board by @lboue (#78)
+* feat(board): add support for Waveshare ESP32-S3-Touch-LCD-4.3 by @lboue (#99)
 
 ### Bugfixes:
 

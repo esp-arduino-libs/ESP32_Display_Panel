@@ -65,6 +65,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 | [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG |
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
+| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-4.3 |
 
 欢迎开发者和厂商贡献 PR 来添加更多的开发板，详细说明请参考 [`开发板贡献指南`](./docs/Board_Contribution_Guide_CN.md)。
 
