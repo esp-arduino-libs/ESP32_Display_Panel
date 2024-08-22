@@ -434,6 +434,8 @@ arduino-esp32 v3.x.x 版本的 SDK 位于默认安装路径下的 `tools > esp32
 
    - **Step4**：如果您使用的是独立的驱动，请参考下面的示例代码来设置 `Bounce Bufer` 的大小。
 
+   - **Step5**：如果您正在开发 LVGL 应用，将执行 RGB 外设初始化的任务与执行 LVGL lv_timer_handler() 的任务分配在同一个核上，请参考 [代码](./examples/LVGL/v8/Porting/lvgl_port_v8.h#L53)。
+
 3. **示例代码**：以下示例代码展示了如何通过 `ESP_Panel` 驱动或独立的驱动来修改 `Bounce Bufer` 的大小：
 
    **Example1**：使用 `ESP_Panel` 驱动修改 `Bounce Bufer` 大小：

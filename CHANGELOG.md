@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.7 - 2024-08-22
+
+### Enhancements:
+
+* feat(docs): add additional information about screen drift issue
+
 ## v0.1.6 - 2024-07-30
 
 ### Enhancements:
