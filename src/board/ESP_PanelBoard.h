@@ -15,7 +15,7 @@
     defined(BOARD_ESP32_S3_LCD_EV_BOARD_V1_5) +  defined(BOARD_ESP32_S3_LCD_EV_BOARD_2) + \
     defined(BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5) + defined(BOARD_ESP32_S3_USB_OTG) +  defined(BOARD_ELECROW_CROWPANEL_7_0) + \
     defined(BOARD_M5STACK_M5CORE2) + defined(BOARD_M5STACK_M5DIAL) + defined(BOARD_M5STACK_M5CORES3) + \
-    defined(BOARD_ESP32_4848S040C_I_Y_3) + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3) \
+    defined(BOARD_ESP32_4848S040C_I_Y_3) + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3) + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85) \
     > 1
     #error "Multiple boards enabled! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
@@ -61,9 +61,11 @@
     #include "board/jingcai/ESP32_4848S040C_I_Y_3.h"
 /* Waveshare */
 #elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3) || CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
-    #include "board/waveshare/ESP32_S3_Touch_LCD_4.3.h"
+    #include "board/waveshare/ESP32_S3_Touch_LCD_4_3.h"
+#elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85) || CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85
+    #include "board/waveshare/ESP32_S3_Touch_LCD_1_85.h"
 #else
-    #error "Unkonw board selected! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
+    #error "Unknown board selected! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
 
 // *INDENT-OFF*
