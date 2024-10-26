@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.1.8 - 2024-10-25
+
+* feat(board): add support for Waveshare ESP32-S3-Touch-LCD-1.85
+
+### Enhancements:
+
 ## v0.1.7 - 2024-08-22
 
 ### Enhancements:

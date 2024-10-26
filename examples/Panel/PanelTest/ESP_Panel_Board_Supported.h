@@ -77,11 +77,12 @@
 /*
  * Waveshare Supported Boards (https://www.waveshare.com/):
  *
- *  - ESP32_S3_Touch_LCD_4_3:
- *      - https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm
+ *  - BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3 (ESP32_S3_Touch_LCD_4_3): https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm
+ *  - BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85 (ESP32_S3_Touch_LCD_1_85): https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm
  *
  */
 // #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
+// #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////// File Version ///////////////////////////////////////////////////////////
@@ -98,7 +99,7 @@
  *
  */
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 3
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 4
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
 
 #endif
