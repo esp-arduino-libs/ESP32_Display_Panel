@@ -44,6 +44,7 @@
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | ------------------ | :-----------: | :------------------: |
 | <img src="https://www.waveshare.com/media/catalog/product/cache/1/small_image/171x171/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-4.3-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-4.3](https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
 | <img src="https://www.waveshare.com/w/upload/5/5f/ESP32-S3-Touch-LCD-1.85_Entity.jpg" width="150"> | [ESP32-S3-Touch-LCD-1.85](https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm) | QSPI |       ST77916       |      360x360       |      I2C      |        CST816         |
+| <img src="https://www.waveshare.com/w/upload/thumb/1/10/ESP32-S3-Touch-LCD-2.1.jpg/300px-ESP32-S3-Touch-LCD-2.1.jpg" width="150"> | [ESP32-S3-Touch-LCD-1.85](https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm) | RGB |       ST7701       |      480x480       |      I2C      |        CST820 (CST816-like)         |
 
 ## Recommended Configurations in the Arduino IDE
 
@@ -68,6 +69,7 @@ Below are recommended configurations for developing GUI applications on differen
 |      ElecrowCrowPanel 7.0"       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    4MB     |    Disabled     |     Huge App (3MB)      |
 | Waveshare-ESP32-S3-Touch-LCD-4.3 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |     8M with spiffs      |
 | Waveshare-ESP32-S3-Touch-LCD-1.85 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)      |
+| Waveshare-ESP32-S3-Touch-LCD-2.1 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)      |
 
 **Notes:**
 

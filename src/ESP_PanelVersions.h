@@ -11,7 +11,7 @@
 /* Library Version */
 #define ESP_PANEL_VERSION_MAJOR 0
 #define ESP_PANEL_VERSION_MINOR 1
-#define ESP_PANEL_VERSION_PATCH 8
+#define ESP_PANEL_VERSION_PATCH 9
 
 /* File `ESP_Panel_Conf.h` */
 #define ESP_PANEL_CONF_VERSION_MAJOR 0
@@ -25,7 +25,7 @@
 
 /* File `ESP_Panel_Board_Supported.h` */
 #define ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR 4
+#define ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR 5
 #define ESP_PANEL_BOARD_SUPPORTED_VERSION_PATCH 0
 
 /* Check if the current configuration file version is compatible with the library version */
