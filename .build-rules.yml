@@ -1,0 +1,30 @@
+# Note: All operators are binary operators. For more than two operands, you may use the nested parentheses trick.
+# For example:
+#    *  A == 1 or (B == 2 and C in [1,2,3])
+#    *  (A == 1 and B == 2) or (C not in ["3", "4", 5])
+
+# Componet test_apps
+test_apps:
+  enable:
+    - if: IDF_TARGET in ["esp32s3", "esp32p4"]
+
+# Examples
+examples/esp_idf/esp_brookesia_phone_m5stace_core_s3:
+  enable:
+    - if: IDF_TARGET in ["esp32s3"]
+
+examples/esp_idf/esp_brookesia_phone_p4_function_ev_board:
+  enable:
+    - if: IDF_TARGET in ["esp32p4"]
+
+examples/esp_idf/esp_brookesia_phone_s3_box:
+  enable:
+    - if: IDF_TARGET in ["esp32s3"]
+
+examples/esp_idf/esp_brookesia_phone_s3_box_3:
+  enable:
+    - if: IDF_TARGET in ["esp32s3"]
+
+examples/esp_idf/esp_brookesia_phone_s3_lcd_ev_board:
+  enable:
+    - if: IDF_TARGET in ["esp32s3"]

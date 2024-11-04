@@ -1,0 +1,182 @@
+############
+# Patterns #
+############
+
+# build system, if changed, build all apps
+.patterns-build_system: &patterns-build_system
+  # For test
+  - ".gitlab/**/*"
+  - ".build-rules.yml"
+  - "conftest.py"
+  - "pytest.ini"
+
+# component folder
+.patterns-component: &patterns-component
+  - "src/**/*"
+  - "CMakeLists.txt"
+  - "esp_brookesia_conf.h"
+  - "idf_component.yml"
+  - "Kconfig"
+
+# docs folder
+.patterns-docs_md: &patterns-docs_md
+  - "**/*.md"
+
+# test_apps folder
+.patterns-test_apps_lcd_3wire_spi_rgb: &patterns-test_apps_lcd_3wire_spi_rgb
+  - "test_apps/lcd/3wire_spi_rgb/**/*"
+
+.patterns-test_apps_lcd_qspi: &patterns-test_apps_lcd_qspi
+  - "test_apps/lcd/qspi/**/*"
+
+.patterns-test_apps_lcd_rgb: &patterns-test_apps_lcd_rgb
+  - "test_apps/lcd/rgb/**/*"
+
+.patterns-test_apps_lcd_spi: &patterns-test_apps_lcd_spi
+  - "test_apps/lcd/spi/**/*"
+
+.patterns-test_apps_panel: &patterns-test_apps_panel
+  - "test_apps/panel/**/*"
+
+.patterns-test_apps_touch_i2c: &patterns-test_apps_touch_i2c
+  - "test_apps/touch/i2c/**/*"
+
+.patterns-test_apps_touch_spi: &patterns-test_apps_touch_spi
+  - "test_apps/touch/spi/**/*"
+
+# examples folder
+# .patterns-example_esp_brookesia_phone_m5stace_core_s3: &patterns-example_esp_brookesia_phone_m5stace_core_s3
+#   - "examples/esp_idf/esp_brookesia_phone_m5stace_core_s3/**/*"
+
+##############
+# if anchors #
+##############
+.if-protected: &if-protected
+  if: '($CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_BRANCH =~ /^release\/v/ || $CI_COMMIT_TAG =~ /^v\d+\.\d+(\.\d+)?($|-)/)'
+
+.if-dev-push: &if-dev-push
+  if: '$CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_BRANCH !~ /^release\/v/ && $CI_COMMIT_TAG !~ /^v\d+\.\d+(\.\d+)?($|-)/ && ($CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event")'
+
+##################
+# Auto Generated #
+##################
+.if-trigger-job: &if-trigger-job
+  if: '$BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS =~ $CI_JOB_NAME'
+
+.if-label-build: &if-label-build
+  if: '$BOT_LABEL_BUILD || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*build(?:,[^,\n\r]+)*$/i'
+
+.if-label-target_test: &if-label-target_test
+  if: '$BOT_LABEL_TARGET_TEST || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*target_test(?:,[^,\n\r]+)*$/i'
+
+.if-label-pre_check: &if-label-pre_check
+  if: '$BOT_LABEL_PRE_CHECK || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*pre_check(?:,[^,\n\r]+)*$/i'
+
+.if_label-deploy: &if-label-deploy
+  if: '$BOT_LABEL_DEPLOY || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*deploy(?:,[^,\n\r]+)*$/i'
+
+# rules for test_apps
+.rules:build:test_apps_lcd_3wire_spi_rgb:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_lcd_3wire_spi_rgb
+
+.rules:build:test_apps_lcd_qspi:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_lcd_qspi
+
+.rules:build:test_apps_lcd_rgb:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_lcd_rgb
+
+.rules:build:test_apps_lcd_spi:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_lcd_spi
+
+.rules:build:test_apps_panel:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_panel
+
+.rules:build:test_apps_touch_i2c:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_touch_i2c
+
+.rules:build:test_apps_touch_spi:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_touch_spi
+
+# rules for examples
+# .rules:build:example_esp_brookesia_phone_m5stace_core_s3:
+#   rules:
+#     - <<: *if-protected
+#     - <<: *if-label-build
+#     - <<: *if-label-target_test
+#     - <<: *if-trigger-job
+#     - <<: *if-dev-push
+#       changes: *patterns-component
+#     - <<: *if-dev-push
+#       changes: *patterns-example_esp_brookesia_phone_m5stace_core_s3
+#     - <<: *if-dev-push
+#       changes: *patterns-build_system
