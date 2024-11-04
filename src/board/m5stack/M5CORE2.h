@@ -194,7 +194,7 @@
 #define ESP_PANEL_BEGIN_END_FUNCTION( panel ) \
     { \
         static const uint8_t AXP_ADDR = 0x34; \
-        static const uint8_t I2C_MASTER_TIMEOUT_MS = 1000; \
+        static const uint32_t I2C_MASTER_TIMEOUT_MS = 1000; \
         static i2c_port_t i2c_master_port = I2C_NUM_0; \
          \
         uint8_t device_id = 0; \

@@ -12,12 +12,13 @@
 #include "unity_test_runner.h"
 #include "ESP_Panel_Library.h"
 
-#define TEST_LCD_ENABLE_ATTACH_CALLBACK     (1)
-#define TEST_TOUCH_ENABLE_ATTACH_CALLBACK   (1)
-#define TEST_TOUCH_READ_POINTS_NUM          (5)
+#define TEST_LCD_ENABLE_ATTACH_CALLBACK     (0)
+#define TEST_LCD_SHOW_TIME_MS               (3000)
 
-#define TEST_READ_TOUCH_DELAY_MS            (30)
-#define TEST_READ_TOUCH_TIME_MS             (3000)
+#define TEST_TOUCH_ENABLE_ATTACH_CALLBACK   (0)
+#define TEST_TOUCH_READ_POINTS_NUM          (5)
+#define TEST_TOUCH_READ_TIME_MS             (3000)
+#define TEST_TOUCH_READ_DELAY_MS            (30)
 
 #define delay(x)     vTaskDelay(pdMS_TO_TICKS(x))
 
@@ -26,7 +27,7 @@ using namespace std;
 static const char *TAG = "test_panel";
 
 #if TEST_LCD_ENABLE_ATTACH_CALLBACK
-IRAM_ATTR static bool onRefreshFinishCallback(void *user_data)
+IRAM_ATTR static bool onLcdRefreshFinishCallback(void *user_data)
 {
     esp_rom_printf("Refresh finish callback\n");
 
@@ -34,7 +35,7 @@ IRAM_ATTR static bool onRefreshFinishCallback(void *user_data)
 }
 #endif
 
-#if TEST_TOUCH_ENABLE_ATTACH_CALLBACK
+#if TEST_TOUCH_ENABLE_ATTACH_CALLBACK && (ESP_PANEL_TOUCH_IO_INT >= 0)
 IRAM_ATTR static bool onTouchInterruptCallback(void *user_data)
 {
     esp_rom_printf("Touch interrupt callback\n");
@@ -66,13 +67,14 @@ TEST_CASE("Test panel to draw color bar and read touch", "[panel]")
     if (lcd != nullptr) {
 #if TEST_LCD_ENABLE_ATTACH_CALLBACK
         TEST_ASSERT_TRUE_MESSAGE(
-            lcd->attachRefreshFinishCallback(onRefreshFinishCallback, NULL), "Attach refresh callback failed"
+            lcd->attachRefreshFinishCallback(onLcdRefreshFinishCallback, NULL), "Attach refresh callback failed"
         );
 #endif
         ESP_LOGI(TAG, "Draw color bar from top to bottom, the order is B - G - R");
         TEST_ASSERT_TRUE_MESSAGE(
             lcd->colorBarTest(panel->getLcdWidth(), panel->getLcdHeight()), "LCD color bar test failed"
         );
+        delay(TEST_LCD_SHOW_TIME_MS);
     } else {
         ESP_LOGI(TAG, "LCD is not available");
     }
@@ -83,7 +85,7 @@ TEST_CASE("Test panel to draw color bar and read touch", "[panel]")
     }
 
     if (touch != nullptr) {
-#if TEST_TOUCH_ENABLE_ATTACH_CALLBACK
+#if TEST_LCD_ENABLE_ATTACH_CALLBACK && (ESP_PANEL_TOUCH_IO_INT >= 0)
         TEST_ASSERT_TRUE_MESSAGE(
             touch->attachInterruptCallback(onTouchInterruptCallback, NULL), "Attach touch interrupt callback failed"
         );
@@ -91,8 +93,10 @@ TEST_CASE("Test panel to draw color bar and read touch", "[panel]")
         uint32_t t = 0;
         ESP_PanelTouchPoint point[TEST_TOUCH_READ_POINTS_NUM];
         int read_touch_result = 0;
-        while (t++ < TEST_READ_TOUCH_TIME_MS / TEST_READ_TOUCH_DELAY_MS) {
-            read_touch_result = touch->readPoints(point, TEST_TOUCH_READ_POINTS_NUM, TEST_READ_TOUCH_DELAY_MS);
+
+        ESP_LOGI(TAG, "Reading touch_device point...");
+        while (t++ < TEST_TOUCH_READ_TIME_MS / TEST_TOUCH_READ_DELAY_MS) {
+            read_touch_result = touch->readPoints(point, TEST_TOUCH_READ_POINTS_NUM, TEST_TOUCH_READ_DELAY_MS);
             if (read_touch_result > 0) {
                 for (int i = 0; i < read_touch_result; i++) {
                     ESP_LOGI(TAG, "Touch point(%d): x %d, y %d, strength %d\n", i, point[i].x, point[i].y, point[i].strength);
@@ -100,9 +104,9 @@ TEST_CASE("Test panel to draw color bar and read touch", "[panel]")
             } else if (read_touch_result < 0) {
                 ESP_LOGE(TAG, "Read touch_device point failed");
             }
-#if ESP_PANEL_TOUCH_IO_INT < 0
-            delay(TEST_READ_TOUCH_DELAY_MS);
-#endif
+            if (!touch->isInterruptEnabled()) {
+                delay(TEST_TOUCH_READ_DELAY_MS);
+            }
         }
     } else {
         ESP_LOGI(TAG, "Touch is not available");

@@ -8,9 +8,12 @@
 
 #include <memory>
 #include <functional>
+#include "soc/soc_caps.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_vendor.h"
+#if SOC_LCD_RGB_SUPPORTED
 #include "esp_lcd_panel_rgb.h"
+#endif
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 #include "soc/soc_caps.h"

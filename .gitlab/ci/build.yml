@@ -91,6 +91,22 @@ build_test_apps_panel:
   variables:
     EXAMPLE_DIR: test_apps/panel
 
+build_test_apps_touch_i2c:
+  extends:
+    - .build_examples_template
+    - .build_idf_active_release_version
+    - .rules:build:test_apps_touch_i2c
+  variables:
+    EXAMPLE_DIR: test_apps/touch/i2c
+
+build_test_apps_touch_spi:
+  extends:
+    - .build_examples_template
+    - .build_idf_active_release_version
+    - .rules:build:test_apps_touch_spi
+  variables:
+    EXAMPLE_DIR: test_apps/touch/spi
+
 # Examples
 # build_example_esp_brookesia_phone_m5stace_core_s3:
 #   extends:

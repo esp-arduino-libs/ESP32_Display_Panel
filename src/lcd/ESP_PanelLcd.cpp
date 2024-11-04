@@ -7,10 +7,13 @@
 #include <memory>
 #include "cstring"
 #include "ESP_PanelLog.h"
+#include "soc/soc_caps.h"
 #include "esp_heap_caps.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_io.h"
+#if SOC_LCD_RGB_SUPPORTED
 #include "esp_lcd_panel_rgb.h"
+#endif
 #include "esp_memory_utils.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"

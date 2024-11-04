@@ -61,7 +61,7 @@ IRAM_ATTR bool onRefreshFinishCallback(void *user_data)
 }
 #endif
 
-#if EXAMPLE_TOUCH_ENABLE_ATTACH_CALLBACK
+#if TEST_TOUCH_ENABLE_ATTACH_CALLBACK && (ESP_PANEL_TOUCH_IO_INT >= 0)
 IRAM_ATTR bool onTouchInterruptCallback(void *user_data)
 {
     esp_rom_printf("Touch interrupt callback\n");
@@ -107,15 +107,15 @@ void setup()
         backlight->on();
     }
 
-    if (touch != nullptr) {
+    if ((touch != nullptr) && touch->isInterruptEnabled()) {
 #if EXAMPLE_TOUCH_ENABLE_ATTACH_CALLBACK
-        touch->attachInterruptCallback(onTouchInterruptCallback, NULL);
+            touch->attachInterruptCallback(onTouchInterruptCallback, NULL);
 #endif
+        Serial.println("Reading touch_device point...");
     } else {
         Serial.println("Touch is not available");
+        Serial.println("Panel test example end");
     }
-
-    Serial.println("Panel test example end");
 }
 
 void loop()
