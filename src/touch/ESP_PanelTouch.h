@@ -126,7 +126,7 @@ public:
      * @brief Swap the X and Y axis
      *
      * @note  This function should be called after `begin()`
-     * @note  This function typically calls `esp_lcd_touch_set_swap_xy()` to mirror the axises
+     * @note  This function typically calls `esp_lcd_touch_set_swap_xy()` to mirror the axes
      *
      * @param en true: enable, false: disable
      *

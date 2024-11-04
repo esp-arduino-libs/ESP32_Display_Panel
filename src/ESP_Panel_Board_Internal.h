@@ -127,7 +127,7 @@
 
         #else
 
-            #error "Unkonw LCD panel bus type selected, please refer to the README for supported bus types"
+            #error "Unknown LCD panel bus type selected, please refer to the README for supported bus types"
 
         #endif /* ESP_PANEL_LCD_BUS_TYPE */
     #endif /* ESP_PANEL_USE_LCD */
@@ -147,7 +147,7 @@
 
         #else
 
-            #error "Unkonw Touch bus type selected, please refer to the README for supported bus types."
+            #error "Unknown Touch bus type selected, please refer to the README for supported bus types."
 
         #endif /* ESP_PANEL_TOUCH_BUS_TYPE */
     #endif /* ESP_PANEL_USE_TOUCH */

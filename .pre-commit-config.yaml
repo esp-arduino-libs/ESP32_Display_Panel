@@ -71,7 +71,7 @@ repos:
     rev: v2.3.0
     hooks:
     - id: codespell
-      args: [-w]
+      args: ['-w' , '--config', '.codespellrc']
 
   - repo: local
     hooks:

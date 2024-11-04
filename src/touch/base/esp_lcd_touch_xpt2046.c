@@ -41,7 +41,7 @@ static const char *TAG = "xpt2046";
 #define XPT2046_PD_BITS       (XPT2046_PD1_BIT | XPT2046_PD0_BIT)
 
 enum xpt2046_registers {
-    // START  ADDR  MODE    SER/  VREF    ADC (PENIRQ)
+    // START  ADDR  MODE    SET/  VREF    ADC (PENIRQ)
     //              12/8b   DFR   INT/EXT ENA
     Z_VALUE_1   = 0xB0 | XPT2046_PD_BITS, // 1      011   0       0     X       X
     Z_VALUE_2   = 0xC0 | XPT2046_PD_BITS, // 1      100   0       0     X       X

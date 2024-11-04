@@ -39,7 +39,7 @@ bool ESP_PanelHost::addHostI2C(const i2c_config_t &host_config, i2c_port_t host_
     }
     ESP_LOGD(TAG, "Host I2C[%d] is already exist", (int)host_id);
     ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(i2c_config_t)), false,
-                              "Attempt to add with a different configuartion");
+                              "Attempt to add with a different configuration");
 
     return true;
 }
@@ -59,7 +59,7 @@ bool ESP_PanelHost::addHostI2C(int scl_io, int sda_io, i2c_port_t host_id)
     }
     ESP_LOGD(TAG, "Host I2C[%d] is already exist", (int)host_id);
     ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(i2c_config_t)), false,
-                              "Attempt to add with a different configuartion");
+                              "Attempt to add with a different configuration");
 
     return true;
 }
@@ -78,7 +78,7 @@ bool ESP_PanelHost::addHostSPI(const spi_bus_config_t &host_config, spi_host_dev
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
 
     ESP_PANEL_CHECK_FALSE_RET(compare_spi_host_config(ret->second, host_config), false,
-                              "Attempt to add with a different configuartion");
+                              "Attempt to add with a different configuration");
 
     return true;
 }
@@ -99,7 +99,7 @@ bool ESP_PanelHost::addHostSPI(int sck_io, int sda_io, int sdo_io, spi_host_devi
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
 
     ESP_PANEL_CHECK_FALSE_RET(compare_spi_host_config(ret->second, host_config), false,
-                              "Attempt to add with a different configuartion");
+                              "Attempt to add with a different configuration");
 
     return true;
 }
@@ -117,7 +117,7 @@ bool ESP_PanelHost::addHostQSPI(const spi_bus_config_t &host_config, spi_host_de
     }
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
     ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
-                              "Attempt to add with a different configuartion");
+                              "Attempt to add with a different configuration");
 
     return true;
 }
@@ -137,7 +137,7 @@ bool ESP_PanelHost::addHostQSPI(int sck_io, int d0_io, int d1_io, int d2_io, int
     }
     ESP_LOGD(TAG, "Host SPI[%d] is already exist", (int)host_id);
     ESP_PANEL_CHECK_FALSE_RET(!memcmp(&ret->second, &host_config, sizeof(spi_bus_config_t)), false,
-                              "Attempt to add with a different configuartion");
+                              "Attempt to add with a different configuration");
 
     return true;
 }

@@ -30,7 +30,7 @@
 * fix(examples): fix WiFiClock wrong name `ScreenPassord` by @lboue (#82)
 * fix(examples): fix LCD using `configVendorCommands()` before `init()`
 * fix(examples): fix `LV_USE_DEMO_WIDGETS` typo by @lboue (#98)
-* fix(examples): fix `Tearing fucntion` typo by @lboue (#96)
+* fix(examples): fix `Tearing function` typo by @lboue (#96)
 * fix(examples): fix WiFiClock log HTTP error code to serial console by @lboue (#97)
 * fix(examples): fix WiFiClock description
 * fix(gt911): allow to set the GT911 touch device address by @lboue (#86)

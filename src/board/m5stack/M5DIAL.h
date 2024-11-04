@@ -159,7 +159,7 @@
  *
  * There are two formats for the sequence code:
  *   1. Raw data: {command, (uint8_t []){ data0, data1, ... }, data_size, delay_ms}
- *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
+ *   2. Formatter: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
  *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
 // #define ESP_PANEL_LCD_VENDOR_INIT_CMD                                          \

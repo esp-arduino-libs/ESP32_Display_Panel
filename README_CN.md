@@ -217,7 +217,7 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](./ESP_Panel_Board_Custo
  *
  * There are two formats for the sequence code:
  *   1. Raw data: {command, (uint8_t []){ data0, data1, ... }, data_size, delay_ms}
- *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
+ *   2. Formatter: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
  *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
 #define ESP_PANEL_LCD_VENDOR_INIT_CMD() \
@@ -428,17 +428,17 @@ arduino-esp32 v3.x.x 版本的 SDK 位于默认安装路径下的 `tools > esp32
 
    - **Step1**：从 [arduino-esp32-sdk](https://github.com/esp-arduino-libs/arduino-esp32-sdk) 下载 "high_perf" 版本的 SDK，并将其替换到 [arduino-esp32 的安装目录](#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)中。
 
-   - **Step2**：如果您使用的是支持的开发板，则通常无需修改代码，因为它们默认设置了 `ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE` 为 `(ESP_PANEL_LCD_WIDTH * 10)`。如果问题仍然存在，请参考下面的示例代码来增大 `Bounce Bufer` 的大小。
+   - **Step2**：如果您使用的是支持的开发板，则通常无需修改代码，因为它们默认设置了 `ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE` 为 `(ESP_PANEL_LCD_WIDTH * 10)`。如果问题仍然存在，请参考下面的示例代码来增大 `Bounce Buffer` 的大小。
 
-   - **Step3**：如果您使用的是自定义的开发板，请在 `ESP_Panel_Board_Custom.h` 文件中确认 `ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE` 是否设置为非 0。如果问题仍然存在，请增大 `Bounce Bufer` 的大小。
+   - **Step3**：如果您使用的是自定义的开发板，请在 `ESP_Panel_Board_Custom.h` 文件中确认 `ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE` 是否设置为非 0。如果问题仍然存在，请增大 `Bounce Buffer` 的大小。
 
-   - **Step4**：如果您使用的是独立的驱动，请参考下面的示例代码来设置 `Bounce Bufer` 的大小。
+   - **Step4**：如果您使用的是独立的驱动，请参考下面的示例代码来设置 `Bounce Buffer` 的大小。
 
    - **Step5**：如果您正在开发 LVGL 应用，将执行 RGB 外设初始化的任务与执行 LVGL lv_timer_handler() 的任务分配在同一个核上，请参考 [代码](./examples/LVGL/v8/Porting/lvgl_port_v8.h#L53)。
 
-3. **示例代码**：以下示例代码展示了如何通过 `ESP_Panel` 驱动或独立的驱动来修改 `Bounce Bufer` 的大小：
+3. **示例代码**：以下示例代码展示了如何通过 `ESP_Panel` 驱动或独立的驱动来修改 `Bounce Buffer` 的大小：
 
-   **Example1**：使用 `ESP_Panel` 驱动修改 `Bounce Bufer` 大小：
+   **Example1**：使用 `ESP_Panel` 驱动修改 `Bounce Buffer` 大小：
 
     ```c
     ...
@@ -453,7 +453,7 @@ arduino-esp32 v3.x.x 版本的 SDK 位于默认安装路径下的 `tools > esp32
     ...
     ```
 
-   **Example2**：使用独立的驱动修改 `Bounce Bufer` 大小：
+   **Example2**：使用独立的驱动修改 `Bounce Buffer` 大小：
 
     ```c
     ...

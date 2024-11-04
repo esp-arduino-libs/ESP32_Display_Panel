@@ -94,7 +94,7 @@ public:
      * @brief Get the type of bus
      *
      * @return
-     *      - ESP_PANEL_BUS_TYPE_UNKNOWN:  Unkown bus
+     *      - ESP_PANEL_BUS_TYPE_UNKNOWN:  Unknown bus
      *      - ESP_PANEL_BUS_TYPE_SPI:  SPI bus
      *      - ESP_PANEL_BUS_TYPE_RGB:  RGB (DPI)bus
      *      - ESP_PANEL_BUS_TYPE_QSPI: QSPI bus

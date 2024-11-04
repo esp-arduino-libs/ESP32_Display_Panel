@@ -27,4 +27,3 @@ jobs:
             echo "url: ${{ steps.last_release.outputs.url }}"
         - name: Check & Compare versions
           run: bash ./.github/scripts/check_lib_versions.sh ${{ steps.last_release.outputs.tag_name }}
-

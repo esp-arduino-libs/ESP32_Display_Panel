@@ -60,7 +60,7 @@
 #define ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(name, cs_io)  _ESP_PANEL_TOUCH_SPI_PANEL_IO_CONFIG(name, cs_io)
 
 /**
- * @brief Formater for single LCD vendor command with 8-bit parameter
+ * @brief Formatter for single LCD vendor command with 8-bit parameter
  *
  * @param[in] delay_ms Delay in milliseconds after this command
  * @param[in] command  LCD command
@@ -70,7 +70,7 @@
 #define ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, ...) {command, (uint8_t []) __VA_ARGS__, sizeof((uint8_t []) \
                                                                 __VA_ARGS__), delay_ms}
 /**
- * @brief Formater for single LCD vendor command with no parameter
+ * @brief Formatter for single LCD vendor command with no parameter
  *
  * @param[in] delay_ms Delay in milliseconds after this command
  * @param[in] command  LCD command
