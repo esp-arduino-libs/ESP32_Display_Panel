@@ -96,8 +96,7 @@ def main(args):  # type: (argparse.Namespace) -> None
         collect_size_info=args.collect_size_info,
         keep_going=True,
         ignore_warning_strs=IGNORE_WARNINGS,
-        copy_sdkconfig=True,
-        no_preserve=False,
+        copy_sdkconfig=True
     )
 
     sys.exit(ret_code)
