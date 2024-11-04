@@ -75,6 +75,17 @@
 .if_label-deploy: &if-label-deploy
   if: '$BOT_LABEL_DEPLOY || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*deploy(?:,[^,\n\r]+)*$/i'
 
+# rules for readme
+.rules:pre_check:readme:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-pre_check
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-docs_md
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+
 # rules for test_apps
 .rules:build:test_apps_lcd_3wire_spi_rgb:
   rules:

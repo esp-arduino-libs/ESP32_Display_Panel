@@ -15,7 +15,7 @@ check_version_format() {
 
 if [ $# -lt 1 ]; then
     latest_version="0.0.0"
-    echo "Don't get the lastest version, use \"0.0.0\" as default"
+    echo "Don't get the latest version, use \"0.0.0\" as default"
 else
     # Get the first input parameter as the version to be compared
     latest_version="$1"

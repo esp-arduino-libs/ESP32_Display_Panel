@@ -21,7 +21,20 @@ from typing import List
 EXCLUDE_DOCS_LIST = []
 
 # The apple apps links are not accessible from the company network for some reason
-EXCLUDE_URL_LIST = ['https://squareline.io/']
+EXCLUDE_URL_LIST = [
+    'https://squareline.io/',
+    'https://m5stack.com/',
+    'https://docs.m5stack.com/en/core/CoreS3',
+    'https://docs.m5stack.com/en/core/M5Dial',
+    'https://docs.m5stack.com/en/core/M5Dial',
+    'https://img.shields.io/github/v/release/esp-arduino-libs/ESP32_Display_Panel',
+    'https://www.displaysmodule.com/sale-41828962-experience-the-power-of-the-esp32-display-module-sku-esp32-4848s040c-i-y-3.html',
+    'https://www.displaysmodule.com/',
+    'https://www.waveshare.com/',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm',
+]
 
 Link = namedtuple('Link', ['file', 'url'])
 
@@ -128,7 +141,8 @@ def check_readme_links(args: argparse.Namespace) -> int:
             file_links.append(link)
 
     for url in EXCLUDE_URL_LIST:
-        del web_links[url]
+        if url in web_links:
+            del web_links[url]
 
     errors.extend(check_file_links(file_links))
 

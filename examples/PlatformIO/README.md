@@ -17,7 +17,7 @@ Follow the steps below to configure:
 2. For **lvgl**:
 
     - Follow the [steps](../../README.md#configuring-lvgl) to add *lv_conf.h* file and change the configurations.
-    - Modify the macros in the [lvgl_port_v8.h](./lvgl_port_v8.h) file to configure the LVGL porting parameters.
+    - Modify the macros in the [lvgl_port_v8.h](./src/lvgl_port_v8.h) file to configure the LVGL porting parameters.
 
 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters. For supported boards, please refter to [Configuring Supported Development Boards](../../README.md#configuring-supported-development-boards)
 4. Verify and upload the example to your ESP board.

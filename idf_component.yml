@@ -7,3 +7,4 @@ dependencies:
   idf: ">=5.1"
   esp-arduino-libs/esp-io-expander:
     git: https://github.com/esp-arduino-libs/ESP32_IO_Expander.git
+    public: true
