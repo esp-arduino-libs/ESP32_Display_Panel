@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include <memory>
 #include "cstring"
 #include "ESP_PanelLog.h"
+#include "soc/soc_caps.h"
 #include "esp_heap_caps.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_io.h"
+#if SOC_LCD_RGB_SUPPORTED
 #include "esp_lcd_panel_rgb.h"
+#endif
 #include "esp_memory_utils.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
@@ -37,6 +41,8 @@
     }
 
 static const char *TAG = "ESP_PanelLcd";
+
+using namespace std;
 
 ESP_PanelLcd::ESP_PanelLcd(ESP_PanelBus *bus, uint8_t color_bits, int rst_io):
     x_coord_align(0),
@@ -186,6 +192,10 @@ bool ESP_PanelLcd::reset(void)
 bool ESP_PanelLcd::del(void)
 {
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_panel_del(handle), false, "Delete panel failed");
+    if (_refresh_finish_sem) {
+        vSemaphoreDelete(_refresh_finish_sem);
+        _refresh_finish_sem = NULL;
+    }
 
     ESP_LOGD(TAG, "LCD panel @%p deleted", handle);
     handle = NULL;
@@ -295,9 +305,11 @@ bool ESP_PanelLcd::attachRefreshFinishCallback(std::function<bool (void *)> call
 #if SOC_LCD_RGB_SUPPORTED && CONFIG_LCD_RGB_ISR_IRAM_SAFE && \
     !(CONFIG_SPIRAM_RODATA && CONFIG_SPIRAM_FETCH_INSTRUCTIONS)
     if (bus->getType() == ESP_PANEL_BUS_TYPE_RGB) {
-        ESP_PANEL_CHECK_FALSE_RET((esp_ptr_in_iram(callback), false, "Callback function should be placed in IRAM, add
-                                   `IRAM_ATTR` before the function"));
-                                   ESP_PANEL_CHECK_FALSE_RET((esp_ptr_internal(user_data), false, "User data should be placed in SRAM"));
+        ESP_PANEL_CHECK_FALSE_RET(
+            esp_ptr_in_iram(callback), false,
+            "Callback function should be placed in IRAM, add `IRAM_ATTR` before the function"
+        );
+        ESP_PANEL_CHECK_FALSE_RET((esp_ptr_internal(user_data), false, "User data should be placed in SRAM"));
     }
 #endif
 
@@ -319,17 +331,11 @@ bool ESP_PanelLcd::colorBarTest(uint16_t width, uint16_t height)
     int bytes_per_piexl = bits_per_piexl / 8;
     int line_per_bar = height / bits_per_piexl;
     int line_count = 0;
-    uint8_t *single_bar_buf = NULL;
     int res_line_count = 0;
 
     /* Malloc memory for a single color bar */
-    try {
-        single_bar_buf = new uint8_t[line_per_bar * width * bytes_per_piexl];
-    } catch (std::bad_alloc &e) {
-        ESP_PANEL_CHECK_FALSE_RET(false, false, "Malloc color buffer failed");
-    }
-
-    bool ret = true;
+    shared_ptr<uint8_t> single_bar_buf(new uint8_t[line_per_bar * width * bytes_per_piexl]);
+    ESP_PANEL_CHECK_FALSE_RET(single_bar_buf != nullptr, false, "Malloc color buffer failed");
 
     /* Draw color bar from top left to bottom right, the order is B - G - R */
     for (int j = 0; j < bits_per_piexl; j++) {
@@ -337,18 +343,17 @@ bool ESP_PanelLcd::colorBarTest(uint16_t width, uint16_t height)
             for (int k = 0; k < bytes_per_piexl; k++) {
                 if ((bus->getType() == ESP_PANEL_BUS_TYPE_SPI) || (bus->getType() == ESP_PANEL_BUS_TYPE_QSPI)) {
                     // For SPI interface, the data bytes should be swapped since the data is sent by LSB first
-                    single_bar_buf[i * bytes_per_piexl + k] = SPI_SWAP_DATA_TX(BIT(j), bits_per_piexl) >> (k * 8);
+                    single_bar_buf.get()[i * bytes_per_piexl + k] = SPI_SWAP_DATA_TX(BIT(j), bits_per_piexl) >> (k * 8);
                 } else {
-                    single_bar_buf[i * bytes_per_piexl + k] = BIT(j) >> (k * 8);
+                    single_bar_buf.get()[i * bytes_per_piexl + k] = BIT(j) >> (k * 8);
                 }
             }
         }
         line_count += line_per_bar;
-        ret = drawBitmapWaitUntilFinish(0, j * line_per_bar, width, line_per_bar, single_bar_buf);
-        if (ret != true) {
-            ESP_LOGE(TAG, "Draw bitmap failed");
-            goto end;
-        }
+        ESP_PANEL_CHECK_FALSE_RET(
+            drawBitmapWaitUntilFinish(0, j * line_per_bar, width, line_per_bar, single_bar_buf.get()), false,
+            "Draw bitmap failed"
+        );
     }
 
     /* Fill the rest of the screen with white color */
@@ -356,18 +361,14 @@ bool ESP_PanelLcd::colorBarTest(uint16_t width, uint16_t height)
     if (res_line_count > 0) {
         ESP_LOGD(TAG, "Fill the rest lines (%d) with white color", res_line_count);
 
-        memset(single_bar_buf, 0xff, res_line_count * width * bytes_per_piexl);
-        ret = drawBitmapWaitUntilFinish(0, line_count, width, res_line_count, single_bar_buf);
-        if (ret != true) {
-            ESP_LOGE(TAG, "Draw bitmap failed");
-            goto end;
-        }
+        memset(single_bar_buf.get(), 0xff, res_line_count * width * bytes_per_piexl);
+        ESP_PANEL_CHECK_FALSE_RET(
+            drawBitmapWaitUntilFinish(0, line_count, width, res_line_count, single_bar_buf.get()), false,
+            "Draw bitmap failed"
+        );
     }
 
-end:
-    delete[] single_bar_buf;
-
-    return ret;
+    return true;
 }
 
 int ESP_PanelLcd::getColorBits(void)

@@ -213,7 +213,7 @@ esp_err_t esp_lcd_touch_xpt2046_read_aux_level(const esp_lcd_touch_handle_t hand
  *        calibration offset for accurate results.
  *
  * @param handle: XPT2046 instance handle.
- * @param out_level: Approximate tempreature of the TSC2046 in degrees C
+ * @param out_level: Approximate temperature of the TSC2046 in degrees C
  * @return
  *      - ESP_OK on success, otherwise returns ESP_ERR_xxx
  */
@@ -224,7 +224,7 @@ esp_err_t esp_lcd_touch_xpt2046_read_temp0_level(const esp_lcd_touch_handle_t ha
  *        Low precision (1.6 degrees C) but high accuracy requires no calibration.
  *
  * @param handle: XPT2046 instance handle.
- * @param out_level: Approximate tempreature of the TSC2046 in degrees C
+ * @param out_level: Approximate temperature of the TSC2046 in degrees C
  * @return
  *      - ESP_OK on success, otherwise returns ESP_ERR_xxx
  */

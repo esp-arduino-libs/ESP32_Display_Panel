@@ -8,6 +8,9 @@
 #include <assert.h>
 #include "ESP_Panel_Conf_Internal.h"
 #if ESP_PANEL_ENABLE_LOG
+#ifdef LOG_LOCAL_LEVEL
+#undef LOG_LOCAL_LEVEL
+#endif
 #define LOG_LOCAL_LEVEL ESP_LOG_DEBUG
 #endif
 #include "esp_log.h"

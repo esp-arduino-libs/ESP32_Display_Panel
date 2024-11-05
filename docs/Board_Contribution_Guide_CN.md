@@ -1,18 +1,26 @@
 # 开发板贡献指南
 
-1. 新添加的开发板需要确保硬件原理图开源，需要提供链接或文件。
-2. 该库目前仅支持 ESP-IDF 提供的 API，不支持其他 Arduino 库 API，如 Wire。
+## 贡献说明
+
+1. 开发板至少需要确保其硬件原理图开源，并提供链接或文件。
+2. 为了兼容其他平台，该库仅支持使用 ESP-IDF 提供的 API，请勿包含和使用其他特定平台的头文件以及 API，如 Arduino 的 `Wire`。
 
 **注意**：
-1. 推荐使用 vscode + Arduino CLI 开发环境。
-2. 在进行修改之前，将 ESP32_Display_Panel 仓库拉入 Arduino 库目录中。
-3. 项目使用 pre-commit 来规范提交内容，因此建议在提交之前安装 pre-commit 库，使用以下命令：
 
-```
-pip3 install pre-commit && pre-commit install
-```
+- 在进行修改之前，推荐将 ESP32_Display_Panel 仓库拉入 Arduino 库目录中,方便验证 Arduino 工程。
+- 项目使用 pre-commit 来规范提交内容，用户在进行 git 提交修改时会自动触发，因此建议在此之前安装 pre-commit 库，参考以下命令：
 
-## 需修改内容
+   ```
+   # 安装 pre-commit
+   pip3 install pre-commit && pre-commit install
+
+   # 强制执行 pre-commit
+   pre-commit run --all-files
+   ```
+
+- 如果提交 git 修改时发现提交失败，可以检查是否是 pre-commit 规范导致的，规范会自动检查代码格式、代码风格等问题并进行修复，请确认和添加修改后再次提交即可。
+
+## 文件修改
 
 以适配 [`M5Stack M5DIAL`](https://github.com/esp-arduino-libs/ESP32_Display_Panel/commit/1886c668468626b9dd2ae975f7db12df5413378e) 开发板为例。按照本指南，以下更改将在项目中进行：
 
@@ -22,11 +30,10 @@ pip3 install pre-commit && pre-commit install
       | -board
          | -m5stack                    [A]
             | -M5DIAL.h                [A]
-         | -ESP_PanelBoard             [M]
+         | -ESP_PanelBoard.h           [M]
          | -README.md                  [M]
       | -ESP_PanelVersions.h           [M]
    | -CHANGELOG.md                     [M]
-   | -ESP_Panel_Board_Custom.h
    | -ESP_Panel_Board_Supported.h      [M]
    | -library.properties               [M]
    | -README_CN.md                     [M]
@@ -34,7 +41,7 @@ pip3 install pre-commit && pre-commit install
 ```
 注：[A] 代表 '添加'，[M] 代表 '修改'
 
-## 各文件修改流程
+## 适配流程
 
 以适配 `M5Stack M5DIAL` 为例，按照以下步骤修改相关文件：
 

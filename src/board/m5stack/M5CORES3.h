@@ -5,7 +5,6 @@
  */
 
 #pragma once
-#include <Arduino.h>
 #include <ESP_Panel_Library.h>
 // *INDENT-OFF*
 
@@ -73,21 +72,23 @@
  *
  * There are two formats for the sequence code:
  *   1. Raw data: {command, (uint8_t []){ data0, data1, ... }, data_size, delay_ms}
- *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
+ *   2. Formatter: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
  *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
-// #define ESP_PANEL_LCD_VENDOR_INIT_CMD()                                        \
-//     {                                                                          \
-//         {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},              \
-//         {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},                                \
-//         {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},                                \
-//         {0x29, (uint8_t []){0x00}, 0, 120},                                    \
-//         or                                                                     \
-//         ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}), \
-//         ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),                   \
-//         ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),                   \
-//         ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),                               \
-//     }
+/*
+#define ESP_PANEL_LCD_VENDOR_INIT_CMD()                                        \
+    {                                                                          \
+        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},              \
+        {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},                                \
+        {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},                                \
+        {0x29, (uint8_t []){0x00}, 0, 120},                                    \
+        or                                                                     \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}), \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),                   \
+        ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),                   \
+        ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),                               \
+    }
+*/
 
 /* LCD Color Settings */
 /* LCD color depth in bits */
@@ -186,14 +187,9 @@
 #define ESP_PANEL_BEGIN_START_FUNCTION( panel )         \
     {                                                   \
         const uint8_t AXP_ADDR = 0x34;                  \
-        const uint8_t I2C_MASTER_TIMEOUT_MS = 1000;     \
+        const uint32_t I2C_MASTER_TIMEOUT_MS = 1000;     \
         const i2c_port_t i2c_master_port = I2C_NUM_0;   \
-                                                        \
-        uint8_t read_value = 0;                         \
-        uint8_t write_value = 0;                        \
-        uint8_t reg_addr = 0;                           \
         uint8_t write_buf[2] = {0};                     \
-                                                        \
         ESP_LOGD(TAG, "Start AXP2101 Power");           \
         write_buf[0] = 0x90;                            \
         write_buf[1] = 0xBF;                            \

@@ -319,8 +319,8 @@ static esp_err_t panel_gc9503_del(esp_lcd_panel_t *panel)
     }
     // Delete RGB panel
     gc9503->del(panel);
-    free(gc9503);
     ESP_LOGD(TAG, "del gc9503 panel @%p", gc9503);
+    free(gc9503);
     return ESP_OK;
 }
 

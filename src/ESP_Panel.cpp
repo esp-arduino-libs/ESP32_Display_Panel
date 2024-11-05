@@ -17,7 +17,7 @@ using namespace std;
  * Macros for adding host of bus
  *
  */
-#define _ADD_HOST(name, host, config, id) host.addHost##name(config, id)
+#define _ADD_HOST(name, host, config, id) host->addHost##name(config, id)
 #define ADD_HOST(name, host, config, id)  _ADD_HOST(name, host, config, id)
 /**
  * Macros for creating panel bus
@@ -58,10 +58,11 @@ ESP_Panel::ESP_Panel():
     _is_initialed(false),
     _use_external_expander(false),
     _lcd_bus_ptr(nullptr),
-    _lcd_ptr(nullptr),
     _touch_bus_ptr(nullptr),
+    _lcd_ptr(nullptr),
     _touch_ptr(nullptr),
     _backlight_ptr(nullptr),
+    _host_ptr(nullptr),
     _expander_ptr(nullptr)
 {
 }
@@ -98,13 +99,13 @@ bool ESP_Panel::init(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
-    ESP_PanelHost host;
+    shared_ptr<ESP_PanelHost> host_ptr = make_shared<ESP_PanelHost>();
     shared_ptr<ESP_PanelBus> lcd_bus_ptr = nullptr;
     shared_ptr<ESP_PanelLcd> lcd_ptr = nullptr;
     shared_ptr<ESP_PanelBus> touch_bus_ptr = nullptr;
     shared_ptr<ESP_PanelTouch> touch_ptr = nullptr;
-    shared_ptr<ESP_IOExpander> expander_ptr = _expander_ptr;
     shared_ptr<ESP_PanelBacklight> backlight_ptr = nullptr;
+    shared_ptr<ESP_IOExpander> expander_ptr = _expander_ptr;
 
     ESP_LOGD(TAG, "Panel init start");
 
@@ -310,7 +311,7 @@ bool ESP_Panel::init(void)
 #else
     /* For non-RGB LCD, should use `ADD_HOST()` to init host when `ESP_PANEL_LCD_BUS_SKIP_INIT_HOST` enabled */
 #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
-    ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(ESP_PANEL_LCD_BUS_NAME, host, lcd_bus_host_config, ESP_PANEL_LCD_BUS_HOST),
+    ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(ESP_PANEL_LCD_BUS_NAME, host_ptr, lcd_bus_host_config, ESP_PANEL_LCD_BUS_HOST),
                               false, "Add host failed");
 #endif
     lcd_bus_ptr = CREATE_BUS_SKIP_HOST(ESP_PANEL_LCD_BUS_NAME, lcd_panel_io_config, ESP_PANEL_LCD_BUS_HOST);
@@ -403,7 +404,7 @@ bool ESP_Panel::init(void)
     };
 
 #if !ESP_PANEL_TOUCH_BUS_SKIP_INIT_HOST
-    ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(ESP_PANEL_TOUCH_BUS_NAME, host, touch_host_config, ESP_PANEL_TOUCH_BUS_HOST),
+    ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(ESP_PANEL_TOUCH_BUS_NAME, host_ptr, touch_host_config, ESP_PANEL_TOUCH_BUS_HOST),
                               false, "Add host failed");
 #endif
 
@@ -440,7 +441,7 @@ bool ESP_Panel::init(void)
             },
             .clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL,
         };
-        ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(I2C, host, expander_host_config, ESP_PANEL_EXPANDER_HOST), false,
+        ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(I2C, host_ptr, expander_host_config, ESP_PANEL_EXPANDER_HOST), false,
                                   "Add host failed");
 #endif
         expander_ptr = CREATE_EXPANDER(ESP_PANEL_EXPANDER_NAME, ESP_PANEL_EXPANDER_HOST, ESP_PANEL_EXPANDER_I2C_ADDRESS);
@@ -448,7 +449,7 @@ bool ESP_Panel::init(void)
 #endif /* ESP_PANEL_USE_EXPANDER */
 
     ESP_LOGD(TAG, "Initialize host");
-    ESP_PANEL_CHECK_FALSE_RET(host.begin(), false, "Initialize host failed");
+    ESP_PANEL_CHECK_FALSE_RET(host_ptr->begin(), false, "Initialize host failed");
 
     // Save the created devices
     _lcd_bus_ptr = lcd_bus_ptr;
@@ -456,6 +457,7 @@ bool ESP_Panel::init(void)
     _touch_bus_ptr = touch_bus_ptr;
     _touch_ptr = touch_ptr;
     _backlight_ptr = backlight_ptr;
+    _host_ptr = host_ptr;
     _expander_ptr = expander_ptr;
     _is_initialed = true;
 
@@ -623,6 +625,11 @@ bool ESP_Panel::del(void)
     if (!_use_external_expander && (_expander_ptr != nullptr)) {
         ESP_LOGD(TAG, "Delete IO expander");
         _expander_ptr = nullptr;
+    }
+
+    if (_host_ptr != nullptr) {
+        ESP_LOGD(TAG, "Delete host");
+        _host_ptr = nullptr;
     }
 
     _is_initialed = false;

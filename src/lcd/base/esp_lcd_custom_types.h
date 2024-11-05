@@ -6,7 +6,10 @@
 
 #pragma once
 
+#include "soc/soc_caps.h"
+#if SOC_LCD_RGB_SUPPORTED
 #include "esp_lcd_panel_rgb.h"
+#endif
 #include "soc/soc_caps.h"
 #include "sdkconfig.h"
 

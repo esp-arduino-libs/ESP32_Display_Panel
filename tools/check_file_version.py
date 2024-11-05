@@ -5,92 +5,92 @@ import os
 import sys
 import re
 
-internal_version_file = "src/ESP_PanelVersions.h"
+internal_version_file = 'src/ESP_PanelVersions.h'
 internal_version_macross = [
     {
-        "file": "library.properties",
-        "macro": {
-            "major": "ESP_PANEL_VERSION_MAJOR",
-            "minor": "ESP_PANEL_VERSION_MINOR",
-            "patch": "ESP_PANEL_VERSION_PATCH"
+        'file': 'library.properties',
+        'macro': {
+            'major': 'ESP_PANEL_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_VERSION_MINOR',
+            'patch': 'ESP_PANEL_VERSION_PATCH'
         },
     },
     {
-        "file": "ESP_Panel_Conf.h",
-        "macro": {
-            "major": "ESP_PANEL_CONF_VERSION_MAJOR",
-            "minor": "ESP_PANEL_CONF_VERSION_MINOR",
-            "patch": "ESP_PANEL_CONF_VERSION_PATCH"
+        'file': 'ESP_Panel_Conf.h',
+        'macro': {
+            'major': 'ESP_PANEL_CONF_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_CONF_VERSION_MINOR',
+            'patch': 'ESP_PANEL_CONF_VERSION_PATCH'
         },
     },
     {
-        "file": "ESP_Panel_Board_Custom.h",
-        "macro": {
-            "major": "ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR",
-            "minor": "ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR",
-            "patch": "ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH"
+        'file': 'ESP_Panel_Board_Custom.h',
+        'macro': {
+            'major': 'ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR',
+            'patch': 'ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH'
         },
     },
     {
-        "file": "ESP_Panel_Board_Supported.h",
-        "macro": {
-            "major": "ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR",
-            "minor": "ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR",
-            "patch": "ESP_PANEL_BOARD_SUPPORTED_VERSION_PATCH"
+        'file': 'ESP_Panel_Board_Supported.h',
+        'macro': {
+            'major': 'ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR',
+            'patch': 'ESP_PANEL_BOARD_SUPPORTED_VERSION_PATCH'
         },
     },
 ]
 file_version_macros = [
     {
-        "file": "ESP_Panel_Conf.h",
-        "macro": {
-            "major": "ESP_PANEL_CONF_FILE_VERSION_MAJOR",
-            "minor": "ESP_PANEL_CONF_FILE_VERSION_MINOR",
-            "patch": "ESP_PANEL_CONF_FILE_VERSION_PATCH"
+        'file': 'ESP_Panel_Conf.h',
+        'macro': {
+            'major': 'ESP_PANEL_CONF_FILE_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_CONF_FILE_VERSION_MINOR',
+            'patch': 'ESP_PANEL_CONF_FILE_VERSION_PATCH'
         },
     },
     {
-        "file": "ESP_Panel_Board_Custom.h",
-        "macro": {
-            "major": "ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR",
-            "minor": "ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR",
-            "patch": "ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH"
+        'file': 'ESP_Panel_Board_Custom.h',
+        'macro': {
+            'major': 'ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR',
+            'patch': 'ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH'
         },
     },
     {
-        "file": "ESP_Panel_Board_Supported.h",
-        "macro": {
-            "major": "ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR",
-            "minor": "ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR",
-            "patch": "ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH"
+        'file': 'ESP_Panel_Board_Supported.h',
+        'macro': {
+            'major': 'ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR',
+            'patch': 'ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH'
         },
     },
 ]
-arduino_version_file = "library.properties"
+arduino_version_file = 'library.properties'
 
 
 def extract_file_version(file_path, version_dict):
     file_contents = []
-    content_str = ""
+    content_str = ''
     with open(file_path, 'r') as file:
         file_contents.append(file.readlines())
         for content in file_contents:
             content_str = ''.join(content)
 
     version_macro = version_dict['macro']
-    major_version = re.search(r'#define ' + version_macro["major"] + r' (\d+)', content_str)
-    minor_version = re.search(r'#define ' + version_macro["minor"] + r' (\d+)', content_str)
-    patch_version = re.search(r'#define ' + version_macro["patch"] + r' (\d+)', content_str)
+    major_version = re.search(r'#define ' + version_macro['major'] + r' (\d+)', content_str)
+    minor_version = re.search(r'#define ' + version_macro['minor'] + r' (\d+)', content_str)
+    patch_version = re.search(r'#define ' + version_macro['patch'] + r' (\d+)', content_str)
 
     if major_version and minor_version and patch_version:
-        return {"file": version_dict['file'], "version": major_version.group(1) + '.' + minor_version.group(1) + '.' + patch_version.group(1)}
+        return {'file': version_dict['file'], 'version': major_version.group(1) + '.' + minor_version.group(1) + '.' + patch_version.group(1)}
 
     return None
 
 
 def extract_arduino_version(file_path):
     file_contents = []
-    content_str = ""
+    content_str = ''
     with open(file_path, 'r') as file:
         file_contents.append(file.readlines())
         for content in file_contents:
@@ -99,12 +99,12 @@ def extract_arduino_version(file_path):
     version = re.search(r'version=(\d+\.\d+\.\d+)', content_str)
 
     if version:
-        return {"file": os.path.basename(file_path), "version": version.group(1)}
+        return {'file': os.path.basename(file_path), 'version': version.group(1)}
 
     return None
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if len(sys.argv) >= 3:
         search_directory = sys.argv[1]
 
@@ -138,20 +138,20 @@ if __name__ == "__main__":
                         if (internal_version['file'] == versions['file']) and (internal_version['version'] != versions['version']):
                             print(f"Version mismatch: '{internal_version['file']}'")
                             sys.exit(1)
-                    print(f"Version matched")
+                    print(f'Version matched')
 
         # Extract arduino version
         arduino_version_path = os.path.join(search_directory, arduino_version_file)
         arduino_version = extract_arduino_version(arduino_version_path)
         print(f"Arduino version extracted from '{arduino_version_path}")
         if arduino_version:
-            print(f"Arduino version: {arduino_version}")
+            print(f'Arduino version: {arduino_version}')
         else:
-            print(f"Arduino version not found")
+            print(f'Arduino version not found')
 
         # Check arduino version
         for internal_version in internal_versions:
             if (internal_version['file'] == arduino_version_file) and (internal_version['version'] != arduino_version['version']):
                 print(f"Arduino version mismatch: '{internal_version['file']}'")
                 sys.exit(1)
-        print(f"Arduino Version matched")
+        print(f'Arduino Version matched')

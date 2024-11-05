@@ -16,15 +16,15 @@ Then follow the steps below to configure the example.
 
 1. For **ESP32_Display_Panel**:
 
-   - [Configure drivers](../../../../README.md#configuring-drivers) if needed.
-   - If using a supported development board, follow the [steps](../../../../README.md#using-supported-development-boards) to configure it.
-   - If using a custom board, follow the [steps](../../../../README.md#using-custom-development-boards) to configure it.
+   - [Configure drivers](../../../../docs/How_To_Use.md#configuring-drivers) if needed.
+   - If using a supported development board, follow the [steps](../../../../docs/How_To_Use.md#using-supported-development-boards) to configure it.
+   - If using a custom board, follow the [steps](../../../../docs/How_To_Use.md#using-custom-development-boards) to configure it.
 
 2. Copy the [ui](./libraries/ui/) folder from `libraries` to [Arduino Library directory](../../../../README.md#where-is-the-directory-for-arduino-libraries).
 
 3. For **lvgl**:
 
-   - Follow the [steps](../../../../README.md#configuring-lvgl) to add *lv_conf.h* file and change the configurations. Additionally, set the following configurations to `1`:
+   - Follow the [steps](../../../../docs/How_To_Use.md#configuring-lvgl) to add *lv_conf.h* file and change the configurations. Additionally, set the following configurations to `1`:
 
       - `LV_FONT_MONTSERRAT_12`
       - `LV_FONT_MONTSERRAT_14`
@@ -43,7 +43,7 @@ Then follow the steps below to configure the example.
    - Fill the name of the city for which need to obtain weather information (such as `Shanghai`) in the macro definition `WEATHER_CITY`.
 
 6. To obtain and calibrate time information after connecting to Wi-Fi, Please correctly fill in your time zone within the macro `TIMEZONE_OFFSET` (such as `CST-8`).
-7. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](../../../../README.md#configuring-supported-development-boards)
+7. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](../../../../docs/How_To_Use.md#configuring-supported-development-boards)
 8. Verify and upload the example to your ESP board.
 
 ## Serial Output
@@ -65,4 +65,4 @@ wifi_list_switch: false
 
 ## Troubleshooting
 
-Please check the [FAQ](../../../../README.md#faq) first to see if the same question exists. If not, please create a [Github issue](../../../../README.md/issues). We will get back to you as soon as possible.
+Please check the [FAQ](../../../../docs/FAQ.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.

@@ -5,7 +5,7 @@ import os
 import sys
 import shutil
 
-exclude_dirs = ["./build"]
+exclude_dirs = ['./build']
 
 
 def is_in_directory(file_path, directory):
@@ -24,7 +24,7 @@ def is_same_file(file1, file2):
 
 
 def replace_files(search_directory, file_path):
-    if os.path.dirname(file_path) == "":
+    if os.path.dirname(file_path) == '':
         file_path = os.path.join(search_directory, file_path)
 
     filename = os.path.basename(file_path)
@@ -53,7 +53,7 @@ def replace_files(search_directory, file_path):
             shutil.copy(src_file, file_path)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if len(sys.argv) >= 3:
         search_directory = sys.argv[1]
 
@@ -61,4 +61,4 @@ if __name__ == "__main__":
             file_path = sys.argv[i]
             replace_files(search_directory, file_path)
 
-        print("Replacement completed.")
+        print('Replacement completed.')

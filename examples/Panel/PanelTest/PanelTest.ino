@@ -9,12 +9,12 @@
  *
  * 1. For **ESP32_Display_Panel**:
  *
- *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel#configuring-drivers) to configure drivers if needed.
- *     - If using a supported development board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel#using-supported-development-boards) to configure it.
- *     - If using a custom board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel#using-custom-development-boards) to configure it.
+ *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-drivers) to configure drivers if needed.
+ *     - If using a supported development board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#using-supported-development-boards) to configure it.
+ *     - If using a custom board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#using-custom-development-boards) to configure it.
  *
  * 2. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters. For supported
- *    boards, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel#configuring-supported-development-boards)
+ *    boards, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-supported-development-boards)
  * 3. Verify and upload the example to your ESP board.
  *
  * ## Serial Output
@@ -36,7 +36,7 @@
  *
  * ## Troubleshooting
  *
- * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel#faq) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
+ * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/faq.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
  *
  */
 
@@ -61,7 +61,7 @@ IRAM_ATTR bool onRefreshFinishCallback(void *user_data)
 }
 #endif
 
-#if EXAMPLE_TOUCH_ENABLE_ATTACH_CALLBACK
+#if TEST_TOUCH_ENABLE_ATTACH_CALLBACK && (ESP_PANEL_TOUCH_IO_INT >= 0)
 IRAM_ATTR bool onTouchInterruptCallback(void *user_data)
 {
     esp_rom_printf("Touch interrupt callback\n");
@@ -107,15 +107,15 @@ void setup()
         backlight->on();
     }
 
-    if (touch != nullptr) {
+    if ((touch != nullptr) && touch->isInterruptEnabled()) {
 #if EXAMPLE_TOUCH_ENABLE_ATTACH_CALLBACK
-        touch->attachInterruptCallback(onTouchInterruptCallback, NULL);
+            touch->attachInterruptCallback(onTouchInterruptCallback, NULL);
 #endif
+        Serial.println("Reading touch_device point...");
     } else {
         Serial.println("Touch is not available");
+        Serial.println("Panel test example end");
     }
-
-    Serial.println("Panel test example end");
 }
 
 void loop()

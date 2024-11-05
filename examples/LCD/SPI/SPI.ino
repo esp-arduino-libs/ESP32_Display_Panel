@@ -11,9 +11,9 @@
  *
  * ## How to use
  *
- * 1. [Configure drivers](https://github.com/esp-arduino-libs/ESP32_Display_Panel#configuring-drivers) if needed.
+ * 1. [Configure drivers](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-drivers) if needed.
  * 2. Modify the macros in the example to match the parameters according to your hardware.
- * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel#configuring-supported-development-boards)
+ * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-supported-development-boards)
  * 4. Verify and upload the example to your ESP board.
  *
  * ## Serial Output
@@ -49,7 +49,7 @@
  *
  * ## Troubleshooting
  *
- * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel#faq) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
+ * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/faq.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
  *
  */
 
@@ -86,7 +86,7 @@
  *
  * There are two formats for the sequence code:
  *   1. Raw data: {command, (uint8_t []){ data0, data1, ... }, data_size, delay_ms}
- *   2. Formater: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
+ *   2. Formatter: ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, { data0, data1, ... }) and
  *                ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
 const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
@@ -113,7 +113,6 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
 #define EXAMPLE_LCD_PIN_NUM_RST         (-1)    // Set to -1 if not used
 #define EXAMPLE_LCD_PIN_NUM_BK_LIGHT    (45)    // Set to -1 if not used
 #define EXAMPLE_LCD_BK_LIGHT_ON_LEVEL   (1)
-
 #define EXAMPLE_LCD_BK_LIGHT_OFF_LEVEL !EXAMPLE_LCD_BK_LIGHT_ON_LEVEL
 
 /* Enable or disable the attachment of a callback function that is called after each bitmap drawing is completed */

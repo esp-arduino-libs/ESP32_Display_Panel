@@ -57,6 +57,15 @@ ESP_PanelBus_SPI::~ESP_PanelBus_SPI()
         ESP_LOGE(TAG, "Delete panel io failed");
     }
 
+end:
+    ESP_LOGD(TAG, "Destroyed");
+}
+
+bool ESP_PanelBus_SPI::del(void)
+{
+    ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
+
+    ESP_PANEL_CHECK_FALSE_RET(ESP_PanelBus::del(), false, "Delete base panel failed");
     if (host_need_init) {
         if (spi_bus_free((spi_host_device_t)host_id) != ESP_OK) {
             ESP_LOGE(TAG, "Delete host[%d] driver failed", host_id);
@@ -65,8 +74,7 @@ ESP_PanelBus_SPI::~ESP_PanelBus_SPI()
         }
     }
 
-end:
-    ESP_LOGD(TAG, "Destroyed");
+    return true;
 }
 
 void ESP_PanelBus_SPI::configSpiMode(uint8_t mode)

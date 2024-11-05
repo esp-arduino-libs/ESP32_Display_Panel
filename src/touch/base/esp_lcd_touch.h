@@ -150,7 +150,7 @@ struct esp_lcd_touch_s {
      * @param max_point_num: Maximum count of touched points to return (equals with max size of x and y array)
      *
      * @return
-     *      - Returns true, when touched and coordinates readed. Otherwise returns false.
+     *      - Returns true, when touched and coordinates read. Otherwise returns false.
      */
     bool (*get_xy)(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t *strength, uint8_t *point_num, uint8_t max_point_num);
 
@@ -164,7 +164,7 @@ struct esp_lcd_touch_s {
      * @param state: Button state
      *
      * @return
-     *      - Returns true, when touched and coordinates readed. Otherwise returns false.
+     *      - Returns true, when touched and coordinates read. Otherwise returns false.
      */
     esp_err_t (*get_button_state)(esp_lcd_touch_handle_t tp, uint8_t n, uint8_t *state);
 #endif
@@ -291,7 +291,7 @@ esp_err_t esp_lcd_touch_read_data(esp_lcd_touch_handle_t tp);
  * @param max_point_num: Maximum count of touched points to return (equals with max size of x and y array)
  *
  * @return
- *      - Returns true, when touched and coordinates readed. Otherwise returns false.
+ *      - Returns true, when touched and coordinates read. Otherwise returns false.
  */
 bool esp_lcd_touch_get_coordinates(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t *strength, uint8_t *point_num, uint8_t max_point_num);
 
