@@ -66,7 +66,7 @@ bool ESP_PanelBus_SPI::del(void)
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
     ESP_PANEL_CHECK_FALSE_RET(ESP_PanelBus::del(), false, "Delete base panel failed");
-    if (host_need_init) {
+    if (flags.host_need_init) {
         if (spi_bus_free((spi_host_device_t)host_id) != ESP_OK) {
             ESP_LOGE(TAG, "Delete host[%d] driver failed", host_id);
         } else {
@@ -106,7 +106,7 @@ bool ESP_PanelBus_SPI::begin(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
-    if (host_need_init) {
+    if (flags.host_need_init) {
         ESP_PANEL_CHECK_ERR_RET(spi_bus_initialize((spi_host_device_t)host_id, &host_config, SPI_DMA_CH_AUTO), false,
                                 "Initializeost Host[%d] failed", host_id);
         ESP_LOGD(TAG, "Init host[%d]", host_id);

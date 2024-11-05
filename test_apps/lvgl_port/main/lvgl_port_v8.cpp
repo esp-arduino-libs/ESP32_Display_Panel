@@ -19,8 +19,8 @@ static void *get_next_frame_buffer(ESP_PanelLcd *lcd)
     static void *fbs[2] = { NULL };
 
     if (next_fb == NULL) {
-        fbs[0] = lcd->getRgbBufferByIndex(0);
-        fbs[1] = lcd->getRgbBufferByIndex(1);
+        fbs[0] = lcd->getFrameBufferByIndex(0);
+        fbs[1] = lcd->getFrameBufferByIndex(1);
         next_fb = fbs[1];
     } else {
         next_fb = (next_fb == fbs[0]) ? fbs[1] : fbs[0];
@@ -458,20 +458,20 @@ static lv_disp_t *display_init(ESP_PanelLcd *lcd)
 
     // With the usage of three buffers and full-refresh, we always have one buffer available for rendering,
     // eliminating the need to wait for the RGB's sync signal
-    lvgl_port_rgb_last_buf = lcd->getRgbBufferByIndex(0);
-    buf[0] = lcd->getRgbBufferByIndex(1);
-    buf[1] = lcd->getRgbBufferByIndex(2);
+    lvgl_port_rgb_last_buf = lcd->getFrameBufferByIndex(0);
+    buf[0] = lcd->getFrameBufferByIndex(1);
+    buf[1] = lcd->getFrameBufferByIndex(2);
     lvgl_port_rgb_next_buf = lvgl_port_rgb_last_buf;
     lvgl_port_flush_next_buf = buf[1];
 
 #elif (LVGL_PORT_DISP_BUFFER_NUM >= 3) && (LVGL_PORT_ROTATION_DEGREE != 0)
 
-    buf[0] = lcd->getRgbBufferByIndex(2);
+    buf[0] = lcd->getFrameBufferByIndex(2);
 
 #elif LVGL_PORT_DISP_BUFFER_NUM >= 2
 
     for (int i = 0; (i < LVGL_PORT_DISP_BUFFER_NUM) && (i < LVGL_PORT_BUFFER_NUM_MAX); i++) {
-        buf[i] = lcd->getRgbBufferByIndex(i);
+        buf[i] = lcd->getFrameBufferByIndex(i);
     }
 
 #endif

@@ -50,7 +50,7 @@ bool ESP_PanelTouch_GT911::begin(void)
         config.driver_data = (void *)&tp_gt911_config;
     }
 
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_gt911(bus->getHandle(), &config, &handle), false, "New driver failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_gt911(bus->getPanelIO_Handle(), &config, &handle), false, "New driver failed");
 
     return true;
 }

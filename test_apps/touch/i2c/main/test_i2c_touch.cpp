@@ -14,6 +14,7 @@
 
 using namespace std;
 
+/* The following default configurations are for the board 'Espressif: ESP32_S3_LCD_EV_BOARD_V1_5, GT1151' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your touch_device spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,11 +30,11 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TEST_TOUCH_PIN_NUM_I2C_SCL  (10)
-#define TEST_TOUCH_PIN_NUM_I2C_SDA  (9)
-#define TEST_TOUCH_PIN_NUM_RST      (13)    // Set to `-1` if not used
+#define TEST_TOUCH_PIN_NUM_I2C_SCL  (48)
+#define TEST_TOUCH_PIN_NUM_I2C_SDA  (47)
+#define TEST_TOUCH_PIN_NUM_RST      (-1)    // Set to `-1` if not used
 // For GT911, the RST pin is also used to configure the I2C address
-#define TEST_TOUCH_PIN_NUM_INT      (14)    // Set to `-1` if not used
+#define TEST_TOUCH_PIN_NUM_INT      (-1)    // Set to `-1` if not used
 // For GT911, the INT pin is also used to configure the I2C address
 
 #define TEST_READ_TOUCH_DELAY_MS    (30)
@@ -59,6 +60,8 @@ static void run_test(shared_ptr<ESP_PanelTouch> touch_device)
 #if TEST_TOUCH_PIN_NUM_INT >= 0
     touch_device->attachInterruptCallback(onTouchInterruptCallback, NULL);
 #endif
+
+    ESP_LOGI(TAG, "Reading touch_device point...");
 
     uint32_t t = 0;
     while (t++ < TEST_READ_TOUCH_TIME_MS / TEST_READ_TOUCH_DELAY_MS) {

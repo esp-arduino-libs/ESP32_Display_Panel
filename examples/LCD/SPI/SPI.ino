@@ -73,7 +73,7 @@
 #define EXAMPLE_LCD_HEIGHT              (240)
 #define EXAMPLE_LCD_COLOR_BITS          (16)
 #define EXAMPLE_LCD_SPI_FREQ_HZ         (40 * 1000 * 1000)
-#define EXAMPLE_LCD_USE_EXTERNAL_CMD    (0)
+#define EXAMPLE_LCD_USE_EXTERNAL_CMD    (1)
 #if EXAMPLE_LCD_USE_EXTERNAL_CMD
 /**
  * LCD initialization commands.
@@ -95,10 +95,22 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
     // {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},
     // {0x29, (uint8_t []){0x00}, 0, 120},
     // // or
-    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}),
-    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),
-    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),
-    // ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC8, {0xFF, 0x93, 0x42}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x0E, 0x0E}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC5, {0xD0}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x02}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB4, {0x02}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE0, {
+        0x00, 0x03, 0x08, 0x06, 0x13, 0x09, 0x39, 0x39, 0x48, 0x02, 0x0a, 0x08,
+        0x17, 0x17, 0x0F
+    }),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE1, {
+        0x00, 0x28, 0x29, 0x01, 0x0d, 0x03, 0x3f, 0x33, 0x52, 0x04, 0x0f, 0x0e,
+        0x37, 0x38, 0x0F
+    }),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB1, {00, 0x1B}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB7, {0x06}),
+    ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(100, 0x11),
 };
 #endif
 
@@ -110,8 +122,8 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
 #define EXAMPLE_LCD_PIN_NUM_SPI_SCK     (7)
 #define EXAMPLE_LCD_PIN_NUM_SPI_SDA     (6)
 #define EXAMPLE_LCD_PIN_NUM_SPI_SDO     (-1)
-#define EXAMPLE_LCD_PIN_NUM_RST         (-1)    // Set to -1 if not used
-#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT    (45)    // Set to -1 if not used
+#define EXAMPLE_LCD_PIN_NUM_RST         (48)    // Set to -1 if not used
+#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT    (47)    // Set to -1 if not used
 #define EXAMPLE_LCD_BK_LIGHT_ON_LEVEL   (1)
 #define EXAMPLE_LCD_BK_LIGHT_OFF_LEVEL !EXAMPLE_LCD_BK_LIGHT_ON_LEVEL
 
@@ -155,11 +167,16 @@ void setup()
     // Configure external initialization commands, should called before `init()`
     lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
 #endif
+    // lcd->configColorRgbOrder(true);
+    // lcd->configResetActiveLevel(1);
     lcd->init();
     lcd->reset();
     lcd->begin();
+    // lcd->mirrorX(true);
+    // lcd->mirrorY(true);
     lcd->displayOn();
 #if EXAMPLE_ENABLE_ATTACH_CALLBACK
+    /* Attach a callback function which will be called when every bitmap drawing is completed */
     lcd->attachRefreshFinishCallback(onDrawBitmapFinishCallback, NULL);
 #endif
 

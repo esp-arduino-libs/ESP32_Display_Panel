@@ -10,7 +10,7 @@
 #include "sdkconfig.h"
 
 /**
- * @brief Panel bus type macros
+ * @brief Macros for bus type
  *
  */
 #define ESP_PANEL_BUS_TYPE_UNKNOWN  (0)
@@ -19,7 +19,16 @@
 #define ESP_PANEL_BUS_TYPE_RGB      (3)
 #define ESP_PANEL_BUS_TYPE_I2C      (4)
 #define ESP_PANEL_BUS_TYPE_I80      (5)
-#define ESP_PANEL_BUS_TYPE_MAX      (6)
+#define ESP_PANEL_BUS_TYPE_MIPI_DSI (6)
+#define ESP_PANEL_BUS_TYPE_MAX      (7)
+
+/**
+ * @brief  Macros for LCD color format bits
+ *
+ */
+#define ESP_PANEL_LCD_RGB565_COLOR_BITS_16  (16)
+#define ESP_PANEL_LCD_RGB666_COLOR_BITS_18  (18)
+#define ESP_PANEL_LCD_RGB888_COLOR_BITS_24  (24)
 
 /**
  * @brief This macro is used to generate the I2C panel IO configuration according to the touch panel name.

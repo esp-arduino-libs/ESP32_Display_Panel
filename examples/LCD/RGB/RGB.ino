@@ -41,6 +41,7 @@
 #include <Arduino.h>
 #include <ESP_Panel_Library.h>
 
+/* The following default configurations are for the board 'Espressif: ESP32_S3_LCD_EV_BOARD_2_V1_5, ST7262' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +54,7 @@
 #define EXAMPLE_LCD_WIDTH                   (800)
 #define EXAMPLE_LCD_HEIGHT                  (480)
                                                     // | 8-bit RGB888 | 16-bit RGB565 |
-#define EXAMPLE_LCD_COLOR_BITS              (18)    // |      24      |   16/18/24    |
+#define EXAMPLE_LCD_COLOR_BITS              (16)    // |      24      |   16/18/24    |
 #define EXAMPLE_LCD_RGB_DATA_WIDTH          (16)    // |      8       |      16       |
 #define EXAMPLE_LCD_RGB_TIMING_FREQ_HZ      (16 * 1000 * 1000)
 #define EXAMPLE_LCD_RGB_TIMING_HPW          (40)
@@ -62,6 +63,7 @@
 #define EXAMPLE_LCD_RGB_TIMING_VPW          (23)
 #define EXAMPLE_LCD_RGB_TIMING_VBP          (32)
 #define EXAMPLE_LCD_RGB_TIMING_VFP          (13)
+#define EXAMPLE_LCD_RGB_BOUNCE_BUFFER_SIZE  (EXAMPLE_LCD_WIDTH * 10)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
@@ -79,8 +81,8 @@
 #define EXAMPLE_LCD_PIN_NUM_RGB_DATA3           (13)    // |   B3   |  B4    |   B6   |
 #define EXAMPLE_LCD_PIN_NUM_RGB_DATA4           (14)    // |   B4   |  B5    |   B7   |
 #define EXAMPLE_LCD_PIN_NUM_RGB_DATA5           (21)    // |   G0   |  G0    |   G0-2 |
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA6           (47)    // |   G1   |  G1    |   G3   |
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA7           (48)    // |   G2   |  G2    |   G4   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA6           (8)     // |   G1   |  G1    |   G3   |
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA7           (18)    // |   G2   |  G2    |   G4   |
 #if EXAMPLE_LCD_RGB_DATA_WIDTH > 8
 #define EXAMPLE_LCD_PIN_NUM_RGB_DATA8           (45)    // |   G3   |  G3    |   G5   |
 #define EXAMPLE_LCD_PIN_NUM_RGB_DATA9           (38)    // |   G4   |  G4    |   G6   |
@@ -136,39 +138,39 @@ void setup()
 
 #if EXAMPLE_LCD_PIN_NUM_BK_LIGHT >= 0
     Serial.println("Initialize backlight control pin and turn it off");
-    ESP_PanelBacklight *backlight = new ESP_PanelBacklight(EXAMPLE_LCD_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL, true);
+    ESP_PanelBacklight *backlight = new ESP_PanelBacklight(
+        EXAMPLE_LCD_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL, true
+    );
     backlight->begin();
     backlight->off();
 #endif
 
     Serial.println("Create RGB LCD bus");
+    ESP_PanelBus_RGB *panel_bus = new ESP_PanelBus_RGB(
 #if EXAMPLE_LCD_RGB_DATA_WIDTH == 8
-    ESP_PanelBus_RGB *panel_bus = new ESP_PanelBus_RGB(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA2, EXAMPLE_LCD_PIN_NUM_RGB_DATA3,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_HSYNC, EXAMPLE_LCD_PIN_NUM_RGB_VSYNC,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DISP);
+        EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1, EXAMPLE_LCD_PIN_NUM_RGB_DATA2,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA3, EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7, EXAMPLE_LCD_PIN_NUM_RGB_HSYNC,
+        EXAMPLE_LCD_PIN_NUM_RGB_VSYNC, EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
+        EXAMPLE_LCD_PIN_NUM_RGB_DISP
 #elif EXAMPLE_LCD_RGB_DATA_WIDTH == 16
-    ESP_PanelBus_RGB *panel_bus = new ESP_PanelBus_RGB(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA2, EXAMPLE_LCD_PIN_NUM_RGB_DATA3,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA8, EXAMPLE_LCD_PIN_NUM_RGB_DATA9,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA10, EXAMPLE_LCD_PIN_NUM_RGB_DATA11,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA12, EXAMPLE_LCD_PIN_NUM_RGB_DATA13,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DATA14, EXAMPLE_LCD_PIN_NUM_RGB_DATA15,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_HSYNC, EXAMPLE_LCD_PIN_NUM_RGB_VSYNC,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
-                                                       EXAMPLE_LCD_PIN_NUM_RGB_DISP);
+        EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT, EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA2, EXAMPLE_LCD_PIN_NUM_RGB_DATA3, EXAMPLE_LCD_PIN_NUM_RGB_DATA4,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA5, EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA8, EXAMPLE_LCD_PIN_NUM_RGB_DATA9, EXAMPLE_LCD_PIN_NUM_RGB_DATA10,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA11, EXAMPLE_LCD_PIN_NUM_RGB_DATA12, EXAMPLE_LCD_PIN_NUM_RGB_DATA13,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA14, EXAMPLE_LCD_PIN_NUM_RGB_DATA15, EXAMPLE_LCD_PIN_NUM_RGB_HSYNC,
+        EXAMPLE_LCD_PIN_NUM_RGB_VSYNC, EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
+        EXAMPLE_LCD_PIN_NUM_RGB_DISP
 #endif
+    );
     panel_bus->configRgbTimingFreqHz(EXAMPLE_LCD_RGB_TIMING_FREQ_HZ);
-    panel_bus->configRgbTimingPorch(EXAMPLE_LCD_RGB_TIMING_HPW, EXAMPLE_LCD_RGB_TIMING_HBP, EXAMPLE_LCD_RGB_TIMING_HFP,
-                                    EXAMPLE_LCD_RGB_TIMING_VPW, EXAMPLE_LCD_RGB_TIMING_VBP, EXAMPLE_LCD_RGB_TIMING_VFP);
-    // panel_bus->configRgbBounceBufferSize(EXAMPLE_LCD_WIDTH * 10); // Set bounce buffer to avoid screen drift
+    panel_bus->configRgbTimingPorch(
+        EXAMPLE_LCD_RGB_TIMING_HPW, EXAMPLE_LCD_RGB_TIMING_HBP, EXAMPLE_LCD_RGB_TIMING_HFP,
+        EXAMPLE_LCD_RGB_TIMING_VPW, EXAMPLE_LCD_RGB_TIMING_VBP, EXAMPLE_LCD_RGB_TIMING_VFP
+    );
+    panel_bus->configRgbBounceBufferSize(EXAMPLE_LCD_RGB_BOUNCE_BUFFER_SIZE); // Set bounce buffer to avoid screen drift
     panel_bus->begin();
 
     Serial.println("Create LCD device");
@@ -176,14 +178,14 @@ void setup()
     lcd->init();
     lcd->reset();
     lcd->begin();
-#if EXAMPLE_LCD_PIN_NUM_RGB_DISP >= 0
     lcd->displayOn();
-#endif
 #if EXAMPLE_ENABLE_PRINT_LCD_FPS
+    /* Attach a callback function which will be called when the Vsync signal is detected */
     lcd->attachRefreshFinishCallback(onVsyncEndCallback, (void *)&start_time);
 #endif
 
     Serial.println("Draw color bar from top left to bottom right, the order is B - G - R");
+    /* Users can refer to the implementation within `colorBardTest()` to draw patterns on the LCD */
     lcd->colorBarTest(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT);
 
 #if EXAMPLE_LCD_PIN_NUM_BK_LIGHT >= 0

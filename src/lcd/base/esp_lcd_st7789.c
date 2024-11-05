@@ -18,7 +18,7 @@
 #include "esp_log.h"
 #include "esp_check.h"
 
-#include "esp_lcd_custom_types.h"
+#include "esp_lcd_vendor_types.h"
 #include "esp_lcd_st7789.h"
 
 static const char *TAG = "st7789";

@@ -21,6 +21,7 @@
 #include "bus/SPI.h"
 #include "bus/RGB.h"
 #include "bus/QSPI.h"
+#include "bus/DSI.h"
 
 /* LCD */
 #include "lcd/ESP_PanelLcd.h"

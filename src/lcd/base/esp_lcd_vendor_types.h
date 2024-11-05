@@ -6,12 +6,14 @@
 
 #pragma once
 
+#include "sdkconfig.h"
 #include "soc/soc_caps.h"
 #if SOC_LCD_RGB_SUPPORTED
 #include "esp_lcd_panel_rgb.h"
 #endif
-#include "soc/soc_caps.h"
-#include "sdkconfig.h"
+#if SOC_MIPI_DSI_SUPPORTED
+#include "esp_lcd_mipi_dsi.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,19 +44,32 @@ typedef struct {
     unsigned int init_cmds_size;                        /*<! Number of commands in above array */
 
 #if SOC_LCD_RGB_SUPPORTED
-    const esp_lcd_rgb_panel_config_t *rgb_config;   /*!< RGB panel configuration. */
+    const esp_lcd_rgb_panel_config_t *rgb_config;       /*!< RGB panel configuration. */
+#endif
+#if SOC_MIPI_DSI_SUPPORTED
+    struct {
+        uint8_t  lane_num;                      /*!< Number of MIPI-DSI lanes, defaults to 2 if set to 0 */
+        esp_lcd_dsi_bus_handle_t dsi_bus;               /*!< MIPI-DSI bus configuration */
+        const esp_lcd_dpi_panel_config_t *dpi_config;   /*!< MIPI-DPI panel configuration */
+    } mipi_config;
 #endif
 
     struct {
         unsigned int mirror_by_cmd: 1;              /*<! The `mirror()` function will be implemented by LCD command if set to 1.
                                                      *   Otherwise, the function will be implemented by software.
                                                      */
-        unsigned int auto_del_panel_io: 1;          /*<! Delete the panel IO instance automatically if set to 1. All `*_by_cmd` flags will be invalid.
-                                                     *   If the panel IO pins are sharing other pins of the RGB interface to save GPIOs,
-                                                     *   Please set it to 1 to release the panel IO and its pins (except CS signal).
-                                                     */
-        /* Only available for QSPI interface */
-        unsigned int use_qspi_interface: 1;         /*<! Set to 1 if use QSPI interface, default is SPI interface */
+        union {
+            unsigned int auto_del_panel_io: 1;
+            unsigned int enable_io_multiplex: 1;
+        };  /*<! Delete the panel IO instance automatically if set to 1. All `*_by_cmd` flags will be invalid.
+             *   If the panel IO pins are sharing other pins of the RGB interface to save GPIOs,
+             *   Please set it to 1 to release the panel IO and its pins (except CS signal).
+             *   This flag is only valid for the RGB interface.
+             */
+        unsigned int use_spi_interface: 1;          /*<! Set to 1 if use SPI interface */
+        unsigned int use_qspi_interface: 1;         /*<! Set to 1 if use QSPI interface */
+        unsigned int use_rgb_interface: 1;          /*<! Set to 1 if use RGB interface */
+        unsigned int use_mipi_interface: 1;         /*<! Set to 1 if using MIPI interface */
     } flags;
 } esp_lcd_panel_vendor_config_t;
 

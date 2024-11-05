@@ -5,7 +5,7 @@
  */
 
 #include "ESP_PanelLog.h"
-#include "esp_lcd_custom_types.h"
+#include "esp_lcd_vendor_types.h"
 
 #include <stdlib.h>
 #include <sys/cdefs.h>

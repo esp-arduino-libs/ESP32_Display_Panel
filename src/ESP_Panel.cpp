@@ -498,17 +498,18 @@ bool ESP_Panel::begin(void)
     ESP_LOGD(TAG, "Begin LCD");
 #if ESP_PANEL_USE_EXPANDER && ((ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER) || (ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER) || \
                                (ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER))
-    shared_ptr<ESP_PanelBus_RGB> lcd_bus_ptr = static_pointer_cast<ESP_PanelBus_RGB>(_lcd_bus_ptr);
-    lcd_bus_ptr->configSpiLine(ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER, ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER,
-                               ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER, _expander_ptr.get());
+    if (_lcd_bus_ptr->getType() == ESP_PANEL_BUS_TYPE_RGB) {
+        shared_ptr<ESP_PanelBus_RGB> lcd_bus_ptr = static_pointer_cast<ESP_PanelBus_RGB>(_lcd_bus_ptr);
+        lcd_bus_ptr->configSpiLine(
+            ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER, ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER,
+            ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER, _expander_ptr.get()
+        );
+    }
 #endif
     ESP_PANEL_CHECK_FALSE_RET(_lcd_bus_ptr->begin(), false, "Begin LCD bus failed");
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->init(), false, "Initialize LCD failed");
-    // Operate LCD device according to the optional configurations
-#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || !ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
-    // We can't reset the LCD if the bus is RGB bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is enabled
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->reset(), false, "Reset LCD failed");
-#endif
+    // Operate LCD device according to the optional configurations
 #ifdef ESP_PANEL_LCD_SWAP_XY
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->swapXY(ESP_PANEL_LCD_SWAP_XY), false, "Swap XY failed");
 #endif
@@ -522,18 +523,7 @@ bool ESP_Panel::begin(void)
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->invertColor(ESP_PANEL_LCD_INEVRT_COLOR), false, "Invert color failed");
 #endif
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->begin(), false, "Begin LCD failed");
-    /**
-     * Turn on display only when meets one of the following conditions:
-     *   - The LCD bus is not RGB bus
-     *   - The LCD bus is "3wire-SPI + RGB" bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is disabled
-     *   - The LCD bus is RGB (with or without 3-wire SPI) bus and the `ESP_PANEL_LCD_RGB_IO_DISP` pin is used
-     *
-     */
-#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || \
-    (defined(ESP_PANEL_LCD_RGB_IO_DISP) && (ESP_PANEL_LCD_RGB_IO_DISP != -1)) || \
-    (defined(ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO) && !ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO)
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->displayOn(), false, "Display on failed");
-#endif
     // Run additional code after the LCD is started if needed
 #ifdef ESP_PANEL_BEGIN_LCD_END_FUNCTION
     ESP_PANEL_BEGIN_LCD_END_FUNCTION(this);

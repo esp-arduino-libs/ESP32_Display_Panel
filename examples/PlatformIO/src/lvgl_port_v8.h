@@ -5,6 +5,7 @@
  */
 #pragma once
 
+#include <Arduino.h>
 #include <ESP_Panel_Library.h>
 #include <lvgl.h>
 
@@ -36,7 +37,7 @@
  *      - The number of buffers should be 1 or 2.
  *
  */
-#define LVGL_PORT_BUFFER_MALLOC_CAPS            (MALLOC_CAP_INTERNAL)       // Allocate LVGL buffer in SRAM
+#define LVGL_PORT_BUFFER_MALLOC_CAPS            (MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)       // Allocate LVGL buffer in SRAM
 // #define LVGL_PORT_BUFFER_MALLOC_CAPS            (MALLOC_CAP_SPIRAM)      // Allocate LVGL buffer in PSRAM
 #define LVGL_PORT_BUFFER_SIZE                   (LVGL_PORT_DISP_WIDTH * 20)
 #define LVGL_PORT_BUFFER_NUM                    (2)
@@ -49,7 +50,9 @@
 #define LVGL_PORT_TASK_MIN_DELAY_MS             (2)         // The minimum delay of the LVGL timer task, in milliseconds
 #define LVGL_PORT_TASK_STACK_SIZE               (6 * 1024)  // The stack size of the LVGL timer task, in bytes
 #define LVGL_PORT_TASK_PRIORITY                 (2)         // The priority of the LVGL timer task
-#define LVGL_PORT_TASK_CORE                     (-1)        // The core of the LVGL timer task, `-1` means the don't specify the core
+#define LVGL_PORT_TASK_CORE                     (ARDUINO_RUNNING_CORE)
+                                                            // The core of the LVGL timer task, `-1` means the don't specify the core
+                                                            // Default is the same as the Arduino task
                                                             // This can be set to `1` only if the SoCs support dual-core,
                                                             // otherwise it should be set to `-1` or `0`
 

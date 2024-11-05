@@ -13,7 +13,7 @@
 #include "ESP_Panel_Library.h"
 
 #define TEST_LCD_ENABLE_ATTACH_CALLBACK     (0)
-#define TEST_LCD_SHOW_TIME_MS               (3000)
+#define TEST_LCD_SHOW_TIME_MS               (5000)
 
 #define TEST_TOUCH_ENABLE_ATTACH_CALLBACK   (0)
 #define TEST_TOUCH_READ_POINTS_NUM          (5)
@@ -74,7 +74,6 @@ TEST_CASE("Test panel to draw color bar and read touch", "[panel]")
         TEST_ASSERT_TRUE_MESSAGE(
             lcd->colorBarTest(panel->getLcdWidth(), panel->getLcdHeight()), "LCD color bar test failed"
         );
-        delay(TEST_LCD_SHOW_TIME_MS);
     } else {
         ESP_LOGI(TAG, "LCD is not available");
     }
@@ -82,6 +81,11 @@ TEST_CASE("Test panel to draw color bar and read touch", "[panel]")
     if (backlight != nullptr) {
         ESP_LOGI(TAG, "Turn on the backlight");
         TEST_ASSERT_TRUE_MESSAGE(backlight->on(), "Backlight on failed");
+    }
+
+    if (lcd != nullptr) {
+        ESP_LOGI(TAG, "Wait for %d ms to show the color bar", TEST_LCD_SHOW_TIME_MS);
+        vTaskDelay(pdMS_TO_TICKS(TEST_LCD_SHOW_TIME_MS));
     }
 
     if (touch != nullptr) {

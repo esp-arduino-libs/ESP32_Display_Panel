@@ -30,15 +30,15 @@
 #define ESP_PANEL_CHECK_NULL_RET(x, ...)    assert((x) != NULL)
 #define ESP_PANEL_CHECK_FALSE_RET(x, ...)   assert((x) != false)
 #else
-#if ESP_PANEL_ENABLE_LOG
+// #if ESP_PANEL_ENABLE_LOG
 #define ESP_PANEL_ERROR_CHECK_LOG_FORMAT(err, format)     "[%s] %s(%u): " format, esp_err_to_name(err), __FUNCTION__, __LINE__
 #define ESP_PANEL_ERROR_CHECK_LOGE(tag, err, format, ...) ESP_LOGE(tag, ESP_PANEL_ERROR_CHECK_LOG_FORMAT(err, format), ##__VA_ARGS__)
 #define ESP_PANEL_OTHER_CHECK_LOG_FORMAT(format)      "%s(%u): " format, __FUNCTION__, __LINE__
 #define ESP_PANEL_OTHER_CHECK_LOGE(tag, format, ...)  ESP_LOGE(tag, ESP_PANEL_OTHER_CHECK_LOG_FORMAT(format), ##__VA_ARGS__)
-#else
-#define ESP_PANEL_ERROR_CHECK_LOGE(tag, err, format, ...) do {} while(0)
-#define ESP_PANEL_OTHER_CHECK_LOGE(tag, format, ...) do {} while(0)
-#endif
+// #else
+// #define ESP_PANEL_ERROR_CHECK_LOGE(tag, err, format, ...) do {} while(0)
+// #define ESP_PANEL_OTHER_CHECK_LOGE(tag, format, ...) do {} while(0)
+// #endif
 
 #define ESP_PANEL_CHECK_ERR_RET(x, ret, fmt, ...) do {                    \
         esp_err_t err_rc_ = (x);                                          \

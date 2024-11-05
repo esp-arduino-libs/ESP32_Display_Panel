@@ -89,17 +89,10 @@ ESP_PanelBus_RGB::~ESP_PanelBus_RGB()
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
-    if (host_need_init) {
-        if (handle == NULL) {
-            goto end;
-        }
-
-        if (!del()) {
-            ESP_LOGE(TAG, "Delete panel io failed");
-        }
+    if (flags.host_need_init && (handle != NULL) && !del()) {
+        ESP_LOGE(TAG, "Delete panel io failed");
     }
 
-end:
     ESP_LOGD(TAG, "Destroyed");
 }
 
@@ -168,17 +161,12 @@ bool ESP_PanelBus_RGB::begin(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
-    if (host_need_init) {
+    if (flags.host_need_init) {
         ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_io_3wire_spi(&spi_config, &handle), false, "Create panel io failed");
         ESP_LOGD(TAG, "Create panel io @%p", handle);
     }
 
     return true;
-}
-
-const esp_lcd_rgb_panel_config_t *ESP_PanelBus_RGB::getRgbConfig()
-{
-    return &rgb_config;
 }
 
 #endif /* SOC_LCD_RGB_SUPPORTED */

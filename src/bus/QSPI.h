@@ -12,11 +12,6 @@
 #include "ESP_PanelBus.h"
 
 /**
- * @brief Macro for QSPI bus default host ID
- *
- */
-
-/**
  * @brief Macro for QSPI panel IO configuration
  *
  */

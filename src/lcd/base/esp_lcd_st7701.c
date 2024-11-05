@@ -19,7 +19,7 @@
 #include "esp_lcd_panel_vendor.h"
 #include "esp_log.h"
 
-#include "esp_lcd_custom_types.h"
+#include "esp_lcd_vendor_types.h"
 #include "esp_lcd_st7701.h"
 
 #define ST7701_CMD_SDIR     (0xC7)
