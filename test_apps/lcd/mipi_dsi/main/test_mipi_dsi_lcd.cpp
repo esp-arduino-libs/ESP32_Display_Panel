@@ -237,3 +237,4 @@ static void run_test(shared_ptr<ESP_PanelLcd> lcd)
  *
  */
 CREATE_TEST_CASE(EK79007)
+CREATE_TEST_CASE(ILI9881C)

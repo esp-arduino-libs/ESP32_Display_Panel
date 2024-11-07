@@ -2,8 +2,8 @@
  * | Supported ESP SoCs | ESP32-P4 |
  * | ------------------ | -------- |
  *
- * | Supported LCD Controllers | EK79007 |
- * | ------------------------- | ------- |
+ * | Supported LCD Controllers | EK79007 | ILI9881C |
+ * | ------------------------- | ------- | -------- |
  *
  * # MIPI-DSI LCD Example
  *
@@ -73,7 +73,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Currently, the library supports the following MIPI-DSI LCDs:
- *      - EK79007
+ *      - EK79007, ILI9881C
  */
 #define EXAMPLE_LCD_NAME                EK79007
 #define EXAMPLE_LCD_WIDTH               (1024)
