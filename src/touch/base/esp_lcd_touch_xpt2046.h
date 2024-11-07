@@ -135,6 +135,35 @@ extern "C" {
             .cs_high_active = 0                         \
         }                                               \
     }
+#elif ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5,4,0)
+
+/**
+ * @brief Communication SPI device IO structure
+ *
+ */
+#define ESP_LCD_TOUCH_IO_SPI_XPT2046_CONFIG(touch_cs)   \
+    {                                                   \
+        .cs_gpio_num = (gpio_num_t)touch_cs,            \
+        .dc_gpio_num = GPIO_NUM_NC,                     \
+        .spi_mode = 0,                                  \
+        .pclk_hz = ESP_LCD_TOUCH_SPI_CLOCK_HZ,          \
+        .trans_queue_depth = 3,                         \
+        .on_color_trans_done = NULL,                    \
+        .user_ctx = NULL,                               \
+        .lcd_cmd_bits = 8,                              \
+        .lcd_param_bits = 8,                            \
+        .flags =                                        \
+        {                                               \
+            .dc_high_on_cmd = 0,                        \
+            .dc_low_on_data = 0,                        \
+            .dc_low_on_param = 0,                        \
+            .octal_mode = 0,                            \
+            .quad_mode = 0,                             \
+            .sio_mode = 0,                              \
+            .lsb_first = 0,                             \
+            .cs_high_active = 0                         \
+        }                                               \
+    }
 #else
 
 /**
@@ -152,6 +181,8 @@ extern "C" {
         .user_ctx = NULL,                               \
         .lcd_cmd_bits = 8,                              \
         .lcd_param_bits = 8,                            \
+        .cs_ena_pretrans = 0,                           \
+        .cs_ena_posttrans = 0,                          \
         .flags =                                        \
         {                                               \
             .dc_high_on_cmd = 0,                        \

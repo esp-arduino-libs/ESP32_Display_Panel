@@ -15,6 +15,10 @@ test_apps/lcd/qspi:
   disable:
     - if: SOC_GPSPI_SUPPORTED != 1
 
+test_apps/lcd/mipi_dsi:
+  disable:
+    - if: SOC_MIPI_DSI_SUPPORTED != 1
+
 test_apps/lcd/rgb:
   disable:
     - if: SOC_LCD_RGB_SUPPORTED != 1
