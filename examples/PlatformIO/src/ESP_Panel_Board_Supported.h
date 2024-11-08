@@ -31,6 +31,7 @@
  *  - BOARD_ESP32_S3_LCD_EV_BOARD_2 (ESP32-S3-LCD-EV-Board-2(v1.1-v1.4))): https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/user_guide_v1.4.html
  *  - BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5 (ESP32-S3-LCD-EV-Board-2(v1.5)): https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/user_guide.html
  *  - BOARD_ESP32_S3_USB_OTG (ESP32-S3-USB-OTG): https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html
+ *  - BOARD_ESP32_P4_FUNCTION_EV_BOARD (ESP32-P4-Function-EV-Board): https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32p4/esp32-p4-function-ev-board/index.html
  *
  */
 // #define BOARD_ESP32_C3_LCDKIT
@@ -45,6 +46,7 @@
 // #define BOARD_ESP32_S3_LCD_EV_BOARD_2
 // #define BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5
 // #define BOARD_ESP32_S3_USB_OTG
+// #define BOARD_ESP32_P4_FUNCTION_EV_BOARD
 
 /*
  * Elecrow (https://www.elecrow.com):
@@ -101,7 +103,7 @@
  *
  */
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 5
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 1
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 6
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
 
 #endif

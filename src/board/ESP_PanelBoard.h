@@ -23,6 +23,7 @@
     + defined(BOARD_ESP32_S3_LCD_EV_BOARD_2) \
     + defined(BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5) \
     + defined(BOARD_ESP32_S3_USB_OTG) \
+    + defined(BOARD_ESP32_P4_FUNCTION_EV_BOARD) \
     /* Elecrow */ \
     + defined(BOARD_ELECROW_CROWPANEL_7_0) \
     /* M5Stack */ \
