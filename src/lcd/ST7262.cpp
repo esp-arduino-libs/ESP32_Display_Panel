@@ -52,6 +52,7 @@ bool ESP_PanelLcd_ST7262::init(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
+    /* Initialize RST pin */
     if (panel_config.reset_gpio_num >= 0) {
         gpio_config_t gpio_conf = {
             .pin_bit_mask = BIT64(panel_config.reset_gpio_num),
@@ -62,6 +63,11 @@ bool ESP_PanelLcd_ST7262::init(void)
         };
         ESP_PANEL_CHECK_ERR_RET(gpio_config(&gpio_conf), false, "`Config RST gpio failed");
     }
+
+    /* Load RGB configurations from bus to vendor configurations */
+    ESP_PANEL_CHECK_FALSE_RET(loadVendorConfigFromBus(), false, "Load vendor config from bus failed");
+
+    /* Create panel handle */
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_rgb_panel(vendor_config.rgb_config, &handle), false, "Create panel failed");
 
     ESP_LOGD(TAG, "LCD panel @%p created", handle);

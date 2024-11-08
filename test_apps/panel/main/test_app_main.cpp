@@ -9,9 +9,16 @@
 #include "esp_heap_caps.h"
 #include "unity.h"
 #include "unity_test_runner.h"
+#include "ESP_Panel.h"
 
 // Some resources are lazy allocated in the LCD driver, the threadhold is left for that case
+#if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_MIPI_DSI
+#define TEST_MEMORY_LEAK_THRESHOLD (-800)
+#elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 #define TEST_MEMORY_LEAK_THRESHOLD (-500)
+#else
+#define TEST_MEMORY_LEAK_THRESHOLD (-300)
+#endif
 
 static size_t before_free_8bit;
 static size_t before_free_32bit;
@@ -37,7 +44,7 @@ void tearDown(void)
     check_leak(before_free_32bit, after_free_32bit, "32BIT");
 }
 
-void app_main(void)
+extern "C" void app_main(void)
 {
     /**
      *  _______    ______   __    __  ________  __

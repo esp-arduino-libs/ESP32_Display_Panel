@@ -20,10 +20,10 @@
 #define ESP_PANEL_HOST_DSI_ID_DEFAULT   (0)
 #define ESP_PANEL_HOST_DSI_CONFIG_DEFAULT(lane_num, lane_rate_mbps) \
     {                                                     \
-        .bus_id = 0,                                      \
+        .bus_id = ESP_PANEL_HOST_DSI_ID_DEFAULT,          \
         .num_data_lanes = lane_num,                       \
         .phy_clk_src = MIPI_DSI_PHY_CLK_SRC_DEFAULT,      \
-        .lane_bit_rate_mbps = lane_rate_mbps,                  \
+        .lane_bit_rate_mbps = lane_rate_mbps,             \
     }
 
 /**
@@ -134,7 +134,7 @@ public:
      * @brief Here are some functions to configure the MIPI-DSI bus object. These functions should be called before `begin()`
      *
      */
-    // void configSpiMode(uint8_t mode);
+    void configDpiFrameBufferNumber(uint8_t num);
 
     /**
      * @brief Startup the bus

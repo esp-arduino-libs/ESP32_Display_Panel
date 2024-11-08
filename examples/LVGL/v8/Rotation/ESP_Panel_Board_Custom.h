@@ -110,8 +110,6 @@
                                                         // |--------------|---------------|
     #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    // |      8       |      16       |
     #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // |      24      |      16       |
-
-    #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM     (1)     // 1/2/3
     #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (0)     // Bounce buffer size in bytes. This function is used to avoid screen drift.
                                                         // To enable the bounce buffer, set it to a non-zero value. Typically set to `ESP_PANEL_LCD_WIDTH * 10`
                                                         // The size of the Bounce Buffer must satisfy `width_of_lcd * height_of_lcd = size_of_buffer * N`,
@@ -121,7 +119,6 @@
     #define ESP_PANEL_LCD_RGB_IO_DE             (17)    // -1 if not used
     #define ESP_PANEL_LCD_RGB_IO_PCLK           (9)
     #define ESP_PANEL_LCD_RGB_IO_DISP           (-1)    // -1 if not used
-
                                                         // | RGB565 | RGB666 | RGB888 |
                                                         // |--------|--------|--------|
     #define ESP_PANEL_LCD_RGB_IO_DATA0          (10)    // |   B0   |  B0-1  |   B0-3 |
@@ -157,6 +154,22 @@
     #define ESP_PANEL_LCD_FLAGS_MIRROR_BY_CMD           (!ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO)
                                                                 // The `mirror()` function will be implemented by LCD command if set to 1.
 #endif
+
+#elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_MIPI_DSI
+
+    #define ESP_PANEL_LCD_MIPI_DSI_LANE_NUM         (2)     // ESP32-P4 supports 1 or 2 lanes
+    #define ESP_PANEL_LCD_MIPI_DSI_LANE_RATE_MBPS   (1000)  // Single lane bit rate, should consult the LCD supplier or check the
+                                                            // LCD drive IC datasheet for the supported lane rate.
+                                                            // ESP32-P4 supports max 1500Mbps
+    #define ESP_PANEL_LCD_MIPI_DSI_PHY_LDO_ID       (3)     // -1 if not used
+    #define ESP_PANEL_LCD_MIPI_DPI_CLK_MHZ          (52)
+    #define ESP_PANEL_LCD_MIPI_DPI_PIXEL_BITS       (ESP_PANEL_LCD_RGB565_COLOR_BITS_16)
+    #define ESP_PANEL_LCD_MIPI_DSI_HPW              (10)
+    #define ESP_PANEL_LCD_MIPI_DSI_HBP              (160)
+    #define ESP_PANEL_LCD_MIPI_DSI_HFP              (160)
+    #define ESP_PANEL_LCD_MIPI_DSI_VPW              (1)
+    #define ESP_PANEL_LCD_MIPI_DSI_VBP              (23)
+    #define ESP_PANEL_LCD_MIPI_DSI_VFP              (12)
 
 #else
 
@@ -380,8 +393,8 @@
  *
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 2
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 3
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 3
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
 
 #endif /* ESP_PANEL_USE_CUSTOM_BOARD */
 

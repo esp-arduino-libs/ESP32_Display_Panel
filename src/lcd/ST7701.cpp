@@ -42,7 +42,12 @@ bool ESP_PanelLcd_ST7701::init(void)
 {
     ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
 
+    /* Load RGB configurations from bus to vendor configurations */
+    ESP_PANEL_CHECK_FALSE_RET(loadVendorConfigFromBus(), false, "Load vendor config from bus failed");
+
+    /* Create panel handle */
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_st7701(bus->getPanelIO_Handle(), &panel_config, &handle), false, "Create panel failed");
+
     // Delete panel io if enable `auto_del_panel_io` or `enable_io_multiplex` flag
     if (((esp_lcd_panel_vendor_config_t *)panel_config.vendor_config)->flags.auto_del_panel_io) {
         ESP_PANEL_CHECK_FALSE_RET(bus->delSkipPanelIO(), false, "Delete panel io failed");

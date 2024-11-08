@@ -59,8 +59,6 @@ ESP_PanelLcd::ESP_PanelLcd(ESP_PanelBus *bus, uint8_t color_bits, int rst_io):
     _draw_bitmap_finish_sem(NULL),
     _callback_data(CALLBACK_DATA_DEFAULT())
 {
-    /* Construct vendor configuration */
-    constructVendorConfig(bus);
 }
 
 ESP_PanelLcd::ESP_PanelLcd(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &panel_config):
@@ -84,9 +82,6 @@ ESP_PanelLcd::ESP_PanelLcd(ESP_PanelBus *bus, const esp_lcd_panel_dev_config_t &
         vendor_config = *(esp_lcd_panel_vendor_config_t *)panel_config.vendor_config;
     }
     this->panel_config.vendor_config = &vendor_config;
-
-    /* Construct vendor configuration */
-    constructVendorConfig(bus);
 }
 
 bool ESP_PanelLcd::configVendorCommands(const esp_lcd_panel_vendor_init_cmd_t init_cmd[], uint32_t init_cmd_size)
@@ -125,6 +120,7 @@ bool ESP_PanelLcd::configResetActiveLevel(int level)
 bool ESP_PanelLcd::configMirrorByCommand(bool en)
 {
     ESP_PANEL_CHECK_FALSE_RET(!checkIsInit(), false, "This function should be called before `init()`");
+    ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
     ESP_PANEL_CHECK_FALSE_RET(bus->getType() == ESP_PANEL_BUS_TYPE_RGB, false, "This function is only for RGB interface");
 
     vendor_config.flags.mirror_by_cmd = en;
@@ -135,6 +131,7 @@ bool ESP_PanelLcd::configMirrorByCommand(bool en)
 bool ESP_PanelLcd::configEnableIO_Multiplex(bool en)
 {
     ESP_PANEL_CHECK_FALSE_RET(!checkIsInit(), false, "This function should be called before `init()`");
+    ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
     ESP_PANEL_CHECK_FALSE_RET(bus->getType() == ESP_PANEL_BUS_TYPE_RGB, false, "This function is only for RGB interface");
 
     vendor_config.flags.enable_io_multiplex = en;
@@ -612,11 +609,10 @@ void *ESP_PanelLcd::getFrameBufferByIndex(uint8_t index)
     return buffer[index];
 }
 
-void ESP_PanelLcd::constructVendorConfig(ESP_PanelBus *bus)
+bool ESP_PanelLcd::loadVendorConfigFromBus(void)
 {
-    if (bus == NULL) {
-        return;
-    }
+    ESP_PANEL_CHECK_FALSE_RET(!checkIsInit(), false, "This function should be called before `init()`");
+    ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
 
     switch (bus->getType()) {
     case ESP_PANEL_BUS_TYPE_SPI:
@@ -644,8 +640,11 @@ void ESP_PanelLcd::constructVendorConfig(ESP_PanelBus *bus)
         break;
 #endif
     default:
+        ESP_LOGE(TAG, "Unsupported bus type");
         break;
     }
+
+    return true;
 }
 
 IRAM_ATTR bool ESP_PanelLcd::onDrawBitmapFinish(void *panel_io, void *edata, void *user_ctx)

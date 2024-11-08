@@ -101,6 +101,11 @@ bool ESP_PanelBus_DSI::del(void)
     return true;
 }
 
+void ESP_PanelBus_DSI::configDpiFrameBufferNumber(uint8_t num)
+{
+    _dpi_config.num_fbs = num;
+}
+
 bool ESP_PanelBus_DSI::begin(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();

@@ -484,6 +484,8 @@ public:
     }
 
 protected:
+    bool loadVendorConfigFromBus(void);
+
     bool checkIsInit(void)
     {
         return (handle != NULL) && (bus != NULL);
@@ -508,7 +510,6 @@ protected:
     esp_lcd_panel_handle_t handle;
 
 private:
-    void constructVendorConfig(ESP_PanelBus *bus);
     IRAM_ATTR static bool onDrawBitmapFinish(void *panel_io, void *edata, void *user_ctx);
     IRAM_ATTR static bool onRefreshFinish(void *panel_io, void *edata, void *user_ctx);
 

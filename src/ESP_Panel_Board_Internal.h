@@ -119,10 +119,18 @@
 
         #elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 
-            #ifndef SOC_LCD_RGB_SUPPORTED
+            #if !SOC_LCD_RGB_SUPPORTED
                 #error "RGB is not supported for current SoC, please select the correct board."
             #endif
             #define ESP_PANEL_LCD_BUS_NAME      RGB
+            #define ESP_PANEL_LCD_BUS_HOST      (-1)
+
+        #elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_MIPI_DSI
+
+            #if !SOC_MIPI_DSI_SUPPORTED
+                #error "MIPI-DSI is not supported for current SoC, please select the correct board."
+            #endif
+            #define ESP_PANEL_LCD_BUS_NAME      DSI
             #define ESP_PANEL_LCD_BUS_HOST      (-1)
 
         #else
