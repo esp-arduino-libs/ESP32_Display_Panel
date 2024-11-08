@@ -1,20 +1,35 @@
 # ChangeLog
 
-## v0.1.9 - 2024-10-29
+## v0.2.0 - 2024-11-08
 
-* feat(board): add support for Waveshare ESP32-S3-Touch-LCD-2.1
+### Enhancements:
+
+* feat(repo): support build on the esp-idf
+* feat(bus & lcd): support MIPI-DSI LCD
+* feat(lcd): add LCD controller EK79007
+* feat(lcd): add LCD controller ILI9881C
+* feat(panel): add support for MIPI-DSI LCD
+* feat(board): add support for Waveshare ESP32-S3-Touch-LCD-2.1 @martinroger (#117)
+* feat(board): add support for Espressif ESP32-P4-Function-EV-Board
+* feat(examples): add MIPI-DSI LCD
+* feat(examples): optimize anti-tear rotation in lvgl_port_v8
+* feat(ci): update for MIPI-DSI LCD
+* feat(test_apps): add MIPI-DSI LCD
+
+### Bugfixes:
+
+* fix(touch): release ISR semaphore when delete
 
 ## v0.1.8 - 2024-10-25
 
-* feat(board): add support for Waveshare ESP32-S3-Touch-LCD-1.85
-
 ### Enhancements:
 
-## v0.1.7 - 2024-08-22
-
-### Enhancements:
-
+* feat(board): add support for Waveshare ESP32-S3-Touch-LCD-1.85 @martinroger (#115)
 * feat(docs): add additional information about screen drift issue
+
+### Bugfixes:
+
+* fix(examples): correct readme broken links
 
 ## v0.1.6 - 2024-07-30
 

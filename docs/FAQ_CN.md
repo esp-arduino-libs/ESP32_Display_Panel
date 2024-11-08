@@ -1,5 +1,17 @@
 # 常见问题解答
 
+* [English Version](./FAQ.md)
+
+## 目录
+
+- [常见问题解答](#常见问题解答)
+  - [目录](#目录)
+  - [Arduino 库的目录在哪儿？](#arduino-库的目录在哪儿)
+  - [如何在 Arduino IDE 中安装 ESP32\_Display\_Panel？](#如何在-arduino-ide-中安装-esp32_display_panel)
+  - [arduino-eps32 的安装目录以及 SDK 的目录在哪儿？](#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)
+  - [使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](#使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
+  - [如何在 PlatformIO 上使用 ESP32\_Display\_Panel？](#如何在-platformio-上使用-esp32_display_panel)
+
 ## Arduino 库的目录在哪儿？
 
 您可以在 Arduino IDE 的菜单栏中选择 `File` > `Preferences` > `Settings` > `Sketchbook location` 来查找和修改 Arduino 库的目录路径。
