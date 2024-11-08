@@ -1,4 +1,4 @@
-[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![pre-commit](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/pre-commit.yml) [![Version Consistency](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/check_lib_versions.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/check_lib_versions.yml)
+[![Arduino Lint](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/arduino_lint.yml) [![Version Consistency](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/check_lib_versions.yml/badge.svg)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/actions/workflows/check_lib_versions.yml)
 
 **最新 Arduino 库版本**: [![GitHub Release](https://img.shields.io/github/v/release/esp-arduino-libs/ESP32_Display_Panel)](https://github.com/esp-arduino-libs/ESP32_Display_Panel/releases)
 
@@ -50,9 +50,9 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 
 | **厂商** | **型号** |
 | -------- | -------- |
-| Fitipower | EK9716B |
+| Fitipower | EK9716B, EK79007 |
 | GalaxyCore | GC9A01, GC9B71, GC9503 |
-| Ilitek | ILI9341 |
+| Ilitek | ILI9341, ILI9881C |
 | NewVision | NV3022B |
 | Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
 
