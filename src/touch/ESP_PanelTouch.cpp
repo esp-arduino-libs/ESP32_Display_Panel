@@ -78,6 +78,12 @@ ESP_PanelTouch::ESP_PanelTouch(ESP_PanelBus *bus, const esp_lcd_touch_config_t &
     }
 }
 
+void ESP_PanelTouch::configLevels(int reset_level, int interrupt_level)
+{
+    config.levels.reset = reset_level;
+    config.levels.interrupt = interrupt_level;
+}
+
 bool ESP_PanelTouch::attachInterruptCallback(std::function<bool (void *)> callback, void *user_data)
 {
     ESP_PANEL_CHECK_FALSE_RET((config.interrupt_callback == onTouchInterrupt), false, "Interruption is not enabled");
@@ -108,6 +114,11 @@ bool ESP_PanelTouch::del(void)
 {
     ESP_PANEL_CHECK_NULL_RET(handle, false, "Invalid handle");
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_del(handle), false, "Delete touch panel failed");
+
+    if (_isr_sem != NULL) {
+        vSemaphoreDelete(_isr_sem);
+        _isr_sem = NULL;
+    }
 
     ESP_LOGD(TAG, "Touch panel @%p deleted", handle);
     handle = NULL;

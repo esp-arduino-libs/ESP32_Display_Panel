@@ -85,6 +85,14 @@ public:
     virtual ~ESP_PanelTouch() = default;
 
     /**
+     * @brief Configure the levels of the reset and interrupt signals
+     *
+     * @param reset_level     The level of the reset signal
+     * @param interrupt_level The level of the interrupt signal
+     */
+    void configLevels(int reset_level, int interrupt_level);
+
+    /**
      * @brief Attach a callback function, which will be called when the refreshing is finished
      *
      * @param callback  The callback function
