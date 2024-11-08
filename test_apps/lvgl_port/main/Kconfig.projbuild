@@ -1,8 +1,8 @@
 menu "Test Configurations"
     choice LVGL_PORT_AVOID_TEARING_MODE_CHOICE
         prompt "Avoid Tearing Mode"
-        depends on SOC_LCD_RGB_SUPPORTED
-        default LVGL_PORT_AVOID_TEARING_MODE_3
+        depends on SOC_LCD_RGB_SUPPORTED || SOC_MIPI_DSI_SUPPORTED
+        default LVGL_PORT_AVOID_TEARING_MODE_NONE
 
         config LVGL_PORT_AVOID_TEARING_MODE_NONE
             bool "None"

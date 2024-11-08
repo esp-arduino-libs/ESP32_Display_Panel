@@ -11,9 +11,9 @@
  *
  * ## How to use
  *
- * 1. [Configure drivers](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-drivers) if needed.
+ * 1. [Configure drivers](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-drivers) if needed.
  * 2. Modify the macros in the example to match the parameters according to your hardware.
- * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-supported-development-boards)
+ * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-supported-development-boards)
  * 4. Verify and upload the example to your ESP board.
  *
  * ## Serial Output
@@ -49,18 +49,19 @@
  *
  * ## Troubleshooting
  *
- * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/faq.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
+ * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/FAQ.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
  *
  */
 
 #include <Arduino.h>
 #include <ESP_Panel_Library.h>
 
+/* The following default configurations are for the board 'Espressif: Custom, ST77922' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Currently, the library supports the following SPI LCDs:
+ * Currently, the library supports the following QSPI LCDs:
  *      - GC9B71
  *      - SH8601
  *      - SPD2010
@@ -136,15 +137,18 @@ void setup()
 
 #if EXAMPLE_LCD_PIN_NUM_BK_LIGHT >= 0
     Serial.println("Initialize backlight control pin and turn it off");
-    ESP_PanelBacklight *backlight = new ESP_PanelBacklight(EXAMPLE_LCD_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL, true);
+    ESP_PanelBacklight *backlight = new ESP_PanelBacklight(
+        EXAMPLE_LCD_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL, true
+    );
     backlight->begin();
     backlight->off();
 #endif
 
     Serial.println("Create QSPI LCD bus");
-    ESP_PanelBus_QSPI *panel_bus = new ESP_PanelBus_QSPI(EXAMPLE_LCD_PIN_NUM_SPI_CS, EXAMPLE_LCD_PIN_NUM_SPI_SCK,
-                                                         EXAMPLE_LCD_PIN_NUM_SPI_DATA0, EXAMPLE_LCD_PIN_NUM_SPI_DATA1,
-                                                         EXAMPLE_LCD_PIN_NUM_SPI_DATA2, EXAMPLE_LCD_PIN_NUM_SPI_DATA3);
+    ESP_PanelBus_QSPI *panel_bus = new ESP_PanelBus_QSPI(
+        EXAMPLE_LCD_PIN_NUM_SPI_CS, EXAMPLE_LCD_PIN_NUM_SPI_SCK, EXAMPLE_LCD_PIN_NUM_SPI_DATA0,
+        EXAMPLE_LCD_PIN_NUM_SPI_DATA1, EXAMPLE_LCD_PIN_NUM_SPI_DATA2, EXAMPLE_LCD_PIN_NUM_SPI_DATA3
+    );
     panel_bus->configQspiFreqHz(EXAMPLE_LCD_SPI_FREQ_HZ);
     panel_bus->begin();
 
@@ -159,10 +163,12 @@ void setup()
     lcd->begin();
     lcd->displayOn();
 #if EXAMPLE_ENABLE_ATTACH_CALLBACK
-    lcd->attachRefreshFinishCallback(onDrawBitmapFinishCallback, NULL);
+    /* Attach a callback function which will be called when every bitmap drawing is completed */
+    lcd->attachDrawBitmapFinishCallback(onDrawBitmapFinishCallback, NULL);
 #endif
 
     Serial.println("Draw color bar from top left to bottom right, the order is B - G - R");
+    /* Users can refer to the implementation within `colorBardTest()` to draw patterns on the LCD */
     lcd->colorBarTest(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT);
 
 #if EXAMPLE_LCD_PIN_NUM_BK_LIGHT >= 0

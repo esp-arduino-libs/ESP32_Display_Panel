@@ -21,14 +21,17 @@
 #include "bus/SPI.h"
 #include "bus/RGB.h"
 #include "bus/QSPI.h"
+#include "bus/DSI.h"
 
 /* LCD */
 #include "lcd/ESP_PanelLcd.h"
+#include "lcd/EK79007.h"
 #include "lcd/EK9716B.h"
 #include "lcd/GC9503.h"
 #include "lcd/GC9A01.h"
 #include "lcd/GC9B71.h"
 #include "lcd/ILI9341.h"
+#include "lcd/ILI9881C.h"
 #include "lcd/NV3022B.h"
 #include "lcd/SH8601.h"
 #include "lcd/SPD2010.h"

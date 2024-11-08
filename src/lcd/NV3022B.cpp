@@ -39,7 +39,7 @@ bool ESP_PanelLcd_NV3022B::init(void)
 {
     ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
 
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_nv3022b(bus->getHandle(), &panel_config, &handle), false, "Create panel failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_nv3022b(bus->getPanelIO_Handle(), &panel_config, &handle), false, "Create panel failed");
 
     return true;
 }

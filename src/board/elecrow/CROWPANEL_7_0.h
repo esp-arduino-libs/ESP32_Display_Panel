@@ -53,7 +53,7 @@
     #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (1)     // 0: rising edge, 1: falling edge
     #define ESP_PANEL_LCD_RGB_DATA_WIDTH        (16)    //  8 | 16
     #define ESP_PANEL_LCD_RGB_PIXEL_BITS        (16)    // 24 | 16
-    #define ESP_PANEL_LCD_RGB_FRAME_BUF_NUM     (1)     // 1/2/3
+
     #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE   (ESP_PANEL_LCD_WIDTH * 10)
                                                         // Bounce buffer size in bytes. This function is used to avoid screen drift.
                                                         // To enable the bounce buffer, set it to a non-zero value.

@@ -41,7 +41,7 @@ bool ESP_PanelLcd_SPD2010::init(void)
 {
     ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
 
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_spd2010(bus->getHandle(), &panel_config, &handle), false, "Create panel failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_new_panel_spd2010(bus->getPanelIO_Handle(), &panel_config, &handle), false, "Create panel failed");
 
     return true;
 }

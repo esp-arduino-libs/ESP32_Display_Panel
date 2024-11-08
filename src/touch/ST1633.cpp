@@ -40,7 +40,7 @@ bool ESP_PanelTouch_ST1633::begin(void)
 {
     ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
 
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_st1633(bus->getHandle(), &config, &handle), false, "New driver failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_st1633(bus->getPanelIO_Handle(), &config, &handle), false, "New driver failed");
 
     return true;
 }

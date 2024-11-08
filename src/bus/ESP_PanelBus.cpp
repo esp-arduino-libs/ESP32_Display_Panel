@@ -9,11 +9,17 @@
 #include "esp_lcd_panel_io.h"
 #include "ESP_PanelBus.h"
 
+#define FLAGS_DEFAULT(host_init)     \
+    {                                \
+        .host_need_init = host_init, \
+        .del_skip_panel_io = 0,      \
+    }
+
 static const char *TAG = "ESP_PanelBus";
 
 ESP_PanelBus::ESP_PanelBus(int host_id, uint8_t bus_type, bool host_need_init):
+    flags(FLAGS_DEFAULT(host_need_init)),
     host_id(host_id),
-    host_need_init(host_need_init),
     bus_type(bus_type),
     handle(NULL)
 {
@@ -47,33 +53,19 @@ bool ESP_PanelBus::del(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
-    // RGB bus which needs to initialize the host inside can be deleted
-    if ((bus_type == ESP_PANEL_BUS_TYPE_RGB) && !host_need_init) {
-        ESP_LOGD(TAG, "Use RGB bus without host init, skip delete panel IO");
-        return true;
+    // RGB bus which needs to initialize the host inside and not skip panel IO can be deleted
+    if ((bus_type == ESP_PANEL_BUS_TYPE_RGB) && (!flags.host_need_init || flags.del_skip_panel_io)) {
+        ESP_LOGD(TAG, "Use RGB bus without host init or enable skip panel IO, skip delete panel IO");
+        goto end;
     }
 
     ESP_PANEL_CHECK_ERR_RET(esp_lcd_panel_io_del(handle), false, "Delete panel IO failed");
-
     ESP_LOGD(TAG, "Delete panel IO @%p", handle);
+
+end:
     handle = NULL;
 
     return true;
-}
-
-void ESP_PanelBus::configHostId(int id)
-{
-    host_id = id;
-}
-
-esp_lcd_panel_io_handle_t ESP_PanelBus::getHandle(void)
-{
-    if (handle == NULL) {
-        ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
-        ESP_LOGD(TAG, "Get invalid handle");
-    }
-
-    return handle;
 }
 
 uint8_t ESP_PanelBus::getType(void)

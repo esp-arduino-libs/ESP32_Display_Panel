@@ -11,9 +11,9 @@
  *
  * ## How to use
  *
- * 1. [Configure drivers](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-drivers) if needed.
+ * 1. [Configure drivers](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-drivers) if needed.
  * 2. Modify the macros in the example to match the parameters according to your hardware.
- * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-supported-development-boards)
+ * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-supported-development-boards)
  * 4. Verify and upload the example to your ESP board.
  *
  * ## Serial Output
@@ -36,13 +36,14 @@
  *
  * ## Troubleshooting
  *
- * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/faq.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
+ * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/FAQ.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
  *
  */
 
 #include <Arduino.h>
 #include <ESP_Panel_Library.h>
 
+/* The following default configurations are for the board 'jingcai: ESP32_4848S040C_I_Y_3, ST7701' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +65,8 @@
 #define EXAMPLE_LCD_RGB_TIMING_VPW          (10)
 #define EXAMPLE_LCD_RGB_TIMING_VBP          (10)
 #define EXAMPLE_LCD_RGB_TIMING_VFP          (10)
-#define EXAMPLE_LCD_USE_EXTERNAL_CMD        (0)
+#define EXAMPLE_LCD_RGB_BOUNCE_BUFFER_SIZE  (EXAMPLE_LCD_WIDTH * 10)
+#define EXAMPLE_LCD_USE_EXTERNAL_CMD        (1)
 #if EXAMPLE_LCD_USE_EXTERNAL_CMD
 /**
  * LCD initialization commands.
@@ -86,10 +88,44 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
     // {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},
     // {0x29, (uint8_t []){0x00}, 0, 120},
     // // or
-    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}),
-    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),
-    // ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),
-    // ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC2, {0x31, 0x05}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xCD, {0x00}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB0, {0x00, 0x11, 0x18, 0x0E, 0x11, 0x06, 0x07, 0x08, 0x07, 0x22, 0x04, 0x12,
+                                                0x0F, 0xAA, 0x31, 0x18}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB1, {0x00, 0x11, 0x19, 0x0E, 0x12, 0x07, 0x08, 0x08, 0x08, 0x22, 0x04, 0x11,
+                                                0x11, 0xA9, 0x32, 0x18}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x11}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB0, {0x60}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB1, {0x32}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB2, {0x07}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB3, {0x80}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB5, {0x49}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB7, {0x85}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB8, {0x21}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x78}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC2, {0x78}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE0, {0x00, 0x1B, 0x02}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE1, {0x08, 0xA0, 0x00, 0x00, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x44, 0x44}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE2, {0x11, 0x11, 0x44, 0x44, 0xED, 0xA0, 0x00, 0x00, 0xEC, 0xA0, 0x00, 0x00}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE3, {0x00, 0x00, 0x11, 0x11}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE4, {0x44, 0x44}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE5, {0x0A, 0xE9, 0xD8, 0xA0, 0x0C, 0xEB, 0xD8, 0xA0, 0x0E, 0xED, 0xD8, 0xA0,
+                                                0x10, 0xEF, 0xD8, 0xA0}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE6, {0x00, 0x00, 0x11, 0x11}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE7, {0x44, 0x44}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE8, {0x09, 0xE8, 0xD8, 0xA0, 0x0B, 0xEA, 0xD8, 0xA0, 0x0D, 0xEC, 0xD8, 0xA0,
+                                                0x0F, 0xEE, 0xD8, 0xA0}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xEB, {0x02, 0x00, 0xE4, 0xE4, 0x88, 0x00, 0x40}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xEC, {0x3C, 0x00}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xED, {0xAB, 0x89, 0x76, 0x54, 0x02, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x20,
+                                                0x45, 0x67, 0x98, 0xBA}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x13}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE5, {0xE4}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x00}),
+    ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x11),
 };
 #endif
 
@@ -169,43 +205,43 @@ void setup()
 
 #if EXAMPLE_LCD_PIN_NUM_BK_LIGHT >= 0
     Serial.println("Initialize backlight and turn it off");
-    ESP_PanelBacklight *backlight = new ESP_PanelBacklight(EXAMPLE_LCD_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL, true);
+    ESP_PanelBacklight *backlight = new ESP_PanelBacklight(
+        EXAMPLE_LCD_PIN_NUM_BK_LIGHT, EXAMPLE_LCD_BK_LIGHT_ON_LEVEL, true
+    );
     backlight->begin();
     backlight->off();
 #endif
 
     Serial.println("Create 3-wire SPI + RGB LCD bus");
 #if EXAMPLE_LCD_RGB_DATA_WIDTH == 8
-    ESP_PanelBus_RGB *lcd_bus = new ESP_PanelBus_RGB(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
-                                                     EXAMPLE_LCD_PIN_NUM_SPI_CS, EXAMPLE_LCD_PIN_NUM_SPI_SCK,
-                                                     EXAMPLE_LCD_PIN_NUM_SPI_SDA,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA2, EXAMPLE_LCD_PIN_NUM_RGB_DATA3,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_HSYNC, EXAMPLE_LCD_PIN_NUM_RGB_VSYNC,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DISP);
+    ESP_PanelBus_RGB *lcd_bus = new ESP_PanelBus_RGB(
+        EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
+        EXAMPLE_LCD_PIN_NUM_SPI_CS, EXAMPLE_LCD_PIN_NUM_SPI_SCK, EXAMPLE_LCD_PIN_NUM_SPI_SDA,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1, EXAMPLE_LCD_PIN_NUM_RGB_DATA2,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA3, EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7, EXAMPLE_LCD_PIN_NUM_RGB_HSYNC,
+        EXAMPLE_LCD_PIN_NUM_RGB_VSYNC, EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
+        EXAMPLE_LCD_PIN_NUM_RGB_DISP
+    );
 #elif EXAMPLE_LCD_RGB_DATA_WIDTH == 16
-    ESP_PanelBus_RGB *lcd_bus = new ESP_PanelBus_RGB(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
-                                                     EXAMPLE_LCD_PIN_NUM_SPI_CS, EXAMPLE_LCD_PIN_NUM_SPI_SCK,
-                                                     EXAMPLE_LCD_PIN_NUM_SPI_SDA,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA2, EXAMPLE_LCD_PIN_NUM_RGB_DATA3,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA8, EXAMPLE_LCD_PIN_NUM_RGB_DATA9,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA10, EXAMPLE_LCD_PIN_NUM_RGB_DATA11,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA12, EXAMPLE_LCD_PIN_NUM_RGB_DATA13,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DATA14, EXAMPLE_LCD_PIN_NUM_RGB_DATA15,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_HSYNC, EXAMPLE_LCD_PIN_NUM_RGB_VSYNC,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE,
-                                                     EXAMPLE_LCD_PIN_NUM_RGB_DISP);
+    ESP_PanelBus_RGB *lcd_bus = new ESP_PanelBus_RGB(
+        EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT,
+        EXAMPLE_LCD_PIN_NUM_SPI_CS, EXAMPLE_LCD_PIN_NUM_SPI_SCK, EXAMPLE_LCD_PIN_NUM_SPI_SDA,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA0, EXAMPLE_LCD_PIN_NUM_RGB_DATA1, EXAMPLE_LCD_PIN_NUM_RGB_DATA2,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA3, EXAMPLE_LCD_PIN_NUM_RGB_DATA4, EXAMPLE_LCD_PIN_NUM_RGB_DATA5,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA6, EXAMPLE_LCD_PIN_NUM_RGB_DATA7, EXAMPLE_LCD_PIN_NUM_RGB_DATA8,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA9, EXAMPLE_LCD_PIN_NUM_RGB_DATA10, EXAMPLE_LCD_PIN_NUM_RGB_DATA11,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA12, EXAMPLE_LCD_PIN_NUM_RGB_DATA13, EXAMPLE_LCD_PIN_NUM_RGB_DATA14,
+        EXAMPLE_LCD_PIN_NUM_RGB_DATA15, EXAMPLE_LCD_PIN_NUM_RGB_HSYNC, EXAMPLE_LCD_PIN_NUM_RGB_VSYNC,
+        EXAMPLE_LCD_PIN_NUM_RGB_PCLK, EXAMPLE_LCD_PIN_NUM_RGB_DE, EXAMPLE_LCD_PIN_NUM_RGB_DISP
+    );
 #endif
     lcd_bus->configRgbTimingFreqHz(EXAMPLE_LCD_RGB_TIMING_FREQ_HZ);
-    lcd_bus->configRgbTimingPorch(EXAMPLE_LCD_RGB_TIMING_HPW, EXAMPLE_LCD_RGB_TIMING_HBP, EXAMPLE_LCD_RGB_TIMING_HFP,
-                                  EXAMPLE_LCD_RGB_TIMING_VPW, EXAMPLE_LCD_RGB_TIMING_VBP, EXAMPLE_LCD_RGB_TIMING_VFP);
-    // lcd_bus->configRgbBounceBufferSize(EXAMPLE_LCD_WIDTH * 10); // Set bounce buffer to avoid screen drift
+    lcd_bus->configRgbTimingPorch(
+        EXAMPLE_LCD_RGB_TIMING_HPW, EXAMPLE_LCD_RGB_TIMING_HBP, EXAMPLE_LCD_RGB_TIMING_HFP,
+        EXAMPLE_LCD_RGB_TIMING_VPW, EXAMPLE_LCD_RGB_TIMING_VBP, EXAMPLE_LCD_RGB_TIMING_VFP
+    );
+    lcd_bus->configRgbBounceBufferSize(EXAMPLE_LCD_RGB_BOUNCE_BUFFER_SIZE); // Set bounce buffer to avoid screen drift
     lcd_bus->begin();
 
     Serial.println("Create LCD device");
@@ -214,23 +250,23 @@ void setup()
     // Configure external initialization commands, should called before `init()`
     lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd)/sizeof(lcd_init_cmd[0]));
 #endif
-    // lcd->configAutoReleaseBus(true);    // If the "3-wire SPI" interface are sharing pins of the "RGB" interface to
-                                           // save GPIOs, please enable this function to release the bus object and pins
-                                           // (except CS signal). And then, the "3-wire SPI" interface cannot be used to
-                                           // transmit commands any more.
-    // lcd->configMirrorByCommand(true);   // This function is conflict with `configAutoReleaseBus(true)`, please don't
-                                           // enable them at the same time
+    // lcd->configEnableIO_Multiplex(true); // If the "3-wire SPI" interface are sharing pins of the "RGB" interface to
+                                            // save GPIOs, please enable this function to release the bus object and pins
+                                            // (except CS signal). And then, the "3-wire SPI" interface cannot be used to
+                                            // transmit commands any more.
+    // lcd->configMirrorByCommand(true);    // This function is conflict with `configAutoReleaseBus(true)`, please don't
+                                            // enable them at the same time
     lcd->init();
-    lcd->reset();                          // If the `configAutoReleaseBus(true)` is called, here should not call `reset()`
-                                           // to deinit the LCD device
+    lcd->reset();
     lcd->begin();
-    lcd->displayOn();                      // This function is conflict with `configAutoReleaseBus(true)`, please don't
-                                           // enable them at the same time
+    lcd->displayOn();
 #if EXAMPLE_ENABLE_PRINT_LCD_FPS
+    /* Attach a callback function which will be called when the Vsync signal is detected */
     lcd->attachRefreshFinishCallback(onVsyncEndCallback, nullptr);
 #endif
 
     Serial.println("Draw color bar from top left to bottom right, the order is B - G - R");
+    /* Users can refer to the implementation within `colorBardTest()` to draw patterns on the LCD */
     lcd->colorBarTest(EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT);
 
 #if EXAMPLE_LCD_PIN_NUM_BK_LIGHT >= 0

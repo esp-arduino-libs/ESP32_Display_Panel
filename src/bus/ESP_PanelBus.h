@@ -25,7 +25,7 @@ public:
      *                          - ESP_PANEL_BUS_TYPE_SPI:  SPI bus
      *                          - ESP_PANEL_BUS_TYPE_RGB:  RGB bus
      *                          - ESP_PANEL_BUS_TYPE_QSPI: QSPI bus
-     * @param host_need_init Whether the host should be initialized inside.
+     * @param flags.host_need_init Whether the host should be initialized inside.
      *                          - true: the host needs to be initialized inside
      *                          - false: the host should been initialized by users
      */
@@ -41,7 +41,10 @@ public:
      * @brief Here are some functions to configure the bus object. These functions should be called before `begin()`
      *
      */
-    void configHostId(int id);
+    void configHostId(int id)
+    {
+        host_id = id;
+    }
 
     /**
      * @brief Startup the bus
@@ -56,6 +59,12 @@ public:
      * @return true if success, otherwise false
      */
     virtual bool del(void);
+
+    bool delSkipPanelIO(void)
+    {
+        flags.del_skip_panel_io = 1;
+        return del();
+    }
 
     /**
      * @brief Read the register data
@@ -104,17 +113,36 @@ public:
     uint8_t getType(void);
 
     /**
-     * @brief Get the IO handle of bus
+     * @brief Get the panel IO handle
      *
      * @return
      *      - NULL:   if fail
      *      - Others: the handle of bus
      */
-    esp_lcd_panel_io_handle_t getHandle(void);
+    [[deprecated("This API is deprecated. Please use `getPanelIO_Handle()` instead.")]]
+    esp_lcd_panel_io_handle_t getHandle(void)
+    {
+        return getPanelIO_Handle();
+    }
+
+    /**
+     * @brief Get the panel IO handle
+     *
+     * @return
+     *      - NULL:   if fail
+     *      - Others: the handle of bus
+     */
+    esp_lcd_panel_io_handle_t getPanelIO_Handle(void)
+    {
+        return handle;
+    }
 
 protected:
+    struct {
+        uint8_t host_need_init: 1;
+        uint8_t del_skip_panel_io: 1;
+    } flags;
     int host_id;
-    bool host_need_init;
     uint8_t bus_type;
     esp_lcd_panel_io_handle_t handle;
 };

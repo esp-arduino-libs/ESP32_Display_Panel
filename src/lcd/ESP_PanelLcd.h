@@ -11,14 +11,12 @@
 #include "soc/soc_caps.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_vendor.h"
-#if SOC_LCD_RGB_SUPPORTED
-#include "esp_lcd_panel_rgb.h"
-#endif
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
-#include "soc/soc_caps.h"
-#include "base/esp_lcd_custom_types.h"
+#include "base/esp_lcd_vendor_types.h"
 #include "bus/ESP_PanelBus.h"
+
+#define ESP_PANEL_LCD_FRAME_BUFFER_MAX_NUM  (3)
 
 /**
  * @brief LCD device default configuration macro
@@ -43,6 +41,15 @@
  */
 class ESP_PanelLcd {
 public:
+#if SOC_MIPI_DSI_SUPPORTED
+    enum class DsiPatternType {
+        NONE = MIPI_DSI_PATTERN_NONE,
+        BAR_HORIZONTAL = MIPI_DSI_PATTERN_BAR_HORIZONTAL,
+        BAR_VERTICAL = MIPI_DSI_PATTERN_BAR_VERTICAL,
+        BER_VERTICAL = MIPI_DSI_PATTERN_BER_VERTICAL,
+    };
+#endif
+
     /**
      * @brief Construct a new LCD device in a simple way, the `init()` function should be called after this function
      *
@@ -91,13 +98,20 @@ public:
      * @param bgr_order true: BGR order, false: RGB order
      *
      */
-    void configColorRgbOrder(bool BGR_order);
+    bool configColorRgbOrder(bool BGR_order);
+
+    /**
+     * @brief Configure the reset active level of LCD, default is RGB. This function should be called before `init()`
+     *
+     * @param level 0: low level, 1: high level
+     *
+     */
+    bool configResetActiveLevel(int level);
 
     /**
      * @brief Configure driver to mirror by command, default is false (by software). This function should be called before
-     *        `init()`
+     *        `init()`. Only valid for RGB interface.
      *
-     * @note  This function is only useful for some LCDs without GRAM, like RGB LCD.
      * @note  After using this function, the `mirror()` function will be implemented by LCD command. Otherwise, the
      *        `mirror()`function will be implemented by software
      * @note  This function is conflict with `configAutoReleaseBus()`, please don't use them at the same time
@@ -105,13 +119,12 @@ public:
      * @param en true: enable, false: disable
      *
      */
-    void configMirrorByCommand(bool en);
+    bool configMirrorByCommand(bool en);
 
     /**
      * @brief Configure driver to release bus automatically, default is false. This function should be called before
-     *        `init()`
+     *        `init()`. Only valid for RGB interface.
      *
-     * @note  This function is only useful for some LCDs without GRAM, like RGB LCD.
      * @note  If the "3-wire SPI" interface are sharing pins of the "RGB" interface to save GPIOs, please call
      *        this function to release the bus object and pins (except CS signal). And then, the "3-wire SPI" interface
      *        cannot be used to transmit commands any more.
@@ -119,8 +132,29 @@ public:
      *
      * @param en true: enable, false: disable
      *
+     * @return true if success, otherwise false
      */
-    void configAutoReleaseBus(bool en);
+    [[deprecated("This function is deprecated, please use `configEnableIO_Multiplex()` instead")]]
+    bool configAutoReleaseBus(bool en)
+    {
+        return configEnableIO_Multiplex(en);
+    }
+
+    /**
+     * @brief Configure driver to enable IO multiplex function, default is false. This function should be called before
+     *        `init()` and the panel IO will be deleted automatically after calling `init()` function. Only valid for
+     *        RGB interface.
+     *
+     * @note  If the "3-wire SPI" interface are sharing pins of the "RGB" interface to save GPIOs, please call
+     *        this function to release the bus object and pins (except CS signal). And then, the "3-wire SPI" interface
+     *        cannot be used to transmit commands any more.
+     * @note  This function is conflict with `configMirrorByCommand()`, please don't use them at the same time
+     *
+     * @param en true: enable, false: disable
+     *
+     * @return true if success, otherwise false
+     */
+    bool configEnableIO_Multiplex(bool en);
 
     /**
      * @brief Initialize the LCD device, the `begin()` function should be called after this function
@@ -305,6 +339,19 @@ public:
      *                  by this function
      * @param user_data The user data which will be passed to the callback function
      */
+    bool attachDrawBitmapFinishCallback(std::function<bool (void *)> callback, void *user_data = NULL);
+
+    /**
+     * @brief Attach a callback function, which will be called when the frame buffer refreshing is finished
+     *
+     * @note  For RGB LCD, the function will be called when VSYNC end signal is detected, which means
+     *        the whole frame refreshing is finished
+     * @note  For other LCDs, the function will be called when every single drawing is finished
+     *
+     * @param callback  The callback function. Its return value decides whether a high priority task has been waken up
+     *                  by this function
+     * @param user_data The user data which will be passed to the callback function
+     */
     bool attachRefreshFinishCallback(std::function<bool (void *)> callback, void *user_data = NULL);
 
     /**
@@ -320,6 +367,10 @@ public:
      */
     bool colorBarTest(uint16_t width, uint16_t height);
 
+#if SOC_MIPI_DSI_SUPPORTED
+    bool showDsiPattern(DsiPatternType type);
+#endif /* SOC_MIPI_DSI_SUPPORTED */
+
     /**
      * @brief Get the bits of pixel color
      *
@@ -334,25 +385,35 @@ public:
      *
      * @return true if swap, otherwise not swap
      */
-    bool getSwapXYFlag(void);
+    bool getSwapXYFlag(void)
+    {
+        return _flags.swap_xy;
+    }
 
     /**
      * @brief Get the flag of the X axis mirror
      *
      * @return true if mirror, otherwise not mirror
      */
-    bool getMirrorXFlag(void);
+    bool getMirrorXFlag(void)
+    {
+        return _flags.mirror_x;
+    }
 
     /**
      * @brief Get the flag of the Y axis mirror
      *
      * @return true if mirror, otherwise not mirror
      */
-    bool getMirrorYFlag(void);
+    bool getMirrorYFlag(void)
+    {
+        return _flags.mirror_y;
+    }
 
 #if SOC_LCD_RGB_SUPPORTED
     /**
-     * @brief Get the RGB buffer by index (default is 0), only valid for RGB LCD
+     * @brief Get the RGB buffer by index (default is 0), only valid for RGB LCD.
+     *        Deprecated function, please use `getFrameBufferByIndex()` instead
      *
      * @note  This function should be called after `begin()`
      *
@@ -362,38 +423,85 @@ public:
      *      - NULL:   if fail
      *      - others: the pointer of the RGB buffer
      */
-    void *getRgbBufferByIndex(uint8_t index = 0);
+    [[deprecated("This API is deprecated. Please use `getFrameBufferByIndex()` instead.")]]
+    void *getRgbBufferByIndex(uint8_t index = 0)
+    {
+        return getFrameBufferByIndex(index);
+    }
 #endif
+
+    /**
+     * @brief Get the frame buffer by index (default is 0), currently only valid for RGB/MIPI-DSI LCD
+     *
+     * @note  This function should be called after `begin()`
+     *
+     * @param index
+     *
+     * @return
+     *      - NULL:   if fail
+     *      - others: the pointer of the frame buffer
+     */
+    void *getFrameBufferByIndex(uint8_t index = 0);
 
     /**
      * @brief Get the X coordinate align
      *
      * @return The X coordinate align
      */
-    uint8_t getXCoordAlign(void);
+    uint8_t getXCoordAlign(void)
+    {
+        return x_coord_align;
+    }
 
     /**
      * @brief Get the Y coordinate align
      *
      * @return The Y coordinate align
      */
-    uint8_t getYCoordAlign(void);
+    uint8_t getYCoordAlign(void)
+    {
+        return y_coord_align;
+    }
 
     /**
      * @brief Get the panel handle
      *
      * @return The handle of the LCD panel, or NULL if fail
      */
-    esp_lcd_panel_handle_t getHandle(void);
+    esp_lcd_panel_handle_t getHandle(void)
+    {
+        return handle;
+    }
 
     /**
      * @brief Get the panel bus
      *
      * @return The pointer of the LCD Bus, or NULL if fail
      */
-    ESP_PanelBus *getBus(void);
+    ESP_PanelBus *getBus(void)
+    {
+        return bus;
+    }
 
 protected:
+    bool loadVendorConfigFromBus(void);
+
+    bool checkIsInit(void)
+    {
+        return (handle != NULL) && (bus != NULL);
+    }
+
+    bool checkIsBegun(void)
+    {
+        return _flags.is_begun;
+    }
+
+    struct {
+        uint8_t mirror: 1;
+        uint8_t swap_xy: 1;
+        uint8_t set_gap: 1;
+        uint8_t display_on_off: 1;
+    } disabled_functions;
     uint8_t x_coord_align;
     uint8_t y_coord_align;
     ESP_PanelBus *bus;
@@ -402,19 +510,25 @@ protected:
     esp_lcd_panel_handle_t handle;
 
 private:
-    static bool onRefreshFinish(void *panel_io, void *edata, void *user_ctx);
+    IRAM_ATTR static bool onDrawBitmapFinish(void *panel_io, void *edata, void *user_ctx);
+    IRAM_ATTR static bool onRefreshFinish(void *panel_io, void *edata, void *user_ctx);
 
-    bool _swap_xy;
-    bool _mirror_x;
-    bool _mirror_y;
+    struct {
+        uint8_t is_begun: 1;
+        uint8_t is_reset: 1;
+        uint8_t swap_xy: 1;
+        uint8_t mirror_x: 1;
+        uint8_t mirror_y: 1;
+    } _flags;
     uint16_t _gap_x;
     uint16_t _gap_y;
+    std::function<bool (void *)> onDrawBitmapFinishCallback;
     std::function<bool (void *)> onRefreshFinishCallback;
-    SemaphoreHandle_t _refresh_finish_sem;
+    SemaphoreHandle_t _draw_bitmap_finish_sem;
 
     typedef struct {
         void *lcd_ptr;
         void *user_data;
     } ESP_PanelLcdCallbackData_t;
-    ESP_PanelLcdCallbackData_t callback_data;
+    ESP_PanelLcdCallbackData_t _callback_data;
 };

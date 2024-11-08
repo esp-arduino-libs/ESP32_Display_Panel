@@ -16,6 +16,7 @@
 |             <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/ESP32-S3-LCD-EV-Board_480x480.png" width="150">             |    [ESP32-S3-LCD-EV-Board](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/index.html)    | 3-wire SPI + RGB |       GC9503       |      480x480       |      I2C      |        FT5x06        |
 |             <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/ESP32-S3-LCD-EV-Board_800x480.png" width="150">             |   [ESP32-S3-LCD-EV-Board-2](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-lcd-ev-board/index.html)   |       RGB        |     ST7262E43      |      800x480       |      I2C      |        GT1151        |
 |               <img src="https://docs.espressif.com/projects/esp-dev-kits/en/latest/_images/pic_product_esp32_s3_otg.png" width="150">                |         [ESP32-S3-USB-OTG](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html)         |       SPI        |       ST7789       |      240x240       |       -       |          -           |
+|               <img src="https://www.espressif.com/sites/default/files/dev-board/ESP32-P4-Function-EV-Board_L_2.png" width="150">                |         [ESP32-P4-Function-EV-Board](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32p4/esp32-p4-function-ev-board/index.html)         |       MIPI-DSI        |       EK79007       |      1024x600       |       I2C       |          GT911           |
 
 ### [Elecrow](https://www.elecrow.com/)
 
@@ -62,6 +63,7 @@ Below are recommended configurations for developing GUI applications on differen
 |      ESP32-S3-LCD-EV-Board       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
 |     ESP32-S3-LCD-EV-Board-2      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
 |         ESP32-S3-USB-OTG         |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
+|   ESP32-P4-Function-EV-Board     | ESP32P4 Dev Module | Enabled  |    QIO     |    16MB    |    Disabled     |     16M Flash (3MB)     |
 |         M5STACK-M5CORE2          |   M5Stack-Core2    | Enabled  |     -      |     -      |        -        |         Default         |
 |          M5STACK-M5DIAL          | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |         Default         |
 |         M5STACK-M5CORES3         | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     | Default 4MB with spiffs |

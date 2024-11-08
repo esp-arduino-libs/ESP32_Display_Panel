@@ -1,5 +1,15 @@
 # Board Contribution Guide
 
+* [中文版本](./Board_Contribution_Guide_CN.md)
+
+## Table of Contents
+
+- [Board Contribution Guide](#board-contribution-guide)
+  - [Table of Contents](#table-of-contents)
+  - [Contribution Guidelines](#contribution-guidelines)
+  - [File Modifications](#file-modifications)
+  - [Adaptation Process](#adaptation-process)
+
 ## Contribution Guidelines
 
 1. The development board must at least ensure its hardware schematic is open-source, providing a link or file for reference.

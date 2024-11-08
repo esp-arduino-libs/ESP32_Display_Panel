@@ -26,6 +26,9 @@
 .patterns-test_apps_lcd_3wire_spi_rgb: &patterns-test_apps_lcd_3wire_spi_rgb
   - "test_apps/lcd/3wire_spi_rgb/**/*"
 
+.patterns-test_apps_lcd_mipi_dsi: &patterns-test_apps_lcd_mipi_dsi
+  - "test_apps/lcd/mipi_dsi/**/*"
+
 .patterns-test_apps_lcd_qspi: &patterns-test_apps_lcd_qspi
   - "test_apps/lcd/qspi/**/*"
 
@@ -102,6 +105,19 @@
       changes: *patterns-component
     - <<: *if-dev-push
       changes: *patterns-test_apps_lcd_3wire_spi_rgb
+
+.rules:build:test_apps_lcd_mipi_dsi:
+  rules:
+    - <<: *if-protected
+    - <<: *if-label-build
+    - <<: *if-label-target_test
+    - <<: *if-trigger-job
+    - <<: *if-dev-push
+      changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_lcd_mipi_dsi
 
 .rules:build:test_apps_lcd_qspi:
   rules:

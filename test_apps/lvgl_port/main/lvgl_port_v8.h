@@ -73,6 +73,7 @@
 #define LVGL_PORT_AVOID_TEARING_MODE            (CONFIG_LVGL_PORT_AVOID_TEARING_MODE)
 
 #if LVGL_PORT_AVOID_TEARING_MODE != 0
+#if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 /**
  * As the anti-tearing feature typically consumes more PSRAM bandwidth, for the ESP32-S3, we need to utilize the Bounce
  * buffer functionality to enhance the RGB data bandwidth.
@@ -81,10 +82,11 @@
  *
  */
 #define LVGL_PORT_RGB_BOUNCE_BUFFER_SIZE        (LVGL_PORT_DISP_WIDTH * 10)
+#endif
+
 /**
  * When avoid tearing is enabled, the LVGL software rotation `lv_disp_set_rotation()` is not supported.
- * But users can set the rotation degree(0/90/180/270) here, but this function will extremely reduce FPS.
- * So it is recommended to be used when using a low resolution display.
+ * But users can set the rotation degree(0/90/180/270) here, but this function will reduce FPS.
  *
  * Set the rotation degree:
  *      - 0: 0 degree

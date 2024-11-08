@@ -17,21 +17,22 @@ using namespace std;
 
 // *INDENT-OFF*
 
+/* The following default configurations are for the board 'Espressif: ESP32_S3_LCD_EV_BOARD_2_V1_5, ST7262' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TEST_LCD_WIDTH                      (800)
 #define TEST_LCD_HEIGHT                     (480)
                                                     // | 8-bit RGB888 | 16-bit RGB565 |
-#define TEST_LCD_COLOR_BITS                 (18)    // |      24      |   16/18/24    |
+#define TEST_LCD_COLOR_BITS                 (16)    // |      24      |   16/18/24    |
 #define TEST_LCD_RGB_DATA_WIDTH             (16)    // |      8       |      16       |
 #define TEST_LCD_RGB_TIMING_FREQ_HZ         (16 * 1000 * 1000)
-#define TEST_LCD_RGB_TIMING_HPW             (10)
-#define TEST_LCD_RGB_TIMING_HBP             (10)
-#define TEST_LCD_RGB_TIMING_HFP             (20)
-#define TEST_LCD_RGB_TIMING_VPW             (10)
-#define TEST_LCD_RGB_TIMING_VBP             (10)
-#define TEST_LCD_RGB_TIMING_VFP             (10)
+#define TEST_LCD_RGB_TIMING_HPW             (40)
+#define TEST_LCD_RGB_TIMING_HBP             (40)
+#define TEST_LCD_RGB_TIMING_HFP             (40)
+#define TEST_LCD_RGB_TIMING_VPW             (23)
+#define TEST_LCD_RGB_TIMING_VBP             (32)
+#define TEST_LCD_RGB_TIMING_VFP             (13)
 #define TEST_LCD_RGB_BOUNCE_BUFFER_SIZE     (TEST_LCD_WIDTH * 10)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +51,8 @@ using namespace std;
 #define TEST_LCD_PIN_NUM_RGB_DATA3          (13)    // |   B3   |  B4    |   B6   |
 #define TEST_LCD_PIN_NUM_RGB_DATA4          (14)    // |   B4   |  B5    |   B7   |
 #define TEST_LCD_PIN_NUM_RGB_DATA5          (21)    // |   G0   |  G0    |   G0-2 |
-#define TEST_LCD_PIN_NUM_RGB_DATA6          (47)    // |   G1   |  G1    |   G3   |
-#define TEST_LCD_PIN_NUM_RGB_DATA7          (48)    // |   G2   |  G2    |   G4   |
+#define TEST_LCD_PIN_NUM_RGB_DATA6          (8)     // |   G1   |  G1    |   G3   |
+#define TEST_LCD_PIN_NUM_RGB_DATA7          (18)    // |   G2   |  G2    |   G4   |
 #if TEST_LCD_RGB_DATA_WIDTH > 8
 #define TEST_LCD_PIN_NUM_RGB_DATA8          (45)    // |   G3   |  G3    |   G5   |
 #define TEST_LCD_PIN_NUM_RGB_DATA9          (38)    // |   G4   |  G4    |   G6   |
@@ -69,11 +70,12 @@ using namespace std;
 
 // *INDENT-OFF*
 
-/* Enable or disable printing RGB refresh rate */
+/* Enable or disable printing LCD refresh rate */
 #define TEST_ENABLE_PRINT_LCD_FPS           (1)
+#define TEST_PRINT_LCD_FPS_PERIOD_MS        (1000)
 /* Enable or disable the attachment of a callback function that is called after each bitmap drawing is completed */
 #define TEST_ENABLE_ATTACH_CALLBACK         (1)
-#define TEST_COLOR_BAR_SHOW_TIME_MS         (3000)
+#define TEST_COLOR_BAR_SHOW_TIME_MS         (5000)
 
 static const char *TAG = "test_rgb_lcd";
 
@@ -129,9 +131,9 @@ static shared_ptr<ESP_PanelBus_RGB> init_panel_bus(void)
 }
 
 #if TEST_ENABLE_PRINT_LCD_FPS
-#define TEST_LCD_FPS_COUNT_MAX               (100)
+#define TEST_LCD_FPS_COUNT_MAX  (100)
 #ifndef millis
-#define millis()                                (esp_timer_get_time() / 1000)
+#define millis()                (esp_timer_get_time() / 1000)
 #endif
 
 DRAM_ATTR int frame_count = 0;
@@ -156,7 +158,7 @@ IRAM_ATTR bool onVsyncEndCallback(void *user_data)
 
     return false;
 }
-#endif
+#endif /* TEST_ENABLE_PRINT_LCD_FPS */
 
 static void run_test(shared_ptr<ESP_PanelLcd> lcd)
 {
@@ -167,9 +169,7 @@ static void run_test(shared_ptr<ESP_PanelLcd> lcd)
     TEST_ASSERT_TRUE_MESSAGE(lcd->init(), "LCD init failed");
     TEST_ASSERT_TRUE_MESSAGE(lcd->reset(), "LCD reset failed");
     TEST_ASSERT_TRUE_MESSAGE(lcd->begin(), "LCD begin failed");
-#if TEST_LCD_PIN_NUM_RGB_DISP >= 0
     TEST_ASSERT_TRUE_MESSAGE(lcd->displayOn(), "LCD display on failed");
-#endif
 #if TEST_ENABLE_PRINT_LCD_FPS
     TEST_ASSERT_TRUE_MESSAGE(
         lcd->attachRefreshFinishCallback(onVsyncEndCallback, (void *)&start_time), "Attach refresh callback failed"
@@ -178,6 +178,17 @@ static void run_test(shared_ptr<ESP_PanelLcd> lcd)
 
     ESP_LOGI(TAG, "Draw color bar from top left to bottom right, the order is B - G - R");
     TEST_ASSERT_TRUE_MESSAGE(lcd->colorBarTest(TEST_LCD_WIDTH, TEST_LCD_HEIGHT), "LCD color bar test failed");
+
+    ESP_LOGI(TAG, "Wait for %d ms to show the color bar", TEST_COLOR_BAR_SHOW_TIME_MS);
+#if TEST_ENABLE_PRINT_LCD_FPS
+    int i = 0;
+    while (i++ < TEST_COLOR_BAR_SHOW_TIME_MS / TEST_PRINT_LCD_FPS_PERIOD_MS) {
+        ESP_LOGI(TAG, "FPS: %d", fps);
+        vTaskDelay(pdMS_TO_TICKS(TEST_PRINT_LCD_FPS_PERIOD_MS));
+    }
+#else
+    vTaskDelay(pdMS_TO_TICKS(TEST_COLOR_BAR_SHOW_TIME_MS));
+#endif
 }
 
 #define CREATE_LCD(name, panel_bus) \

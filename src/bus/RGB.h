@@ -318,7 +318,10 @@ public:
      */
     bool begin(void) override;
 
-    const esp_lcd_rgb_panel_config_t *getRgbConfig();
+    const esp_lcd_rgb_panel_config_t *getRgbConfig()
+    {
+        return &rgb_config;
+    }
 
 private:
     esp_lcd_rgb_panel_config_t rgb_config;

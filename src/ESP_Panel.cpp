@@ -229,7 +229,7 @@ bool ESP_Panel::init(void)
         },
         .data_width = ESP_PANEL_LCD_RGB_DATA_WIDTH,
         .bits_per_pixel = ESP_PANEL_LCD_RGB_PIXEL_BITS,
-        .num_fbs = ESP_PANEL_LCD_RGB_FRAME_BUF_NUM,
+        .num_fbs = 1,
         .bounce_buffer_size_px = ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE,
         .sram_trans_align = 4,
         .psram_trans_align = 64,
@@ -261,6 +261,21 @@ bool ESP_Panel::init(void)
         },
     };
 
+#elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_MIPI_DSI
+
+    ESP_LOGD(TAG, "Use MIPI-DSI bus");
+    // MIPI-DSI bus
+    esp_lcd_dsi_bus_config_t dsi_bus_config = ESP_PANEL_HOST_DSI_CONFIG_DEFAULT(
+                ESP_PANEL_LCD_MIPI_DSI_LANE_NUM, ESP_PANEL_LCD_MIPI_DSI_LANE_RATE_MBPS
+            );
+    // MIPI-DPI panel
+    esp_lcd_dpi_panel_config_t dpi_panel_config = ESP_PANEL_DPI_CONFIG_DEFAULT(
+                ESP_PANEL_LCD_MIPI_DPI_CLK_MHZ, ESP_PANEL_LCD_MIPI_DPI_PIXEL_BITS,
+                ESP_PANEL_LCD_WIDTH, ESP_PANEL_LCD_HEIGHT,
+                ESP_PANEL_LCD_MIPI_DSI_HPW, ESP_PANEL_LCD_MIPI_DSI_HBP, ESP_PANEL_LCD_MIPI_DSI_HFP,
+                ESP_PANEL_LCD_MIPI_DSI_VPW, ESP_PANEL_LCD_MIPI_DSI_VBP, ESP_PANEL_LCD_MIPI_DSI_VFP
+            );
+
 #else
 
 #error "This function is not ready and will be implemented in the future."
@@ -273,19 +288,12 @@ bool ESP_Panel::init(void)
         .init_cmds = lcd_init_cmds,
         .init_cmds_size = sizeof(lcd_init_cmds) / sizeof(lcd_init_cmds[0]),
 #endif
-#if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
-        .rgb_config = &rgb_panel_config,
         .flags = {
-#if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
+#if (ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB) && !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
             .mirror_by_cmd = ESP_PANEL_LCD_FLAGS_MIRROR_BY_CMD,
             .auto_del_panel_io = ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO,
 #endif
         },
-#elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_QSPI
-        .flags = {
-            .use_qspi_interface = true,
-        },
-#endif
     };
 
     // LCD device configuration
@@ -308,14 +316,18 @@ bool ESP_Panel::init(void)
 #else
     lcd_bus_ptr = CREATE_BUS_SKIP_HOST(ESP_PANEL_LCD_BUS_NAME, rgb_panel_config, ESP_PANEL_LCD_BUS_HOST);
 #endif
+#elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_MIPI_DSI
+    lcd_bus_ptr = CREATE_BUS_INIT_HOST(
+                      ESP_PANEL_LCD_BUS_NAME, dsi_bus_config, dpi_panel_config, ESP_PANEL_LCD_MIPI_DSI_PHY_LDO_ID
+                  );
 #else
-    /* For non-RGB LCD, should use `ADD_HOST()` to init host when `ESP_PANEL_LCD_BUS_SKIP_INIT_HOST` enabled */
+    /* For other LCDs, should use `ADD_HOST()` to init host when `ESP_PANEL_LCD_BUS_SKIP_INIT_HOST` enabled */
 #if !ESP_PANEL_LCD_BUS_SKIP_INIT_HOST
     ESP_PANEL_CHECK_FALSE_RET(ADD_HOST(ESP_PANEL_LCD_BUS_NAME, host_ptr, lcd_bus_host_config, ESP_PANEL_LCD_BUS_HOST),
                               false, "Add host failed");
 #endif
     lcd_bus_ptr = CREATE_BUS_SKIP_HOST(ESP_PANEL_LCD_BUS_NAME, lcd_panel_io_config, ESP_PANEL_LCD_BUS_HOST);
-#endif
+#endif /* ESP_PANEL_LCD_BUS_TYPE */
 
     ESP_PANEL_CHECK_NULL_RET(lcd_bus_ptr, false, "Create LCD bus failed");
 
@@ -498,17 +510,18 @@ bool ESP_Panel::begin(void)
     ESP_LOGD(TAG, "Begin LCD");
 #if ESP_PANEL_USE_EXPANDER && ((ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER) || (ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER) || \
                                (ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER))
-    shared_ptr<ESP_PanelBus_RGB> lcd_bus_ptr = static_pointer_cast<ESP_PanelBus_RGB>(_lcd_bus_ptr);
-    lcd_bus_ptr->configSpiLine(ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER, ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER,
-                               ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER, _expander_ptr.get());
+    if (_lcd_bus_ptr->getType() == ESP_PANEL_BUS_TYPE_RGB) {
+        shared_ptr<ESP_PanelBus_RGB> lcd_bus_ptr = static_pointer_cast<ESP_PanelBus_RGB>(_lcd_bus_ptr);
+        lcd_bus_ptr->configSpiLine(
+            ESP_PANEL_LCD_3WIRE_SPI_CS_USE_EXPNADER, ESP_PANEL_LCD_3WIRE_SPI_SCL_USE_EXPNADER,
+            ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER, _expander_ptr.get()
+        );
+    }
 #endif
     ESP_PANEL_CHECK_FALSE_RET(_lcd_bus_ptr->begin(), false, "Begin LCD bus failed");
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->init(), false, "Initialize LCD failed");
-    // Operate LCD device according to the optional configurations
-#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || !ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
-    // We can't reset the LCD if the bus is RGB bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is enabled
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->reset(), false, "Reset LCD failed");
-#endif
+    // Operate LCD device according to the optional configurations
 #ifdef ESP_PANEL_LCD_SWAP_XY
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->swapXY(ESP_PANEL_LCD_SWAP_XY), false, "Swap XY failed");
 #endif
@@ -522,18 +535,7 @@ bool ESP_Panel::begin(void)
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->invertColor(ESP_PANEL_LCD_INEVRT_COLOR), false, "Invert color failed");
 #endif
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->begin(), false, "Begin LCD failed");
-    /**
-     * Turn on display only when meets one of the following conditions:
-     *   - The LCD bus is not RGB bus
-     *   - The LCD bus is "3wire-SPI + RGB" bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is disabled
-     *   - The LCD bus is RGB (with or without 3-wire SPI) bus and the `ESP_PANEL_LCD_RGB_IO_DISP` pin is used
-     *
-     */
-#if (ESP_PANEL_LCD_BUS_TYPE != ESP_PANEL_BUS_TYPE_RGB) || \
-    (defined(ESP_PANEL_LCD_RGB_IO_DISP) && (ESP_PANEL_LCD_RGB_IO_DISP != -1)) || \
-    (defined(ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO) && !ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO)
     ESP_PANEL_CHECK_FALSE_RET(_lcd_ptr->displayOn(), false, "Display on failed");
-#endif
     // Run additional code after the LCD is started if needed
 #ifdef ESP_PANEL_BEGIN_LCD_END_FUNCTION
     ESP_PANEL_BEGIN_LCD_END_FUNCTION(this);
@@ -640,37 +642,21 @@ bool ESP_Panel::del(void)
 
 ESP_PanelLcd *ESP_Panel::getLcd(void)
 {
-    if (_lcd_ptr == nullptr) {
-        ESP_LOGD(TAG, "Get invalid LCD pointer");
-    }
-
     return _lcd_ptr.get();
 }
 
 ESP_PanelTouch *ESP_Panel::getTouch(void)
 {
-    if (_touch_ptr == nullptr) {
-        ESP_LOGD(TAG, "Get invalid touch pointer");
-    }
-
     return _touch_ptr.get();
 }
 
 ESP_PanelBacklight *ESP_Panel::getBacklight(void)
 {
-    if (_backlight_ptr == nullptr) {
-        ESP_LOGD(TAG, "Get invalid backlight pointer");
-    }
-
     return _backlight_ptr.get();
 }
 
 ESP_IOExpander *ESP_Panel::getExpander(void)
 {
-    if (_expander_ptr == nullptr) {
-        ESP_LOGD(TAG, "Get invalid expander pointer");
-    }
-
     return _expander_ptr.get();
 }
 

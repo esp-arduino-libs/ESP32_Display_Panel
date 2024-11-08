@@ -57,3 +57,8 @@ config BOARD_ESP32_S3_USB_OTG
     bool "ESP32-S3-USB-OTG"
     help
         https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-usb-otg/index.html
+
+config BOARD_ESP32_P4_FUNCTION_EV_BOARD
+    bool "ESP32-P4-Function-EV-Board (with 7-inch 1024x600 LCD)"
+    help
+        https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32p4/esp32-p4-function-ev-board/index.html

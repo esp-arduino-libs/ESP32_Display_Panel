@@ -40,7 +40,7 @@ bool ESP_PanelTouch_FT5x06::begin(void)
 {
     ESP_PANEL_CHECK_NULL_RET(bus, false, "Invalid bus");
 
-    ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_ft5x06(bus->getHandle(), &config, &handle), false, "New driver failed");
+    ESP_PANEL_CHECK_ERR_RET(esp_lcd_touch_new_i2c_ft5x06(bus->getPanelIO_Handle(), &config, &handle), false, "New driver failed");
 
     return true;
 }

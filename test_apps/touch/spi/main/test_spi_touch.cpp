@@ -14,6 +14,7 @@
 
 using namespace std;
 
+/* The following default configurations are for the board 'Espressif: Custom, XPT2046' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your touch_device spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,6 +56,8 @@ static void run_test(shared_ptr<ESP_PanelTouch> touch_device)
 #if TEST_TOUCH_PIN_NUM_INT >= 0
     touch_device->attachInterruptCallback(onTouchInterruptCallback, NULL);
 #endif
+
+    ESP_LOGI(TAG, "Reading touch_device point...");
 
     uint32_t t = 0;
     while (t++ < TEST_READ_TOUCH_TIME_MS / TEST_READ_TOUCH_DELAY_MS) {

@@ -15,17 +15,17 @@
  *
  * 1. For **ESP32_Display_Panel**:
  *
- *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-drivers) to configure drivers if needed.
- *     - If using a supported development board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#using-supported-development-boards) to configure it.
- *     - If using a custom board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#using-custom-development-boards) to configure it.
+ *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-drivers) to configure drivers if needed.
+ *     - If using a supported development board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#using-supported-development-boards) to configure it.
+ *     - If using a custom board, follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#using-custom-development-boards) to configure it.
  *
  * 2. For **lvgl**:
  *
- *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-lvgl) to add *lv_conf.h* file and change the configurations.
+ *     - Follow the [steps](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-lvgl) to add *lv_conf.h* file and change the configurations.
  *     - Modify the macros in the [lvgl_port_v8.h](./lvgl_port_v8.h) file to configure the LVGL porting parameters.
  *
  * 3. Navigate to the `Tools` menu in the Arduino IDE to choose a ESP board and configure its parameters. For supported
- *    boards, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/How_To_Use.md#configuring-supported-development-boards)
+ *    boards, please refter to [Configuring Supported Development Boards](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/How_To_Use.md#configuring-supported-development-boards)
  * 4. Verify and upload the example to your ESP board.
  *
  * ## Serial Output
@@ -44,7 +44,7 @@
  *
  * ## Troubleshooting
  *
- * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/docs/faq.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
+ * Please check the [FAQ](https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/docs/FAQ.md) first to see if the same question exists. If not, please create a [Github issue](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues). We will get back to you as soon as possible.
  *
  */
 
@@ -71,10 +71,14 @@ void setup()
     ESP_Panel *panel = new ESP_Panel();
     panel->init();
 #if LVGL_PORT_AVOID_TEAR
-    // When avoid tearing function is enabled, configure the RGB bus according to the LVGL configuration
-    ESP_PanelBus_RGB *rgb_bus = static_cast<ESP_PanelBus_RGB *>(panel->getLcd()->getBus());
-    rgb_bus->configRgbFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);
-    rgb_bus->configRgbBounceBufferSize(LVGL_PORT_RGB_BOUNCE_BUFFER_SIZE);
+    // When avoid tearing function is enabled, configure the bus according to the LVGL configuration
+    ESP_PanelBus *lcd_bus = panel->getLcd()->getBus();
+#if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
+    static_cast<ESP_PanelBus_RGB *>(lcd_bus)->configRgbBounceBufferSize(LVGL_PORT_RGB_BOUNCE_BUFFER_SIZE);
+    static_cast<ESP_PanelBus_RGB *>(lcd_bus)->configRgbFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);
+#elif ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_MIPI_DSI
+    static_cast<ESP_PanelBus_DSI *>(lcd_bus)->configDpiFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);
+#endif
 #endif
     panel->begin();
 
@@ -85,7 +89,10 @@ void setup()
     /* Lock the mutex due to the LVGL APIs are not thread-safe */
     lvgl_port_lock(-1);
 
-    /* Create a simple label */
+    /**
+     * Create a simple label
+     *
+     */
     lv_obj_t *label = lv_label_create(lv_scr_act());
     lv_label_set_text(label, title.c_str());
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);

@@ -14,6 +14,7 @@
 
 using namespace std;
 
+/* The following default configurations are for the board 'Espressif: ESP32_S3_BOX_3, ILI9341' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,10 +44,22 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
     // {0xC1, (uint8_t []){0x0D, 0x02}, 2, 0},
     // {0x29, (uint8_t []){0x00}, 0, 120},
     // // or
-    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xFF, {0x77, 0x01, 0x00, 0x00, 0x10}),
-    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x3B, 0x00}),
-    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x0D, 0x02}),
-    ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(120, 0x29),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC8, {0xFF, 0x93, 0x42}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC0, {0x0E, 0x0E}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC5, {0xD0}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xC1, {0x02}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB4, {0x02}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE0, {
+        0x00, 0x03, 0x08, 0x06, 0x13, 0x09, 0x39, 0x39, 0x48, 0x02, 0x0a, 0x08,
+        0x17, 0x17, 0x0F
+    }),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xE1, {
+        0x00, 0x28, 0x29, 0x01, 0x0d, 0x03, 0x3f, 0x33, 0x52, 0x04, 0x0f, 0x0e,
+        0x37, 0x38, 0x0F
+    }),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB1, {00, 0x1B}),
+    ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(0, 0xB7, {0x06}),
+    ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(100, 0x11),
 };
 #endif
 
@@ -56,10 +69,10 @@ const esp_lcd_panel_vendor_init_cmd_t lcd_init_cmd[] = {
 #define TEST_LCD_PIN_NUM_SPI_CS      (5)
 #define TEST_LCD_PIN_NUM_SPI_DC      (4)
 #define TEST_LCD_PIN_NUM_SPI_SCK     (7)
-#define TEST_LCD_PIN_NUM_SPI_SDA     (6)
-#define TEST_LCD_PIN_NUM_SPI_SDO     (-1)
-#define TEST_LCD_PIN_NUM_RST         (-1)    // Set to -1 if not used
-#define TEST_LCD_PIN_NUM_BK_LIGHT    (45)    // Set to -1 if not used
+#define TEST_LCD_PIN_NUM_SPI_MOSI    (6)
+#define TEST_LCD_PIN_NUM_SPI_MISO    (-1)
+#define TEST_LCD_PIN_NUM_RST         (48)    // Set to -1 if not used
+#define TEST_LCD_PIN_NUM_BK_LIGHT    (47)    // Set to -1 if not used
 #define TEST_LCD_BK_LIGHT_ON_LEVEL   (1)
 #define TEST_LCD_BK_LIGHT_OFF_LEVEL !TEST_LCD_BK_LIGHT_ON_LEVEL
 
@@ -92,7 +105,7 @@ static shared_ptr<ESP_PanelBus_SPI> init_panel_bus(void)
     ESP_LOGI(TAG, "Create LCD bus");
     shared_ptr<ESP_PanelBus_SPI> panel_bus = make_shared<ESP_PanelBus_SPI>(
                 TEST_LCD_PIN_NUM_SPI_CS, TEST_LCD_PIN_NUM_SPI_DC, TEST_LCD_PIN_NUM_SPI_SCK,
-                TEST_LCD_PIN_NUM_SPI_SDA, TEST_LCD_PIN_NUM_SPI_SDO
+                TEST_LCD_PIN_NUM_SPI_MOSI, TEST_LCD_PIN_NUM_SPI_MISO
             );
     TEST_ASSERT_NOT_NULL_MESSAGE(panel_bus, "Create panel bus object failed");
 
@@ -117,18 +130,25 @@ static void run_test(shared_ptr<ESP_PanelLcd> lcd)
     // Configure external initialization commands, should called before `init()`
     lcd->configVendorCommands(lcd_init_cmd, sizeof(lcd_init_cmd) / sizeof(lcd_init_cmd[0]));
 #endif
+    lcd->configColorRgbOrder(true);
+    lcd->configResetActiveLevel(1);
     TEST_ASSERT_TRUE_MESSAGE(lcd->init(), "LCD init failed");
     TEST_ASSERT_TRUE_MESSAGE(lcd->reset(), "LCD reset failed");
     TEST_ASSERT_TRUE_MESSAGE(lcd->begin(), "LCD begin failed");
+    TEST_ASSERT_TRUE_MESSAGE(lcd->mirrorX(true), "LCD mirror X failed");
+    TEST_ASSERT_TRUE_MESSAGE(lcd->mirrorY(true), "LCD mirror Y failed");
     TEST_ASSERT_TRUE_MESSAGE(lcd->displayOn(), "LCD display on failed");
 #if TEST_ENABLE_ATTACH_CALLBACK
     TEST_ASSERT_TRUE_MESSAGE(
-        lcd->attachRefreshFinishCallback(onDrawBitmapFinishCallback, nullptr), "Attach callback failed"
+        lcd->attachDrawBitmapFinishCallback(onDrawBitmapFinishCallback, nullptr), "Attach callback failed"
     );
 #endif
 
     ESP_LOGI(TAG, "Draw color bar from top left to bottom right, the order is B - G - R");
     TEST_ASSERT_TRUE_MESSAGE(lcd->colorBarTest(TEST_LCD_WIDTH, TEST_LCD_HEIGHT), "LCD color bar test failed");
+
+    ESP_LOGI(TAG, "Wait for %d ms to show the color bar", TEST_COLOR_BAR_SHOW_TIME_MS);
+    vTaskDelay(pdMS_TO_TICKS(TEST_COLOR_BAR_SHOW_TIME_MS));
 }
 
 #define CREATE_LCD(name, panel_bus) \
@@ -153,6 +173,7 @@ static void run_test(shared_ptr<ESP_PanelLcd> lcd)
  */
 CREATE_TEST_CASE(GC9A01)
 CREATE_TEST_CASE(GC9B71)
+CREATE_TEST_CASE(ILI9341)
 CREATE_TEST_CASE(NV3022B)
 CREATE_TEST_CASE(SH8601)
 CREATE_TEST_CASE(SPD2010)

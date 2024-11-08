@@ -9,7 +9,7 @@
 
 #if SOC_LCD_RGB_SUPPORTED
 #include "ESP_PanelLcd.h"
-#include "base/esp_lcd_custom_types.h"
+#include "base/esp_lcd_vendor_types.h"
 #include "base/esp_lcd_st7701.h"
 
 /**

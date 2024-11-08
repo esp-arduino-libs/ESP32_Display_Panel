@@ -17,8 +17,9 @@ ESP_PanelBus_I2C::ESP_PanelBus_I2C(int scl_io, int sda_io, const esp_lcd_panel_i
 {
 }
 
-ESP_PanelBus_I2C::ESP_PanelBus_I2C(const i2c_config_t &host_config, const esp_lcd_panel_io_i2c_config_t &io_config,
-                                   i2c_port_t host_id):
+ESP_PanelBus_I2C::ESP_PanelBus_I2C(
+    const i2c_config_t &host_config, const esp_lcd_panel_io_i2c_config_t &io_config, i2c_port_t host_id
+):
     ESP_PanelBus((int)host_id, ESP_PANEL_BUS_TYPE_I2C, true),
     host_config(host_config),
     io_config(io_config)
@@ -43,7 +44,7 @@ ESP_PanelBus_I2C::~ESP_PanelBus_I2C()
         ESP_LOGE(TAG, "Delete panel io failed");
     }
 
-    if (host_need_init) {
+    if (flags.host_need_init) {
         if (i2c_driver_delete((i2c_port_t)host_id) != ESP_OK) {
             ESP_LOGE(TAG, "Delete host[%d] driver failed", host_id);
         } else {
@@ -106,7 +107,7 @@ bool ESP_PanelBus_I2C::begin(void)
 {
     ESP_PANEL_ENABLE_TAG_DEBUG_LOG();
 
-    if (host_need_init) {
+    if (flags.host_need_init) {
         ESP_PANEL_CHECK_ERR_RET(i2c_param_config((i2c_port_t)host_id, &host_config), false, "Configure host[%d] failed", host_id);
         ESP_PANEL_CHECK_ERR_RET(i2c_driver_install((i2c_port_t)host_id, host_config.mode, 0, 0, 0), false,
                                 "Install host[%d] failed", host_id);

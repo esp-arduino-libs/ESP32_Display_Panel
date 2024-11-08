@@ -14,6 +14,7 @@
 
 using namespace std;
 
+/* The following default configurations are for the board 'Espressif: Custom, ST77922' */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your LCD spec //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +22,7 @@ using namespace std;
 #define TEST_LCD_HEIGHT              (300)
 #define TEST_LCD_COLOR_BITS          (16)
 #define TEST_LCD_SPI_FREQ_HZ         (40 * 1000 * 1000)
-#define TEST_LCD_USE_EXTERNAL_CMD    (1)
+#define TEST_LCD_USE_EXTERNAL_CMD    (0)
 #if TEST_LCD_USE_EXTERNAL_CMD
 /**
  * LCD initialization commands.
@@ -125,12 +126,15 @@ static void run_test(shared_ptr<ESP_PanelLcd> lcd)
     TEST_ASSERT_TRUE_MESSAGE(lcd->displayOn(), "LCD display on failed");
 #if TEST_ENABLE_ATTACH_CALLBACK
     TEST_ASSERT_TRUE_MESSAGE(
-        lcd->attachRefreshFinishCallback(onDrawBitmapFinishCallback, nullptr), "Attach callback failed"
+        lcd->attachDrawBitmapFinishCallback(onDrawBitmapFinishCallback, nullptr), "Attach callback failed"
     );
 #endif
 
     ESP_LOGI(TAG, "Draw color bar from top left to bottom right, the order is B - G - R");
     TEST_ASSERT_TRUE_MESSAGE(lcd->colorBarTest(TEST_LCD_WIDTH, TEST_LCD_HEIGHT), "LCD color bar test failed");
+
+    ESP_LOGI(TAG, "Wait for %d ms to show the color bar", TEST_COLOR_BAR_SHOW_TIME_MS);
+    vTaskDelay(pdMS_TO_TICKS(TEST_COLOR_BAR_SHOW_TIME_MS));
 }
 
 #define CREATE_LCD(name, panel_bus) \

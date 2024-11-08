@@ -1,5 +1,17 @@
 # FAQ
 
+* [中文版本](./FAQ_CN.md)
+
+## Table of Contents
+
+- [FAQ](#faq)
+  - [Table of Contents](#table-of-contents)
+  - [Where is the directory for Arduino libraries?](#where-is-the-directory-for-arduino-libraries)
+  - [How to Install ESP32\_Display\_Panel in Arduino IDE?](#how-to-install-esp32_display_panel-in-arduino-ide)
+  - [Where are the installation directory for arduino-esp32 and the SDK located?](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located)
+  - [How to fix screen drift issue when driving RGB LCD with ESP32-S3?](#how-to-fix-screen-drift-issue-when-driving-rgb-lcd-with-esp32-s3)
+  - [How to Use ESP32\_Display\_Panel on PlatformIO?](#how-to-use-esp32_display_panel-on-platformio)
+
 ## Where is the directory for Arduino libraries?
 
 You can find and modify the directory path for Arduino libraries by selecting `File` > `Preferences` > `Settings` > `Sketchbook location` from the menu bar in the Arduino IDE.

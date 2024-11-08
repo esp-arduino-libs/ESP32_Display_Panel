@@ -8,7 +8,7 @@
 
 #include "ESP_PanelLcd.h"
 #include "base/esp_lcd_st7796.h"
-#include "base/esp_lcd_custom_types.h"
+#include "base/esp_lcd_vendor_types.h"
 
 /**
  * @brief ST7796 LCD device object class

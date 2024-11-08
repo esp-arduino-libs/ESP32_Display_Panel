@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "test_app_main.c" "test_lvgl_port.cpp" "lvgl_port_v8.cpp"
+    SRCS "test_app_main.cpp" "test_lvgl_port.cpp" "lvgl_port_v8.cpp"
     WHOLE_ARCHIVE
 )
 
