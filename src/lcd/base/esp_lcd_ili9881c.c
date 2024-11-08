@@ -118,16 +118,6 @@ esp_err_t esp_lcd_new_panel_ili9881c(const esp_lcd_panel_io_handle_t io, const e
         break;
     }
 
-    // The ID register is on the CMD_Page 1
-    uint8_t ID1, ID2, ID3;
-    esp_lcd_panel_io_tx_param(io, ILI9881C_CMD_CNDBKxSEL, (uint8_t[]) {
-        ILI9881C_CMD_BKxSEL_BYTE0, ILI9881C_CMD_BKxSEL_BYTE1, ILI9881C_CMD_BKxSEL_BYTE2_PAGE1
-    }, 3);
-    esp_lcd_panel_io_rx_param(io, 0x00, &ID1, 1);
-    esp_lcd_panel_io_rx_param(io, 0x01, &ID2, 1);
-    esp_lcd_panel_io_rx_param(io, 0x02, &ID3, 1);
-    ESP_LOGI(TAG, "ID1: 0x%x, ID2: 0x%x, ID3: 0x%x", ID1, ID2, ID3);
-
     ili9881c->io = io;
     ili9881c->init_cmds = vendor_config->init_cmds;
     ili9881c->init_cmds_size = vendor_config->init_cmds_size;
@@ -389,6 +379,17 @@ static esp_err_t panel_ili9881c_init(esp_lcd_panel_t *panel)
 {
     ili9881c_panel_t *ili9881c = (ili9881c_panel_t *)panel->user_data;
     esp_lcd_panel_io_handle_t io = ili9881c->io;
+
+    // The ID register is on the CMD_Page 1
+    uint8_t ID1, ID2, ID3;
+    esp_lcd_panel_io_tx_param(io, ILI9881C_CMD_CNDBKxSEL, (uint8_t[]) {
+        ILI9881C_CMD_BKxSEL_BYTE0, ILI9881C_CMD_BKxSEL_BYTE1, ILI9881C_CMD_BKxSEL_BYTE2_PAGE1
+    }, 3);
+    esp_lcd_panel_io_rx_param(io, 0x00, &ID1, 1);
+    esp_lcd_panel_io_rx_param(io, 0x01, &ID2, 1);
+    esp_lcd_panel_io_rx_param(io, 0x02, &ID3, 1);
+    ESP_LOGI(TAG, "ID1: 0x%x, ID2: 0x%x, ID3: 0x%x", ID1, ID2, ID3);
+
     const esp_lcd_panel_vendor_init_cmd_t *init_cmds = NULL;
     uint16_t init_cmds_size = 0;
     uint8_t lane_command = ILI9881C_DSI_2_LANE;
