@@ -18,9 +18,9 @@
 extern "C" {
 #endif
 
-#define ESP_LCD_EK79007_VER_MAJOR    (1)
-#define ESP_LCD_EK79007_VER_MINOR    (0)
-#define ESP_LCD_EK79007_VER_PATCH    (0)
+#define ESP_LCD_JD9365_VER_MAJOR    (1)
+#define ESP_LCD_JD9365_VER_MINOR    (0)
+#define ESP_LCD_JD9365_VER_PATCH    (1)
 
 /**
  * @brief Create LCD panel for model JD9365

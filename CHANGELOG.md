@@ -1,5 +1,12 @@
 # ChangeLog
 
+## v0.2.1 - 2024-11-14
+
+### Enhancements:
+
+* feat(lcd): add LCD controller JD9365 @Y1hsiaochunnn (#123)
+* feat(board): add board Waveshare ESP32-P4-NANO @Y1hsiaochunnn (#123)
+
 ## v0.2.0 - 2024-11-08
 
 ### Enhancements:

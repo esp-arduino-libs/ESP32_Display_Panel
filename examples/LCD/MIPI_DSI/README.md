@@ -1,8 +1,8 @@
 | Supported ESP SoCs | ESP32-P4 |
 | ------------------ | -------- |
 
-| Supported LCD Controllers | EK79007 | ILI9881C |
-| ------------------------- | ------- | -------- |
+| Supported LCD Controllers | EK79007 | ILI9881C | JD9365 |
+| ------------------------- | ------- | -------- | ------ |
 
 # MIPI-DSI LCD Example
 

@@ -12,3 +12,8 @@ config BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1
     bool "ESP32_S3_Touch_LCD_2_1"
     help
         https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm
+
+config BOARD_WAVESHARE_ESP32_P4_NANO
+    bool "ESP32_P4_NANO"
+    help
+        https://www.waveshare.com/esp32-p4-nano.htm

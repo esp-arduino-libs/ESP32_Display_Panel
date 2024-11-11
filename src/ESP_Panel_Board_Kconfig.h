@@ -145,6 +145,11 @@
             #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1
         #endif
     #endif
+    #ifndef BOARD_WAVESHARE_ESP32_P4_NANO
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_P4_NANO
+            #define BOARD_WAVESHARE_ESP32_P4_NANO CONFIG_BOARD_WAVESHARE_ESP32_P4_NANO
+        #endif
+    #endif
 #endif /* ESP_PANEL_USE_SUPPORTED_BOARD */
 
 /**

@@ -234,6 +234,7 @@ The following examples demonstrate how to develop different interface and model 
 * [QSPI](../examples/LCD/QSPI/)
 * [Single RGB](../examples/LCD/RGB/)
 * [3-wire SPI + RGB](../examples/LCD/3wireSPI_RGB/)
+* [MIPI-DSI](../examples/LCD/MIPI_DSI/)
 
 #### Touch
 
