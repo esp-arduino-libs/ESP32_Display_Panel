@@ -34,13 +34,13 @@ Please refer to the documentation - [How to Use](./docs/How_To_Use.md).
 
 Below is the list of [supported development boards](docs/Board_Instructions.md):
 
-| **Manufacturer** | **Board Model** |
-| ---------------- | --------------- |
+| **Manufacturer** | **Board Model**                                                                                                                                                                                                                       |
+| ---------------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG, ESP32-P4-Function-EV-Board |
-| [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0" |
-| [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
-| [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1 |
+| [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0"                                                                                                                                                                                                                        |
+| [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3                                                                                                                                                                                     |
+| [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3                                                                                                                                                                                                                 |
+| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-P4-NANO                                                                                                                                                |
 
 Developers and manufacturers are welcome to contribute PRs to add more boards. For details, please refer to the [Board Contribution Guide](./docs/Board_Contribution_Guide.md).
 

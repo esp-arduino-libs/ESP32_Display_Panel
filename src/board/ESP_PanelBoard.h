@@ -36,6 +36,7 @@
     + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3) \
     + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85) \
     + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1) \
+    + defined(BOARD_WAVESHARE_ESP32_P4_NANO)
     > 1
     #error "Multiple boards enabled! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
