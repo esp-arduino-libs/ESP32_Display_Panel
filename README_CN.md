@@ -50,7 +50,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 
 | **厂商** | **型号** |
 | -------- | -------- |
-| Fitipower | EK9716B, EK79007 |
+| Fitipower | EK9716B, EK79007,JD9365  |
 | GalaxyCore | GC9A01, GC9B71, GC9503 |
 | Ilitek | ILI9341, ILI9881C |
 | NewVision | NV3022B |

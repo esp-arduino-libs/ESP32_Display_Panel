@@ -48,12 +48,12 @@ Developers and manufacturers are welcome to contribute PRs to add more boards. F
 
 Below is the list of [supported LCD controllers](docs/LCD_Controllers.md):
 
-| **Manufacturer** | **Model** |
-| ---------------- | --------- |
-| Fitipower | EK9716B, EK79007 |
-| GalaxyCore | GC9A01, GC9B71, GC9503 |
-| Ilitek | ILI9341, ILI9881C |
-| NewVision | NV3022B |
+| **Manufacturer** | **Model**                                        |
+| ---------------- |--------------------------------------------------|
+| Fitipower | EK9716B, EK79007,JD9365                          |
+| GalaxyCore | GC9A01, GC9B71, GC9503                           |
+| Ilitek | ILI9341, ILI9881C                                |
+| NewVision | NV3022B                                          |
 | Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
 
 ### Touch Controllers

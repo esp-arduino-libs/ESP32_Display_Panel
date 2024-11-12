@@ -89,6 +89,8 @@
     #include "board/waveshare/ESP32_S3_Touch_LCD_1_85.h"
 #elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1)
     #include "board/waveshare/ESP32_S3_Touch_LCD_2_1.h"
+#elif defined(BOARD_WAVESHARE_ESP32_P4_NANO)
+    #include "board/waveshare/ESP32_P4_NANO.h"
 #else
     #error "Unknown board selected! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif

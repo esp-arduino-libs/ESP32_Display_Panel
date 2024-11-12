@@ -120,6 +120,7 @@
 #if ESP_PANEL_USE_TOUCH
 /**
  * Touch controller name.
+ * Since the driver for the GT9271 is compatible with the GT911, the GT911 is used here.
  */
 #define ESP_PANEL_TOUCH_NAME        GT911
 
