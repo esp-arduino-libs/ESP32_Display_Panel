@@ -6,6 +6,7 @@
 
 * feat(lcd): add LCD controller JD9365 @Y1hsiaochunnn (#123)
 * feat(board): add board Waveshare ESP32-P4-NANO @Y1hsiaochunnn (#123)
+* feat(board): add configuration for ignoring board in Kconfig
 
 ## v0.2.0 - 2024-11-08
 
