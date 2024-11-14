@@ -231,8 +231,12 @@ bool ESP_Panel::init(void)
         .bits_per_pixel = ESP_PANEL_LCD_RGB_PIXEL_BITS,
         .num_fbs = 1,
         .bounce_buffer_size_px = ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE,
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 4, 0)
+        .dma_burst_size = 64,
+#else
         .sram_trans_align = 4,
         .psram_trans_align = 64,
+#endif /* ESP_IDF_VERSION */
         .hsync_gpio_num = ESP_PANEL_LCD_RGB_IO_HSYNC,
         .vsync_gpio_num = ESP_PANEL_LCD_RGB_IO_VSYNC,
         .de_gpio_num = ESP_PANEL_LCD_RGB_IO_DE,

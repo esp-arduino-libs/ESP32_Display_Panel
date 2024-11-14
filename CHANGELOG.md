@@ -9,6 +9,10 @@
 * feat(board): add board Waveshare ESP32-S3-Touch-LCD-4.3B/5/5B/7 @H-sw123 (#124)
 * feat(board): add configuration for ignoring board in Kconfig
 
+### Bugfixes:
+
+* fix(bus & lcd): update RGB conf based on esp-idf v5.4
+
 ## v0.2.0 - 2024-11-08
 
 ### Enhancements:
