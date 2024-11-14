@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include "ESP_PanelLog.h"
+#include "ESP_Panel.h"
 #include "ESP_Panel_Library.h"
 
 #ifdef ESP_PANEL_USE_BOARD
