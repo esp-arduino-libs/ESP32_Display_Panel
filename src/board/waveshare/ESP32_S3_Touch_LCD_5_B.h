@@ -21,8 +21,8 @@
 #define ESP_PANEL_LCD_NAME          ST7262
 
 /* LCD resolution in pixels */
-#define ESP_PANEL_LCD_WIDTH         (800)
-#define ESP_PANEL_LCD_HEIGHT        (480)
+#define ESP_PANEL_LCD_WIDTH         (1024)
+#define ESP_PANEL_LCD_HEIGHT        (600)
 
 /* LCD Bus Settings */
 /**
@@ -43,13 +43,13 @@
  */
 #if ESP_PANEL_LCD_BUS_TYPE == ESP_PANEL_BUS_TYPE_RGB
 
-    #define ESP_PANEL_LCD_RGB_CLK_HZ            (16 * 1000 * 1000)
-    #define ESP_PANEL_LCD_RGB_HPW               (4)
-    #define ESP_PANEL_LCD_RGB_HBP               (8)
-    #define ESP_PANEL_LCD_RGB_HFP               (8)
-    #define ESP_PANEL_LCD_RGB_VPW               (4)
-    #define ESP_PANEL_LCD_RGB_VBP               (8)
-    #define ESP_PANEL_LCD_RGB_VFP               (8)
+    #define ESP_PANEL_LCD_RGB_CLK_HZ            (21 * 1000 * 1000)
+    #define ESP_PANEL_LCD_RGB_HPW               (24)
+    #define ESP_PANEL_LCD_RGB_HBP               (160)
+    #define ESP_PANEL_LCD_RGB_HFP               (160)
+    #define ESP_PANEL_LCD_RGB_VPW               (2)
+    #define ESP_PANEL_LCD_RGB_VBP               (23)
+    #define ESP_PANEL_LCD_RGB_VFP               (12)
     #define ESP_PANEL_LCD_RGB_PCLK_ACTIVE_NEG   (1)     // 0: rising edge, 1: falling edge
 
                                                         // | 8-bit RGB888 | 16-bit RGB565 |

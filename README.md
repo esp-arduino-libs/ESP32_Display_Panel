@@ -40,7 +40,7 @@ Below is the list of [Supported Development Boards](docs/Board_Instructions.md):
 | [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0" |
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-P4-NANO |
+| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
 
 Developers and manufacturers are welcome to contribute PRs to add more boards. For details, please refer to the [Board Contribution Guide](./docs/Board_Contribution_Guide.md).
 
