@@ -133,7 +133,7 @@
 
 /* LCD Color Settings */
 /* LCD color depth in bits */
-#define ESP_PANEL_LCD_COLOR_BITS    (18)        // 8/16/18/24
+#define ESP_PANEL_LCD_COLOR_BITS    (16)        // 8/16/18/24
 /*
  * LCD RGB Element Order. Choose one of the following:
  *      - 0: RGB
@@ -251,7 +251,7 @@
                                                         // Typically set to 400K
     #define ESP_PANEL_EXPANDER_I2C_SCL_PULLUP   (1)     // 0/1
     #define ESP_PANEL_EXPANDER_I2C_SDA_PULLUP   (1)     // 0/1
-    #define ESP_PANEL_EXPANDER_I2C_IO_SCL       (18)
+    #define ESP_PANEL_EXPANDER_I2C_IO_SCL       (9)
     #define ESP_PANEL_EXPANDER_I2C_IO_SDA       (8)
 #endif
 #endif /* ESP_PANEL_USE_EXPANDER */

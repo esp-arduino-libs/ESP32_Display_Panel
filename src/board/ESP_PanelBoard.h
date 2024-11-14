@@ -36,6 +36,10 @@
     + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3) \
     + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85) \
     + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1) \
+    + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7) \
+    + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3_B) \
+    + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5) \
+    + defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5_B) \
     > 1
     #error "Multiple boards enabled! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
@@ -88,6 +92,14 @@
     #include "board/waveshare/ESP32_S3_Touch_LCD_1_85.h"
 #elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1)
     #include "board/waveshare/ESP32_S3_Touch_LCD_2_1.h"
+#elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7)
+    #include "board/waveshare/ESP32_S3_Touch_LCD_7.h"
+#elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3_B)
+    #include "board/waveshare/ESP32_S3_Touch_LCD_4_3_B.h"
+#elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5)
+    #include "board/waveshare/ESP32_S3_Touch_LCD_5.h"
+#elif defined(BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5_B)
+    #include "board/waveshare/ESP32_S3_Touch_LCD_5_B.h"
 #else
     #error "Unknown board selected! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
