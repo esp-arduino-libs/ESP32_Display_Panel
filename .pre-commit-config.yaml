@@ -1,7 +1,7 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
-exclude: 'libraries/ui/'
+exclude: '(libraries/ui/|lv_conf.h)'
 repos:
   - repo: https://github.com/igrr/astyle_py.git
     rev: v1.0.5
@@ -87,25 +87,21 @@ repos:
         language: python
         pass_filenames: false
         always_run: true
-
-  - repo: local
-    hooks:
       - id: sync-conf-files
         name: Update when configuration files change
-        entry: python3 tools/sync_conf_files.py ./
+        entry: python3 tools/sync_conf_files.py ./ ./
         language: system
-        files: '.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h'
-
-  - repo: local
-    hooks:
+        files: '.*esp_panel_(board_custom|board_supported|drivers)_conf\.h'
+      - id: sync-template-files
+        name: Update when template files change
+        entry: python3 tools/sync_conf_files.py ./template_files ./
+        language: system
+        files: '(.*esp_utils_conf\.h|.*lv_conf\.h|.*lvgl_v8_port\.cpp|.*lvgl_v8_port\.h)'
       - id: check-file-versions
         name: Update when versions change
         entry: python3 tools/check_file_version.py ./
         language: system
-        files: '(.*ESP_Panel_(Board_Custom|Board_Supported|Conf)\.h|library.properties|.*ESP_PanelVersions.h)'
-
-  - repo: local
-    hooks:
+        files: '(.*esp_panel_(board_custom|board_supported|drivers)_conf\.h|library.properties|.*esp_panel_versions.h)'
       - id: check-library-versions
         name: Check library versions
         entry: ./.github/scripts/check_lib_versions.sh

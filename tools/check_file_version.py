@@ -1,12 +1,18 @@
-# SPDX-FileCopyrightText: 2024 Espressif Systems (Shanghai) CO LTD
+# SPDX-FileCopyrightText: 2024-2025 Espressif Systems (Shanghai) CO LTD
 # SPDX-License-Identifier: Apache-2.0
 
 import os
 import sys
 import re
 
-internal_version_file = 'src/ESP_PanelVersions.h'
-internal_version_macross = [
+exclude_dirs = [
+    './build',
+]
+internal_version_file = 'src/esp_panel_versions.h'
+include_files = [
+    'examples/arduino/board/board_dynamic_config/esp_panel_drivers_conf.h'
+]
+internal_version_macros = [
     {
         'file': 'library.properties',
         'macro': {
@@ -16,15 +22,15 @@ internal_version_macross = [
         },
     },
     {
-        'file': 'ESP_Panel_Conf.h',
+        'file': 'esp_panel_drivers_conf.h',
         'macro': {
-            'major': 'ESP_PANEL_CONF_VERSION_MAJOR',
-            'minor': 'ESP_PANEL_CONF_VERSION_MINOR',
-            'patch': 'ESP_PANEL_CONF_VERSION_PATCH'
+            'major': 'ESP_PANEL_DRIVERS_CONF_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_DRIVERS_CONF_VERSION_MINOR',
+            'patch': 'ESP_PANEL_DRIVERS_CONF_VERSION_PATCH'
         },
     },
     {
-        'file': 'ESP_Panel_Board_Custom.h',
+        'file': 'esp_panel_board_custom_conf.h',
         'macro': {
             'major': 'ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR',
             'minor': 'ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR',
@@ -32,7 +38,7 @@ internal_version_macross = [
         },
     },
     {
-        'file': 'ESP_Panel_Board_Supported.h',
+        'file': 'esp_panel_board_supported_conf.h',
         'macro': {
             'major': 'ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR',
             'minor': 'ESP_PANEL_BOARD_SUPPORTED_VERSION_MINOR',
@@ -42,15 +48,15 @@ internal_version_macross = [
 ]
 file_version_macros = [
     {
-        'file': 'ESP_Panel_Conf.h',
+        'file': 'esp_panel_drivers_conf.h',
         'macro': {
-            'major': 'ESP_PANEL_CONF_FILE_VERSION_MAJOR',
-            'minor': 'ESP_PANEL_CONF_FILE_VERSION_MINOR',
-            'patch': 'ESP_PANEL_CONF_FILE_VERSION_PATCH'
+            'major': 'ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MAJOR',
+            'minor': 'ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MINOR',
+            'patch': 'ESP_PANEL_DRIVERS_CONF_FILE_VERSION_PATCH'
         },
     },
     {
-        'file': 'ESP_Panel_Board_Custom.h',
+        'file': 'esp_panel_board_custom_conf.h',
         'macro': {
             'major': 'ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR',
             'minor': 'ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR',
@@ -58,7 +64,7 @@ file_version_macros = [
         },
     },
     {
-        'file': 'ESP_Panel_Board_Supported.h',
+        'file': 'esp_panel_board_supported_conf.h',
         'macro': {
             'major': 'ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR',
             'minor': 'ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR',
@@ -67,6 +73,13 @@ file_version_macros = [
     },
 ]
 arduino_version_file = 'library.properties'
+
+
+def is_in_directory(file_path, directory):
+    directory = os.path.realpath(directory)
+    file_path = os.path.realpath(file_path)
+
+    return file_path.startswith(directory)
 
 
 def extract_file_version(file_path, version_dict):
@@ -112,13 +125,13 @@ if __name__ == '__main__':
         internal_version_path = os.path.join(search_directory, internal_version_file)
         internal_versions = []
         print(f"Internal version extracted from '{internal_version_path}")
-        for internal_version_macros in internal_version_macross:
-            version = extract_file_version(internal_version_path, internal_version_macros)
+        for internal_version_macro in internal_version_macros:
+            version = extract_file_version(internal_version_path, internal_version_macro)
             if version:
-                print(f"Internal version: '{internal_version_macros['file']}': {version}")
+                print(f"Internal version: '{internal_version_macro['file']}': {version}")
                 internal_versions.append(version)
             else:
-                print(f"'{internal_version_macros['file']}' version not found")
+                print(f"'{internal_version_macro['file']}' version not found")
                 sys.exit(1)
 
         # Check file versions
@@ -126,10 +139,39 @@ if __name__ == '__main__':
             file_path = sys.argv[i]
 
             if file_path in internal_version_file:
-                print(f"Skipping '{file_path}'")
-                continue
+                print(f'Checking all files')
 
-            src_file = os.path.join(search_directory, os.path.basename(file_path))
+                for root, dirs, files in os.walk(search_directory):
+                    if root == search_directory:
+                        continue
+
+                    need_exclude = False
+                    for exclude_dir in exclude_dirs:
+                        if is_in_directory(root, exclude_dir):
+                            need_exclude = True
+                            break
+
+                    if need_exclude:
+                        continue
+
+                    for file in files:
+                        file_need_check = False
+                        for file_version_macro in file_version_macros:
+                            if file == file_version_macro['file'] and root not in exclude_dirs:
+                                file_need_check = True
+                                break
+
+                        if file_need_check:
+                            versions = extract_file_version(os.path.join(root, file), file_version_macro)
+                            if versions:
+                                print(f"File version extracted from '{os.path.join(root, file)}': {versions}")
+                                for internal_version in internal_versions:
+                                    if (internal_version['file'] == versions['file']) and (internal_version['version'] != versions['version']):
+                                        print(f"Version mismatch: '{internal_version['file']}'")
+                                        sys.exit(1)
+
+            # src_file = os.path.join(search_directory, os.path.basename(file_path))
+            src_file = file_path
             for file_version in file_version_macros:
                 versions = extract_file_version(src_file, file_version)
                 if versions:
