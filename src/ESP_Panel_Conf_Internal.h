@@ -51,6 +51,8 @@
     #endif
 #endif
 
+#include "ESP_PanelTypes.h"
+
 #ifndef ESP_PANEL_CONF_INCLUDE_INSIDE
     /**
      * There are two purposes to include the this file:

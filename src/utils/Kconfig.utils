@@ -1,0 +1,84 @@
+menu "Utils"
+    config ESP_PANEL_CHECK_RESULT_ASSERT
+        bool "Assert on error"
+        default n
+        help
+            If enabled, the driver will assert on error. Otherwise, the driver will return error code on error.
+
+    menu "Log output"
+        config ESP_PANEL_ENABLE_LOG
+            bool "Enable output debug log"
+            default y
+            help
+                If enabled, the driver will output log for debugging.
+
+        config ESP_PANEL_LOG_BUFFER_SIZE
+            int "Buffer size for log messages"
+            depends on ESP_PANEL_ENABLE_LOG
+            default 256
+
+        choice ESP_PANEL_LOG_LEVEL
+            prompt "Log level for all messages"
+            depends on ESP_PANEL_ENABLE_LOG
+            default ESP_PANEL_LOG_LEVEL_INFO
+
+            config ESP_PANEL_LOG_LEVEL_DEBUG
+                bool "Debug"
+                help
+                    Extra information which is not necessary for normal use (values, pointers, sizes, etc)
+
+            config ESP_PANEL_LOG_LEVEL_INFO
+                bool "Info"
+                help
+                    Information messages which describe the normal flow of events
+
+            config ESP_PANEL_LOG_LEVEL_WARNING
+                bool "Warning"
+                help
+                    Error conditions from which recovery measures have been taken
+
+            config ESP_PANEL_LOG_LEVEL_ERROR
+                bool "Error"
+                help
+                    Critical errors, software module cannot recover on its own
+        endchoice
+
+        config ESP_PANEL_LOG_GLOBAL_LEVEL
+            int
+            default 0 if ESP_PANEL_LOG_LEVEL_DEBUG
+            default 1 if ESP_PANEL_LOG_LEVEL_INFO
+            default 2 if ESP_PANEL_LOG_LEVEL_WARNING
+            default 3 if ESP_PANEL_LOG_LEVEL_ERROR
+    endmenu
+
+    menu "Memory"
+        choice ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_CHOICE
+            prompt "Select general allocation type"
+            default ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_STDLIB
+
+            config ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_STDLIB
+                bool "Standard library (malloc, free)"
+
+            config ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_ESP
+                bool "ESP (heap_caps_malloc, free)"
+
+            config ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_MICROPYTHON
+                bool "MicroPython (mp_malloc, mp_free)"
+
+            config ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_CUSTOM
+                bool "Custom (`ESP_PANEL_MEM_GENERAL_ALLOC_CUSTOM_MALLOC` and `ESP_PANEL_MEM_GENERAL_ALLOC_CUSTOM_FREE`)"
+        endchoice
+
+        config ESP_PANEL_MEM_GENERAL_ALLOC_TYPE
+            int
+            default 0 if ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_STDLIB
+            default 1 if ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_ESP
+            default 2 if ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_MICROPYTHON
+            default 3 if ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_CUSTOM
+
+        config ESP_PANEL_MEM_GENERAL_ALLOC_CUSTOM_INCLUDE
+            string "General custom memory header file"
+            depends on ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_CUSTOM
+            default "stdlib.h"
+    endmenu
+endmenu

@@ -31,6 +31,24 @@
 #define ESP_PANEL_LCD_RGB888_COLOR_BITS_24  (24)
 
 /**
+ * @brief Macros for log level
+ *
+ */
+#define ESP_PANEL_LOG_LEVEL_DEBUG   (0)
+#define ESP_PANEL_LOG_LEVEL_INFO    (1)
+#define ESP_PANEL_LOG_LEVEL_WARNING (2)
+#define ESP_PANEL_LOG_LEVEL_ERROR   (3)
+
+/**
+ * @brief Macros for memory type
+ *
+ */
+#define ESP_PANEL_MEM_ALLOC_TYPE_STDLIB        (0)
+#define ESP_PANEL_MEM_ALLOC_TYPE_ESP           (1)
+#define ESP_PANEL_MEM_ALLOC_TYPE_MICROPYTHON   (2)
+#define ESP_PANEL_MEM_ALLOC_TYPE_CUSTOM        (3)
+
+/**
  * @brief This macro is used to generate the I2C panel IO configuration according to the touch panel name.
  *
  * @param[in] name Touch panel name

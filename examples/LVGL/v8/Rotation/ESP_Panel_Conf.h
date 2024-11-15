@@ -7,13 +7,57 @@
 #pragma once
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////// Debug Configurations /////////////////////////////////////////////////
+///////////////////////////////////////////////// Utils Configurations /////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Check result related
+ *
+ */
 /* Set to 1 if assert on error. Otherwise print error message */
 #define ESP_PANEL_CHECK_RESULT_ASSERT       (0)         // 0/1
 
-/* Set to 1 if print log message for debug */
-#define ESP_PANEL_ENABLE_LOG                (0)         // 0/1
+/**
+ * LOG related
+ *
+ */
+/* Set to 1 if print log message */
+#define ESP_PANEL_ENABLE_LOG                (1)         // 0/1
+#if ESP_PANEL_ENABLE_LOG
+/* Log format buffer size */
+#define ESP_PANEL_LOG_BUFFER_SIZE           (256)
+/**
+ * Global log level, logs with a level lower than this will not be compiled. Choose one of the following:
+ *  - ESP_PANEL_LOG_LEVEL_DEBUG:   Extra information which is not necessary for normal use (values, pointers, sizes, etc)
+ *                                 (lowest level)
+ *  - ESP_PANEL_LOG_LEVEL_INFO:    Information messages which describe the normal flow of events
+ *  - ESP_PANEL_LOG_LEVEL_WARNING: Error conditions from which recovery measures have been taken
+ *  - ESP_PANEL_LOG_LEVEL_ERROR:   Critical errors, software module cannot recover on its own (highest level)
+ *
+ */
+#define ESP_PANEL_LOG_GLOBAL_LEVEL          ESP_PANEL_LOG_LEVEL_INFO
+#endif // ESP_PANEL_ENABLE_LOG
+
+/**
+ * Memory related
+ *
+ */
+/**
+ * Memory allocation type, choose one of the following:
+ *  - ESP_PANEL_MEM_ALLOC_TYPE_STDLIB:      Use the standard library memory allocation functions (malloc, free)
+ *  - ESP_PANEL_MEM_ALLOC_TYPE_ESP:         Use the ESP-IDF memory allocation functions (heap_caps_malloc, heap_caps_free)
+ *  - ESP_PANEL_MEM_ALLOC_TYPE_MICROPYTHON: Use the MicroPython memory allocation functions (m_malloc, m_free)
+ *  - ESP_PANEL_MEM_ALLOC_TYPE_CUSTOM:      Use custom memory allocation functions (ESP_PANEL_MEM_ALLOC_CUSTOM_MALLOC,
+ *                                          ESP_PANEL_MEM_ALLOC_CUSTOM_FREE)
+ *
+ */
+#define ESP_PANEL_MEM_GENERAL_ALLOC_TYPE            ESP_PANEL_MEM_ALLOC_TYPE_STDLIB
+#if ESP_PANEL_MEM_GENERAL_ALLOC_TYPE == ESP_PANEL_MEM_ALLOC_TYPE_ESP
+#define ESP_PANEL_MEM_GENERAL_ALLOC_ESP_CAPS        (MALLOC_CAP_DEFAULT | MALLOC_CAP_8BIT)
+#elif ESP_PANEL_MEM_GENERAL_ALLOC_TYPE == ESP_PANEL_MEM_ALLOC_TYPE_CUSTOM
+#define ESP_PANEL_MEM_GENERAL_ALLOC_CUSTOM_INCLUDE  stdlib.h
+#define ESP_PANEL_MEM_GENERAL_ALLOC_CUSTOM_MALLOC   malloc
+#define ESP_PANEL_MEM_GENERAL_ALLOC_CUSTOM_FREE     free
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////// Touch Driver Configurations //////////////////////////////////////////////
@@ -73,5 +117,5 @@
  *
  */
 #define ESP_PANEL_CONF_FILE_VERSION_MAJOR 0
-#define ESP_PANEL_CONF_FILE_VERSION_MINOR 1
-#define ESP_PANEL_CONF_FILE_VERSION_PATCH 2
+#define ESP_PANEL_CONF_FILE_VERSION_MINOR 2
+#define ESP_PANEL_CONF_FILE_VERSION_PATCH 0

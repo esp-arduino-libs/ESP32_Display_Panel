@@ -7,17 +7,7 @@ menu "ESP Display Panel Configurations"
         bool "Unckeck this to ignore `ESP_Panel_Board_*.h`"
         default y
 
-    config ESP_PANEL_CHECK_RESULT_ASSERT
-        bool "Assert on error"
-        default n
-        help
-            If enabled, the driver will assert on error. Otherwise, the driver will return error code on error.
-
-    config ESP_PANEL_ENABLE_LOG
-        bool "Enable output debug log"
-        default n
-        help
-            If enabled, the driver will output log for debugging.
+    orsource "./src/utils/Kconfig.utils"
 
     orsource "./src/touch/Kconfig.touch"
 
