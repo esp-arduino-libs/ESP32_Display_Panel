@@ -40,7 +40,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0" |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1 |
+| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
 
 欢迎开发者和厂商贡献 PR 来添加更多的开发板，详细说明请参考 [`开发板贡献指南`](./docs/Board_Contribution_Guide_CN.md)。
 
@@ -53,6 +53,7 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 | Fitipower | EK9716B, EK79007 |
 | GalaxyCore | GC9A01, GC9B71, GC9503 |
 | Ilitek | ILI9341, ILI9881C |
+| JADARD | JD9365 |
 | NewVision | NV3022B |
 | Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
 
@@ -62,11 +63,11 @@ ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
 
 | **厂商** | **型号** |
 | -------- | -------- |
-| Hynitron | CST816S |
 | FocalTech | FT5x06 |
 | GOODiX | GT911, GT1151 |
-| Sitronix | ST7123 |
+| Hynitron | CST816S |
 | Parade | TT21100 |
+| Sitronix | ST7123 |
 | Xptek | XPT2046 |
 
 ## 常见问题解答

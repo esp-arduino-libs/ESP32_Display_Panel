@@ -2,8 +2,8 @@
  * | Supported ESP SoCs | ESP32-P4 |
  * | ------------------ | -------- |
  *
- * | Supported LCD Controllers | EK79007 | ILI9881C |
- * | ------------------------- | ------- | -------- |
+ * | Supported LCD Controllers | EK79007 | ILI9881C | JD9365 |
+ * | ------------------------- | ------- | -------- | ------ |
  *
  * # MIPI-DSI LCD Example
  *
@@ -73,12 +73,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Currently, the library supports the following MIPI-DSI LCDs:
- *      - EK79007, ILI9881C
+ *      - EK79007
+ *      - ILI9881C
+ *      - JD9365
  */
 #define EXAMPLE_LCD_NAME                EK79007
 #define EXAMPLE_LCD_WIDTH               (1024)
 #define EXAMPLE_LCD_HEIGHT              (600)
 #define EXAMPLE_LCD_COLOR_BITS          (ESP_PANEL_LCD_RGB888_COLOR_BITS_24)
+                                                // or `ESP_PANEL_LCD_RGB565_COLOR_BITS_16`
 #define EXAMPLE_LCD_DSI_PHY_LDO_ID      (3)     // -1 if not used
 #define EXAMPLE_LCD_DSI_LANE_NUM        (2)     // ESP32-P4 supports 1 or 2 lanes
 #define EXAMPLE_LCD_DSI_LANE_RATE_MBPS  (1000)  /* Single lane bit rate, should consult the LCD supplier or check the

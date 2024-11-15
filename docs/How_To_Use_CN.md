@@ -234,6 +234,7 @@ ESP32_Display_Panel 会根据 [ESP_Panel_Board_Custom.h](../ESP_Panel_Board_Cust
 * [QSPI](../examples/LCD/QSPI/)
 * [Single RGB](../examples/LCD/RGB/)
 * [3-wire SPI + RGB](../examples/LCD/3wireSPI_RGB/)
+* [MIPI-DSI](../examples/LCD/MIPI_DSI/)
 
 ##### Touch
 

@@ -19,7 +19,7 @@ extern "C" {
 
 #define ESP_LCD_EK79007_VER_MAJOR    (1)
 #define ESP_LCD_EK79007_VER_MINOR    (0)
-#define ESP_LCD_EK79007_VER_PATCH    (0)
+#define ESP_LCD_EK79007_VER_PATCH    (1)
 
 /**
  * @brief Create LCD panel for model EK79007

@@ -50,36 +50,69 @@
  * @brief Macro for 16-bit RGB565 RGB configuration
  *
  */
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 4, 0)
 #define ESP_PANEL_RGB_16BIT_CONFIG_DEFAULT(width, height, \
-                                           d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,       \
-                                           d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io, d15_io, \
-                                           hsync_io, vsync_io, pclk_io, de_io, disp_io)                  \
-    {                                                                                   \
-        .clk_src = LCD_CLK_SRC_DEFAULT,                                                 \
-        .timings = ESP_PANEL_RGB_TIMING_16BIT_CONFIG_DEFAULT(width, height),            \
-        .data_width = 16,                                                               \
-        .bits_per_pixel = 16,                                                           \
-        .num_fbs = 1,                                                                   \
-        .bounce_buffer_size_px = 0,                                                     \
-        .psram_trans_align = 64,                                                        \
-        .hsync_gpio_num = hsync_io,                                                     \
-        .vsync_gpio_num = vsync_io,                                                     \
-        .de_gpio_num = de_io,                                                           \
-        .pclk_gpio_num = pclk_io,                                                       \
-        .disp_gpio_num = disp_io,                                                       \
-        .data_gpio_nums = {                                                             \
-            d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,                     \
-            d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io, d15_io                \
-        },                                                                              \
-        .flags = {                                                                      \
-            .disp_active_low = 0,                                                       \
-            .refresh_on_demand = 0,                                                     \
-            .fb_in_psram = 1,                                                           \
-            .double_fb = 0,                                                             \
-            .no_fb = 0,                                                                 \
-            .bb_invalidate_cache = 0,                                                   \
-        },                                                                              \
-    }
+                                                d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,       \
+                                                d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io, d15_io, \
+                                                hsync_io, vsync_io, pclk_io, de_io, disp_io)                  \
+        {                                                                                   \
+            .clk_src = LCD_CLK_SRC_DEFAULT,                                                 \
+            .timings = ESP_PANEL_RGB_TIMING_16BIT_CONFIG_DEFAULT(width, height),            \
+            .data_width = 16,                                                               \
+            .bits_per_pixel = 16,                                                           \
+            .num_fbs = 1,                                                                   \
+            .bounce_buffer_size_px = 0,                                                     \
+            .dma_burst_size = 64,                                                           \
+            .hsync_gpio_num = hsync_io,                                                     \
+            .vsync_gpio_num = vsync_io,                                                     \
+            .de_gpio_num = de_io,                                                           \
+            .pclk_gpio_num = pclk_io,                                                       \
+            .disp_gpio_num = disp_io,                                                       \
+            .data_gpio_nums = {                                                             \
+                d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,                     \
+                d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io, d15_io                \
+            },                                                                              \
+            .flags = {                                                                      \
+                .disp_active_low = 0,                                                       \
+                .refresh_on_demand = 0,                                                     \
+                .fb_in_psram = 1,                                                           \
+                .double_fb = 0,                                                             \
+                .no_fb = 0,                                                                 \
+                .bb_invalidate_cache = 0,                                                   \
+            },                                                                              \
+        }
+#else
+#define ESP_PANEL_RGB_16BIT_CONFIG_DEFAULT(width, height, \
+                                            d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,       \
+                                            d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io, d15_io, \
+                                            hsync_io, vsync_io, pclk_io, de_io, disp_io)                  \
+        {                                                                                   \
+            .clk_src = LCD_CLK_SRC_DEFAULT,                                                 \
+            .timings = ESP_PANEL_RGB_TIMING_16BIT_CONFIG_DEFAULT(width, height),            \
+            .data_width = 16,                                                               \
+            .bits_per_pixel = 16,                                                           \
+            .num_fbs = 1,                                                                   \
+            .bounce_buffer_size_px = 0,                                                     \
+            .psram_trans_align = 64,                                                        \
+            .hsync_gpio_num = hsync_io,                                                     \
+            .vsync_gpio_num = vsync_io,                                                     \
+            .de_gpio_num = de_io,                                                           \
+            .pclk_gpio_num = pclk_io,                                                       \
+            .disp_gpio_num = disp_io,                                                       \
+            .data_gpio_nums = {                                                             \
+                d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,                     \
+                d8_io, d9_io, d10_io, d11_io, d12_io, d13_io, d14_io, d15_io                \
+            },                                                                              \
+            .flags = {                                                                      \
+                .disp_active_low = 0,                                                       \
+                .refresh_on_demand = 0,                                                     \
+                .fb_in_psram = 1,                                                           \
+                .double_fb = 0,                                                             \
+                .no_fb = 0,                                                                 \
+                .bb_invalidate_cache = 0,                                                   \
+            },                                                                              \
+        }
+#endif /* ESP_IDF_VERSION */
 
 /**
  * @brief Macro for 8-bit RGB timing configuration
@@ -110,35 +143,67 @@
  * @brief Macro for 8-bit RGB888 RGB configuration
  *
  */
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 4, 0)
 #define ESP_PANEL_RGB_8BIT_CONFIG_DEFAULT(width, height, \
-                                          d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,       \
-                                          hsync_io, vsync_io, pclk_io, de_io, disp_io)                  \
-    {                                                                       \
-        .clk_src = LCD_CLK_SRC_DEFAULT,                                     \
-        .timings = ESP_PANEL_RGB_TIMING_8BIT_CONFIG_DEFAULT(width, height), \
-        .data_width = 8,                                                    \
-        .bits_per_pixel = 24,                                               \
-        .num_fbs = 1,                                                       \
-        .bounce_buffer_size_px = 0,                                         \
-        .psram_trans_align = 64,                                            \
-        .hsync_gpio_num = hsync_io,                                         \
-        .vsync_gpio_num = vsync_io,                                         \
-        .de_gpio_num = de_io,                                               \
-        .pclk_gpio_num = pclk_io,                                           \
-        .disp_gpio_num = disp_io,                                           \
-        .data_gpio_nums = {                                                 \
-            d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,         \
-            -1, -1, -1, -1, -1, -1, -1, -1,                                 \
-        },                                                                  \
-        .flags = {                                                          \
-            .disp_active_low = 0,                                           \
-            .refresh_on_demand = 0,                                         \
-            .fb_in_psram = 1,                                               \
-            .double_fb = 0,                                                 \
-            .no_fb = 0,                                                     \
-            .bb_invalidate_cache = 0,                                       \
-        },                                                                  \
-    }
+                                            d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,       \
+                                            hsync_io, vsync_io, pclk_io, de_io, disp_io)                  \
+        {                                                                       \
+            .clk_src = LCD_CLK_SRC_DEFAULT,                                     \
+            .timings = ESP_PANEL_RGB_TIMING_8BIT_CONFIG_DEFAULT(width, height), \
+            .data_width = 8,                                                    \
+            .bits_per_pixel = 24,                                               \
+            .num_fbs = 1,                                                       \
+            .bounce_buffer_size_px = 0,                                         \
+            .dma_burst_size = 64,                                               \
+            .hsync_gpio_num = hsync_io,                                         \
+            .vsync_gpio_num = vsync_io,                                         \
+            .de_gpio_num = de_io,                                               \
+            .pclk_gpio_num = pclk_io,                                           \
+            .disp_gpio_num = disp_io,                                           \
+            .data_gpio_nums = {                                                 \
+                d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,         \
+                -1, -1, -1, -1, -1, -1, -1, -1,                                 \
+            },                                                                  \
+            .flags = {                                                          \
+                .disp_active_low = 0,                                           \
+                .refresh_on_demand = 0,                                         \
+                .fb_in_psram = 1,                                               \
+                .double_fb = 0,                                                 \
+                .no_fb = 0,                                                     \
+                .bb_invalidate_cache = 0,                                       \
+            },                                                                  \
+        }
+#else
+#define ESP_PANEL_RGB_8BIT_CONFIG_DEFAULT(width, height, \
+                                            d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,       \
+                                            hsync_io, vsync_io, pclk_io, de_io, disp_io)                  \
+        {                                                                       \
+            .clk_src = LCD_CLK_SRC_DEFAULT,                                     \
+            .timings = ESP_PANEL_RGB_TIMING_8BIT_CONFIG_DEFAULT(width, height), \
+            .data_width = 8,                                                    \
+            .bits_per_pixel = 24,                                               \
+            .num_fbs = 1,                                                       \
+            .bounce_buffer_size_px = 0,                                         \
+            .psram_trans_align = 64,                                            \
+            .hsync_gpio_num = hsync_io,                                         \
+            .vsync_gpio_num = vsync_io,                                         \
+            .de_gpio_num = de_io,                                               \
+            .pclk_gpio_num = pclk_io,                                           \
+            .disp_gpio_num = disp_io,                                           \
+            .data_gpio_nums = {                                                 \
+                d0_io, d1_io, d2_io, d3_io, d4_io, d5_io, d6_io, d7_io,         \
+                -1, -1, -1, -1, -1, -1, -1, -1,                                 \
+            },                                                                  \
+            .flags = {                                                          \
+                .disp_active_low = 0,                                           \
+                .refresh_on_demand = 0,                                         \
+                .fb_in_psram = 1,                                               \
+                .double_fb = 0,                                                 \
+                .no_fb = 0,                                                     \
+                .bb_invalidate_cache = 0,                                       \
+            },                                                                  \
+        }
+#endif /* ESP_IDF_VERSION */
 
 /**
  * @brief Macro for 3-wire SPI panel IO configuration

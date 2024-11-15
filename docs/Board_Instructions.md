@@ -43,35 +43,45 @@
 
 |                                                                                                                                       **Picture**                                                                                                                                       |                                                **Name**                                                 |   **LCD Bus**    | **LCD Controller** | **LCD resolution** | **Touch Bus** | **Touch Controller** |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: | :--------------: | :----------------: | ------------------ | :-----------: | :------------------: |
-| <img src="https://www.waveshare.com/media/catalog/product/cache/1/small_image/171x171/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-4.3-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-4.3](https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
 | <img src="https://www.waveshare.com/w/upload/5/5f/ESP32-S3-Touch-LCD-1.85_Entity.jpg" width="150"> | [ESP32-S3-Touch-LCD-1.85](https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm) | QSPI |       ST77916       |      360x360       |      I2C      |        CST816         |
-| <img src="https://www.waveshare.com/w/upload/thumb/1/10/ESP32-S3-Touch-LCD-2.1.jpg/300px-ESP32-S3-Touch-LCD-2.1.jpg" width="150"> | [ESP32-S3-Touch-LCD-1.85](https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm) | RGB |       ST7701       |      480x480       |      I2C      |        CST820 (CST816-like)         |
+| <img src="https://www.waveshare.com/w/upload/thumb/1/10/ESP32-S3-Touch-LCD-2.1.jpg/300px-ESP32-S3-Touch-LCD-2.1.jpg" width="150"> | [ESP32-S3-Touch-LCD-2.1](https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm) | RGB |       ST7701       |      480x480       |      I2C      |        CST820 (CST816-like)         |
+| <img src="https://www.waveshare.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-4.3-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-4.3](https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
+| <img src="https://www.waveshare.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-4.3b-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-4.3B](https://www.waveshare.com/esp32-s3-touch-lcd-4.3B.htm) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
+| <img src="https://www.waveshare.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-5-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-5](https://www.waveshare.com/esp32-s3-touch-lcd-5.htm?sku=28117) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
+| <img src="https://www.waveshare.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-5-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-5B](https://www.waveshare.com/esp32-s3-touch-lcd-5.htm?sku=28151) | RGB |       ST7262       |      1024x600       |      I2C      |        GT911         |
+| <img src="https://www.waveshare.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-s3-touch-lcd-7-1.jpg" width="150"> | [ESP32-S3-Touch-LCD-7](https://www.waveshare.com/esp32-s3-touch-lcd-7.htm) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
+| <img src="https://www.waveshare.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/e/s/esp32-p4-nano-1.jpg" width="150"> | [ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm) |  MIPI-DSI   |       JD9365       | 800x1280           |      I2C      |        GT9271 (GT911-like)        |
 
 ## Recommended Configurations in the Arduino IDE
 
 Below are recommended configurations for developing GUI applications on different development boards. These settings can be adjusted according to specific requirements, and users can navigate to the `Tools` menu in the Arduino IDE to configure the following settings.
 
-|         Supported Boards         |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
-| :------------------------------: | :----------------: | :------: | :--------: | :--------: | :-------------: | :---------------------: |
-|         ESP32-C3-LCDkit          | ESP32C3 Dev Module | Disabled |    QIO     | 4MB (32Mb) |     Enabled     | Default 4MB with spiffs |
-|           ESP32-S3-BOX           |    ESP32-S3-BOX    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
-| ESP32-S3-BOX-3 & ESP32-S3-BOX-3B | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
-|       ESP32-S3-BOX-3(beta)       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
-|        ESP32-S3-BOX-Lite         |    ESP32-S3-BOX    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
-|           ESP32-S3-EYE           | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |     Enabled     |     8M with spiffs      |
-|         ESP32-S3-Korvo-2         | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
-|      ESP32-S3-LCD-EV-Board       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
-|     ESP32-S3-LCD-EV-Board-2      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
-|         ESP32-S3-USB-OTG         |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
-|   ESP32-P4-Function-EV-Board     | ESP32P4 Dev Module | Enabled  |    QIO     |    16MB    |    Disabled     |     16M Flash (3MB)     |
-|         M5STACK-M5CORE2          |   M5Stack-Core2    | Enabled  |     -      |     -      |        -        |         Default         |
-|          M5STACK-M5DIAL          | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |         Default         |
-|         M5STACK-M5CORES3         | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     | Default 4MB with spiffs |
-|      ESP32-4848S040C_I_Y_3       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
-|      ElecrowCrowPanel 7.0"       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    4MB     |    Disabled     |     Huge App (3MB)      |
-| Waveshare-ESP32-S3-Touch-LCD-4.3 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |     8M with spiffs      |
-| Waveshare-ESP32-S3-Touch-LCD-1.85 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)      |
-| Waveshare-ESP32-S3-Touch-LCD-2.1 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)      |
+|         Supported Boards          |   Selected Board   |  PSRAM   | Flash Mode | Flash Size | USB CDC On Boot |    Partition Scheme     |
+|:---------------------------------:|:------------------:|:--------:|:----------:|:----------:|:---------------:|:-----------------------:|
+|          ESP32-C3-LCDkit          | ESP32C3 Dev Module | Disabled |    QIO     | 4MB (32Mb) |     Enabled     | Default 4MB with spiffs |
+|           ESP32-S3-BOX            |    ESP32-S3-BOX    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
+| ESP32-S3-BOX-3 & ESP32-S3-BOX-3B  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+|       ESP32-S3-BOX-3(beta)        | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+|         ESP32-S3-BOX-Lite         |    ESP32-S3-BOX    |    -     |     -      |     -      |        -        |     16M Flash (3MB)     |
+|           ESP32-S3-EYE            | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |     Enabled     |     8M with spiffs      |
+|         ESP32-S3-Korvo-2          | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
+|       ESP32-S3-LCD-EV-Board       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
+|      ESP32-S3-LCD-EV-Board-2      | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    | **See Note 1**  |     16M Flash (3MB)     |
+|         ESP32-S3-USB-OTG          |  ESP32-S3-USB-OTG  |    -     |     -      |     -      |        -        |     8M with spiffs      |
+|    ESP32-P4-Function-EV-Board     | ESP32P4 Dev Module | Enabled  |    QIO     |    16MB    |    Disabled     |     16M Flash (3MB)     |
+|          M5STACK-M5CORE2          |   M5Stack-Core2    | Enabled  |     -      |     -      |        -        |         Default         |
+|          M5STACK-M5DIAL           | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |         Default         |
+|         M5STACK-M5CORES3          | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     | Default 4MB with spiffs |
+|       ESP32-4848S040C_I_Y_3       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Disabled     |     16M Flash (3MB)     |
+|       ElecrowCrowPanel 7.0"       | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    4MB     |    Disabled     |     Huge App (3MB)      |
+| Waveshare-ESP32-S3-Touch-LCD-1.85 | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+| Waveshare-ESP32-S3-Touch-LCD-2.1  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |     Enabled     |     16M Flash (3MB)     |
+| Waveshare-ESP32-S3-Touch-LCD-4.3  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |     8M with spiffs      |
+| Waveshare-ESP32-S3-Touch-LCD-4.3B | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Enabled      |     16M Flash (3MB)     |
+| Waveshare-ESP32-S3-Touch-LCD-5    | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Enabled      |     16M Flash (3MB)     |
+| Waveshare-ESP32-S3-Touch-LCD-5B   | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB    |    Enabled      |     16M Flash (3MB)     |
+| Waveshare-ESP32-S3-Touch-LCD-7    | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    8MB     |    Disabled     |     8M with spiffs      |
+|      Waveshare-ESP32-P4-NANO      | ESP32P4 Dev Module | Enabled  |    QIO     |    16MB    |    Disabled     |     16M Flash (3MB)     |
 
 **Notes:**
 

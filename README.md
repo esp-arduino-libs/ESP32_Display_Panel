@@ -32,7 +32,7 @@ Please refer to the documentation - [How to Use](./docs/How_To_Use.md).
 
 ### Development Boards
 
-Below is the list of [supported development boards](docs/Board_Instructions.md):
+Below is the list of [Supported Development Boards](docs/Board_Instructions.md):
 
 | **Manufacturer** | **Board Model** |
 | ---------------- | --------------- |
@@ -40,33 +40,34 @@ Below is the list of [supported development boards](docs/Board_Instructions.md):
 | [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0" |
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1 |
+| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
 
 Developers and manufacturers are welcome to contribute PRs to add more boards. For details, please refer to the [Board Contribution Guide](./docs/Board_Contribution_Guide.md).
 
 ### LCD Controllers
 
-Below is the list of [supported LCD controllers](docs/LCD_Controllers.md):
+Below is the list of [Supported LCD Controllers](docs/LCD_Controllers.md):
 
 | **Manufacturer** | **Model** |
 | ---------------- | --------- |
 | Fitipower | EK9716B, EK79007 |
 | GalaxyCore | GC9A01, GC9B71, GC9503 |
 | Ilitek | ILI9341, ILI9881C |
+| JADARD | JD9365 |
 | NewVision | NV3022B |
 | Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
 
 ### Touch Controllers
 
-Below is the list of [supported touch controllers](docs/Touch_Controllers.md):
+Below is the list of [Supported Touch Controllers](docs/Touch_Controllers.md):
 
 | **Manufacturer** | **Model** |
 | ---------------- | --------- |
-| Hynitron | CST816S |
 | FocalTech | FT5x06 |
 | GOODiX | GT911, GT1151 |
-| Sitronix | ST7123 |
+| Hynitron | CST816S |
 | Parade | TT21100 |
+| Sitronix | ST7123 |
 | Xptek | XPT2046 |
 
 ## FAQ

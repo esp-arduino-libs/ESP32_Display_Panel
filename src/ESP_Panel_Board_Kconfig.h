@@ -130,11 +130,6 @@
         #endif
     #endif
     // Waveshare
-    #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
-        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
-            #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
-        #endif
-    #endif
     #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85
         #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85
             #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_1_85
@@ -143,6 +138,36 @@
     #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1
         #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1
             #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_2_1
+        #endif
+    #endif
+    #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
+            #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3
+        #endif
+    #endif
+    #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3_B
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3_B
+            #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3_B CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_4_3_B
+        #endif
+    #endif
+    #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5
+            #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5
+        #endif
+    #endif
+    #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5_B
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5_B
+            #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5_B CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_5_B
+        #endif
+    #endif
+    #ifndef BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7
+            #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7 CONFIG_BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7
+        #endif
+    #endif
+    #ifndef BOARD_WAVESHARE_ESP32_P4_NANO
+        #ifdef CONFIG_BOARD_WAVESHARE_ESP32_P4_NANO
+            #define BOARD_WAVESHARE_ESP32_P4_NANO CONFIG_BOARD_WAVESHARE_ESP32_P4_NANO
         #endif
     #endif
 #endif /* ESP_PANEL_USE_SUPPORTED_BOARD */

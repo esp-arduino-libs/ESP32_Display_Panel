@@ -1,5 +1,19 @@
 # ChangeLog
 
+## v0.2.1 - 2024-11-14
+
+### Enhancements:
+
+* feat(lcd): add LCD controller JD9365 @Y1hsiaochunnn (#123)
+* feat(board): add board Waveshare ESP32-P4-NANO @Y1hsiaochunnn (#123)
+* feat(board): add board Waveshare ESP32-S3-Touch-LCD-4.3B/5/5B/7 @H-sw123 (#124)
+* feat(board): add configuration for ignoring board in Kconfig
+* feat(ci): use finer-grained file modification jobs
+
+### Bugfixes:
+
+* fix(bus & lcd): update RGB conf based on esp-idf v5.4
+
 ## v0.2.0 - 2024-11-08
 
 ### Enhancements:

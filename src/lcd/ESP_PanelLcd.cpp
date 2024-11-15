@@ -166,8 +166,11 @@ bool ESP_PanelLcd::begin(void)
     switch (bus->getType()) {
 #if SOC_LCD_RGB_SUPPORTED
     case ESP_PANEL_BUS_TYPE_RGB: {
+        esp_lcd_rgb_panel_event_callbacks_t rgb_event_cb = {};
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 4, 0)
+        rgb_event_cb.on_frame_buf_complete = (esp_lcd_rgb_panel_frame_buf_complete_cb_t)onRefreshFinish;
+#else
         const esp_lcd_rgb_panel_config_t *rgb_config = static_cast<ESP_PanelBus_RGB *>(bus)->getRgbConfig();
-        esp_lcd_rgb_panel_event_callbacks_t rgb_event_cb = { NULL };
         if (rgb_config->bounce_buffer_size_px == 0) {
             // When bounce buffer is disabled, use `on_vsync` callback to notify draw bitmap finish
             rgb_event_cb.on_vsync = (esp_lcd_rgb_panel_vsync_cb_t)onRefreshFinish;
@@ -175,6 +178,7 @@ bool ESP_PanelLcd::begin(void)
             // When bounce buffer is enabled, use `on_bounce_frame_finish` callback to notify draw bitmap finish
             rgb_event_cb.on_bounce_frame_finish = (esp_lcd_rgb_panel_bounce_buf_finish_cb_t)onRefreshFinish;
         }
+#endif
         ESP_PANEL_CHECK_ERR_RET(
             esp_lcd_rgb_panel_register_event_callbacks(handle, &rgb_event_cb, &_callback_data), false,
             "Register RGB callback failed"
