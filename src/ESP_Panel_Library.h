@@ -54,7 +54,7 @@
 #include "touch/XPT2046.h"
 
 /* Backlight */
-#include "backlight/ESP_PanelBacklight.h"
+#include "backlight/esp_panel_backlight.hpp"
 
 /* 3rd-party Libraries */
 #include "ESP_IOExpander_Library.h"

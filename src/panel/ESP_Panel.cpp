@@ -106,7 +106,7 @@ bool ESP_Panel::init(void)
     shared_ptr<ESP_PanelLcd> lcd_ptr = nullptr;
     shared_ptr<ESP_PanelBus> touch_bus_ptr = nullptr;
     shared_ptr<ESP_PanelTouch> touch_ptr = nullptr;
-    shared_ptr<ESP_PanelBacklight> backlight_ptr = nullptr;
+    shared_ptr<esp_panel::Backlight> backlight_ptr = nullptr;
     shared_ptr<ESP_IOExpander> expander_ptr = _expander_ptr;
 
     ESP_LOGD(TAG, "Panel init start");
@@ -439,7 +439,7 @@ bool ESP_Panel::init(void)
 #if ESP_PANEL_USE_BACKLIGHT
     ESP_LOGD(TAG, "Use backlight");
     ESP_LOGD(TAG, "Create backlight device");
-    backlight_ptr = make_shared<ESP_PanelBacklight>(ESP_PANEL_BACKLIGHT_IO, ESP_PANEL_BACKLIGHT_ON_LEVEL, ESP_PANEL_LCD_BL_USE_PWM);
+    backlight_ptr = make_shared<esp_panel::Backlight>(ESP_PANEL_BACKLIGHT_IO, ESP_PANEL_BACKLIGHT_ON_LEVEL, ESP_PANEL_LCD_BL_USE_PWM);
     ESP_PANEL_CHECK_NULL_RET(backlight_ptr, false, "Create backlight failed");
 #endif /* ESP_PANEL_USE_BACKLIGHT */
 
@@ -656,7 +656,7 @@ ESP_PanelTouch *ESP_Panel::getTouch(void)
     return _touch_ptr.get();
 }
 
-ESP_PanelBacklight *ESP_Panel::getBacklight(void)
+esp_panel::Backlight *ESP_Panel::getBacklight(void)
 {
     return _backlight_ptr.get();
 }

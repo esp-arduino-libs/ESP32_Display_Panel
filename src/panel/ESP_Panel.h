@@ -11,7 +11,7 @@
 #include "bus/ESP_PanelBus.h"
 #include "lcd/ESP_PanelLcd.h"
 #include "touch/ESP_PanelTouch.h"
-#include "backlight/ESP_PanelBacklight.h"
+#include "backlight/esp_panel_backlight.hpp"
 #include "ESP_IOExpander_Library.h"
 
 #ifdef ESP_PANEL_USE_BOARD
@@ -77,7 +77,7 @@ public:
      */
     ESP_PanelLcd *getLcd(void);
     ESP_PanelTouch *getTouch(void);
-    ESP_PanelBacklight *getBacklight(void);
+    esp_panel::Backlight *getBacklight(void);
     ESP_IOExpander *getExpander(void);
 
     /**
@@ -108,7 +108,7 @@ private:
     std::shared_ptr<ESP_PanelBus> _touch_bus_ptr;
     std::shared_ptr<ESP_PanelLcd> _lcd_ptr;
     std::shared_ptr<ESP_PanelTouch> _touch_ptr;
-    std::shared_ptr<ESP_PanelBacklight> _backlight_ptr;
+    std::shared_ptr<esp_panel::Backlight> _backlight_ptr;
     std::shared_ptr<ESP_PanelHost> _host_ptr;
     std::shared_ptr<ESP_IOExpander> _expander_ptr;
 };

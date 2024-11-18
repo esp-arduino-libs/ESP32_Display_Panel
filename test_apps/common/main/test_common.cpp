@@ -55,7 +55,7 @@ TEST_CASE("Test component common drivers", "[common]")
 
     ESP_PanelLcd *lcd = panel->getLcd();
     ESP_PanelTouch *touch = panel->getTouch();
-    ESP_PanelBacklight *backlight = panel->getBacklight();
+    esp_panel::Backlight *backlight = panel->getBacklight();
 
     if (backlight != nullptr) {
         ESP_LOGI(TAG, "Turn off the backlight");
