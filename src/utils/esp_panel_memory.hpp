@@ -9,6 +9,7 @@
 #include <memory>
 #include <cstdlib>
 #include "ESP_Panel_Conf_Internal.h"
+#include "esp_panel_check_result.hpp"
 #include "esp_panel_log.hpp"
 #if ESP_PANEL_MEM_GENERAL_ALLOC_TYPE == ESP_PANEL_MEM_GENERAL_ALLOC_TYPE_ESP
 #include "esp_heap_caps.h"
@@ -33,9 +34,13 @@ struct MemoryAllocator {
             return nullptr;
         }
         void *ptr = std::malloc(n * sizeof(T));
-        if (!ptr) {
+#if CONFIG_COMPILER_CXX_EXCEPTIONS
+        if (ptr == nullptr) {
             throw std::bad_alloc();
         }
+#else
+        CHECK_NULL_RETURN(ptr, nullptr, "Allocation failed");
+#endif // CONFIG_COMPILER_CXX_EXCEPTIONS
         return static_cast<T *>(ptr);
     }
 
