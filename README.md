@@ -16,7 +16,7 @@ ESP32_Display_Panel integrates multiple display-related driver components from t
 
 The functional block diagram of ESP32_Display_Panel is shown below and includes the following features:
 
-- Supports a variety of **Espressif** official and third-party development boards, including **M5Stack**, **Elecrow**, **Waveshare**, and others.
+- Supports a variety of **Espressif** official and third-party development boards, including **M5Stack**, **Elecrow**, **Waveshare**,**VIEWE** and others.
 - Supports **custom development board** adaptation.
 - Supports a variety of device drivers, including interface **Bus**, **LCD**, **Touch**, **Backlight** and **IO Expander**.
 - Supports dynamic driver configuration, such as enabling debug logs.
