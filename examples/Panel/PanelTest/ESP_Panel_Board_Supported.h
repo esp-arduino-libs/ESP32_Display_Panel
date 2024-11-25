@@ -97,6 +97,46 @@
 // #define BOARD_WAVESHARE_ESP32_S3_Touch_LCD_7
 // #define BOARD_WAVESHARE_ESP32_P4_NANO
 
+/*
+ * VIEWE Supported Boards (https://viewedisplay.com/):
+ *  
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_24(UEDX24320028E-WB-A):https://viewedisplay.com/product/esp32-2-4-inch-240x320-rgb-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_28(UEDX24320028E-WB-A):https://viewedisplay.com/product/esp32-2-8-inch-240x320-mcu-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_35_V1(UEDX24320028E-WB-A):https://viewedisplay.com/product/esp32-3-5-inch-240x320-mcu-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_35_V2(UEDX24320028E-WB-A):https://github.com/VIEWESMART/Product-Specification-and-Schematic/blob/main/ESP32/3.5inch/320480/UEDX32480035E-WB-A%20SPEC.pdf
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_40(UEDX48480040E-WB-A):https://viewedisplay.com/product/esp32-4-inch-tft-display-touch-screen-arduino-lvgl/
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_43_V1(UEDX80480070E-WB-A):https://viewedisplay.com/product/esp32-4-3-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_43_V2(UEDX48240070E-WB-A):https://github.com/VIEWESMART/Product-Specification-and-Schematic/blob/main/ESP32/4.3inch/Low-Resolution_480272/UEDX48270043E-WB-A%20SPEC.pdf
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_50_V1(UEDX80480050E-WB-A):https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
+ *  - BOARD_VIEWE_ESP_S3_Touch_LCD_70(UEDX80480070E-WB-A):https://viewedisplay.com/product/esp32-7-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl-uart/
+ *
+ *  Where () is the model of the board, some boards are suitable for more than one screen, 
+ *  so the name after adding the screen will be different from the name of the individual board
+ *
+ */
+
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_24  
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_28 
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_35_V1     //The resolution is 240*320
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_35_V2     //The resolution is 320*480
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_40
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_43_V1     //The resolution is 800*480
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_43_V2     //The resolution is 480*272
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_50_V1
+// #define BOARD_VIEWE_ESP_S3_Touch_LCD_70
+
+/*
+The following products control IM through software
+*/
+#if defined(BOARD_VIEWE_ESP_S3_Touch_LCD_24) || \
+    defined(BOARD_VIEWE_ESP_S3_Touch_LCD_28) || \
+    defined(BOARD_VIEWE_ESP_S3_Touch_LCD_35_V1) || \
+    defined(BOARD_VIEWE_ESP_S3_Touch_LCD_35_V2)
+#define IM
+#define IM0 47
+#define IM1 48
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////// File Version ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

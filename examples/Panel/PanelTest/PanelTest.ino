@@ -75,6 +75,19 @@ void setup()
     Serial.begin(115200);
     Serial.println("Panel test example start");
 
+#ifdef IM
+    pinMode(IM1, OUTPUT);
+    digitalWrite(IM1, HIGH);
+  #ifdef BOARD_VIEWE_ESP_S3_Touch_LCD_35_V2
+    pinMode(IM0, OUTPUT);
+    digitalWrite(IM0, HIGH);
+  #endif
+  #ifndef BOARD_VIEWE_ESP_S3_Touch_LCD_35_V2
+    pinMode(IM0, OUTPUT);
+    digitalWrite(IM0, LOW);
+  #endif
+#endif
+
     panel = new ESP_Panel();
 
     Serial.println("Initialize display panel");
