@@ -41,6 +41,7 @@ Below is the list of [Supported Development Boards](docs/Board_Instructions.md):
 | [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
 | [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
+| [VIEWE](docs/Board_Instructions.md#viewe) |  VIEWE_ESP_S3_Knob_LCD_21(UEDX48480021-MD80E), VIEWE_ESP_S3_Touch_LCD_24(UEDX24320028E-WB-A), VIEWE_ESP_S3_Touch_LCD_28(UEDX24320028E-WB-A), VIEWE_ESP_S3_Touch_LCD_35_V1(UEDX24320028E-WB-A), VIEWE_ESP_S3_Touch_LCD_35_V2(UEDX24320028E-WB-A), VIEWE_ESP_S3_Touch_LCD_40(DX48480040E-WB-A), VIEWE_ESP_S3_Touch_LCD_43_V1(UEDX80480070E-WB-A), VIEWE_ESP_S3_Touch_LCD_43_V2(UEDX80480070E-WB-A), VIEWE_ESP_S3_Touch_LCD_50_V1(UEDX80480050E-WB-A),VIEWE_ESP_S3_Touch_LCD_70(UEDX80480070E-WB-A)|
 
 Developers and manufacturers are welcome to contribute PRs to add more boards. For details, please refer to the [Board Contribution Guide](./docs/Board_Contribution_Guide.md).
 
@@ -69,6 +70,7 @@ Below is the list of [Supported Touch Controllers](docs/Touch_Controllers.md):
 | Parade | TT21100 |
 | Sitronix | ST7123 |
 | Xptek | XPT2046 |
+|Chipsemicorp | CHSC6540 |
 
 ## FAQ
 
