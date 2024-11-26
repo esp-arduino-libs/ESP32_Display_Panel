@@ -63,7 +63,7 @@
 | <img src="https://viewedisplay.com/wp-content/uploads/2024/07/DX48480040E-WB-A-%E6%AD%A3.jpg" width="150"> | [VIEWE-ESP32-S3-Touch-LCD-4.0](https://viewedisplay.com/product/esp32-4-inch-tft-display-touch-screen-arduino-lvgl/) | 3-wire SPI + RGB |       GC9503       |      480x480       |      I2C      |         FT6336U(like FT5x06)        |
 | <img src="https://viewedisplay.com/wp-content/uploads/2024/07/UEDX80480043E-13.jpg" width="150"> | [VIEWE-ESP32-S3-Touch-LCD-4.3_V1](https://viewedisplay.com/product/esp32-4-3-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/) | RGB |       ST7262       |      800x480       |      I2C      |        GT911         |
 | <img src="https://viewedisplay.com/wp-content/uploads/2024/07/UEDX80480043E-13.jpg" width="150"> | [VIEWE-ESP32-S3-Touch-LCD-4.3_V2](https://viewedisplay.com/product/esp32-4-3-inch-480x272-rgb-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/) | RGB |       ST7262       |      480x272      |      I2C      |        GT911         |
-| <img src="https://viewedisplay.com/wp-content/uploads/2024/06/DX80480050E-aa.jpg" width="150"> | [VIEWE-ESP32-S3-Touch-LCD-5.0](https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/) | RGB |       ST7262E43-G4(like ST7262)       |      800x480       |      I2C      |        GT911         |
+| <img src="https://viewedisplay.com/wp-content/uploads/2024/06/DX80480050E-aa.jpg" width="150"> | [VIEWE-ESP32-S3-Touch-LCD-5.0_V1](https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/) | RGB |       ST7262E43-G4(like ST7262)       |      800x480       |      I2C      |        GT911         |
 | <img src="https://viewedisplay.com/wp-content/uploads/2024/08/DX80480070E-a2.jpg" width="150"> | [VIEWE-ESP32-S3-Touch-LCD-7.0](https://viewedisplay.com/product/esp32-7-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl-uart/) | RGB |       EK9716BD3+EK73002AB2(like ST7262)       |      800x480       |      I2C      |        GT911         |
 
 ## Recommended Configurations in the Arduino IDE
@@ -103,7 +103,7 @@ Below are recommended configurations for developing GUI applications on differen
 |   VIEWE-ESP32-S3-Touch-LCD-4.0    | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)     |
 |  VIEWE-ESP32-S3-Touch-LCD-4.3_V1  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)     |
 |  VIEWE-ESP32-S3-Touch-LCD-4.3_V2  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)     |
-|    VIEWE-ESP32-S3-Touch-LCD-5.0   | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)     |
+|  VIEWE-ESP32-S3-Touch-LCD-5.0_V1  | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)     |
 |   VIEWE-ESP32-S3-Touch-LCD-7.0    | ESP32S3 Dev Module |   OPI    | QIO 80MHz  |    16MB     |    Enabled     |     16M Flash (3MB)     |
 
 **Notes:**
