@@ -480,6 +480,13 @@
                         #define ESP_PANEL_LCD_3WIRE_SPI_SDA_USE_EXPNADER 0
                     #endif
                 #endif
+                #ifndef ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
+                    #ifdef CONfIGESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
+                        #define ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE CONFIG_ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
+                    #else
+                        #define ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE 0
+                    #endif
+                #endif
                 #ifndef ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
                     #ifdef CONFIG_ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
                         #define ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO CONFIG_ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
@@ -585,6 +592,13 @@
                     #define ESP_PANEL_LCD_RGB_PIXEL_BITS CONFIG_ESP_PANEL_LCD_RGB_PIXEL_BITS
                 #else
                     #error "Missing configuration: ESP_PANEL_LCD_RGB_PIXEL_BITS"
+                #endif
+            #endif
+            #ifndef ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+                #ifdef CONFIG_ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+                    #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE CONFIG_ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+                #else
+                    #define ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE 0
                 #endif
             #endif
             #ifndef ESP_PANEL_LCD_RGB_IO_HSYNC
@@ -1040,6 +1054,13 @@
                 #define ESP_PANEL_BACKLIGHT_IDLE_OFF CONFIG_ESP_PANEL_BACKLIGHT_IDLE_OFF
             #else
                 #define ESP_PANEL_BACKLIGHT_IDLE_OFF 0
+            #endif
+        #endif
+        #ifndef ESP_PANEL_LCD_BL_USE_PWM
+            #ifdef CONFIG_ESP_PANEL_LCD_BL_USE_PWM
+                #define ESP_PANEL_LCD_BL_USE_PWM CONFIG_ESP_PANEL_LCD_BL_USE_PWM
+            #else
+                #define ESP_PANEL_LCD_BL_USE_PWM 0
             #endif
         #endif
     #endif /* ESP_PANEL_USE_BACKLIGHT */
