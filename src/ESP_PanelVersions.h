@@ -83,7 +83,7 @@
         !defined(ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR) && \
         !defined(ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH)
         #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 0
-        #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
+        #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 3
         #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
     #endif
     // Check if the current configuration file version is compatible with the library version
