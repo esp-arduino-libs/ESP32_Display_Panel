@@ -246,7 +246,7 @@ menu "LCD settings"
                     bool "SCL active falling edge"
                     default n
                     help
-                        If set to 1, the SCL signal will be active on the falling edge; otherwise, it will be active on the rasing edge.
+                        If set to 1, the SCL signal will be active on the falling edge; otherwise, it will be active on the raising edge.
 
                 config ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
                     bool "Auto delete panel IO instance"
