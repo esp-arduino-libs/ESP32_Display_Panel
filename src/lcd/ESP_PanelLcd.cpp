@@ -484,7 +484,7 @@ bool ESP_PanelLcd::colorBarTest(uint16_t width, uint16_t height)
     int res_line_count = 0;
 
     /* Malloc memory for a single color bar */
-    shared_ptr<uint8_t> single_bar_buf(new uint8_t[row_per_bar * width * bytes_per_piexl]);
+    shared_ptr<uint8_t> single_bar_buf(new uint8_t[row_per_bar * width * bytes_per_piexl], [](uint8_t* ptr) { delete[] ptr; });
     ESP_PANEL_CHECK_FALSE_RET(single_bar_buf != nullptr, false, "Malloc color buffer failed");
 
     /* Draw color bar from top left to bottom right, the order is B - G - R */
