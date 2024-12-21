@@ -1,5 +1,12 @@
 # ChangeLog
 
+## v0.2.2 - 2024-12-23
+
+### Bugfixes:
+
+* fix(lcd): use 'delete[]' instead of 'delete' for C array shared pointer @FranciscoMoya (#142)
+* fix(Kconfig): fix incorrect descriptions
+
 ## v0.2.1 - 2024-11-14
 
 ### Enhancements:

@@ -11,7 +11,7 @@
 /* Library Version */
 #define ESP_PANEL_VERSION_MAJOR 0
 #define ESP_PANEL_VERSION_MINOR 2
-#define ESP_PANEL_VERSION_PATCH 1
+#define ESP_PANEL_VERSION_PATCH 2
 
 /* File `ESP_Panel_Conf.h` */
 #define ESP_PANEL_CONF_VERSION_MAJOR 0
