@@ -5,7 +5,7 @@
 ### Bugfixes:
 
 * fix(lcd): use 'delete[]' instead of 'delete' for C array shared pointer @FranciscoMoya (#142)
-* fix(Kconfig): fix incorrect descriptions
+* fix(Kconfig): fix build error on esp-idf and incorrect descriptions @Cathgao (#133)
 
 ## v0.2.1 - 2024-11-14
 
