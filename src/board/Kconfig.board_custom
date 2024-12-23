@@ -242,6 +242,12 @@ menu "LCD settings"
                     bool "Use IO expander to control SDA"
                     default n
 
+                config ESP_PANEL_LCD_3WIRE_SPI_SCL_ACTIVE_EDGE
+                    bool "SCL active falling edge"
+                    default n
+                    help
+                        If set to 1, the SCL signal will be active on the falling edge; otherwise, it will be active on the raising edge.
+
                 config ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO
                     bool "Auto delete panel IO instance"
                     default n
@@ -333,6 +339,11 @@ menu "LCD settings"
                     int
                     default 24 if ESP_PANEL_LCD_RGB_DATA_WIDTH_8
                     default 16 if ESP_PANEL_LCD_RGB_DATA_WIDTH_16
+
+                config ESP_PANEL_LCD_RGB_BOUNCE_BUF_SIZE
+                    int "Bounce buffer size (bytes)"
+                    default 0
+                    range 0 10000000
 
                 menu "Pins"
                     config ESP_PANEL_LCD_RGB_IO_HSYNC

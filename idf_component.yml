@@ -1,4 +1,4 @@
-version: "0.2.1"
+version: "0.2.2"
 description: ESP32_Display_Panel is a library designed for ESP SoCs to drive display panels and facilitate rapid GUI development.
 url: https://github.com/esp-arduino-libs/ESP32_Display_Panel
 repository: https://github.com/esp-arduino-libs/ESP32_Display_Panel.git
