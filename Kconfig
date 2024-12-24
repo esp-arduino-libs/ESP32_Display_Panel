@@ -1,10 +1,10 @@
 menu "ESP Display Panel Configurations"
     config ESP_PANEL_CONF_FILE_SKIP
-        bool "Unckeck this to ignore `ESP_Panel_Conf.h`"
+        bool "Unckeck this to use `ESP_Panel_Conf.h`"
         default y
 
     config ESP_PANEL_BOARD_FILE_SKIP
-        bool "Unckeck this to ignore `ESP_Panel_Board_*.h`"
+        bool "Unckeck this to use `ESP_Panel_Board_*.h`"
         default y
 
     config ESP_PANEL_CHECK_RESULT_ASSERT
