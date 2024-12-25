@@ -1,10 +1,13 @@
 # ChangeLog
 
-## v0.2.3 - 2025-01-09
+## v0.2.3 - 2025-01-21
 
 ### Enhancements:
 
 * feat(examples): update PlatformIO build_flags
+* feat(touch): add touch controller CHSC6540 @VIEWESMART (#128)
+* feat(board): add various viewe boards @VIEWESMART (#128)
+* feat(docs): update FAQ @VIEWESMART (#128)
 
 ### Bugfixes:
 
