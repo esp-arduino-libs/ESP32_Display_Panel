@@ -11,6 +11,7 @@
   - [Where are the installation directory for arduino-esp32 and the SDK located?](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located)
   - [How to fix screen drift issue when driving RGB LCD with ESP32-S3?](#how-to-fix-screen-drift-issue-when-driving-rgb-lcd-with-esp32-s3)
   - [How to Use ESP32\_Display\_Panel on PlatformIO?](#how-to-use-esp32_display_panel-on-platformio)
+  - [How to add an LVGL library and how to configure?](#How-to-add-an-LVGL-library-and-how-to-configure)
 
 ## Where is the directory for Arduino libraries?
 
@@ -82,3 +83,5 @@ When encountering screen drift issue when driving RGB LCD with ESP32-S3, you can
 ## How to Use ESP32_Display_Panel on PlatformIO?
 
 You can refer to the example [PlatformIO](../examples/PlatformIO/) to use the ESP32_Display_Panel library in PlatformIO. By default, it is suitable for the **ESP32-S3-LCD-EV-Board** and **ESP32-S3-LCD-EV-Board-2** development boards. You need to modify the [boards/ESP-LCD.json](../examples/PlatformIO/boards/ESP-LCD.json) file according to the actual situation.
+
+## How to add an LVGL library and how to configure?
