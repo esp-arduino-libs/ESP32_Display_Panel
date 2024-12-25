@@ -86,6 +86,7 @@ You can refer to the example [PlatformIO](../examples/PlatformIO/) to use the ES
 
 ## How to add an LVGL library and how to configure?
 * How to use it normally
+  
   1.Download the LVGL library in Arduino, it is best to choose the `V8.4.0` version.
   
   2.Find the downloaded LVGL library, copy and paste the `lv_conf_template.h` file into the same directory as the LVGL library.
