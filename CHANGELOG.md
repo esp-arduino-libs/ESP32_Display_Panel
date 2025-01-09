@@ -1,5 +1,16 @@
 # ChangeLog
 
+## v0.2.3 - 2025-01-09
+
+### Enhancements:
+
+* feat(examples): update PlatformIO build_flags
+
+### Bugfixes:
+
+* fix(touch): fix GT911 build warning
+* fix(version): fix minor number check @arduinomnomnom (#148)
+
 ## v0.2.2 - 2025-01-09
 
 ### Bugfixes:
