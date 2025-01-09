@@ -205,7 +205,7 @@
 #define ESP_PANEL_TOUCH_IO_RST          (-1)
 #define ESP_PANEL_TOUCH_RST_LEVEL       (0)         // 0: low level, 1: high level
 /* IO num of INT pin, set to -1 if not use */
-#define ESP_PANEL_TOUCH_IO_INT          (-1)
+#define ESP_PANEL_TOUCH_IO_INT          (4)
 #define ESP_PANEL_TOUCH_INT_LEVEL       (0)         // 0: low level, 1: high level
 
 #endif /* ESP_PANEL_USE_TOUCH */
@@ -242,7 +242,7 @@
  * If set to 1, the driver will skip to initialize the corresponding host. Users need to initialize the host in advance.
  * It is useful if other devices use the same host. Please ensure that the host is initialized only once.
  */
-#define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (1)     // 0/1
+#define ESP_PANEL_EXPANDER_SKIP_INIT_HOST       (0)     // 0/1
 /* IO expander parameters */
 #define ESP_PANEL_EXPANDER_HOST_ID              (0)     // Typically set to 0
 #define ESP_PANEL_EXPANDER_I2C_ADDRESS          (0x20)
@@ -259,15 +259,36 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////// Please utilize the following macros to execute any additional code if required. //////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// #define ESP_PANEL_BEGIN_START_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_EXPANDER_START_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_EXPANDER_END_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_LCD_START_FUNCTION( panel )
+
+#define ESP_PANEL_BEGIN_LCD_START_FUNCTION( panel ) \
+    {  \
+        ESP_LOGD(TAG, "Run ESP32_S3_Touch_LCD_7 LCD start function");  \
+        constexpr int LCD_DSIP = 2; \
+        constexpr int LCD_RST = 3; \
+        auto expander = static_cast<ESP_IOExpander_CH422G*>(panel->getExpander()); \
+        expander->enableAllIO_Output(); \
+        expander->digitalWrite(LCD_DSIP, HIGH); \
+        expander->digitalWrite(LCD_RST, HIGH); \
+        vTaskDelay(pdMS_TO_TICKS(100)); \
+    }
+
 // #define ESP_PANEL_BEGIN_LCD_END_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_TOUCH_START_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_TOUCH_END_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_BACKLIGHT_START_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_BACKLIGHT_END_FUNCTION( panel )
-// #define ESP_PANEL_BEGIN_END_FUNCTION( panel )
+
+#define ESP_PANEL_BEGIN_TOUCH_START_FUNCTION( panel ) \
+    {  \
+        ESP_LOGD(TAG, "Run ESP32_S3_Touch_LCD_7 touch start function");  \
+        gpio_num_t touch_int = static_cast<gpio_num_t>(ESP_PANEL_TOUCH_IO_INT); \
+        gpio_num_t touch_rst = static_cast<gpio_num_t>(1); \
+        auto expander = static_cast<ESP_IOExpander_CH422G*>(panel->getExpander()); \
+        gpio_set_direction(touch_int, GPIO_MODE_OUTPUT); \
+        gpio_set_level(touch_int, 0); \
+        vTaskDelay(pdMS_TO_TICKS(10)); \
+        expander->digitalWrite(touch_rst, 0); \
+        vTaskDelay(pdMS_TO_TICKS(100)); \
+        expander->digitalWrite(touch_rst, 1); \
+        vTaskDelay(pdMS_TO_TICKS(200)); \
+        gpio_reset_pin(touch_int); \
+    }
+
 
 // *INDENT-OFF*
