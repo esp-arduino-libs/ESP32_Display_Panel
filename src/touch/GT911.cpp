@@ -43,7 +43,7 @@ bool ESP_PanelTouch_GT911::begin(void)
 
     ESP_PanelBus_I2C *i2c_bus = static_cast<ESP_PanelBus_I2C *>(bus);
     esp_lcd_touch_io_gt911_config_t tp_gt911_config = {
-        .dev_addr = i2c_bus->getI2cAddress(),
+        .dev_addr = static_cast<uint8_t>(i2c_bus->getI2cAddress()),
     };
     if (config.driver_data == NULL) {
         ESP_LOGD(TAG, "Use default GT911 driver data(address: 0x%02x)", tp_gt911_config.dev_addr);

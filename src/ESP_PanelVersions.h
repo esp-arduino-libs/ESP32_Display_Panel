@@ -11,7 +11,7 @@
 /* Library Version */
 #define ESP_PANEL_VERSION_MAJOR 0
 #define ESP_PANEL_VERSION_MINOR 2
-#define ESP_PANEL_VERSION_PATCH 2
+#define ESP_PANEL_VERSION_PATCH 3
 
 /* File `ESP_Panel_Conf.h` */
 #define ESP_PANEL_CONF_VERSION_MAJOR 0
@@ -49,7 +49,7 @@
         #error "The file `ESP_Panel_Conf.h` version is not compatible. Please update it with the file from the library"
     #elif ESP_PANEL_CONF_FILE_VERSION_MINOR < ESP_PANEL_CONF_VERSION_MINOR
         #warning "The file `ESP_Panel_Conf.h` version is outdated. Some new configurations are missing"
-    #elif ESP_PANEL_CONF_FILE_VERSION_PATCH > ESP_PANEL_VERSION_PATCH
+    #elif ESP_PANEL_CONF_FILE_VERSION_MINOR > ESP_PANEL_CONF_VERSION_MINOR
         #warning "The file `ESP_Panel_Conf.h` version is newer than the library. Some new configurations are not supported"
     #endif /* ESP_PANEL_CONF_INCLUDE_INSIDE */
 #endif /* ESP_PANEL_CONF_FILE_SKIP */
@@ -91,11 +91,11 @@
     #if ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR != ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR
         #error "The file `ESP_Panel_Board_Custom.h` version is not compatible. Please update it with the file from the library"
     #endif
-    // Only check the other versions if not skip the file
-    #if !defined(ESP_PANEL_BOARD_FILE_SKIP)
+    // Only check the other versions if not skip the file and not use the supported board
+    #if !defined(ESP_PANEL_BOARD_FILE_SKIP) && !ESP_PANEL_USE_SUPPORTED_BOARD
         #if ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR < ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR
             #warning "The file `ESP_Panel_Board_Custom.h` version is outdated. Some new configurations are missing"
-        #elif ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR > ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH
+        #elif ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR > ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR
             #warning "The file `ESP_Panel_Board_Custom.h` version is newer than the library. Some new configurations are not supported"
         #endif
     #endif
