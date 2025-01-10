@@ -9,6 +9,7 @@
 ### Bugfixes:
 
 * fix(touch): fix GT911 build warning
+* fix(log): fix kernel panic when checking the error @Kanzll (#144)
 * fix(version): fix minor number check @arduinomnomnom (#148)
 
 ## v0.2.2 - 2025-01-09
