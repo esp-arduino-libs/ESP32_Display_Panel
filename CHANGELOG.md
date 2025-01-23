@@ -1,11 +1,26 @@
 # ChangeLog
 
-## v0.2.2 - 2024-12-23
+## v0.2.3 - 2025-01-09
+
+### Enhancements:
+
+* feat(examples): update PlatformIO build_flags
+
+### Bugfixes:
+
+* fix(touch): fix GT911 build warning
+* fix(log): fix kernel panic when checking the error @Kanzll (#144)
+* fix(version): fix minor number check @arduinomnomnom (#148)
+
+## v0.2.2 - 2025-01-09
 
 ### Bugfixes:
 
 * fix(lcd): use 'delete[]' instead of 'delete' for C array shared pointer @FranciscoMoya (#142)
+* fix(lcd): load vendor config from bus
+* fix(board): fix GT911 init error for waveshare boards
 * fix(Kconfig): fix build error on esp-idf and incorrect descriptions @Cathgao (#133)
+* fix(examples): update PlatformIO lib & platform URLs
 
 ## v0.2.1 - 2024-11-14
 
