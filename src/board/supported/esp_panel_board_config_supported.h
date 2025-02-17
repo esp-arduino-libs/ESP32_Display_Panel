@@ -89,6 +89,7 @@
         + defined(BOARD_M5STACK_M5CORES3) \
         /* JingCai */ \
         + defined(BOARD_JINGCAI_ESP32_4848S040C_I_Y_3) \
+        + defined(BOARD_JINGCAI_JC8048W550C) \
         /* Waveshare */ \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85) \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1) \
@@ -154,6 +155,8 @@
     /* Jingcai */
     #elif defined(BOARD_JINGCAI_ESP32_4848S040C_I_Y_3)
         #include "jingcai/BOARD_JINGCAI_ESP32_4848S040C_I_Y_3.h"
+    #elif defined(BOARD_JINGCAI_JC8048W550C)
+        #include "jingcai/BOARD_JINGCAI_JC8048W550C.h"
     /* Waveshare */
     #elif defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85)
         #include "waveshare/BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85.h"

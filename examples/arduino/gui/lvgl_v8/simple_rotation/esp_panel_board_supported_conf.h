@@ -83,8 +83,11 @@
  *  -BOARD_JINGCAI_ESP32_4848S040C_I_Y_3 (ESP32-4848S040C_I_Y_3):
  *      - https://www.displaysmodule.com/sale-41828962-experience-the-power-of-the-esp32-display-module-sku-esp32-4848s040c-i-y-3.html
  *      - http://pan.jczn1688.com/directlink/1/ESP32%20module/4.0inch_ESP32-4848S040.zip
+ *  -BOARD_JINGCAI_JC8048W550C (JC8048W550C):
+ *      - https://www.displaysmodule.com/sale-43987867-capacitive-touch-advanced-tft-hmi-display-module-jc8048w550-800-480-pixel-resolution-st7262-driver-c.html
  */
 // #define BOARD_JINGCAI_ESP32_4848S040C_I_Y_3
+// #define BOARD_JINGCAI_JC8048W550C
 
 /*
  * Waveshare Supported Boards (https://www.waveshare.com/):

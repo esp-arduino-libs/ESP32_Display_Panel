@@ -34,6 +34,7 @@
 * feat(lcd): add LCD controller AXS15231B, HX8399, JD9165, ST7703, ST77903(RGB)
 * feat(touch): add touch controller AXS15231B, STMPE610, SPD2010
 * feat(backlight): add backlight device Custom, SwitchExpander
+* feat(board): add board Jingcai:JC8048W550C @lsroka76 (#132)
 
 ### Bugfixes:
 
