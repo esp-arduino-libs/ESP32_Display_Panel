@@ -8,68 +8,119 @@
 
 * [English Version](./README.md)
 
-ESP32_Display_Panel 是专为 ESP SoCs 设计的用于驱动显示屏并实现快速 GUI 开发的库。用户不仅可以直接开发多款[内部支持的开发板](docs/Board_Instructions.md)，还可以通过简单的适配来开发自定义的开发板。此外，ESP32_Display_Panel 还适配了多款 LCD 和触摸的驱动，用户也可以根据需要使用独立的驱动进行开发。
-
-ESP32_Display_Panel 内部集成了多个[乐鑫组件库](https://components.espressif.com/)中显示屏相关的驱动组件，它可以直接从该组件库或从 Arduino IDE 中下载获取，因此用户可以基于 [Arduino](https://github.com/espressif/arduino-esp32) IDE 或 [ESP-IDF](https://github.com/espressif/esp-idf) 框架进行开发。
-
 ## 概述
 
-ESP32_Display_Panel 的功能框图如下所示，主要包含以下特性：
+ESP32_Display_Panel 是 Espressif 专为 ESP 系列 SoCs（ESP32、ESP32-S3、ESP32-P4 等）设计的用于 **驱动屏幕** 和 **移植 GUI** 的库，它支持多种开发框架，包括 [ESP-IDF](https://github.com/espressif/esp-idf)、[Arduino](https://github.com/espressif/arduino-esp32) 和 [MicroPython](https://github.com/micropython/micropython)。
 
-- 支持多种 **Espressif** 官方及第三方开发板，包括 **M5Stack**、**Elecrow**、**Waveshare** 等。
-- 支持适配 **自定义的开发板**。
-- 支持多种类型的设备驱动，包括 **接口总线**、**LCD**、**触摸**、**背光** 和 **IO 扩展**。
-- 支持动态配置驱动，如开启调试 LOG 等。
-- 支持使用 **Arduino** IDE 或 **ESP-IDF** 框架进行编译。
+该库集成了 Espressif 官方适配的大多数 [屏幕相关组件](https://components.espressif.com/components?q=esp_lcd)，可用于驱动不同接口总线和型号的显示（触摸）屏。该库还提供了 `背光控制`、`IO 扩展` 等屏幕常用功能，并与 `显示` 和 `触摸` 整合组成完整的开发板屏幕驱动方案，开发者可以基于 [支持的开发板](#支持的开发板) 或 `自定义开发板` 进行一站式的 GUI 应用开发。
+
+ESP32_Display_Panel 的主要特性如下：
+
+- 支持多种屏幕相关驱动，包括 `接口总线`、`LCD`、`触摸`、`背光` 和 `IO 扩展`
+- 支持多款 `Espressif` 官方及第三方带屏开发板，包括 `M5Stack`、`Elecrow`、`Waveshare`、`VIEWE` 等
+- 支持自定义开发板配置
+- 支持灵活调整驱动配置和参数
+- 支持 `ESP-IDF`、`Arduino` 和 `MicroPython` 开发框架
+
+功能框图如下：
 
 <div align="center"><img src="docs/_static/block_diagram.png" alt ="块图" width="600"></div>
 
+## 目录
+
+- [ESP Display Panel](#esp-display-panel)
+  - [概述](#概述)
+  - [目录](#目录)
+  - [如何使用](#如何使用)
+  - [支持的开发板](#支持的开发板)
+  - [支持的控制器](#支持的控制器)
+    - [LCD 控制器](#lcd-控制器)
+    - [触摸控制器](#触摸控制器)
+  - [常见问题及解答](#常见问题及解答)
+
 ## 如何使用
 
-请参阅文档 - [如何使用](./docs/How_To_Use_CN.md) 。
+📖 以下是 ESP32_Display_Panel 在不同开发环境中的使用指南：
 
-## 支持的开发板和驱动
+* [ESP-IDF](./docs/envs/use_with_idf_cn.md)
+* [Arduino IDE](./docs/envs/use_with_arduino_cn.md)
+* [PlatformIO](./examples/platformio/lvgl_v8_port/README.md)
 
-### 开发板
+## 支持的开发板
 
-下面是支持的[开发板列表](docs/Board_Instructions.md)：
+📋 以下是 ESP32_Display_Panel 支持的开发板列表：
 
-| **厂商** | **开发板型号** |
+| **制造商** | **型号** |
 | -------- | -------------- |
-| [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG, ESP32-P4-Function-EV-Board |
-| [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
-| [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0" |
-| [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
+| [Espressif](./docs/board/board_espressif.md) | ESP32-C3-LCDkit、ESP32-S3-BOX、ESP32-S3-BOX-3、ESP32-S3-BOX-3B、ESP32-S3-BOX-3(beta)、ESP32-S3-BOX-Lite、ESP32-S3-EYE、ESP32-S3-Korvo-2、ESP32-S3-LCD-EV-Board、ESP32-S3-LCD-EV-Board-2、ESP32-S3-USB-OTG、ESP32-P4-Function-EV-Board |
+| [M5Stack](./docs/board/board_m5stack.md) | M5STACK-M5CORE2、M5STACK-M5DIAL、M5STACK-M5CORES3 |
+| [Elecrow](./docs/board/board_elecrow.md) | CrowPanel 7.0" |
+| [Jingcai](./docs/board/board_jingcai.md) | ESP32-4848S040C_I_Y_3 |
+| [Waveshare](./docs/board/board_waveshare.md) | ESP32-S3-Touch-LCD-1.85、ESP32-S3-Touch-LCD-2.1、ESP32-S3-Touch-LCD-4.3、ESP32-S3-Touch-LCD-4.3B、ESP32-S3-Touch-LCD-5、ESP32-S3-Touch-LCD-5B、ESP32-S3-Touch-LCD-7、ESP32-P4-NANO |
+| [VIEWE](./docs/board/board_viewe.md) | UEDX24320024E-WB-A、UEDX24320028E-WB-A、UEDX24320035E-WB-A、UEDX32480035E-WB-A、UEDX48270043E-WB-A、UEDX48480040E-WB-A、UEDX80480043E-WB-A、UEDX80480050E-WB-A、UEDX80480070E-WB-A |
 
-欢迎开发者和厂商贡献 PR 来添加更多的开发板，详细说明请参考 [`开发板贡献指南`](./docs/Board_Contribution_Guide_CN.md)。
+📌 详细说明请点击制造商名称查看。
+
+💡 欢迎开发者和制造商提交 PR 来贡献更多开发板支持。
+
+## 支持的控制器
 
 ### LCD 控制器
 
-下面是支持的 [LCD 控制器列表](docs/LCD_Controllers.md)：
+📋 以下是 ESP32_Display_Panel 支持的 LCD 控制器列表：
 
-| **厂商** | **型号** |
+| **制造商** | **型号** |
 | -------- | -------- |
-| Fitipower | EK9716B, EK79007 |
-| GalaxyCore | GC9A01, GC9B71, GC9503 |
-| Ilitek | ILI9341, ILI9881C |
-| JADARD | JD9365 |
+| AXS | AXS15231B |
+| Fitipower | EK9716B、EK79007 |
+| GalaxyCore | GC9A01、GC9B71、GC9503 |
+| Himax | HX8399 |
+| Ilitek | ILI9341、ILI9881C |
+| JADARD | JD9165、JD9365 |
 | NewVision | NV3022B |
-| Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
+| SHENGHE | SH8601 |
+| Sitronix | ST7262、ST7701、ST7703、ST7789、ST7796、ST77903、ST77916、ST77922 |
+| Solomon Systech | SPD2010 |
+
+📌 详细说明请参阅 [支持的 LCD 控制器](./docs/drivers/lcd.md)。
 
 ### 触摸控制器
 
-下面是支持的 [触摸控制器列表](docs/Touch_Controllers.md)：
+📋 以下是 ESP32_Display_Panel 支持的触摸控制器列表：
 
-| **厂商** | **型号** |
+| **制造商** | **型号** |
 | -------- | -------- |
+| AXS | AXS15231B |
+| Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
-| GOODiX | GT911, GT1151 |
+| GOODiX | GT911、GT1151 |
 | Hynitron | CST816S |
 | Parade | TT21100 |
-| Sitronix | ST7123 |
+| Sitronix | ST7123、ST1633 |
+| Solomon Systech | SPD2010 |
+| ST | STMPE610 |
 | Xptek | XPT2046 |
 
-## 常见问题解答
+📌 详细说明请参阅 [支持的触摸控制器](./docs/drivers/touch.md)。
 
-请参阅文档 - [常见问题解答](./docs/FAQ_CN.md) 。
+## 常见问题及解答
+
+🔍 下面列举了在不同开发环境中常见的问题：
+
+* [Arduino IDE](./docs/envs/use_with_arduino_cn.md#常见问题及解答)
+
+  * [Arduino 库的目录在哪儿？](./docs/envs/use_with_arduino_cn.md#arduino-库的目录在哪儿)
+  * [arduino-eps32 的安装目录以及 SDK 的目录在哪儿？](./docs/envs/use_with_arduino_cn.md#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)
+  * [如何在 Arduino IDE 中安装 ESP32_Display_Panel？](./docs/envs/use_with_arduino_cn.md#如何在-arduino-ide-中安装-esp32_display_panel)
+  * [如何在 Arduino IDE 中选择和配置支持的开发板？](./docs/envs/use_with_arduino_cn.md#如何在-arduino-ide-中选择和配置支持的开发板)
+  * [如何在 Arduino IDE 中使用 SquareLine 导出的 UI 源文件？](./docs/envs/use_with_arduino_cn.md#如何在-arduino-ide-中使用-squareline-导出的-ui-源文件)
+  * [在 Arduino IDE 中使用库点不亮屏幕，如何调试？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用库点不亮屏幕，如何调试)
+  * [在 Arduino IDE 中打开串口调试器看不到日志信息或日志信息显示不全，如何解决？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中打开串口调试器看不到日志信息或日志信息显示不全如何解决)
+  * [在 Arduino IDE 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
+  * [在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何降低其 Flash 占用及加快编译速度？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32_display_panel-时如何降低其-flash-占用及加快编译速度)
+
+* [ESP-IDF](./docs/envs/use_with_idf_cn.md#常见问题及解答)
+
+  * [在 ESP-IDF 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](./docs/envs/use_with_idf_cn.md#在-esp-idf-中使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
+  * [在 ESP-IDF 中使用 ESP32_Display_Panel 时，如何降低其 Flash 占用及加快编译速度？](./docs/envs/use_with_idf_cn.md#在-esp-idf-中使用-esp32_display_panel-时如何降低其-flash-占用及加快编译速度)
+  * [在 ESP-IDF 中驱动 LCD 遇到其他问题](./docs/envs/use_with_idf_cn.md#在-esp-idf-中驱动-lcd-遇到其他问题)

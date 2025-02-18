@@ -1,10 +1,40 @@
 # ChangeLog
 
-## v0.2.3 - 2025-01-09
+## v1.0.0 - 2025-02-17
+
+### Breaking changes:
+
+* Rename configuration files to follow consistent naming convention:
+
+  * `ESP_Panel_Board_Custom.h` -> `esp_panel_board_custom_conf.h`
+  * `ESP_Panel_Board_Support.h` -> `esp_panel_board_supported_conf.h`
+  * `ESP_Panel_Conf.h` -> `esp_panel_drivers_conf.h`
+
+* Modernize codebase organization:
+
+  * Add namespaces for better code organization:
+
+    * `esp_panel::utils` - Utility functions and classes
+    * `esp_panel::drivers` - Device drivers
+    * `esp_panel::board` - Board driver
+
+  * Deprecate legacy `ESP_Panel*` class names in favor of namespaced versions
+
+* Add external dependency on `esp-lib-utils` library
+* Add support for dynamic board configuration loading at runtime
 
 ### Enhancements:
 
 * feat(examples): update PlatformIO build_flags
+* feat(touch): add touch controller CHSC6540 @VIEWESMART (#128)
+* feat(board): add various viewe boards @VIEWESMART (#128)
+* feat(docs): update FAQ @VIEWESMART (#128)
+* feat(repo): refactor with using esp-lib-utils
+* feat(repo): support build on the MicroPython
+* feat(lcd): add LCD controller AXS15231B, HX8399, JD9165, ST7703, ST77903(RGB)
+* feat(touch): add touch controller AXS15231B, STMPE610, SPD2010
+* feat(backlight): add backlight device Custom, SwitchExpander
+* feat(board): add board Jingcai:JC8048W550C @lsroka76 (#132)
 
 ### Bugfixes:
 
@@ -48,7 +78,7 @@
 * feat(board): add support for Waveshare ESP32-S3-Touch-LCD-2.1 @martinroger (#117)
 * feat(board): add support for Espressif ESP32-P4-Function-EV-Board
 * feat(examples): add MIPI-DSI LCD
-* feat(examples): optimize anti-tear rotation in lvgl_port_v8
+* feat(examples): optimize anti-tear rotation in lvgl_v8_port
 * feat(ci): update for MIPI-DSI LCD
 * feat(test_apps): add MIPI-DSI LCD
 
@@ -85,7 +115,7 @@
 * fix(examples): fix WiFiClock log HTTP error code to serial console by @lboue (#97)
 * fix(examples): fix WiFiClock description
 * fix(gt911): allow to set the GT911 touch device address by @lboue (#86)
-* fix(conf): fix the issue that the `ESP_PANEL_EXPANDER_HOST_ID` flag is not working properly
+* fix(conf): fix the issue that the `ESP_PANEL_BOARD_EXPANDER_I2C_HOST_ID` flag is not working properly
 * fix(conf): fix `LCD Venbdor` typo (#92)
 
 ## v0.1.5 - 2024-07-09
@@ -96,12 +126,12 @@
 * feat(lvgl_port): set the lvgl task to run on the same core as the Arduino task by default
 * feat(board): increase the RGB pclk frequency to 26MHz for `ESP32_4848S040C_I_Y_3`
 * feat(board): add new board `elecrow: CROWPANEL_7_0` by @lboue (#71)
-* feat(conf): add connection comments for the RGB pins in *ESP_Panel_Board_Custom.h* (#58, #68)
+* feat(conf): add connection comments for the RGB pins in *esp_panel_board_custom.h* (#58, #68)
 
 ### Bugfixes:
 
 * fix(panel): init expander host with correct macro (#65)
-* fix(panel): don't reset the LCD if the bus is RGB bus and the `ESP_PANEL_LCD_FLAGS_AUTO_DEL_PANEL_IO` is enabled
+* fix(panel): don't reset the LCD if the bus is RGB bus and the `ESP_PANEL_BOARD_LCD_FLAGS_ENABLE_IO_MULTIPLEX` is enabled
 * fix(examples): fix lvgl port rotation issue when enabling avoid tearing by @NecroMancer05
 * fix(pre-commit): switch to Python 3 for pre-commit @lboue (#70)
 * fix(docs): specify lvgl version >= v8.3.9 and < 9

@@ -2,7 +2,7 @@
 #
 # Checks that all links in the readme markdown files are valid
 #
-# SPDX-FileCopyrightText: 2022-2024 Espressif Systems (Shanghai) CO LTD
+# SPDX-FileCopyrightText: 2022-2025 Espressif Systems (Shanghai) CO LTD
 # SPDX-License-Identifier: Apache-2.0
 #
 
@@ -35,6 +35,11 @@ EXCLUDE_URL_LIST = [
     'https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm',
     'https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm',
     'https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-4.3B.htm',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-5.htm?sku=28117',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-5.htm?sku=28151',
+    'https://www.waveshare.com/esp32-s3-touch-lcd-7.htm',
+    'https://www.waveshare.com/esp32-p4-nano.htm',
 ]
 
 Link = namedtuple('Link', ['file', 'url'])

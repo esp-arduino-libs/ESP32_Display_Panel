@@ -6,70 +6,121 @@
 
 # ESP Display Panel
 
-* [中文版本](./README_CN.md)
-
-ESP32_Display_Panel is a library designed specifically for ESP SoCs to drive display screens and enable rapid GUI development. Users can develop on multiple [internally supported development boards](#Development-Boards) directly or use simple adaptations for custom boards. Additionally, ESP32_Display_Panel supports various LCD and touch drivers, allowing users to develop with standalone drivers as needed.
-
-ESP32_Display_Panel integrates multiple display-related driver components from the [ESP Component Registry](https://components.espressif.com/). It can be obtained directly from the Espressif's server or downloaded from the Arduino IDE, enabling development with either the [Arduino](https://github.com/espressif/arduino-esp32) IDE or the [ESP-IDF](https://github.com/espressif/esp-idf) framework.
+* [中文版](./README_CN.md)
 
 ## Overview
 
-The functional block diagram of ESP32_Display_Panel is shown below and includes the following features:
+ESP32_Display_Panel is a **display driver** and **GUI porting** library designed by Espressif specifically for ESP series SoCs (ESP32, ESP32-S3, ESP32-P4, etc.). It supports multiple development frameworks including [ESP-IDF](https://github.com/espressif/esp-idf), [Arduino](https://github.com/espressif/arduino-esp32), and [MicroPython](https://github.com/micropython/micropython).
 
-- Supports a variety of **Espressif** official and third-party development boards, including **M5Stack**, **Elecrow**, **Waveshare**, and others.
-- Supports **custom development board** adaptation.
-- Supports a variety of device drivers, including interface **Bus**, **LCD**, **Touch**, **Backlight** and **IO Expander**.
-- Supports dynamic driver configuration, such as enabling debug logs.
-- Compatible with the **Arduino** IDE and **ESP-IDF** framework for compilation.
+This library integrates most of Espressif's officially adapted [display-related components](https://components.espressif.com/components?q=esp_lcd), which can be used to drive displays (touch screens) with different interfaces and models. Additionally, the library provides common display features such as `backlight control` and `IO expander`, and integrates these features with `display` and `touch` functionality to form a complete display board driver solution. Developers can perform one-stop GUI application development based on [supported boards](#supported-boards) or `custom boards`.
+
+ESP32_Display_Panel's main features include:
+
+- Support for various display-related drivers, including `interface bus`, `LCD`, `touch`, `backlight`, and `IO expander`
+- Support for multiple Espressif official and third-party display boards, including `M5Stack`, `Elecrow`, `Waveshare`, `VIEWE`, etc.
+- Support for custom board configuration
+- Support for flexible driver configuration and parameters
+- Support for `ESP-IDF`, `Arduino`, and `MicroPython` development frameworks
+
+The functional block diagram is shown below:
 
 <div align="center"><img src="docs/_static/block_diagram.png" alt ="Block Diagram" width="600"></div>
 
+## Table of Contents
+
+- [ESP Display Panel](#esp-display-panel)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [How to Use](#how-to-use)
+  - [Supported Boards](#supported-boards)
+  - [Supported Controllers](#supported-controllers)
+    - [LCD Controllers](#lcd-controllers)
+    - [Touch Controllers](#touch-controllers)
+  - [FAQ](#faq)
+
 ## How to Use
 
-Please refer to the documentation - [How to Use](./docs/How_To_Use.md).
+📖 Here are the usage guides for ESP32_Display_Panel in different development environments:
 
-## Supported Development Boards and Drivers
+* [ESP-IDF](./docs/envs/use_with_idf.md)
+* [Arduino IDE](./docs/envs/use_with_arduino.md)
+* [PlatformIO](./examples/platformio/lvgl_v8_port/README.md)
 
-### Development Boards
+## Supported Boards
 
-Below is the list of [Supported Development Boards](docs/Board_Instructions.md):
+📋 Here is the list of boards supported by ESP32_Display_Panel:
 
-| **Manufacturer** | **Board Model** |
-| ---------------- | --------------- |
-| [Espressif](docs/Board_Instructions.md#espressif) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG, ESP32-P4-Function-EV-Board |
-| [Elecrow](docs/Board_Instructions.md#elecrow) | CrowPanel 7.0" |
-| [M5Stack](docs/Board_Instructions.md#m5stack) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
-| [Jingcai](docs/Board_Instructions.md#shenzhen-jingcai-intelligent) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](docs/Board_Instructions.md#waveshare) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
+| **Manufacturer** | **Model** |
+| --------------- | --------- |
+| [Espressif](./docs/board/board_espressif.md) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG, ESP32-P4-Function-EV-Board |
+| [M5Stack](./docs/board/board_m5stack.md) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
+| [Elecrow](./docs/board/board_elecrow.md) | CrowPanel 7.0" |
+| [Jingcai](./docs/board/board_jingcai.md) | ESP32-4848S040C_I_Y_3 |
+| [Waveshare](./docs/board/board_waveshare.md) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
+| [VIEWE](./docs/board/board_viewe.md) | UEDX24320024E-WB-A, UEDX24320028E-WB-A, UEDX24320035E-WB-A, UEDX32480035E-WB-A, UEDX48270043E-WB-A, UEDX48480040E-WB-A, UEDX80480043E-WB-A, UEDX80480050E-WB-A, UEDX80480070E-WB-A |
 
-Developers and manufacturers are welcome to contribute PRs to add more boards. For details, please refer to the [Board Contribution Guide](./docs/Board_Contribution_Guide.md).
+📌 Click on the manufacturer name for detailed information.
+
+💡 Developers and manufacturers are welcome to submit PRs to contribute support for more boards.
+
+## Supported Controllers
 
 ### LCD Controllers
 
-Below is the list of [Supported LCD Controllers](docs/LCD_Controllers.md):
+📋 Here is the list of LCD controllers supported by ESP32_Display_Panel:
 
 | **Manufacturer** | **Model** |
-| ---------------- | --------- |
-| Fitipower | EK9716B, EK79007 |
-| GalaxyCore | GC9A01, GC9B71, GC9503 |
-| Ilitek | ILI9341, ILI9881C |
-| JADARD | JD9365 |
+| --------------- | --------- |
+| AXS | AXS15231B |
+| Fitipower | EK9716B、EK79007 |
+| GalaxyCore | GC9A01、GC9B71、GC9503 |
+| Himax | HX8399 |
+| Ilitek | ILI9341、ILI9881C |
+| JADARD | JD9165、JD9365 |
 | NewVision | NV3022B |
-| Sitronix | ST7262, ST7701, ST7789, ST7796, ST77916, ST77922 |
+| SHENGHE | SH8601 |
+| Sitronix | ST7262、ST7701、ST7703、ST7789、ST7796、ST77903、ST77916、ST77922 |
+| Solomon Systech | SPD2010 |
+
+📌 For detailed information, please refer to [Supported LCD Controllers](./docs/drivers/lcd.md).
 
 ### Touch Controllers
 
-Below is the list of [Supported Touch Controllers](docs/Touch_Controllers.md):
+📋 Here is the list of touch controllers supported by ESP32_Display_Panel:
 
 | **Manufacturer** | **Model** |
-| ---------------- | --------- |
+| --------------- | --------- |
+| AXS | AXS15231B |
+| Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
-| GOODiX | GT911, GT1151 |
+| GOODiX | GT911、GT1151 |
 | Hynitron | CST816S |
 | Parade | TT21100 |
-| Sitronix | ST7123 |
+| Sitronix | ST7123、ST1633 |
+| Solomon Systech | SPD2010 |
+| ST | STMPE610 |
 | Xptek | XPT2046 |
+
+📌 For detailed information, please refer to [Supported Touch Controllers](./docs/drivers/touch.md).
 
 ## FAQ
 
-Please refer to the documentation - [FAQ](./docs/FAQ.md).
+🔍 Here are common issues in different development environments:
+
+* [Arduino IDE](./docs/envs/use_with_arduino.md#faq)
+
+  * [Where is the Arduino library directory?](./docs/envs/use_with_arduino.md#where-is-the-arduino-library-directory)
+  * [Where are the arduino-esp32 installation directory and SDK directory?](./docs/envs/use_with_arduino.md#where-are-the-arduino-esp32-installation-directory-and-sdk-directory)
+  * [How to install ESP32_Display_Panel in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-install-esp32_display_panel-in-arduino-ide)
+  * [How to select and configure supported boards in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-select-and-configure-supported-boards-in-arduino-ide)
+  * [How to use SquareLine exported UI source files in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-use-squareline-exported-ui-source-files-in-arduino-ide)
+  * [How to debug when the screen doesn't light up using the library in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-debug-when-the-screen-doesnt-light-up-using-the-library-in-arduino-ide)
+  * [How to reduce Flash usage and speed up compilation when using ESP32_Display_Panel in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-reduce-flash-usage-and-speed-up-compilation-when-using-esp32_display_panel-in-arduino-ide)
+  * [Can't see log messages or messages are incomplete in Arduino IDE's Serial Monitor, how to fix?](./docs/envs/use_with_arduino.md#can-t-see-log-messages-or-messages-are-incomplete-in-arduino-ides-serial-monitor-how-to-fix)
+  * [Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in Arduino IDE](./docs/envs/use_with_arduino.md#solution-for-screen-drift-issue-when-using-esp32-s3-to-drive-rgb-lcd-in-arduino-ide)
+
+* [ESP-IDF](./docs/envs/use_with_idf.md#faq)
+
+  * [Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in ESP-IDF](./docs/envs/use_with_idf.md#solution-for-screen-drift-issue-when-using-esp32-s3-to-drive-rgb-lcd-in-esp-idf)
+  * [How to reduce Flash usage and speed up compilation when using ESP32_Display_Panel in ESP-IDF?](./docs/envs/use_with_idf.md#how-to-reduce-flash-usage-and-speed-up-compilation-when-using-esp32_display_panel-in-esp-idf)
+  * [Other LCD issues in ESP-IDF](./docs/envs/use_with_idf.md#other-lcd-issues-in-esp-idf)
