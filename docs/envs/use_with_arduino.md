@@ -49,9 +49,11 @@
 - Open Arduino IDE
 - Navigate to `File` > `Preferences`
 - Add to `Additional boards manager URLs`:
-    ```
-    https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-    ```
+
+  ```
+  https://espressif.github.io/arduino-esp32/package_esp32_index.json
+  ```
+
 - Navigate to `Tools` > `Board` > `Boards Manager`
 - Search for `esp32` by `Espressif Systems` and install the required version (see [SDK & Dependencies](#sdk--dependencies))
 
@@ -65,7 +67,7 @@
 
 1. **Select and Configure Board**
 
-- Navigate to `Tools` > `Board` > `ESP32`
+- Navigate to `Tools` > `Board` > `esp32`
 - Select your board model. If you can't find a matching model, refer to:
 
   - If using a [supported board](../../README.md#supported-boards), see [Configuring Arduino IDE](#configuring-arduino-ide)
@@ -74,7 +76,7 @@
 2. **Open Example**
 
 - Navigate to `File` > `Examples` > `ESP32_Display_Panel`
-- Select `Board` > [`board_static_config`](../../examples/arduino/board/board_static_config/)
+- Select `Arduino` > `board` > [`board_static_config`](../../examples/arduino/board/board_static_config/)
 
 3. **Modify Code**
 
