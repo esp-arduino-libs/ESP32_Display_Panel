@@ -13,7 +13,7 @@ This example demonstrates how to port `LVGL v8`. And for `RGB/MIPI-DSI` interfac
 
 - [Optional] `ESP32_Display_Panel`:
 
-  - This example already has the [esp_panel_drivers_conf.h](./src/esp_panel_drivers_conf.h) configuration file in the project directory. Edit this file as needed
+  - This example already has the [esp_panel_board_custom_conf.h](./src/esp_panel_board_custom_conf.h) and [esp_panel_drivers_conf.h](./src/esp_panel_drivers_conf.h) configuration files in the project directory. Edit these files as needed
   - see [Board Configuration Guide](../../../docs/envs/use_with_arduino.md#configuration-guide) for more information
 
 - [Optional] `esp-lib-utils` :
@@ -65,6 +65,7 @@ This example demonstrates how to port `LVGL v8`. And for `RGB/MIPI-DSI` interfac
 
     - Modify the [BOARD_CUSTOM.json](./boards/BOARD_CUSTOM.json) board file by referring to a supported board file which has the same chip as your board.
     - Modify the `[env:BOARD_CUSTOM]` board env in the *platformio.ini* file as needed
+    - Modify the *esp_panel_board_custom_conf.h* file and set `ESP_PANEL_BOARD_DEFAULT_USE_CUSTOM` to `1`. Then change other configurations as needed in the file
 
   - See [PlatformIO Docs](https://docs.platformio.org/en/latest/projectconf/index.html) for more information
 

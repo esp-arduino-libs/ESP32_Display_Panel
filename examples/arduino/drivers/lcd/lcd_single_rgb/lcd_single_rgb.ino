@@ -13,8 +13,8 @@ using namespace esp_panel::drivers;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Currently, the library supports the following RGB (without 3-wire SPI) LCDs:
- *      - ST7262
  *      - EK9716B
+ *      - ST7262
  */
 #define EXAMPLE_LCD_NAME                    ST7262
 #define EXAMPLE_LCD_WIDTH                   (800)

@@ -49,9 +49,11 @@
 - 打开 Arduino IDE
 - 导航到 `File` > `Preferences`
 - 在 `Additional boards manager URLs` 中添加:
-    ```
-    https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-    ```
+
+  ```
+  https://espressif.github.io/arduino-esp32/package_esp32_index.json
+  ```
+
 - 导航到 `Tools` > `Board` > `Boards Manager`
 - 搜索 `esp32` by `Espressif Systems` 并安装符合要求的版本（参阅 [SDK 及依赖库](#sdk-及依赖库)）
 
@@ -65,7 +67,7 @@
 
 1. **选择和配置开发板**
 
-- 导航到 `Tools` > `Board` > `ESP32`
+- 导航到 `Tools` > `Board` > `esp32`
 - 选择您的开发板型号。如果未找到匹配的型号，请参考以下信息：
 
   * 如果您正在使用 [支持的开发板](../../README_CN.md#支持的开发板)，可以参阅 [配置 Arduino IDE](#配置-arduino-ide)
@@ -74,7 +76,7 @@
 2. **打开示例**
 
 - 导航到 `File` > `Examples` > `ESP32_Display_Panel`
-- 选择 `Board` > [`board_static_config`](../../examples/arduino/board/board_static_config/)
+- 选择 `Arduino` > `board` > [`board_static_config`](../../examples/arduino/board/board_static_config/)
 
 3. **修改代码**
 

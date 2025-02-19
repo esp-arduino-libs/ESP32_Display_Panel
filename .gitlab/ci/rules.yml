@@ -10,110 +10,79 @@
 
 # component general files
 .patterns-component_general: &patterns-component_general
+  - "src/esp_panel_conf_internal.h"
+  - "src/esp_panel_types.h"
+  - "src/esp_panel_versions.h"
   - "CMakeLists.txt"
   - "idf_component.yml"
   - "Kconfig"
 
 # component utils files
-.patterns-component_utils: &patterns-component_utils
-  - .patterns-component_general
+.patterns-component_utils_all: &patterns-component_utils_all
   - "src/utils/**/*"
 
 # component drivers-general files
 .patterns-component_drivers_general: &patterns-component_drivers_general
-  - .patterns-component_general
-  - .patterns-component_utils
   - "esp_panel_drivers_conf.h"
   - "src/drivers/esp_panel_drivers_conf_internal.h"
   - "src/drivers/Kconfig.drivers"
 
 # component drivers-backlight files
-.patterns-component_drivers_backlight: &patterns-component_drivers_backlight
-  - .patterns-component_drivers_general
+.patterns-component_drivers_backlight_all: &patterns-component_drivers_backlight_all
   - "src/drivers/backlight/**/*"
 
 # component drivers-host files
 .patterns-component_drivers_host_general: &patterns-component_drivers_host_general
-  - .patterns-component_drivers_general
   - "src/drivers/host/esp_panel_host.*"
 
 .patterns-component_drivers_host_dsi: &patterns-component_drivers_host_dsi
-  - .patterns-component_drivers_host_general
   - "src/drivers/host/port/esp_panel_host_dsi.*"
 
 .patterns-component_drivers_host_i2c: &patterns-component_drivers_host_i2c
-  - .patterns-component_drivers_host_general
   - "src/drivers/host/port/esp_panel_host_i2c.*"
 
 .patterns-component_drivers_host_spi: &patterns-component_drivers_host_spi
-  - .patterns-component_drivers_host_general
   - "src/drivers/host/port/esp_panel_host_spi.*"
 
 .patterns-component_drivers_host_all: &patterns-component_drivers_host_all
-  - .patterns-component_drivers_host_dsi
-  - .patterns-component_drivers_host_i2c
-  - .patterns-component_drivers_host_spi
+  - "src/drivers/host/**/*"
 
 # component drivers-bus files
 .patterns-component_drivers_bus_general: &patterns-component_drivers_bus_general
-  - .patterns-component_drivers_general
   - "src/drivers/bus/esp_panel_bus_conf_internal.h"
   - "src/drivers/bus/esp_panel_bus.*"
   - "src/drivers/bus/Kconfig.bus"
 
 .patterns-component_drivers_bus_dsi: &patterns-component_drivers_bus_dsi
-  - .patterns-component_drivers_bus_general
-  - .patterns-component_drivers_host_dsi
   - "src/drivers/bus/port/esp_panel_bus_dsi.*"
 
 .patterns-component_drivers_bus_i2c: &patterns-component_drivers_bus_i2c
-  - .patterns-component_drivers_bus_general
-  - .patterns-component_drivers_host_i2c
   - "src/drivers/bus/port/esp_panel_bus_i2c.*"
 
 .patterns-component_drivers_bus_qspi: &patterns-component_drivers_bus_qspi
-  - .patterns-component_drivers_bus_general
-  - .patterns-component_drivers_host_spi
   - "src/drivers/bus/port/esp_panel_bus_qspi.*"
 
 .patterns-component_drivers_bus_rgb: &patterns-component_drivers_bus_rgb
-  - .patterns-component_drivers_bus_general
   - "src/drivers/bus/port/esp_panel_bus_rgb.*"
 
 .patterns-component_drivers_bus_3wire_spi_rgb: &patterns-component_drivers_bus_3wire_spi_rgb
-  - .patterns-component_drivers_bus_rgb
   - "src/drivers/bus/port/esp_lcd_panel_io_3wire_spi.c"
   - "src/drivers/bus/port/esp_lcd_panel_io_additions.h"
 
 .patterns-component_drivers_bus_spi: &patterns-component_drivers_bus_spi
-  - .patterns-component_drivers_bus_general
-  - .patterns-component_drivers_host_spi
   - "src/drivers/bus/port/esp_panel_bus_spi.*"
 
 .patterns-component_drivers_bus_all: &patterns-component_drivers_bus_all
-  - .patterns-component_drivers_bus_dsi
-  - .patterns-component_drivers_bus_i2c
-  - .patterns-component_drivers_bus_qspi
-  - .patterns-component_drivers_bus_rgb
-  - .patterns-component_drivers_bus_3wire_spi_rgb
-  - .patterns-component_drivers_bus_spi
-
-# component dirvers-io_expander files
-.patterns-component_drivers_io_expander_all: &patterns-component_drivers_io_expander_all
-  - .patterns-component_drivers_general
-  - "src/drivers/io_expander/**/*"
+  - "src/drivers/bus/**/*"
 
 # component drivers-lcd files
 .patterns-component_drivers_lcd_general: &patterns-component_drivers_lcd_general
-  - .patterns-component_drivers_general
   - "src/drivers/lcd/port/esp_panel_lcd_vendor_types.h"
   - "src/drivers/lcd/esp_panel_lcd_conf_internal.h"
   - "src/drivers/lcd/esp_panel_lcd.*"
   - "src/drivers/lcd/Kconfig.lcd"
 
 .patterns-component_drivers_lcd_mipi_dsi: &patterns-component_drivers_lcd_mipi_dsi
-  - .patterns-component_drivers_lcd_general
-  - .patterns-component_drivers_bus_dsi
   - "src/drivers/lcd/**/*ek79007*"
   - "src/drivers/lcd/**/*hx8399*"
   - "src/drivers/lcd/**/*ili9881c*"
@@ -125,8 +94,7 @@
   - "src/drivers/lcd/**/*st77922*"
 
 .patterns-component_drivers_lcd_qspi: &patterns-component_drivers_lcd_qspi
-  - .patterns-component_drivers_lcd_general
-  - .patterns-component_drivers_bus_qspi
+  - "src/drivers/lcd/**/*axs15231b*"
   - "src/drivers/lcd/**/*gc9b71*"
   - "src/drivers/lcd/**/*sh8601*"
   - "src/drivers/lcd/**/*spd2010*"
@@ -134,22 +102,16 @@
   - "src/drivers/lcd/**/*st77922*"
 
 .patterns-component_drivers_lcd_rgb: &patterns-component_drivers_lcd_rgb
-  - .patterns-component_drivers_lcd_general
-  - .patterns-component_drivers_bus_rgb
   - "src/drivers/lcd/**/*ek9716b*"
   - "src/drivers/lcd/**/*st7262*"
 
 .patterns-component_drivers_lcd_3wire_spi_rgb: &patterns-component_drivers_lcd_3wire_spi_rgb
-  - .patterns-component_drivers_lcd_general
-  - .patterns-component_drivers_bus_3wire_spi_rgb
   - "src/drivers/lcd/**/*gc9503*"
   - "src/drivers/lcd/**/*st7701*"
   - "src/drivers/lcd/**/*st77903*"
   - "src/drivers/lcd/**/*st77922*"
 
 .patterns-component_drivers_lcd_spi: &patterns-component_drivers_lcd_spi
-  - .patterns-component_drivers_lcd_general
-  - .patterns-component_drivers_bus_spi
   - "src/drivers/lcd/**/*gc9a01*"
   - "src/drivers/lcd/**/*gc9b71*"
   - "src/drivers/lcd/**/*ili9341*"
@@ -161,23 +123,23 @@
   - "src/drivers/lcd/**/*st77916*"
   - "src/drivers/lcd/**/*st77922*"
 
+.patterns-component_drivers_lcd_all: &patterns-component_drivers_lcd_all
+  - "src/drivers/lcd/**/*"
+
 # component drivers-touch files
 .patterns-component_drivers_touch_general: &patterns-component_drivers_touch_general
-  - .patterns-component_drivers_general
   - "src/drivers/touch/port/esp_lcd_touch.*"
   - "src/drivers/touch/esp_panel_touch_conf_internal.h"
   - "src/drivers/touch/esp_panel_touch.*"
   - "src/drivers/touch/Kconfig.touch"
 
 .patterns-component_drivers_touch_spi: &patterns-component_drivers_touch_spi
-  - .patterns-component_drivers_touch_general
-  - .patterns-component_drivers_bus_spi
   - "src/drivers/touch/**/*stmpe610*"
   - "src/drivers/touch/**/*xpt2046*"
 
 .patterns-component_drivers_touch_i2c: &patterns-component_drivers_touch_i2c
-  - .patterns-component_drivers_touch_general
-  - .patterns-component_drivers_bus_i2c
+  - "src/drivers/touch/**/*axs15231b*"
+  - "src/drivers/touch/**/*chsc6540*"
   - "src/drivers/touch/**/*cst816s*"
   - "src/drivers/touch/**/*ft5x06*"
   - "src/drivers/touch/**/*gt911*"
@@ -187,56 +149,40 @@
   - "src/drivers/touch/**/*st7123*"
   - "src/drivers/touch/**/*tt21100*"
 
-# component drivers-all files
-.patterns-component_drivers_all: &patterns-component_drivers_all
-  - .patterns-component_drivers_backlight
-  - .patterns-component_drivers_bus
-  - .patterns-component_drivers_host
-  - .patterns-component_drivers_io_expander
-  - .patterns-component_drivers_lcd
-  - .patterns-component_drivers_touch
-  - "src/drivers/**/*"
+.patterns-component_drivers_touch_all: &patterns-component_drivers_touch_all
+  - "src/drivers/touch/**/*"
 
 # component board files
 .patterns-component_board_general: &patterns-component_board_general
-  - .patterns-component_drivers_all
-  - .patterns-component_utils
   - "src/board/*.*"
-  - "src/board/Kconfig.*"
 
 .patterns-component_board_custom: &patterns-component_board_custom
-  - .patterns-component_board_general
   - "src/board/custom/**/*"
 
 .patterns-component_board_supported_elecrow: &patterns-component_board_supported_elecrow
-  - .patterns-component_board_general
   - "src/board/supported/elecrow/**/*"
 
 .patterns-component_board_supported_espressif: &patterns-component_board_supported_espressif
-  - .patterns-component_board_general
   - "src/board/supported/espressif/**/*"
 
 .patterns-component_board_supported_jingcai: &patterns-component_board_supported_jingcai
-  - .patterns-component_board_general
   - "src/board/supported/jingcai/**/*"
 
 .patterns-component_board_supported_m5stack: &patterns-component_board_supported_m5stack
-  - .patterns-component_board_general
   - "src/board/supported/m5stack/**/*"
 
 .patterns-component_board_supported_viewe: &patterns-component_board_supported_viewe
-  - .patterns-component_board_general
   - "src/board/supported/viewe/**/*"
 
 .patterns-component_board_supported_waveshare: &patterns-component_board_supported_waveshare
-  - .patterns-component_board_general
   - "src/board/supported/waveshare/**/*"
+
+.patterns-component_board_supported_all: &patterns-component_board_supported_all
+  - "src/board/supported/**/*"
 
 # component all files
 .patterns-component_all: &patterns-component_all
-  - .patterns-component_utils
-  - .patterns-component_drivers_all
-  - .patterns-component_board_all
+  - "src/**/*"
 
 # docs files
 .patterns-docs_md: &patterns-docs_md
@@ -247,23 +193,18 @@
   - "test_apps/common_components/lcd_general_test/**/*"
 
 .patterns-test_apps_drivers_lcd_3wire_spi_rgb: &patterns-test_apps_drivers_lcd_3wire_spi_rgb
-  - .patterns-test_apps_drivers_lcd_general
   - "test_apps/drivers/lcd/3wire_spi_rgb/**/*"
 
 .patterns-test_apps_drivers_lcd_mipi_dsi: &patterns-test_apps_drivers_lcd_mipi_dsi
-  - .patterns-test_apps_drivers_lcd_general
   - "test_apps/drivers/lcd/mipi_dsi/**/*"
 
 .patterns-test_apps_drivers_lcd_qspi: &patterns-test_apps_drivers_lcd_qspi
-  - .patterns-test_apps_drivers_lcd_general
   - "test_apps/drivers/lcd/qspi/**/*"
 
 .patterns-test_apps_drivers_lcd_rgb: &patterns-test_apps_drivers_lcd_rgb
-  - .patterns-test_apps_drivers_lcd_general
   - "test_apps/drivers/lcd/rgb/**/*"
 
 .patterns-test_apps_drivers_lcd_spi: &patterns-test_apps_drivers_lcd_spi
-  - .patterns-test_apps_drivers_lcd_general
   - "test_apps/drivers/lcd/spi/**/*"
 
 # test_apps touch files
@@ -271,49 +212,35 @@
   - "test_apps/common_components/touch_general_test/**/*"
 
 .patterns-test_apps_drivers_touch_i2c: &patterns-test_apps_drivers_touch_i2c
-  - .patterns-test_apps_drivers_touch_general
   - "test_apps/drivers/touch/i2c/**/*"
 
 .patterns-test_apps_drivers_touch_spi: &patterns-test_apps_drivers_touch_spi
-  - .patterns-test_apps_drivers_touch_general
   - "test_apps/drivers/touch/spi/**/*"
 
 # test_apps board files
-.patterns-test_apps_board_general: &patterns-test_apps_board_general
-  - .patterns-test_apps_drivers_lcd_general
-  - .patterns-test_apps_drivers_touch_general
-
 .patterns-test_apps_board_common: &patterns-test_apps_board_common
-  - .patterns-test_apps_board_general
   - "test_apps/board/common/**/*"
 
 .patterns-test_apps_board_elecrow: &patterns-test_apps_board_elecrow
-  - .patterns-test_apps_board_general
   - "test_apps/board/elecrow/**/*"
 
 .patterns-test_apps_board_espressif: &patterns-test_apps_board_espressif
-  - .patterns-test_apps_board_general
   - "test_apps/board/espressif/**/*"
 
 .patterns-test_apps_board_jingcai: &patterns-test_apps_board_jingcai
-  - .patterns-test_apps_board_general
   - "test_apps/board/jingcai/**/*"
 
 .patterns-test_apps_board_m5stack: &patterns-test_apps_board_m5stack
-  - .patterns-test_apps_board_general
   - "test_apps/board/m5stack/**/*"
 
 .patterns-test_apps_board_viewe: &patterns-test_apps_board_viewe
-  - .patterns-test_apps_board_general
   - "test_apps/board/viewe/**/*"
 
 .patterns-test_apps_board_waveshare: &patterns-test_apps_board_waveshare
-  - .patterns-test_apps_board_general
   - "test_apps/board/waveshare/**/*"
 
 # test_apps gui files
 .patterns-test_apps_gui_lvgl_v8_port: &patterns-test_apps_gui_lvgl_v8_port
-  - .patterns-test_apps_board_general
   - "test_apps/gui/lvgl_v8_port/**/*"
 
 ##############
@@ -364,7 +291,21 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_3wire_spi_rgb
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_lcd_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_lcd_3wire_spi_rgb
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_lcd_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_lcd_3wire_spi_rgb
 
@@ -377,7 +318,25 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_dsi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_dsi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_lcd_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_lcd_mipi_dsi
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_lcd_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_lcd_mipi_dsi
 
@@ -390,7 +349,25 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_spi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_qspi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_lcd_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_lcd_qspi
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_lcd_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_lcd_qspi
 
@@ -403,7 +380,21 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_rgb
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_lcd_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_lcd_rgb
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_lcd_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_lcd_rgb
 
@@ -416,7 +407,25 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_spi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_spi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_lcd_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_lcd_spi
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_lcd_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_lcd_spi
 
@@ -430,7 +439,25 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_i2c
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_i2c
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_touch_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_touch_i2c
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_touch_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_touch_i2c
 
@@ -443,7 +470,25 @@
     - <<: *if-dev-push
       changes: *patterns-build_system
     - <<: *if-dev-push
+      changes: *patterns-component_general
+    - <<: *if-dev-push
+      changes: *patterns-component_utils_all
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_host_spi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_general
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_bus_spi
+    - <<: *if-dev-push
+      changes: *patterns-component_drivers_touch_general
+    - <<: *if-dev-push
       changes: *patterns-component_drivers_touch_spi
+    - <<: *if-dev-push
+      changes: *patterns-test_apps_drivers_touch_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_drivers_touch_spi
 
@@ -458,6 +503,8 @@
       changes: *patterns-build_system
     - <<: *if-dev-push
       changes: *patterns-component_all
+    - <<: *if-dev-push
+      changes: *patterns-component_board_general
     - <<: *if-dev-push
       changes: *patterns-test_apps_board_common
 
@@ -549,6 +596,8 @@
     - <<: *if-trigger-job
     - <<: *if-dev-push
       changes: *patterns-build_system
+    - <<: *if-dev-push
+      changes: *patterns-component_all
     - <<: *if-dev-push
       changes: *patterns-component_board_general
     - <<: *if-dev-push

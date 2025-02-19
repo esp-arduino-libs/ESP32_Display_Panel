@@ -1,5 +1,12 @@
 # ChangeLog
 
+## v1.0.1 - 2025-02-19
+
+### Bugfixes:
+
+* fix(touch): avoid reading the button state when disabled (#162)
+* fix(docs): correct and add descriptions
+
 ## v1.0.0 - 2025-02-17
 
 ### Breaking changes:
