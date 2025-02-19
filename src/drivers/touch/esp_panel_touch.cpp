@@ -304,8 +304,10 @@ bool Touch::readRawData(int points_num, int buttons_num, int timeout_ms)
     // Get the points
     ESP_UTILS_CHECK_FALSE_RETURN(readRawDataPoints(points_num), false, "Read points failed");
 
+#if CONFIG_ESP_LCD_TOUCH_MAX_BUTTONS > 0
     // Get the buttons
     ESP_UTILS_CHECK_FALSE_RETURN(readRawDataButtons(buttons_num), false, "Read buttons failed");
+#endif
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
 
@@ -610,10 +612,10 @@ bool Touch::readRawDataButtons(int buttons_num)
     }
     // Limit the max buttons number
     if (buttons_num > BUTTONS_MAX_NUM) {
-        buttons_num = BUTTONS_MAX_NUM;
         ESP_UTILS_LOGW(
             "The target buttons number(%d) out of range, use the max number(%d) instead", buttons_num, BUTTONS_MAX_NUM
         );
+        buttons_num = BUTTONS_MAX_NUM;
     }
     if (buttons_num <= 0) {
         ESP_UTILS_LOGD("Ignore to read buttons");
@@ -627,13 +629,14 @@ bool Touch::readRawDataButtons(int buttons_num)
 
     for (int i = 0; i < buttons_num; i++) {
         button_state = 0;
+#if CONFIG_ESP_LCD_TOUCH_MAX_BUTTONS > 0
         auto ret = esp_lcd_touch_get_button_state(touch_panel, i, &button_state);
         if (ret == ESP_ERR_INVALID_ARG) {
             ESP_UTILS_LOGD("Button(%d) is not supported", i);
             break;
         }
         ESP_UTILS_CHECK_ERROR_RETURN(ret, false, "Get button(%d) state failed", i);
-
+#endif
         buttons.emplace_back(i, button_state);
     }
 
