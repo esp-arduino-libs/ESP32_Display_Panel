@@ -18,7 +18,7 @@
 /* File `esp_panel_board_custom_conf.h` */
 #define ESP_PANEL_BOARD_CUSTOM_VERSION_MAJOR 1
 #define ESP_PANEL_BOARD_CUSTOM_VERSION_MINOR 0
-#define ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH 0
+#define ESP_PANEL_BOARD_CUSTOM_VERSION_PATCH 1
 
 /* File `esp_panel_board_supported_conf.h` */
 #define ESP_PANEL_BOARD_SUPPORTED_VERSION_MAJOR 1

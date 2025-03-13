@@ -6,7 +6,8 @@
 
 * fix(touch): avoid reading the button state when disabled (#162)
 * fix(docs): correct and add descriptions
-* fix(board): compile failure when using a touch screen with SPI bus @tilordleo (#169)
+* fix(board): resolve compilation error for SPI touch screens @tilordleo (#169)
+* fix(conf): correct comments in `esp_panel_board_custom_conf.h`
 
 ## v1.0.0 - 2025-02-17
 
