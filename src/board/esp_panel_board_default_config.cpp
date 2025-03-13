@@ -247,10 +247,10 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
             },
         #endif // ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST
             // Control Panel
-            .control_panel = ESP_PANEL_TOUCH_SPI_CONTROL_PANEL_CONFIG(
-                ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_SPI_IO_CS
-            ),
-            .use_complete_io_config = true,
+            .control_panel = BusSPI::ControlPanelFullConfig
+                ESP_PANEL_TOUCH_SPI_CONTROL_PANEL_CONFIG(
+                    ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_SPI_IO_CS
+                ),
         },
     #endif // ESP_PANEL_BOARD_TOUCH_BUS_TYPE
         .device_name = TO_STR(ESP_PANEL_BOARD_TOUCH_CONTROLLER),
