@@ -1,11 +1,17 @@
 # ChangeLog
 
-## v1.0.1 - 2025-02-19
+## v1.0.1 - 2025-03-13
+
+### Enhancements:
+
+* feat(docs): add new FAQs
 
 ### Bugfixes:
 
 * fix(touch): avoid reading the button state when disabled (#162)
 * fix(docs): correct and add descriptions
+* fix(board): resolve compilation error for SPI touch screens @tilordleo (#169)
+* fix(conf): correct comments in `esp_panel_board_custom_conf.h`
 
 ## v1.0.0 - 2025-02-17
 
