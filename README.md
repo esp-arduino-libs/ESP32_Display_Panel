@@ -124,3 +124,7 @@ The functional block diagram is shown below:
   * [Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in ESP-IDF](./docs/envs/use_with_idf.md#solution-for-screen-drift-issue-when-using-esp32-s3-to-drive-rgb-lcd-in-esp-idf)
   * [How to reduce Flash usage and speed up compilation when using ESP32_Display_Panel in ESP-IDF?](./docs/envs/use_with_idf.md#how-to-reduce-flash-usage-and-speed-up-compilation-when-using-esp32_display_panel-in-esp-idf)
   * [Other LCD issues in ESP-IDF](./docs/envs/use_with_idf.md#other-lcd-issues-in-esp-idf)
+
+* [Other FAQs](./docs/faq_others.md)
+
+  * [Can't find drivers for the same model of LCD/Touch device?](./docs/faq_others.md#can-t-find-drivers-for-the-same-model-of-lcd/touch-device)

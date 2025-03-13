@@ -75,7 +75,7 @@ public:
      * @brief Initialize the panel device
      *
      * Creates objects for the LCD, Touch, Backlight, and other devices based on the configuration.
-     * The initialization sequence is: `LCD -> Touch -> Backlight -> IO Expander`
+     * The creation sequence is: `LCD -> Touch -> Backlight -> IO Expander`
      *
      * @return `true` if successful, `false` otherwise
      */

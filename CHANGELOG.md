@@ -2,6 +2,10 @@
 
 ## v1.0.1 - 2025-03-13
 
+### Enhancements:
+
+* feat(docs): add new FAQs
+
 ### Bugfixes:
 
 * fix(touch): avoid reading the button state when disabled (#162)
