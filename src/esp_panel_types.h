@@ -20,6 +20,11 @@
 #define ESP_PANEL_BUS_TYPE_MIPI_DSI         (5)
 
 /**
+ * @brief Macros for audio bus type
+ */
+#define ESP_PANEL_BUS_TYPE_I2S              (6)
+
+/**
  * @brief  Macros for LCD color format bits
  */
 #define ESP_PANEL_LCD_COLOR_BITS_RGB565     (16)

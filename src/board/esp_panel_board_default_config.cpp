@@ -335,6 +335,20 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
     },
 #endif // ESP_PANEL_BOARD_USE_EXPANDER
 
+    /* Audio */
+#if ESP_PANEL_BOARD_USE_AUDIO
+    .audio = BoardConfig::AudioConfig{
+        .config = {
+            .sample_rate = ESP_PANEL_BOARD_AUDIO_SAMPLE_RATE,
+            .channels = ESP_PANEL_BOARD_AUDIO_CHANNELS,
+            .i2s_bck_pin = ESP_PANEL_BOARD_AUDIO_I2S_BCK_PIN,
+            .i2s_ws_pin = ESP_PANEL_BOARD_AUDIO_I2S_WS_PIN,
+            .i2s_data_out_pin = ESP_PANEL_BOARD_AUDIO_I2S_DATA_OUT_PIN,
+            // Add other audio configuration parameters as needed
+        },
+    },
+#endif // ESP_PANEL_BOARD_USE_AUDIO
+
     /* Others */
     .stage_callbacks = {
 #ifdef ESP_PANEL_BOARD_PRE_BEGIN_FUNCTION

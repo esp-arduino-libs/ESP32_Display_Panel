@@ -1,0 +1,36 @@
+menu "Audio"
+    config ESP_PANEL_DRIVERS_AUDIO_SAMPLE_RATE
+        int "Audio sample rate"
+        default 44100
+        help
+            Sample rate for the audio driver.
+
+    config ESP_PANEL_DRIVERS_AUDIO_CHANNELS
+        int "Audio channels"
+        default 2
+        help
+            Number of audio channels.
+
+    menu "Enable used drivers in factory"
+        config ESP_PANEL_DRIVERS_AUDIO_USE_ALL
+            bool "Use all"
+            default n
+
+        if !ESP_PANEL_DRIVERS_AUDIO_USE_ALL
+            config ESP_PANEL_DRIVERS_AUDIO_USE_PCM5102
+                bool "Use PCM5102"
+                default n
+
+            config ESP_PANEL_DRIVERS_AUDIO_USE_MAX98357A
+                bool "Use MAX98357A"
+                default n
+        endif
+    endmenu
+
+    config ESP_PANEL_DRIVERS_AUDIO_COMPILE_UNUSED_DRIVERS
+        bool "Compile unused drivers"
+        default y
+        help
+            When disabled, code for unused drivers will be excluded to speed up compilation.
+            Make sure the driver is not used when this option is disabled.
+endmenu

@@ -11,6 +11,7 @@
 #include "esp_panel_conf_internal.h"
 
 #ifndef ESP_PANEL_DRIVERS_FILE_SKIP
+    #include "audio/esp_panel_audio.hpp"
     /* Try to locate the configuration file in different paths */
     #if __has_include("esp_panel_drivers_conf.h")
         #define ESP_PANEL_DRIVERS_INCLUDE_SIMPLE

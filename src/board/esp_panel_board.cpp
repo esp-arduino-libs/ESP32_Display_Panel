@@ -223,12 +223,25 @@ bool Board::init()
         ESP_UTILS_LOGD("IO Expander create success");
     }
 
+    // Create Audio device if it is used
+    std::shared_ptr<drivers::Audio> audio_device = nullptr;
+    if (_config.audio.has_value()) {
+        auto &audio_config = _config.audio.value();
+        ESP_UTILS_LOGD("Creating Audio");
+
+        audio_device = std::make_shared<drivers::Audio>(audio_config);
+        ESP_UTILS_CHECK_NULL_RETURN(audio_device, false, "Create Audio device failed");
+
+        ESP_UTILS_LOGD("Audio create success");
+    }
+
     _lcd_bus = lcd_bus;
     _lcd_device = lcd_device;
     _touch_bus = touch_bus;
     _touch_device = touch_device;
     _backlight = backlight;
     _io_expander = io_expander;
+    _audio_device = audio_device;
 
     setState(State::INIT);
 
@@ -451,6 +464,16 @@ bool Board::begin()
         ESP_UTILS_LOGD("Backlight begin success");
     }
 
+    // Begin the Audio if it is used
+    auto audio_device = getAudio();
+    if (audio_device != nullptr) {
+        ESP_UTILS_LOGD("Beginning Audio");
+
+        ESP_UTILS_CHECK_FALSE_RETURN(audio_device->begin(), false, "Audio device begin failed");
+
+        ESP_UTILS_LOGD("Audio begin success");
+    }
+
     if (config.stage_callbacks[BoardConfig::STAGE_CALLBACK_POST_BOARD_BEGIN] != nullptr) {
         ESP_UTILS_LOGD("Board post-begin");
         ESP_UTILS_CHECK_FALSE_RETURN(
@@ -539,4 +562,16 @@ bool Board::configCallback(board::BoardConfig::StageCallbackType type, BoardConf
     return true;
 }
 
-} // namespace esp_panel
+bool Board::configAudio(const drivers::AudioConfig &config) {
+    ESP_UTILS_LOG_TRACE_ENTER_WITH_THIS();
+
+    ESP_UTILS_CHECK_FALSE_RETURN(!isOverState(State::INIT), false, "Already initialized");
+
+    _audio_device = std::make_shared<drivers::Audio>(config);
+
+    ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
+
+    return true;
+}
+
+} // namespace esp_panel::board

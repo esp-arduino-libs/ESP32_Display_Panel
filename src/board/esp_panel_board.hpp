@@ -17,7 +17,7 @@ namespace esp_panel::board {
 /**
  * @brief Panel device class for ESP development boards
  *
- * This class integrates independent drivers such as LCD, Touch, and Backlight for development boards.
+ * This class integrates independent drivers such as LCD, Touch, Backlight, and Audio for development boards.
  */
 class Board {
 public:
@@ -74,8 +74,8 @@ public:
     /**
      * @brief Initialize the panel device
      *
-     * Creates objects for the LCD, Touch, Backlight, and other devices based on the configuration.
-     * The creation sequence is: `LCD -> Touch -> Backlight -> IO Expander`
+     * Creates objects for the LCD, Touch, Backlight, Audio, and other devices based on the configuration.
+     * The creation sequence is: `LCD -> Touch -> Backlight -> Audio -> IO Expander`
      *
      * @return `true` if successful, `false` otherwise
      */
@@ -84,7 +84,7 @@ public:
     /**
      * @brief Startup the panel device
      *
-     * Initializes and configures all enabled devices in the following order: `IO Expander -> LCD -> Touch -> Backlight`
+     * Initializes and configures all enabled devices in the following order: `IO Expander -> LCD -> Touch -> Backlight -> Audio`
      *
      * @return `true` if successful, `false` otherwise
      * @note Will automatically call `init()` if not already initialized
@@ -94,7 +94,7 @@ public:
     /**
      * @brief Delete the panel device and release resources
      *
-     * Releases all device instances in the following order: `Backlight -> LCD -> Touch -> IO Expander`
+     * Releases all device instances in the following order: `Backlight -> LCD -> Touch -> Audio -> IO Expander`
      *
      * @return `true` if successful, `false` otherwise
      * @note After calling this function, the board returns to uninitialized state
@@ -151,6 +151,23 @@ public:
     {
         return _io_expander.get();
     }
+
+    /**
+     * @brief Get the Audio driver instance
+     *
+     * @return Pointer to the Audio driver instance, or `nullptr` if Audio is not enabled or not initialized
+     */
+    drivers::Audio *getAudio() {
+        return _audio_device.get();
+    }
+
+    /**
+     * @brief Configure the Audio driver
+     *
+     * @param[in] config Audio configuration structure
+     * @return `true` if successful, `false` otherwise
+     */
+    bool configAudio(const drivers::AudioConfig &config);
 
     /**
      * @brief Get the current board configuration
@@ -272,6 +289,7 @@ private:
     std::shared_ptr<drivers::Bus> _touch_bus = nullptr;
     std::shared_ptr<drivers::Touch> _touch_device = nullptr;
     std::shared_ptr<drivers::IO_Expander> _io_expander = nullptr;
+    std::shared_ptr<drivers::Audio> _audio_device = nullptr;
 };
 
 } // namespace esp_panel

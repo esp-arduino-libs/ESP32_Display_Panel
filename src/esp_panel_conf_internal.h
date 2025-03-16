@@ -31,4 +31,6 @@
     #endif
 #endif
 
+#define ESP_PANEL_BOARD_USE_AUDIO 1
+
 // *INDENT-ON*

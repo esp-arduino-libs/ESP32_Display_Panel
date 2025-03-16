@@ -13,6 +13,7 @@
 #include "drivers/touch/esp_panel_touch_factory.hpp"
 #include "drivers/backlight/esp_panel_backlight_factory.hpp"
 #include "drivers/io_expander/esp_panel_io_expander_factory.hpp"
+#include "drivers/audio/esp_panel_audio_factory.hpp"
 
 namespace esp_panel::board {
 
@@ -98,6 +99,13 @@ struct BoardConfig {
         drivers::IO_Expander::Config config;        /*!< IO expander device configuration */
     };
 
+    /**
+     * @brief Audio related configuration
+     */
+    struct AudioConfig {
+        drivers::AudioConfig config;               /*!< Audio device configuration */
+    };
+
     bool isValid() const
     {
         return (name != nullptr) && (strlen(name) > 0);
@@ -108,6 +116,7 @@ struct BoardConfig {
     std::optional<TouchConfig> touch;               /*!< Touch configuration */
     std::optional<BacklightConfig> backlight;       /*!< Backlight configuration */
     std::optional<IO_ExpanderConfig> io_expander;   /*!< IO expander configuration */
+    std::optional<AudioConfig> audio;               /*!< Audio configuration */
     std::array<FunctionStageCallback, STAGE_CALLBACK_MAX> stage_callbacks; /*!< Stage callback functions */
 };
 
