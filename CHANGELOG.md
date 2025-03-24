@@ -8,6 +8,7 @@
 * fix(pre-commit): update the pre-commit script
 * fix(docs): update README
 * fix(conf): update comments of custom config file
+* fix(examples): enable CPU 240M and task WDT default in esp_idf/lvgl_v8_port
 
 ## v1.0.1 - 2025-03-13
 
