@@ -26,4 +26,4 @@ jobs:
             echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
             echo "url: ${{ steps.last_release.outputs.url }}"
         - name: Check & Compare versions
-          run: bash ./.github/scripts/check_lib_versions.sh --latest_version=${{ steps.last_release.outputs.tag_name }}
+          run: bash ./tools/check_lib_versions.sh --latest_version=${{ steps.last_release.outputs.tag_name }}
