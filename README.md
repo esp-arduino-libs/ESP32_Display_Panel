@@ -115,9 +115,10 @@ The functional block diagram is shown below:
   * [How to select and configure supported boards in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-select-and-configure-supported-boards-in-arduino-ide)
   * [How to use SquareLine exported UI source files in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-use-squareline-exported-ui-source-files-in-arduino-ide)
   * [How to debug when the screen doesn't light up using the library in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-debug-when-the-screen-doesnt-light-up-using-the-library-in-arduino-ide)
-  * [How to reduce Flash usage and speed up compilation when using ESP32_Display_Panel in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-reduce-flash-usage-and-speed-up-compilation-when-using-esp32_display_panel-in-arduino-ide)
-  * [Can't see log messages or messages are incomplete in Arduino IDE's Serial Monitor, how to fix?](./docs/envs/use_with_arduino.md#can-t-see-log-messages-or-messages-are-incomplete-in-arduino-ides-serial-monitor-how-to-fix)
+  * [How to fix the issue that log messages are missing or incomplete in Arduino IDE's Serial Monitor?](./docs/envs/use_with_arduino.md#how-to-fix-the-issue-that-log-messages-are-missing-or-incomplete-in-arduino-ides-serial-monitor)
   * [Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in Arduino IDE](./docs/envs/use_with_arduino.md#solution-for-screen-drift-issue-when-using-esp32-s3-to-drive-rgb-lcd-in-arduino-ide)
+  * [How to reduce Flash usage and speed up compilation when using ESP32_Display_Panel in Arduino IDE?](./docs/envs/use_with_arduino.md#how-to-reduce-flash-usage-and-speed-up-compilation-when-using-esp32_display_panel-in-arduino-ide)
+  * [How to avoid I2C re-initialization when using ESP32_Display_Panel in Arduino IDE (e.g., when using Wire library)?](./docs/envs/use_with_arduino.md#how-to-avoid-i2c-re-initialization-when-using-esp32_display_panel-in-arduino-ide-eg-when-using-wire-library)
 
 * [ESP-IDF](./docs/envs/use_with_idf.md#faq)
 

@@ -553,7 +553,7 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
 
     c. **配置 LVGL 任务**
 
-    - 如果使用 LVGL，设置执行 `lv_timer_handler()` 任务与执行 RGB LCD 初始化任务在同一个核心上运行可以缓解画面漂移问题
+    - 如果使用 LVGL，设置执行 `lv_timer_handler()` 的任务与执行 `board->begin()` 的任务在同一个核心上运行可以缓解画面漂移问题
 
 3. **示例代码**
 

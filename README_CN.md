@@ -118,6 +118,7 @@ ESP32_Display_Panel 的主要特性如下：
   * [在 Arduino IDE 中打开串口调试器看不到日志信息或日志信息显示不全，如何解决？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中打开串口调试器看不到日志信息或日志信息显示不全如何解决)
   * [在 Arduino IDE 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
   * [在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何降低其 Flash 占用及加快编译速度？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32_display_panel-时如何降低其-flash-占用及加快编译速度)
+  * [在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何避免 I2C 重复初始化（如使用 Wire 库）？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32_display_panel-时如何避免-i2c-重复初始化如使用-wire-库)
 
 * [ESP-IDF](./docs/envs/use_with_idf_cn.md#常见问题及解答)
 
