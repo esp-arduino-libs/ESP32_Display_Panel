@@ -7,6 +7,7 @@
 * fix(io_expander): remove incompatible header (#175)
 * fix(pre-commit): update the pre-commit script
 * fix(docs): update README
+* fix(conf): update comments of custom config file
 
 ## v1.0.1 - 2025-03-13
 
