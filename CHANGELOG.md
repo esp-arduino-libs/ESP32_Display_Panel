@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v1.0.2 - 2025-03-24
+
+### Bugfixes:
+
+* fix(io_expander): remove incompatible header (#175)
+
 ## v1.0.1 - 2025-03-13
 
 ### Enhancements:

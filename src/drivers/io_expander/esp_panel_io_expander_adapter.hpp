@@ -5,7 +5,6 @@
  */
 #pragma once
 
-#include <concepts>
 #include "utils/esp_panel_utils_log.h"
 #include "utils/esp_panel_utils_cxx.hpp"
 #include "drivers/host/esp_panel_host_i2c.hpp"
