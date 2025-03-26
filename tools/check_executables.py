@@ -25,7 +25,7 @@ def _strip_each_item(iterable: Iterable) -> List:
 
 
 COMPONENT_PATH = os.getenv('COMPONENT_PATH', os.getcwd())
-EXECUTABLE_LIST_FN = os.path.join(COMPONENT_PATH, '.gitlab/tools/executable-list.txt')
+EXECUTABLE_LIST_FN = os.path.join(COMPONENT_PATH, 'tools/executable-list.txt')
 known_executables = _strip_each_item(open(EXECUTABLE_LIST_FN).readlines())
 
 

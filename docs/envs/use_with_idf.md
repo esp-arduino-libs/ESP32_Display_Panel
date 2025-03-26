@@ -106,7 +106,7 @@ Please follow these steps to resolve:
 
     c. **Configure LVGL Task**
 
-    - If using LVGL, setting the task that executes `lv_timer_handler()` to run on the same core as the RGB LCD initialization task can help mitigate the screen drift issue
+    - If using LVGL, setting the task that executes `lv_timer_handler()` to run on the same core as the task that executes `board->begin()` can help mitigate the screen drift issue
 
 3. **Example Code**
 

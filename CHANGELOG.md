@@ -1,5 +1,15 @@
 # ChangeLog
 
+## v1.0.2 - 2025-03-24
+
+### Bugfixes:
+
+* fix(io_expander): remove incompatible header (#175)
+* fix(pre-commit): update the pre-commit script
+* fix(docs): update README
+* fix(conf): update comments of custom config file
+* fix(examples): enable CPU 240M and task WDT default in esp_idf/lvgl_v8_port
+
 ## v1.0.1 - 2025-03-13
 
 ### Enhancements:
