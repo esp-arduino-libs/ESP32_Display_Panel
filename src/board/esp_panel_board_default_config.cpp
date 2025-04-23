@@ -293,6 +293,10 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
         },
     #elif ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC
         .config = BacklightPWM_LEDC::Config{
+            .ledc_timer = BacklightPWM_LEDC::LEDC_TimerPartialConfig{
+                .freq_hz = ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ,
+                .duty_resolution = ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION,
+            },
             .ledc_channel = BacklightPWM_LEDC::LEDC_ChannelPartialConfig{
                 .io_num = ESP_PANEL_BOARD_BACKLIGHT_IO,
                 .on_level = ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL,

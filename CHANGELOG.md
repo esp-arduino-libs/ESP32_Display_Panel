@@ -1,6 +1,10 @@
 # ChangeLog
 
-## v1.0.2 - 2025-03-24
+## v1.0.2 - 2025-04-23
+
+### Enhancements:
+
+* feat(backlight): add PWM parameters configuration (#188)
 
 ### Bugfixes:
 
