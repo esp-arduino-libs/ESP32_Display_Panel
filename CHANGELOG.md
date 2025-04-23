@@ -13,6 +13,7 @@
 * fix(docs): update README
 * fix(conf): update comments of custom config file
 * fix(examples): enable CPU 240M and task WDT default in esp_idf/lvgl_v8_port
+* fix(lcd): fix ST7701 mirror issue
 
 ## v1.0.1 - 2025-03-13
 
