@@ -7,6 +7,7 @@ import re
 
 exclude_dirs = [
     './build',
+    './examples/platformio/lvgl_v8_port/.pio'
 ]
 internal_version_file = 'src/esp_panel_versions.h'
 include_files = [

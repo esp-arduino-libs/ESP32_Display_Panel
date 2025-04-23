@@ -42,6 +42,26 @@
             #error "Missing configuration: ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL"
         #endif
     #endif
+
+    #if (ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC)
+        #ifndef ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ
+            #ifdef CONFIG_ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ
+                #define ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ CONFIG_ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ
+            #else
+                #define ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ 5000      // Keep the backward compatibility
+            #endif
+        #endif
+    #endif
+
+    #if (ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC)
+        #ifndef ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION
+            #ifdef CONFIG_ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION
+                #define ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION CONFIG_ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION
+            #else
+                #define ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION 10    // Keep the backward compatibility
+            #endif
+        #endif
+    #endif
 #endif
 
 #ifndef ESP_PANEL_BOARD_BACKLIGHT_IDLE_OFF
