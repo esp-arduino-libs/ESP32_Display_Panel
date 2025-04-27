@@ -45,6 +45,7 @@ The functional block diagram is shown below:
 * [ESP-IDF](./docs/envs/use_with_idf.md)
 * [Arduino IDE](./docs/envs/use_with_arduino.md)
 * [PlatformIO](./examples/platformio/lvgl_v8_port/README.md)
+* [Micropython](./docs/envs/use_with_micropython.md)
 
 ## Supported Boards
 

@@ -45,6 +45,7 @@ ESP32_Display_Panel 的主要特性如下：
 * [ESP-IDF](./docs/envs/use_with_idf_cn.md)
 * [Arduino IDE](./docs/envs/use_with_arduino_cn.md)
 * [PlatformIO](./examples/platformio/lvgl_v8_port/README.md)
+* [Micropython](./docs/envs/use_with_micropython_cn.md)
 
 ## 支持的开发板
 
