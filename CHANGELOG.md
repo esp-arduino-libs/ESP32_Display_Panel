@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v1.0.3 - 2025-04-27
+
+### Enhancements:
+
+* feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
+
 ## v1.0.2 - 2025-04-23
 
 ### Enhancements:

@@ -1,12 +1,10 @@
-# Using with micropython
+# 在 micropython 中使用
 
-This is an example of how to integrate this library into micropython. It's written for an ESP32-S3, however
-it should be easy to adapt to different supported ESP-Chips. Please note, that you'll need at least 4mb of flash.
+这是一个如何将此库集成到 micropython 的示例。它是为 ESP32-S3 编写的，但应该很容易适应不同的受支持的 ESP 芯片。请注意，您至少需要 4MB 的闪存。
 
+## 逐步说明
 
-## Step-by-Step instructions
-
-1. Install IDF and micropython
+1. 安装 IDF 和 micropython
 
     ```bash
     mkdir ~/esp32build
@@ -24,25 +22,27 @@ it should be easy to adapt to different supported ESP-Chips. Please note, that y
     popd
     ```
 
-2. Ensure, you can build a working firmware
-    
+2. 确保您可以构建一个可工作的固件
+
     ```bash
     make BOARD=ESP32_GENERIC_S3 BOARD_VARIANT=SPIRAM_OCT -C ports/esp32
     pushd ports/esp32
     python -m esptool --port /dev/ttyACM0 --chip esp32s3 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 80m 0x0 build-ESP32_GENERIC_S3-SPIRAM_OCT/bootloader/bootloader.bin 0x8000 build-ESP32_GENERIC_S3-SPIRAM_OCT/partition_table/partition-table.bin 0x10000 build-ESP32_GENERIC_S3-SPIRAM_OCT/micropython.bin
     popd
-    popd 
+    popd
     ```
-    Now, test the board and ensure your build of micropython works.
+    现在，测试开发板并确保您构建的 micropython 可以正常工作。
 
-3. Download ESP32_Display_Panel and it's dependencies
+3. 下载 ESP32_Display_Panel 及其依赖项
+
     ```bash
     git clone https://github.com/esp-arduino-libs/ESP32_Display_Panel.git
     git clone https://github.com/esp-arduino-libs/esp-lib-utils.git
     git clone https://github.com/esp-arduino-libs/ESP32_IO_Expander.git
     ```
-   
-4. Create a custom user-module definition
+
+4. 创建自定义用户模块定义
+
     ```bash
     cat > micropython.cmake << EOF
     include(~/esp32build/ESP32_Display_Panel/micropython.cmake)
@@ -50,8 +50,9 @@ it should be easy to adapt to different supported ESP-Chips. Please note, that y
     include(~/esp32build/ESP32_IO_Expander/micropython.cmake)
     EOF
     ```
-   
-5. Copy some header-files
+
+5. 复制一些头文件
+
     ```bash
     cp esp-idf/components/esp_lcd/include/esp_lcd_panel_commands.h ESP32_Display_Panel/mpy_support/
     cp esp-idf/components/esp_lcd/interface/esp_lcd_panel_interface.h ESP32_Display_Panel/mpy_support/
@@ -63,41 +64,47 @@ it should be easy to adapt to different supported ESP-Chips. Please note, that y
     cp esp-idf/components/esp_lcd/include/esp_lcd_types.h ESP32_Display_Panel/mpy_support/
     ```
 
-6. Rebuild micropython to include the new modules
+6. 重新构建 micropython 以包含新模块
+
     ```bash
     pushd micropython
-    make BOARD=ESP32_GENERIC_S3 BOARD_VARIANT=SPIRAM_OCT USER_C_MODULES=~/esp32build/micropython.cmake -C ports/esp32 
+    make BOARD=ESP32_GENERIC_S3 BOARD_VARIANT=SPIRAM_OCT USER_C_MODULES=~/esp32build/micropython.cmake -C ports/esp32
     pushd ports/esp32
     python -m esptool --port /dev/ttyACM0 --chip esp32s3 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 80m 0x0 build-ESP32_GENERIC_S3-SPIRAM_OCT/bootloader/bootloader.bin 0x8000 build-ESP32_GENERIC_S3-SPIRAM_OCT/partition_table/partition-table.bin 0x10000 build-ESP32_GENERIC_S3-SPIRAM_OCT/micropython.bin
     popd
-    popd 
-    ```
-   This may fail if your chip has a small flash size, in this case you have to increase the size of the
-   application partition. E.g. for a 4mb flash chip edit micropython/ports/esp32/partitions-4MiB.csv and change the last
-   two lines from:
-
-   ```csv
-   factory,  app,  factory, 0x10000, 0x1F0000,
-   vfs,      data, fat,     0x200000, 0x200000,
-    ```
-   to 
-   ```csv
-   factory,  app,  factory, 0x10000, 0x2F0000,
-   vfs,      data, fat,     0x300000, 0x100000,
+    popd
     ```
 
-7. Test the module
-   Connect to your board and run:
+    如果您的芯片闪存大小较小，这可能会失败，在这种情况下，您必须增加应用程序分区的大小。例如，对于 4MB 闪存芯片，编辑 *micropython/ports/esp32/partitions-4MiB.csv* 并将最后两行从：
+
+    ```csv
+    factory,  app,  factory, 0x10000, 0x1F0000,
+    vfs,      data, fat,     0x200000, 0x200000,
+    ```
+
+    改为：
+
+    ```csv
+    factory,  app,  factory, 0x10000, 0x2F0000,
+    vfs,      data, fat,     0x300000, 0x100000,
+    ```
+
+7. 测试模块
+
+    连接到您的开发板并运行：
+
     ```python
-   from esp_panel import Board
-   board = Board()
-   board.init()
+    from esp_panel import Board
+    board = Board()
+    board.init()
     ```
-   board.init() should return False, as we yet have to define a board.
 
-8. Define your Board
-   Edit ESP32_Display_Panel/mpy_support/esp_panel_mp_board.cpp.
-   Add a Board definition:
+    `board.init()` 应该返回 False，因为我们还需要定义一个开发板。
+
+8. 定义您的开发板
+
+   编辑 *ESP32_Display_Panel/mpy_support/esp_panel_mp_board.cpp*。添加一个开发板定义：
+
     ```c++
     const BoardConfig BOARD_EXTERNAL_CONFIG = {
         /* General */
@@ -142,23 +149,31 @@ it should be easy to adapt to different supported ESP-Chips. Please note, that y
         },
     };
     ```
-   Then replace the constructor
-   ```c++
-   self->board = utils::make_shared<Board>()
-    ```
-   with
-   ```c++
-   self->board = utils::make_shared<Board>(BOARD_EXTERNAL_CONFIG);
-    ```
-9. Edit esp_panel_drivers_conf.h
-   Edit ESP32_Display_Panel/esp_panel_drivers_conf.h and ensure, the drivers referenced in your board config are being
-   build. Warning: ESP_PANEL_DRIVERS_BUS_USE_ALL does not seem to work. Set to 0 and manually include the bus driver
-   you need. Same goes for ESP_PANEL_DRIVERS_BUS_COMPILE_UNUSED_DRIVERS.
 
-10. Repeat Step 6 to rebuild micropython
+    然后替换构造函数
 
-11. Test your display
-    Connect to your board and run:
+    ```c++
+    self->board = utils::make_shared<Board>()
+    ```
+
+    为
+
+    ```c++
+    self->board = utils::make_shared<Board>(BOARD_EXTERNAL_CONFIG);
+    ```
+
+9. 编辑 esp_panel_drivers_conf.h
+
+    编辑 *ESP32_Display_Panel/esp_panel_drivers_conf.h* 并确保在您的开发板配置中引用的驱动程序被构建。
+    **警告**：`ESP_PANEL_DRIVERS_BUS_USE_ALL` 似乎不起作用。设置为 0 并手动包含您需要的总线驱动程序。
+    `ESP_PANEL_DRIVERS_BUS_COMPILE_UNUSED_DRIVERS` 也是如此。
+
+10. 重复 **步骤 6** 重新构建 micropython
+
+11. 测试您的显示屏
+
+    连接到您的开发板并运行：
+
     ```python
     from esp_panel import Board
     board = Board()
@@ -166,16 +181,13 @@ it should be easy to adapt to different supported ESP-Chips. Please note, that y
     board.begin()
     board.color_bar_test()
     ```
-    
-12. Profit! :)
 
-    To include touch support, see ESP32_Display_Panel/examples/arduino/board/board_dynamic_config/board_external_config.cpp
-    for an example touch definition.
-       
+12. 大功告成！:)
 
-## Known Pitfalls
+    要包含触摸支持，请参阅 *ESP32_Display_Panel/examples/arduino/board/board_dynamic_config/board_external_config.cpp* 获取触摸定义示例。
 
-1. When board.init() returns false, likely your driver-definition in esp_panel_drivers_conf.h does not match.
-2. board.begin() crashes, if you rely on ESP_PANEL_DRIVERS_BUS_USE_ALL
-3. If you edit ESP32_Display_Panel/esp_panel_drivers_conf.h, also modify ESP32_Display_Panel/mpy_support/esp_panel_mp_board.cpp
-   (like add or remove an empty line). Otherwise, changes to esp_panel_drivers_conf.h will not be recognized.
+## 已知陷阱
+
+1. 当 `board.init()` 返回 false 时，很可能是您在 *esp_panel_drivers_conf.h* 中的驱动程序定义不匹配。
+2. 如果您依赖 `ESP_PANEL_DRIVERS_BUS_USE_ALL`，`board.begin()` 会崩溃。
+3. 如果您编辑 *ESP32_Display_Panel/esp_panel_drivers_conf.h*，还需要修改 *ESP32_Display_Panel/mpy_support/esp_panel_mp_board.cpp*（比如添加或删除一个空行）。否则，对 *esp_panel_drivers_conf.h* 的更改将不会被识别。
