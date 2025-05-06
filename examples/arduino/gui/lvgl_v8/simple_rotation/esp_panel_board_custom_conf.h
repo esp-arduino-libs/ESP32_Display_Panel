@@ -162,8 +162,8 @@
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_SCL_USE_EXPNADER    (0) // Set to 1 if the signal is controlled by an IO expander
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_SDA_USE_EXPNADER    (0) // Set to 1 if the signal is controlled by an IO expander
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_MODE                (0) // 0-3, typically set to 0
-    #define ESP_PANEL_BOARD_LCD_RGB_SPI_CMD_BYTES           (1) // Typically set to 8
-    #define ESP_PANEL_BOARD_LCD_RGB_SPI_PARAM_BYTES         (1) // Typically set to 8
+    #define ESP_PANEL_BOARD_LCD_RGB_SPI_CMD_BYTES           (1) // Typically set to 1
+    #define ESP_PANEL_BOARD_LCD_RGB_SPI_PARAM_BYTES         (1) // Typically set to 1
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_USE_DC_BIT          (1) // 0/1. Typically set to 1
 #endif // ESP_PANEL_BOARD_LCD_RGB_USE_CONTROL_PANEL
     /* For refresh panel (RGB) */
@@ -476,6 +476,22 @@
     #define ESP_PANEL_BOARD_BACKLIGHT_IO        (38)    // Output GPIO pin number
     #define ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL  (1)     // Active level, 0: low, 1: high
 
+#if ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC
+    /**
+     * @brief PWM parameters configuration
+     */
+    #define ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ   (5000)  // LEDC timer frequency.
+                                                            // Different backlight driver chips may have different
+                                                            // frequency limits, please refer to the datasheet of
+                                                            // the specific chip.
+                                                            // https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues/188
+
+    #define ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION  (10) // LEDC timer duty resolution.
+                                                                // The frequency and duty resolution of the LEDC timer
+                                                                // need to be properly matched, please refer to:
+                                                                // https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/ledc.html#supported-range-of-frequency-and-duty-resolutions
+#endif
+
 #elif ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_CUSTOM
 
     /**
@@ -735,9 +751,9 @@
  * 3. Patch version mismatch: No impact on functionality
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 0
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
 
-#endif // ESP_PANEL_BOARD_USE_CUSTOM
+#endif // ESP_PANEL_BOARD_DEFAULT_USE_CUSTOM
 
 // *INDENT-ON*

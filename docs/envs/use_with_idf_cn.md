@@ -106,7 +106,7 @@ ESP32_Display_Panel 已上传到 [Espressif 组件库](https://components.espres
 
     c. **配置 LVGL 任务**
 
-    - 如果使用 LVGL，设置执行 `lv_timer_handler()` 任务与执行 RGB LCD 初始化任务在同一个核心上运行可以缓解画面漂移问题
+    - 如果使用 LVGL，设置执行 `lv_timer_handler()` 的任务与执行 `board->begin()` 的任务在同一个核心上运行可以缓解画面漂移问题
 
 3. **示例代码**
 

@@ -247,10 +247,10 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
             },
         #endif // ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST
             // Control Panel
-            .control_panel = ESP_PANEL_TOUCH_SPI_CONTROL_PANEL_CONFIG(
-                ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_SPI_IO_CS
-            ),
-            .use_complete_io_config = true,
+            .control_panel = BusSPI::ControlPanelFullConfig
+                ESP_PANEL_TOUCH_SPI_CONTROL_PANEL_CONFIG(
+                    ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_SPI_IO_CS
+                ),
         },
     #endif // ESP_PANEL_BOARD_TOUCH_BUS_TYPE
         .device_name = TO_STR(ESP_PANEL_BOARD_TOUCH_CONTROLLER),
@@ -293,6 +293,10 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
         },
     #elif ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC
         .config = BacklightPWM_LEDC::Config{
+            .ledc_timer = BacklightPWM_LEDC::LEDC_TimerPartialConfig{
+                .freq_hz = ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ,
+                .duty_resolution = ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION,
+            },
             .ledc_channel = BacklightPWM_LEDC::LEDC_ChannelPartialConfig{
                 .io_num = ESP_PANEL_BOARD_BACKLIGHT_IO,
                 .on_level = ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL,

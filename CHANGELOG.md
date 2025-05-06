@@ -1,11 +1,38 @@
 # ChangeLog
 
-## v1.0.1 - 2025-02-19
+## v1.0.3 - 2025-04-27
+
+### Enhancements:
+
+* feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
+
+## v1.0.2 - 2025-04-23
+
+### Enhancements:
+
+* feat(backlight): add PWM parameters configuration (#188)
+
+### Bugfixes:
+
+* fix(io_expander): remove incompatible header (#175)
+* fix(pre-commit): update the pre-commit script
+* fix(docs): update README
+* fix(conf): update comments of custom config file
+* fix(examples): enable CPU 240M and task WDT default in esp_idf/lvgl_v8_port
+* fix(lcd): fix ST7701 mirror issue
+
+## v1.0.1 - 2025-03-13
+
+### Enhancements:
+
+* feat(docs): add new FAQs
 
 ### Bugfixes:
 
 * fix(touch): avoid reading the button state when disabled (#162)
 * fix(docs): correct and add descriptions
+* fix(board): resolve compilation error for SPI touch screens @tilordleo (#169)
+* fix(conf): correct comments in `esp_panel_board_custom_conf.h`
 
 ## v1.0.0 - 2025-02-17
 

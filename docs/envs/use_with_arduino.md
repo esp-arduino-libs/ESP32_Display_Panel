@@ -31,10 +31,11 @@
     - [How to install ESP32\_Display\_Panel in Arduino IDE?](#how-to-install-esp32_display_panel-in-arduino-ide)
     - [How to select and configure supported boards in Arduino IDE?](#how-to-select-and-configure-supported-boards-in-arduino-ide)
     - [How to use SquareLine exported UI source files in Arduino IDE?](#how-to-use-squareline-exported-ui-source-files-in-arduino-ide)
-    - [Screen not working in Arduino IDE, how to debug?](#screen-not-working-in-arduino-ide-how-to-debug)
-    - [Can't see log messages or messages are incomplete in Arduino IDE's Serial Monitor, how to fix?](#cant-see-log-messages-or-messages-are-incomplete-in-arduino-ides-serial-monitor-how-to-fix)
+    - [How to debug when the screen doesn't light up using the library in Arduino IDE?](#how-to-debug-when-the-screen-doesnt-light-up-using-the-library-in-arduino-ide)
+    - [How to fix the issue that log messages are missing or incomplete in Arduino IDE's Serial Monitor?](#how-to-fix-the-issue-that-log-messages-are-missing-or-incomplete-in-arduino-ides-serial-monitor)
     - [Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in Arduino IDE](#solution-for-screen-drift-issue-when-using-esp32-s3-to-drive-rgb-lcd-in-arduino-ide)
     - [How to reduce Flash usage and speed up compilation when using ESP32\_Display\_Panel in Arduino IDE?](#how-to-reduce-flash-usage-and-speed-up-compilation-when-using-esp32_display_panel-in-arduino-ide)
+    - [How to avoid I2C re-initialization when using ESP32\_Display\_Panel in Arduino IDE (e.g., when using Wire library)?](#how-to-avoid-i2c-re-initialization-when-using-esp32_display_panel-in-arduino-ide-eg-when-using-wire-library)
 
 ## Quick Start
 
@@ -505,7 +506,7 @@ Please refer to [Configuring Arduino IDE](#configuring-arduino-ide).
 
 Please refer to [Porting SquareLine Projects](#porting-squareline-projects).
 
-### Screen not working in Arduino IDE, how to debug?
+### How to debug when the screen doesn't light up using the library in Arduino IDE?
 
 Please follow these steps to troubleshoot:
 
@@ -514,7 +515,7 @@ Please follow these steps to troubleshoot:
 3. Check detailed log information through the serial monitor to analyze the problem.
 4. If the problem still cannot be solved through the above steps, please submit an issue report on [GitHub Issues](https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues) with complete log information.
 
-### Can't see log messages or messages are incomplete in Arduino IDE's Serial Monitor, how to fix?
+### How to fix the issue that log messages are missing or incomplete in Arduino IDE's Serial Monitor?
 
 Please follow these steps to resolve:
 
@@ -552,7 +553,7 @@ Please follow these steps to resolve:
 
     c. **Configure LVGL Task**
 
-    - If using LVGL, setting the task that executes `lv_timer_handler()` to run on the same core as the RGB LCD initialization task can help mitigate the screen drift issue
+    - If using LVGL, setting the task that executes `lv_timer_handler()` to run on the same core as the task that executes `board->begin()` can help mitigate the screen drift issue
 
 3. **Example Code**
 
@@ -617,3 +618,44 @@ Please follow these steps:
     ```
 
 - For detailed configuration, please refer to [Configuring esp-lib-utils](#configuring-esp-lib-utils)
+
+### How to avoid I2C re-initialization when using ESP32_Display_Panel in Arduino IDE (e.g., when using Wire library)?
+
+If you need to use ESP32_Display_Panel's I2C bus functionality, such as `I2C IO_Expander` or `I2C Touch` drivers, while your project is already using the `Wire` library, errors may occur due to I2C bus re-initialization. To avoid this, initialize `Wire` before creating the `Board` object, then follow these steps to configure ESP32_Display_Panel to skip I2C initialization:
+
+1. By modifying the *esp_panel_board_custom_conf.h* configuration file (only applicable for [custom boards](#loading-of-custom-boards)):
+
+- For `I2C Touch` driver:
+
+    ```c
+    ...
+    #define ESP_PANEL_BOARD_LCD_BUS_SKIP_INIT_HOST    (1)     // 0/1
+    ...
+    ```
+
+- For `I2C IO_Expander` driver:
+
+    ```c
+    ...
+    #define ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST     (1)     // 0/1
+    ...
+    ```
+
+2. By using code (applicable for both [supported boards](#loading-of-supported-boards) and [custom boards](#loading-of-custom-boards)):
+
+    ```c
+    ...
+    esp_panel::board::Board *board = new esp_panel::board::Board();
+    board->init();
+    ...
+    /**
+     * Should be called after `board->init()` and before `board->begin()`
+     */
+    // For I2C Touch
+    static_cast<esp_panel::drivers::BusI2C *>(board->getTouch()->getBus())->configI2C_HostSkipInit();
+    // For I2C IO_Expander
+    board->getIO_Expander()->skipInitHost();
+    ...
+    board->begin();
+    ...
+    ```

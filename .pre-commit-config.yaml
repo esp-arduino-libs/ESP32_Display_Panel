@@ -77,33 +77,33 @@ repos:
     hooks:
       - id: check-executables
         name: Check File Permissions
-        entry: .gitlab/tools/check_executables.py --action executables
+        entry: ./tools/check_executables.py --action executables
         language: python
         types: [executable]
         exclude: '\.pre-commit/.+'
       - id: check-executable-list
         name: Validate executable-list.txt
-        entry: .gitlab/tools/check_executables.py --action list
+        entry: ./tools/check_executables.py --action list
         language: python
         pass_filenames: false
         always_run: true
       - id: sync-conf-files
         name: Update when configuration files change
-        entry: python3 tools/sync_conf_files.py ./ ./
+        entry: python3 ./tools/sync_conf_files.py ./ ./
         language: system
         files: '.*esp_panel_(board_custom|board_supported|drivers)_conf\.h'
       - id: sync-template-files
         name: Update when template files change
-        entry: python3 tools/sync_conf_files.py ./template_files ./
+        entry: python3 ./tools/sync_conf_files.py ./template_files ./
         language: system
         files: '(.*esp_utils_conf\.h|.*lv_conf\.h|.*lvgl_v8_port\.cpp|.*lvgl_v8_port\.h)'
       - id: check-file-versions
         name: Update when versions change
-        entry: python3 tools/check_file_version.py ./
+        entry: python3 ./tools/check_file_version.py ./
         language: system
         files: '(.*esp_panel_(board_custom|board_supported|drivers)_conf\.h|library.properties|.*esp_panel_versions.h)'
       - id: check-library-versions
         name: Check library versions
-        entry: ./.github/scripts/check_lib_versions.sh
+        entry: ./tools/check_lib_versions.sh
         language: system
         files: '(idf_component.yml|library.properties)'

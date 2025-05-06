@@ -10,8 +10,8 @@ exclude_files = [
     './examples/platformio/lvgl_v8_port/src/lv_conf.h',
 ]
 exclude_dirs = [
-    './build',
-    './examples/platformio/lvgl_v8_port/.pio',
+    r'.*build.*',
+    r'.*pio.*',
 ]
 
 
@@ -25,13 +25,21 @@ def is_same_path(path1, path2):
 
 
 def is_in_directory(file_path, directory):
-    directory = os.path.realpath(directory)
+    import re
     file_path = os.path.realpath(file_path)
 
-    return file_path.startswith(directory)
+    # Check if the file path matches any of the exclude directory patterns
+    for pattern in exclude_dirs:
+        if re.search(pattern, file_path):
+            return True
+    return False
 
 
 def is_same_file(file1, file2):
+    # Check if both files exist
+    if not os.path.exists(file1) or not os.path.exists(file2):
+        return False
+
     with open(file1, 'r') as f1, open(file2, 'r') as f2:
         file1_content = f1.read()
         file2_content = f2.read()
@@ -53,7 +61,7 @@ def replace_files(template_directory, search_directory, file_path):
     filename = os.path.basename(file_path)
     src_file = os.path.join(template_directory, filename)
 
-    if is_exclude_file(file_path):
+    if is_exclude_file(file_path) or not os.path.exists(src_file):
         print(f"Skip '{file_path}'")
         return
 

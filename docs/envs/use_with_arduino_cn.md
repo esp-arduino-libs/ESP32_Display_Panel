@@ -35,6 +35,7 @@
     - [在 Arduino IDE 中打开串口调试器看不到日志信息或日志信息显示不全，如何解决？](#在-arduino-ide-中打开串口调试器看不到日志信息或日志信息显示不全如何解决)
     - [在 Arduino IDE 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](#在-arduino-ide-中使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
     - [在 Arduino IDE 中使用 ESP32\_Display\_Panel 时，如何降低其 Flash 占用及加快编译速度？](#在-arduino-ide-中使用-esp32_display_panel-时如何降低其-flash-占用及加快编译速度)
+    - [在 Arduino IDE 中使用 ESP32\_Display\_Panel 时，如何避免 I2C 重复初始化（如使用 Wire 库）？](#在-arduino-ide-中使用-esp32_display_panel-时如何避免-i2c-重复初始化如使用-wire-库)
 
 ## 快速入门
 
@@ -552,7 +553,7 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
 
     c. **配置 LVGL 任务**
 
-    - 如果使用 LVGL，设置执行 `lv_timer_handler()` 任务与执行 RGB LCD 初始化任务在同一个核心上运行可以缓解画面漂移问题
+    - 如果使用 LVGL，设置执行 `lv_timer_handler()` 的任务与执行 `board->begin()` 的任务在同一个核心上运行可以缓解画面漂移问题
 
 3. **示例代码**
 
@@ -617,3 +618,44 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
     ```
 
 - 详细配置方法请参阅 [配置 esp-lib-utils](#配置-esp-lib-utils)
+
+### 在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何避免 I2C 重复初始化（如使用 Wire 库）？
+
+如果您需要使用 ESP32_Display_Panel 的 I2C 总线功能，如使用 `I2C IO_Expander` 或 `I2C Touch` 等驱动，而您的项目中已经使用了 `Wire` 库，可能会因为 I2C 总线重复初始化导致错误。为了避免这种情况，请在创建 `Board` 对象之前初始化 `Wire`，然后参考以下步骤设置 ESP32_Display_Panel 跳过初始化 I2C：
+
+1. 通过修改 *esp_panel_board_custom_conf.h* 配置文件的方法（仅适用于 [自定义开发板](#加载自定义开发板)）：
+
+- 对于 `I2C Touch` 驱动：
+
+    ```c
+    ...
+    #define ESP_PANEL_BOARD_LCD_BUS_SKIP_INIT_HOST    (1)     // 0/1
+    ...
+    ```
+
+- 对于 `I2C IO_Expander` 驱动：
+
+    ```c
+    ...
+    #define ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST     (1)     // 0/1
+    ...
+    ```
+
+2. 通过代码的方法（适用于 [支持的开发板](#加载支持的开发板) 以及 [自定义开发板](#加载自定义开发板)）：
+
+    ```c
+    ...
+    esp_panel::board::Board *board = new esp_panel::board::Board();
+    board->init();
+    ...
+    /**
+     * Should be called after `board->init()` and before `board->begin()`
+     */
+    // For I2C Touch
+    static_cast<esp_panel::drivers::BusI2C *>(board->getTouch()->getBus())->configI2C_HostSkipInit();
+    // For I2C IO_Expander
+    board->getIO_Expander()->skipInitHost();
+    ...
+    board->begin();
+    ...
+    ```

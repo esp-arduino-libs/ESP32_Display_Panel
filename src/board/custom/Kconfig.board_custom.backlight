@@ -57,6 +57,23 @@ if ESP_PANEL_BOARD_USE_BACKLIGHT
                 Active level for backlight control.
     endmenu
 
+    menu "PWM parameters"
+        depends on ESP_PANEL_BOARD_BACKLIGHT_TYPE_PWM_LEDC
+
+        config ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ
+            int "Frequency"
+            default 5000
+            help
+                Frequency for PWM control.
+
+        config ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION
+            int "Duty resolution"
+            default 10
+            range 1 20
+            help
+                Duty resolution for PWM control.
+    endmenu
+
     config ESP_PANEL_BOARD_BACKLIGHT_IDLE_OFF
         bool "Idle off"
         default n
