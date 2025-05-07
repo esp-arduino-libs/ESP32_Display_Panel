@@ -123,6 +123,13 @@
  *              +------------------- Horizontal resolution: 240
  *  So UEDX24320024E means: 240x320 resolution & 2.4 inch display
  *
+ *  - BOARD_VIEWE_SMARTRING (SMARTRING): https://github.com/VIEWESMART/VIEWE-SMARTRING
+ *  - BOARD_VIEWE_UEDX24240013_MD50E (UEDX24240013-MD50E): https://github.com/VIEWESMART/VIEWE-SMARTRING
+ *  - BOARD_VIEWE_UEDX46460015_MD50ET (UEDX46460015-MD50ET): https://github.com/VIEWESMART/UEDX46460015-MD50ESP32-1.5inch-Touch-Knob-Display
+ *  - BOARD_VIEWE_UEDX48480021_MD80E (UEDX48480021-MD80E): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32_2.1inch-Knob
+ *  - BOARD_VIEWE_UEDX48480021_MD80E_V2 (UEDX48480021-MD80E-V2): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32_2.1inch-Knob
+ *  - BOARD_VIEWE_UEDX48480021_MD80ET (UEDX48480021-MD80ET): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32-2.1inch-Touch-Knob-Display
+ *  - BOARD_VIEWE_UEDX48480028_MD80ET (UEDX48480028-MD80ET): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32-2.1inch-Touch-Knob-Display
  *  - BOARD_VIEWE_UEDX24320024E_WB_A (UEDX24320024E-WB-A): https://viewedisplay.com/product/esp32-2-4-inch-240x320-rgb-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
  *  - BOARD_VIEWE_UEDX24320028E_WB_A (UEDX24320028E-WB-A): https://viewedisplay.com/product/esp32-2-8-inch-240x320-mcu-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
  *  - BOARD_VIEWE_UEDX24320035E_WB_A (UEDX24320035E-WB-A): https://viewedisplay.com/product/esp32-3-5-inch-240x320-mcu-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
@@ -132,8 +139,16 @@
  *  - BOARD_VIEWE_UEDX80480043E_WB_A (UEDX80480043E-WB-A): https://viewedisplay.com/product/esp32-4-3-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480050E_WB_A (UEDX80480050E-WB-A): https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480050E_WB_A_2 (UEDX80480050E-WB-A): https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
+ *  - BOARD_VIEWE_UEDX80480050E_AC_A  (UEDX80480050E-AC-A): https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480070E_WB_A (UEDX80480070E-WB-A): https://viewedisplay.com/product/esp32-7-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl-uart/
  */
+// #define BOARD_VIEWE_SMARTRING
+// #define BOARD_VIEWE_UEDX24240013_MD50E
+// #define BOARD_VIEWE_UEDX46460015_MD50ET
+// #define BOARD_VIEWE_UEDX48480021_MD80E
+// #define BOARD_VIEWE_UEDX48480021_MD80E_V2
+// #define BOARD_VIEWE_UEDX48480021_MD80ET
+// #define BOARD_VIEWE_UEDX48480028_MD80ET
 // #define BOARD_VIEWE_UEDX24320024E_WB_A
 // #define BOARD_VIEWE_UEDX24320028E_WB_A
 // #define BOARD_VIEWE_UEDX24320035E_WB_A
@@ -143,6 +158,7 @@
 // #define BOARD_VIEWE_UEDX80480043E_WB_A
 // #define BOARD_VIEWE_UEDX80480050E_WB_A
 // #define BOARD_VIEWE_UEDX80480050E_WB_A_2
+// #define BOARD_VIEWE_UEDX80480050E_AC_A
 // #define BOARD_VIEWE_UEDX80480070E_WB_A
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
