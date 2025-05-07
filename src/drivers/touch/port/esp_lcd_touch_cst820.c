@@ -4,6 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * @file   esp_lcd_touch_cst820.c
+ * @brief  ESP LCD touch: CST820
+ * @author Viewe@VIEWESMART
+ */
+
 #include "../esp_panel_touch_conf_internal.h"
 #if ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST820
 
@@ -26,8 +32,6 @@
 
 #define POINT_NUM_MAX       (1)
 
-// #define DATA_START_REG      (0x02)
-// #define DATA_START_REG      (0x20)
 #define DATA_START_REG      (0x00)
 #define CHIP_ID_REG         (0xA7)
 

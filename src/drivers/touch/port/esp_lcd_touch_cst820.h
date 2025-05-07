@@ -5,8 +5,9 @@
  */
 
 /**
- * @file
- * @brief ESP LCD touch: CST816S
+ * @file   esp_lcd_touch_cst820.h
+ * @brief  ESP LCD touch: CST820
+ * @author Viewe@VIEWESMART
  */
 
 #pragma once
