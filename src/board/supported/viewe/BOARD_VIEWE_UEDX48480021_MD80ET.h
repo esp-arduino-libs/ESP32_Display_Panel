@@ -250,7 +250,7 @@
 /**
  * @brief Touch controller selection
  */
-#define ESP_PANEL_BOARD_TOUCH_CONTROLLER        CST816S
+#define ESP_PANEL_BOARD_TOUCH_CONTROLLER        CST820
 
 /**
  * @brief Touch bus type selection

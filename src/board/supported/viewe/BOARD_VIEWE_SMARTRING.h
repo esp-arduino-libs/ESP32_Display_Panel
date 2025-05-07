@@ -161,13 +161,13 @@
  *
  * Set to `1` to enable touch panel support, `0` to disable
  */
-#define ESP_PANEL_BOARD_USE_TOUCH               (0)
+#define ESP_PANEL_BOARD_USE_TOUCH               (1)
 
 #if ESP_PANEL_BOARD_USE_TOUCH
 /**
  * @brief Touch controller selection
  */
-#define ESP_PANEL_BOARD_TOUCH_CONTROLLER        CST816S
+#define ESP_PANEL_BOARD_TOUCH_CONTROLLER        CST820
 
 /**
  * @brief Touch bus type selection
