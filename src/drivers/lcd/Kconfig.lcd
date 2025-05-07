@@ -53,6 +53,10 @@ menu "LCD"
                 bool "Use NV3022B"
                 default n
 
+            config ESP_PANEL_DRIVERS_LCD_USE_OTA7290
+                bool "Use OTA7290"
+                default n
+
             config ESP_PANEL_DRIVERS_LCD_USE_SH8601
                 bool "Use SH8601"
                 default n

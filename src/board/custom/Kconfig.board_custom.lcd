@@ -45,6 +45,9 @@ if ESP_PANEL_BOARD_USE_LCD
         config ESP_PANEL_LCD_CONTROLLER_NV3022B
             bool "NV3022B"
 
+        config ESP_PANEL_LCD_CONTROLLER_OTA7290
+            bool "OTA7290"
+
         config ESP_PANEL_LCD_CONTROLLER_SH8601
             bool "SH8601"
 

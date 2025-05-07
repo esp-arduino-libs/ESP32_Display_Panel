@@ -75,6 +75,7 @@
     #define ESP_PANEL_DRIVERS_LCD_USE_JD9165            (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_JD9365            (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_NV3022B           (0)
+    #define ESP_PANEL_DRIVERS_LCD_USE_OTA7290           (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_SH8601            (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_SPD2010           (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_ST7262            (0)
@@ -260,7 +261,7 @@
  * 3. Patch version mismatch: No impact on functionality
  */
 #define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MINOR 0
+#define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MINOR 1
 #define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_PATCH 0
 
 // *INDENT-ON*

@@ -5,6 +5,7 @@
 ### Enhancements:
 
 * feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
+* feat(drivers): add LCD controller OTA7290
 
 ## v1.0.2 - 2025-04-23
 

@@ -21,6 +21,7 @@
 #include "esp_panel_lcd_jd9165.hpp"
 #include "esp_panel_lcd_jd9365.hpp"
 #include "esp_panel_lcd_nv3022b.hpp"
+#include "esp_panel_lcd_ota7290.hpp"
 #include "esp_panel_lcd_sh8601.hpp"
 #include "esp_panel_lcd_spd2010.hpp"
 #include "esp_panel_lcd_st7262.hpp"

@@ -86,10 +86,24 @@ def is_in_directory(file_path, directory):
 def extract_file_version(file_path, version_dict):
     file_contents = []
     content_str = ''
-    with open(file_path, 'r') as file:
-        file_contents.append(file.readlines())
-        for content in file_contents:
-            content_str = ''.join(content)
+    encodings = ['utf-8', 'gbk', 'gb2312', 'latin1']
+
+    for encoding in encodings:
+        try:
+            with open(file_path, 'r', encoding=encoding) as file:
+                file_contents.append(file.readlines())
+                for content in file_contents:
+                    content_str = ''.join(content)
+                break
+        except UnicodeDecodeError:
+            continue
+        except Exception as e:
+            print(f'Error reading file {file_path}: {str(e)}')
+            return None
+
+    if not content_str:
+        print(f'Could not read file {file_path} with any of the supported encodings')
+        return None
 
     version_macro = version_dict['macro']
     major_version = re.search(r'#define ' + version_macro['major'] + r' (\d+)', content_str)
@@ -105,10 +119,24 @@ def extract_file_version(file_path, version_dict):
 def extract_arduino_version(file_path):
     file_contents = []
     content_str = ''
-    with open(file_path, 'r') as file:
-        file_contents.append(file.readlines())
-        for content in file_contents:
-            content_str = ''.join(content)
+    encodings = ['utf-8', 'gbk', 'gb2312', 'latin1']
+
+    for encoding in encodings:
+        try:
+            with open(file_path, 'r', encoding=encoding) as file:
+                file_contents.append(file.readlines())
+                for content in file_contents:
+                    content_str = ''.join(content)
+                break
+        except UnicodeDecodeError:
+            continue
+        except Exception as e:
+            print(f'Error reading file {file_path}: {str(e)}')
+            return None
+
+    if not content_str:
+        print(f'Could not read file {file_path} with any of the supported encodings')
+        return None
 
     version = re.search(r'version=(\d+\.\d+\.\d+)', content_str)
 

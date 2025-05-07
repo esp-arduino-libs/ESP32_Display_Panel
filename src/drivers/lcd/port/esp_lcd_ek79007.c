@@ -282,5 +282,5 @@ static esp_err_t panel_ek79007_invert_color(esp_lcd_panel_t *panel, bool invert_
 
     return ESP_OK;
 }
-#endif
-#endif // ESP_PANEL_DRIVERS_LCD_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_LCD_USE_EK79007
+#endif // SOC_MIPI_DSI_SUPPORTED
+#endif // ESP_PANEL_DRIVERS_LCD_ENABLE_EK79007
