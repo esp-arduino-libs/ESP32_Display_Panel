@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @file   BOARD_UEDX48480040E_WB_A.h
- * @brief  Configuration file for Viewe UEDX48480040E-WB-A
+ * @file   BOARD_UEDX48480028_MD80ET.h
+ * @brief  Configuration file for Viewe UEDX48480028-MD80ET
  * @author Viewe@VIEWESMART
- * @link   https://viewedisplay.com/product/esp32-4-inch-tft-display-touch-screen-arduino-lvgl/
+ * @link   
  */
 
 #pragma once

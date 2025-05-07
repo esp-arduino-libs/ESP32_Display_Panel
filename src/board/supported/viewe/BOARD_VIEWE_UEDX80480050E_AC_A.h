@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @file   BOARD_UEDX80480050E_WB_A.h
- * @brief  Configuration file for Viewe UEDX80480050E-WB-A
+ * @file   BOARD_UEDX80480050E_AC_A.h
+ * @brief  Configuration file for Viewe UEDX80480050E-AC-A
  * @author Viewe@VIEWESMART
  * @link   https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  */
