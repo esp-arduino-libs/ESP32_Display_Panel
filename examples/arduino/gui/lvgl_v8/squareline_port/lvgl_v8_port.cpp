@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: CC0-1.0
  */
 
+#include "freertos/FreeRTOS.h"
+
 #include "esp_timer.h"
 #undef ESP_UTILS_LOG_TAG
 #define ESP_UTILS_LOG_TAG "LvPort"
@@ -638,10 +640,18 @@ static lv_disp_t *display_init(LCD *lcd)
     return lv_disp_drv_register(&disp_drv);
 }
 
+static SemaphoreHandle_t touch_detected;
+
 static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 {
     Touch *tp = (Touch *)indev_drv->user_data;
     TouchPoint point;
+    data->state = LV_INDEV_STATE_RELEASED;
+
+    /* if we are interrupt driven wait for the ISR to fire */
+    if ( tp->isInterruptEnabled() && (xSemaphoreTake( touch_detected, 0 ) == pdFALSE) ) {
+        return;
+    }
 
     /* Read data from touch controller */
     int read_touch_result = tp->readPoints(&point, 1, 0);
@@ -649,9 +659,15 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
         data->point.x = point.x;
         data->point.y = point.y;
         data->state = LV_INDEV_STATE_PRESSED;
-    } else {
-        data->state = LV_INDEV_STATE_RELEASED;
     }
+}
+
+static bool onTouchInterruptCallback(void *user_data)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xSemaphoreGiveFromISR( touch_detected, &xHigherPriorityTaskWoken );
+    portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+    return false;
 }
 
 static lv_indev_t *indev_init(Touch *tp)
@@ -661,6 +677,10 @@ static lv_indev_t *indev_init(Touch *tp)
 
     static lv_indev_drv_t indev_drv_tp;
 
+    if (tp->isInterruptEnabled()) {
+        touch_detected = xSemaphoreCreateBinary();
+        tp->attachInterruptCallback(onTouchInterruptCallback, tp);
+    }
     ESP_UTILS_LOGD("Register input driver to LVGL");
     lv_indev_drv_init(&indev_drv_tp);
     indev_drv_tp.type = LV_INDEV_TYPE_POINTER;

@@ -649,7 +649,7 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
     data->state = LV_INDEV_STATE_RELEASED;
 
     /* if we are interrupt driven wait for the ISR to fire */
-    if( tp->isInterruptEnabled() && (xSemaphoreTake( touch_detected, 0 ) == pdFALSE) ) {
+    if ( tp->isInterruptEnabled() && (xSemaphoreTake( touch_detected, 0 ) == pdFALSE) ) {
         return;
     }
 
@@ -662,7 +662,8 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
     }
 }
 
-static bool onTouchInterruptCallback(void *user_data) {
+static bool onTouchInterruptCallback(void *user_data)
+{
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     xSemaphoreGiveFromISR( touch_detected, &xHigherPriorityTaskWoken );
     portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
@@ -676,7 +677,7 @@ static lv_indev_t *indev_init(Touch *tp)
 
     static lv_indev_drv_t indev_drv_tp;
 
-    if(tp->isInterruptEnabled()) {
+    if (tp->isInterruptEnabled()) {
         touch_detected = xSemaphoreCreateBinary();
         tp->attachInterruptCallback(onTouchInterruptCallback, tp);
     }
