@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "port/esp_lcd_touch_cst816s.h"
+#include "port/esp_lcd_touch_cst820.h"
 #include "esp_panel_touch_conf_internal.h"
 #include "esp_panel_touch.hpp"
 
@@ -78,10 +78,3 @@ public:
 };
 
 } // namespace esp_panel::drivers
-
-/**
- * @brief Deprecated type alias for backward compatibility
- * @deprecated Use `esp_panel::drivers::TouchCST820` instead
- */
-using ESP_PanelTouch_CST820 [[deprecated("Use `esp_panel::drivers::TouchCST820` instead")]] =
-    esp_panel::drivers::TouchCST820;

@@ -8,7 +8,7 @@
 #if ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST820
 
 #include "utils/esp_panel_utils_log.h"
-#include "esp_panel_touch_cst816s.hpp"
+#include "esp_panel_touch_cst820.hpp"
 
 namespace esp_panel::drivers {
 
@@ -34,7 +34,7 @@ bool TouchCST820::begin()
 
     // Create touch panel
     ESP_UTILS_CHECK_ERROR_RETURN(
-        esp_lcd_touch_new_i2c_cst816s(
+        esp_lcd_touch_new_i2c_cst820(
             getBus()->getControlPanelHandle(), getConfig().getDeviceFullConfig(), &touch_panel
         ), false, "Create touch panel failed"
     );

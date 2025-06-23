@@ -31,6 +31,10 @@ menu "Touch"
                 bool "Use CST816S"
                 default n
 
+            config ESP_PANEL_DRIVERS_TOUCH_USE_CST820
+                bool "Use CST820"
+                default n
+
             config ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06
                 bool "Use FT5x06"
                 default n

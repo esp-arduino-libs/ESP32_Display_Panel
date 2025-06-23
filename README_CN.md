@@ -95,7 +95,7 @@ ESP32_Display_Panel 的主要特性如下：
 | Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
 | GOODiX | GT911、GT1151 |
-| Hynitron | CST816S |
+| Hynitron | CST816S、CST820 |
 | Parade | TT21100 |
 | Sitronix | ST7123、ST1633 |
 | Solomon Systech | SPD2010 |

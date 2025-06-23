@@ -123,15 +123,15 @@ static esp_err_t read_data(esp_lcd_touch_handle_t tp)
     // ESP_RETURN_ON_ERROR(i2c_read_bytes(tp, DATA_START_REG, (uint8_t *)&point, sizeof(data_t)), TAG, "I2C read failed");
 
     /*CST820 */
-    uint8_t lvalue[15]={0};
-    uint8_t gesture_id=0;
-    uint16_t x=0;
-    uint16_t y=0;
+    uint8_t lvalue[15] = {0};
+    // uint8_t gesture_id=0;
+    uint16_t x = 0;
+    uint16_t y = 0;
     ESP_RETURN_ON_ERROR(i2c_read_bytes(tp, DATA_START_REG, (uint8_t *)lvalue, sizeof(lvalue)), TAG, "I2C read failed");
-    gesture_id =  lvalue[1];
-    point.num  =lvalue[2];
-    x = (((uint16_t)(lvalue[3]&0x0f))<<8) | lvalue[4];
-    y = (((uint16_t)(lvalue[5]&0x0f))<<8) | lvalue[6];
+    // gesture_id =  lvalue[1];
+    point.num  = lvalue[2];
+    x = (((uint16_t)(lvalue[3] & 0x0f)) << 8) | lvalue[4];
+    y = (((uint16_t)(lvalue[5] & 0x0f)) << 8) | lvalue[6];
 
     portENTER_CRITICAL(&tp->data.lock);
     point.num = (point.num > POINT_NUM_MAX ? POINT_NUM_MAX : point.num);

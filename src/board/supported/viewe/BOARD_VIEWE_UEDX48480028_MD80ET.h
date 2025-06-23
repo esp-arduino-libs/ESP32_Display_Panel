@@ -7,7 +7,7 @@
  * @file   BOARD_UEDX48480028_MD80ET.h
  * @brief  Configuration file for Viewe UEDX48480028-MD80ET
  * @author Viewe@VIEWESMART
- * @link   
+ * @link
  */
 
 #pragma once

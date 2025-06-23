@@ -125,24 +125,39 @@
  *              +------------------- Horizontal resolution: 240
  *  So UEDX24320024E means: 240x320 resolution & 2.4 inch display
  *
+ *  - BOARD_VIEWE_SMARTRING (SMARTRING): https://github.com/VIEWESMART/VIEWE-SMARTRING
+ *  - BOARD_VIEWE_UEDX24240013_MD50E (UEDX24240013-MD50ESP32): https://github.com/VIEWESMART/UEDX24240013-MD50ESP32_1.3inch-Knob
  *  - BOARD_VIEWE_UEDX24320024E_WB_A (UEDX24320024E-WB-A): https://viewedisplay.com/product/esp32-2-4-inch-240x320-rgb-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
  *  - BOARD_VIEWE_UEDX24320028E_WB_A (UEDX24320028E-WB-A): https://viewedisplay.com/product/esp32-2-8-inch-240x320-mcu-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
  *  - BOARD_VIEWE_UEDX24320035E_WB_A (UEDX24320035E-WB-A): https://viewedisplay.com/product/esp32-3-5-inch-240x320-mcu-ips-tft-display-touch-screen-arduino-lvgl-wifi-ble-uart-smart-module/
  *  - BOARD_VIEWE_UEDX32480035E_WB_A (UEDX32480035E-WB-A): https://github.com/VIEWESMART/Product-Specification-and-Schematic/blob/main/ESP32/3.5inch/320480/UEDX32480035E-WB-A%20SPEC.pdf
+ *  - BOARD_VIEWE_UEDX46460015_MD50ET (UEDX46460015-MD50ESP32): https://github.com/VIEWESMART/UEDX46460015-MD50ESP32-1.5inch-Touch-Knob-Display
  *  - BOARD_VIEWE_UEDX48270043E_WB_A (UEDX48270043E-WB-A): https://github.com/VIEWESMART/Product-Specification-and-Schematic/blob/main/ESP32/4.3inch/Low-Resolution_480272/UEDX48270043E-WB-A%20SPEC.pdf
+ *  - BOARD_VIEWE_UEDX48480021_MD80E_V2 (UEDX48480021-MD80ESP32): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32_2.1inch-Knob
+ *  - BOARD_VIEWE_UEDX48480021_MD80E (UEDX48480021-MD80ESP32): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32_2.1inch-Knob
+ *  - BOARD_VIEWE_UEDX48480021_MD80ET (UEDX48480021-MD80ESP32): https://github.com/VIEWESMART/UEDX48480021-MD80ESP32-2.1inch-Touch-Knob-Display
  *  - BOARD_VIEWE_UEDX48480040E_WB_A (UEDX48480040E-WB-A): https://viewedisplay.com/product/esp32-4-inch-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480043E_WB_A (UEDX80480043E-WB-A): https://viewedisplay.com/product/esp32-4-3-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
+ *  - BOARD_VIEWE_UEDX80480050E_AC_A (UEDX80480050E-AC-A): https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480050E_WB_A (UEDX80480050E-WB-A): https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480050E_WB_A_2 (UEDX80480050E-WB-A): https://viewedisplay.com/product/esp32-5-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl/
  *  - BOARD_VIEWE_UEDX80480070E_WB_A (UEDX80480070E-WB-A): https://viewedisplay.com/product/esp32-7-inch-800x480-rgb-ips-tft-display-touch-screen-arduino-lvgl-uart/
  */
+// #define BOARD_VIEWE_SMARTRING
+// #define BOARD_VIEWE_UEDX24240013_MD50E
 // #define BOARD_VIEWE_UEDX24320024E_WB_A
 // #define BOARD_VIEWE_UEDX24320028E_WB_A
 // #define BOARD_VIEWE_UEDX24320035E_WB_A
 // #define BOARD_VIEWE_UEDX32480035E_WB_A
+// #define BOARD_VIEWE_UEDX46460015_MD50ET
 // #define BOARD_VIEWE_UEDX48270043E_WB_A
+// #define BOARD_VIEWE_UEDX48480021_MD80E_V2
+// #define BOARD_VIEWE_UEDX48480021_MD80E
+// #define BOARD_VIEWE_UEDX48480021_MD80ET
+// #define BOARD_VIEWE_UEDX48480028_MD80ET
 // #define BOARD_VIEWE_UEDX48480040E_WB_A
 // #define BOARD_VIEWE_UEDX80480043E_WB_A
+// #define BOARD_VIEWE_UEDX80480050E_AC_A
 // #define BOARD_VIEWE_UEDX80480050E_WB_A
 // #define BOARD_VIEWE_UEDX80480050E_WB_A_2
 // #define BOARD_VIEWE_UEDX80480070E_WB_A
@@ -158,7 +173,7 @@
  * 3. Patch version mismatch: No impact on functionality
  */
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 0
+#define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_MINOR 1
 #define ESP_PANEL_BOARD_SUPPORTED_FILE_VERSION_PATCH 0
 
 #endif
