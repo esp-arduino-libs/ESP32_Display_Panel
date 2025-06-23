@@ -5,6 +5,11 @@
 ### Enhancements:
 
 * feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
+* feat(board): add board Waveshare:ESP32_S3_TOUCH_LCD_1_85_C @hegdi (#208)
+
+### Bugfixes:
+
+* fix(examples): lvgl_port_v8 only poll touch screen if interrupt happened @hegdi (#209)
 
 ## v1.0.2 - 2025-04-23
 
