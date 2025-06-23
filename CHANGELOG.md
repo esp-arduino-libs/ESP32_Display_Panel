@@ -5,6 +5,7 @@
 ### Enhancements:
 
 * feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
+* feat(board): add board Waveshare:ESP32_S3_TOUCH_LCD_1_85_C @hegdi (#208)
 
 ### Bugfixes:
 

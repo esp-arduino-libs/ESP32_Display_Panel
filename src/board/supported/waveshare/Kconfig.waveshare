@@ -3,8 +3,8 @@ config BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85
     help
         https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm
 
-config BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85C
-    bool "ESP32_S3_TOUCH_LCD_1_85C"
+config BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85_C
+    bool "ESP32_S3_TOUCH_LCD_1_85_C"
     help
         https://www.waveshare.com/esp32-s3-touch-lcd-1.85c.htm
 

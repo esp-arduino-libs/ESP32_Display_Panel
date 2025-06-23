@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @file   BOARD_ESP32_S3_TOUCH_LCD_1_85C.h
- * @brief  Configuration file for Waveshare ESP32_S3_TOUCH_LCD_1_85C
+ * @file   BOARD_ESP32_S3_TOUCH_LCD_1_85_C.h
+ * @brief  Configuration file for Waveshare ESP32_S3_TOUCH_LCD_1_85_C
  * @author @martinroger & Waveshare@H-sw123
  * @link   https://www.waveshare.com/esp32-s3-touch-lcd-1.85c.htm
  */
@@ -20,7 +20,7 @@
 /**
  * @brief Board name
  */
-#define ESP_PANEL_BOARD_NAME                "Waveshare:ESP32_S3_TOUCH_LCD_1_85C"
+#define ESP_PANEL_BOARD_NAME                "Waveshare:ESP32_S3_TOUCH_LCD_1_85_C"
 
 /**
  * @brief Panel resolution configuration in pixels
