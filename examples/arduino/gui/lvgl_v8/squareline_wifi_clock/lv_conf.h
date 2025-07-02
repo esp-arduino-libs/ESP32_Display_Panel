@@ -360,7 +360,7 @@
  *===================*/
 
 /*Montserrat fonts with ASCII range and some symbols using bpp = 4
- *https://fonts.google.com/specimen/Montserrat*/
+ *https://fonts.google.com/specimen/Montserrat */
 #define LV_FONT_MONTSERRAT_8  1
 #define LV_FONT_MONTSERRAT_10 1
 #define LV_FONT_MONTSERRAT_12 1
@@ -469,7 +469,7 @@
  *  WIDGET USAGE
  *================*/
 
-/*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html*/
+/*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html */
 
 #define LV_USE_ARC        1
 
