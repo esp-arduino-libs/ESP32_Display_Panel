@@ -41,4 +41,4 @@ examples_and_unit_tests:
 ignore:  # You can also select ignoring files here
   perform_check: no  # Don't check files from that block
   include:
-  - 'examples/platformio/lvgl_v8_port/src/lv_conf.h'
+  - '**/**/lv_conf.h'

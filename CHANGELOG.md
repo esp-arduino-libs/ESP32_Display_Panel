@@ -6,12 +6,12 @@
 
 * feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
 * feat(board): add board Waveshare:ESP32_S3_TOUCH_LCD_1_85_C @hegdi (#208)
-* feat(board): add some new VIEWE boards @VIEWESMART (#197)
-* feat(drivers): add touch controller CST820 @VIEWESMART (#197)
+* feat(board & touch):add new supported viewe board and cst820 touch @VIEWESMART (#197)
 
 ### Bugfixes:
 
 * fix(examples): lvgl_port_v8 only poll touch screen if interrupt happened @hegdi (#209)
+* fix(examples): update lv_conf.h for Arduino IDE @davetheghost (#219)
 
 ## v1.0.2 - 2025-04-23
 
