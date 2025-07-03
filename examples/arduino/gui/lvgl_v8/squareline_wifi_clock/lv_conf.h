@@ -451,7 +451,7 @@
 
 /*Support bidirectional texts. Allows mixing Left-to-Right and Right-to-Left texts.
  *The direction will be processed according to the Unicode Bidirectional Algorithm:
- *https://www.w3.org/International/articles/inline-bidi-markup/uba-basics*/
+ *https://www.w3.org/International/articles/inline-bidi-markup/uba-basics */
 #define LV_USE_BIDI 0
 #if LV_USE_BIDI
     /*Set the default direction. Supported values:
