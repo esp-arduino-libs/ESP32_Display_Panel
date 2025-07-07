@@ -102,11 +102,11 @@
                                                             // |------|--------------|--------------------------|
                                                             // | LCD: |    RGB888    | RGB565 | RGB666 | RGB888 |
                                                             // ┗------|--------------|--------|--------|--------|
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA0        (45)    //        |      D0      |   B0   |  B0-1  |   B0-3 |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA1        (48)    //        |      D1      |   B1   |  B2    |   B4   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA2        (47)    //        |      D2      |   B2   |  B3    |   B5   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA3        (21)    //        |      D3      |   B3   |  B4    |   B6   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA4        (14)    //        |      D4      |   B4   |  B5    |   B7   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA0        (8)     //        |      D0      |   B0   |  B0-1  |   B0-3 |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA1        (3)     //        |      D1      |   B1   |  B2    |   B4   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA2        (46)    //        |      D2      |   B2   |  B3    |   B5   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA3        (9)     //        |      D3      |   B3   |  B4    |   B6   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA4        (1)     //        |      D4      |   B4   |  B5    |   B7   |
     #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA5        (5)     //        |      D5      |   G0   |  G0    |   G0-2 |
     #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA6        (6)     //        |      D6      |   G1   |  G1    |   G3   |
     #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA7        (7)     //        |      D7      |   G2   |  G2    |   G4   |
@@ -114,11 +114,11 @@
     #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA8        (15)    //                       |   G3   |  G3    |   G5   |
     #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA9        (16)    //                       |   G4   |  G4    |   G6   |
     #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA10       (4)     //                       |   G5   |  G5    |   G7   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA11       (8)     //                       |   R0   |  R0-1  |   R0-3 |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA12       (3)     //                       |   R1   |  R2    |   R4   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA13       (46)    //                       |   R2   |  R3    |   R5   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA14       (9)     //                       |   R3   |  R4    |   R6   |
-    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA15       (1)     //                       |   R4   |  R5    |   R7   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA11       (45)    //                       |   R0   |  R0-1  |   R0-3 |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA12       (48)    //                       |   R1   |  R2    |   R4   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA13       (47)    //                       |   R2   |  R3    |   R5   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA14       (21)    //                       |   R3   |  R4    |   R6   |
+    #define ESP_PANEL_BOARD_LCD_RGB_IO_DATA15       (14)    //                       |   R4   |  R5    |   R7   |
                                                             //                       ┗--------┻--------┻--------┛
 #endif // ESP_PANEL_BOARD_LCD_RGB_DATA_WIDTH
 
@@ -281,6 +281,22 @@
      */
     #define ESP_PANEL_BOARD_BACKLIGHT_IO        (2)    // Output GPIO pin number
     #define ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL  (1)     // Active level, 0: low, 1: high
+
+#if ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC
+    /**
+     * @brief PWM parameters configuration
+     */
+    #define ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ   (1000)  // LEDC timer frequency.
+                                                            // Different backlight driver chips may have different
+                                                            // frequency limits, please refer to the datasheet of
+                                                            // the specific chip.
+                                                            // https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues/188
+
+    #define ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION  (10) // LEDC timer duty resolution.
+                                                                // The frequency and duty resolution of the LEDC timer
+                                                                // need to be properly matched, please refer to:
+                                                                // https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/ledc.html#supported-range-of-frequency-and-duty-resolutions
+#endif
 
 #endif // ESP_PANEL_BOARD_BACKLIGHT_TYPE
 
@@ -485,7 +501,7 @@
  * 3. Patch version mismatch: No impact on functionality
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 0
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
 
 // *INDENT-ON*

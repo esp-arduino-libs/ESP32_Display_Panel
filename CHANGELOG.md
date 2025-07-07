@@ -13,6 +13,7 @@
 * fix(examples): lvgl_port_v8 only poll touch screen if interrupt happened @hegdi (#209)
 * fix(examples): update lv_conf.h for Arduino IDE @davetheghost (#219)
 * fix(lcd): correct conditional compilation logic for ST7701 driver @SinKy-Yan (#223)
+* fix(board): correct the RGB IO mapping and backlight configuration for Jingcai:JC8048W550C @jompjomp (#210)
 
 ## v1.0.2 - 2025-04-23
 
