@@ -52,6 +52,7 @@
         #define ESP_PANEL_DRIVERS_TOUCH_USE_STMPE610 (1)
         #define ESP_PANEL_DRIVERS_TOUCH_USE_TT21100 (1)
         #define ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046 (1)
+        #define ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680 (1)
     #else
         #ifndef ESP_PANEL_DRIVERS_TOUCH_USE_AXS15231B
             #ifdef CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_AXS15231B
@@ -146,6 +147,14 @@
                 #define ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046 CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046
             #else
                 #define ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046 (0)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680
+            #ifdef CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680
+                #define ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680 CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680
+            #else
+                #define ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680 (0)
             #endif
         #endif
     #endif
@@ -303,6 +312,14 @@
         #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_XPT2046  (1)
     #else
         #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_XPT2046  (0)
+    #endif
+#endif
+
+#ifndef ESP_PANEL_DRIVERS_TOUCH_ENABLE_GSL3680
+    #if ESP_PANEL_DRIVERS_TOUCH_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680
+        #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_GSL3680  (1)
+    #else
+        #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_GSL3680  (0)
     #endif
 #endif
 

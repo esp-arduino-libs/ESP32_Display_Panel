@@ -62,7 +62,10 @@ const utils::unordered_map<utils::string, TouchFactory::FunctionCreateDevice> To
 #endif // CONFIG_ESP_PANEL_TOUCH_TT21100
 #if ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046
     MAP_ITEM(XPT2046),
-#endif // CONFIG_ESP_PANEL_TOUCH_XPT2046
+#endif // CONFIG_ESP_PANEL_TOUCH_GSL3680
+#if ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680
+    MAP_ITEM(GSL3680),
+#endif // CONFIG_ESP_PANEL_TOUCH_GSL3680
 };
 
 std::shared_ptr<Touch> TouchFactory::create(
