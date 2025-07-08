@@ -95,6 +95,7 @@
  *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85 (ESP32_S3_Touch_LCD_1_85): https://www.waveshare.com/esp32-s3-touch-lcd-1.85.htm
  *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85_C (ESP32_S3_Touch_LCD_1_85_C): https://www.waveshare.com/esp32-s3-touch-lcd-1.85c.htm
  *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1 (ESP32_S3_Touch_LCD_2_1): https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm
+ *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_8_C (ESP32_S3_Touch_LCD_2_8_C): https://www.waveshare.com/esp32-s3-touch-lcd-2.8c.htm
  *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3 (ESP32_S3_Touch_LCD_4_3): https://www.waveshare.com/esp32-s3-touch-lcd-4.3.htm
  *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B (ESP32_S3_Touch_LCD_4_3_B): https://www.waveshare.com/esp32-s3-touch-lcd-4.3B.htm
  *  -BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_5 (ESP32_S3_Touch_LCD_5): https://www.waveshare.com/esp32-s3-touch-lcd-5.htm?sku=28117
@@ -105,6 +106,7 @@
 // #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85
 // #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85_C
 // #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1
+// #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_8_C
 // #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3
 // #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B
 // #define BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_5
