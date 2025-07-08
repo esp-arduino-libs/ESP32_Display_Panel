@@ -57,7 +57,7 @@ The functional block diagram is shown below:
 | [M5Stack](./docs/board/board_m5stack.md) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Elecrow](./docs/board/board_elecrow.md) | CrowPanel 7.0" |
 | [Jingcai](./docs/board/board_jingcai.md) | ESP32-4848S040C_I_Y_3 |
-| [Waveshare](./docs/board/board_waveshare.md) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
+| [Waveshare](./docs/board/board_waveshare.md) | ESP32-S3-Touch-LCD-1.85, ESP32-S3-Touch-LCD-2.1, ESP32-S3-Touch-LCD-2.8C, ESP32-S3-Touch-LCD-4.3, ESP32-S3-Touch-LCD-4.3B, ESP32-S3-Touch-LCD-5, ESP32-S3-Touch-LCD-5B, ESP32-S3-Touch-LCD-7, ESP32-P4-NANO |
 | [VIEWE](./docs/board/board_viewe.md) | UEDX24320024E-WB-A, UEDX24320028E-WB-A, UEDX24320035E-WB-A, UEDX32480035E-WB-A, UEDX48270043E-WB-A, UEDX48480040E-WB-A, UEDX80480043E-WB-A, UEDX80480050E-WB-A, UEDX80480070E-WB-A |
 
 📌 Click on the manufacturer name for detailed information.

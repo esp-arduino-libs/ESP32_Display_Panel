@@ -13,6 +13,11 @@ config BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1
     help
         https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm
 
+config BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_8_C
+    bool "ESP32_S3_TOUCH_LCD_2_8_C"
+    help
+        https://www.waveshare.com/esp32-s3-touch-lcd-2.8c.htm
+
 config BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3
     bool "ESP32_S3_TOUCH_LCD_4_3"
     help

@@ -9,6 +9,7 @@
   - [SDK \& Dependencies](#sdk--dependencies)
   - [Adding to Project](#adding-to-project)
   - [Configuration Guide](#configuration-guide)
+  - [Using `esp_panel_board_custom_conf.h` with ESP\_IDF](#using-esp_panel_board_custom_confh-with-esp_idf)
   - [Example Description](#example-description)
   - [FAQ](#faq)
     - [Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in ESP-IDF](#solution-for-screen-drift-issue-when-using-esp32-s3-to-drive-rgb-lcd-in-esp-idf)
@@ -70,6 +71,36 @@ Additionally, since ESP32_Display_Panel depends on the `esp-lib-utils` component
 > [!TIP]
 > * Run `idf.py save-defconfig` to save the current project's `menuconfig` configuration and generate a *sdkconfig.defaults* default configuration file in the project directory.
 > * To discard the current project's menuconfig configuration and load default settings, first delete the *sdkconfig* file in the project directory, then run `idf.py reconfigure`.
+
+## Using `esp_panel_board_custom_conf.h` with ESP_IDF
+
+It can be justified to not use `menuconfig` to set up a custom board with the `esp_panel_board_custom_conf.h` file instead, for example to be able to easily define macros that will execute between the board components initialisation steps, or to tinker with advanced vendor commands.
+
+Because of the component-centric philosophy of ESP-IDF, it is not as simple as dropping the configuration file in the `main` folder and including it in your main app source file.
+
+Instead, you need to follow these steps :
+
+1. Run the command `idf.py menuconfig` and make sure that the option *Enable to skip `esp_panel_board_*.h`* is **unchecked**. If you don't see this option, make sure you have added the library as a component to your project first !
+2. Copy your `esp_panel_board_custom_conf.h` file to a folder *inside your project folder*. For those instructions, we will assume that the file is correctly configured and copied inside a folder located at `/main/conf/` like so : 
+```
+Project Folder - |
+                 | - CMakeLists.txt
+                 | - main - |
+                 |          | - main.c
+                 |          | - conf - |
+                 |          |          | - esp_panel_board_custom_conf.h
+                 |          |          | ...
+                 |          | ...
+                 | ...
+```
+3. Edith the **project** `CMakeLists.txt` by adding the following line *before* the `project` instruction, like so : 
+```
+...
+include_directories(${CMAKE_CURRENT_LIST_DIR}/main/conf)
+project(...
+```
+
+This will have the effect of loading the macros way before compilation, making it similar to use as under the PlatformIO IDE or Arduino framework.
 
 ## Example Description
 
