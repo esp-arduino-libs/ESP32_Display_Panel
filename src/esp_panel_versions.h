@@ -8,7 +8,7 @@
 /* Library Version */
 #define ESP_PANEL_VERSION_MAJOR 1
 #define ESP_PANEL_VERSION_MINOR 0
-#define ESP_PANEL_VERSION_PATCH 3
+#define ESP_PANEL_VERSION_PATCH 4
 
 /* File `esp_panel_drivers_conf.h` */
 #define ESP_PANEL_DRIVERS_CONF_VERSION_MAJOR 1

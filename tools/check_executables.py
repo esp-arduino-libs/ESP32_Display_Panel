@@ -26,7 +26,7 @@ def _strip_each_item(iterable: Iterable) -> List:
 
 COMPONENT_PATH = os.getenv('COMPONENT_PATH', os.getcwd())
 EXECUTABLE_LIST_FN = os.path.join(COMPONENT_PATH, 'tools/executable-list.txt')
-known_executables = _strip_each_item(open(EXECUTABLE_LIST_FN).readlines())
+known_executables = _strip_each_item(open(EXECUTABLE_LIST_FN,encoding='utf-8').readlines())
 
 
 def check_executable_list() -> int:

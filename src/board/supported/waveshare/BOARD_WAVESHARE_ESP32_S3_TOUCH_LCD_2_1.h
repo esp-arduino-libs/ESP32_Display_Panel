@@ -265,7 +265,6 @@
 
 /**
  * @brief Touch bus type selection
- * - `ESP_PANEL_BUS_TYPE_SPI`
  */
 #define ESP_PANEL_BOARD_TOUCH_BUS_TYPE          (ESP_PANEL_BUS_TYPE_I2C)
 
