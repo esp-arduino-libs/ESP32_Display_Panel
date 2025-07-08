@@ -94,6 +94,7 @@
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85) \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85_C) \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1) \
+        + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_8_C) \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3) \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B) \
         + defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_5) \
@@ -173,6 +174,8 @@
         #include "waveshare/BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_1_85_C.h"
     #elif defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1)
         #include "waveshare/BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_1.h"
+    #elif defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_8_C)
+        #include "waveshare/BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_2_8_C.h"
     #elif defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3)
         #include "waveshare/BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3.h"
     #elif defined(BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B)

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @file   BOARD_ESP32_S3_TOUCH_LCD_2_1.h
- * @brief  Configuration file for Waveshare ESP32_S3_TOUCH_LCD_2_1
- * @author Waveshare@H-sw123
- * @link   https://www.waveshare.com/esp32-s3-touch-lcd-2.1.htm
+ * @file   BOARD_ESP32_S3_TOUCH_LCD_2_8_C.h
+ * @brief  Configuration file for Waveshare ESP32_S3_TOUCH_LCD_2_8_C
+ * @author @martinroger
+ * @link https://www.waveshare.com/esp32-s3-touch-lcd-2.8c.htm
  */
 
 #pragma once
@@ -15,12 +15,12 @@
 // *INDENT-OFF*
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////// Please update the following macros to configure general panel /////////////////////////////
+///////////////////////// Please update the following macros to configure general parameters ///////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * @brief Board name
+ * @brief Board name (format: "Manufacturer:Model")
  */
-#define ESP_PANEL_BOARD_NAME                "Waveshare:ESP32_S3_TOUCH_LCD_2_1"
+#define ESP_PANEL_BOARD_NAME                "Waveshare:ESP32_S3_TOUCH_LCD_2_8_C"
 
 /**
  * @brief Panel resolution configuration in pixels
@@ -76,18 +76,18 @@
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_SCL_USE_EXPNADER    (0) // Set to 1 if the signal is controlled by an IO expander
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_SDA_USE_EXPNADER    (0) // Set to 1 if the signal is controlled by an IO expander
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_MODE                (0) // 0-3, typically set to 0
-    #define ESP_PANEL_BOARD_LCD_RGB_SPI_CMD_BYTES           (1) // Typically set to 8
-    #define ESP_PANEL_BOARD_LCD_RGB_SPI_PARAM_BYTES         (1) // Typically set to 8
+    #define ESP_PANEL_BOARD_LCD_RGB_SPI_CMD_BYTES           (1) // Typically set to 1
+    #define ESP_PANEL_BOARD_LCD_RGB_SPI_PARAM_BYTES         (1) // Typically set to 1
     #define ESP_PANEL_BOARD_LCD_RGB_SPI_USE_DC_BIT          (1) // 0/1. Typically set to 1
 #endif // ESP_PANEL_BOARD_LCD_RGB_USE_CONTROL_PANEL
     /* For refresh panel (RGB) */
-    #define ESP_PANEL_BOARD_LCD_RGB_CLK_HZ          (16 * 1000 * 1000)
+    #define ESP_PANEL_BOARD_LCD_RGB_CLK_HZ          (18 * 1000 * 1000)
                                                             // To increase the upper limit of the PCLK, see: https://docs.espressif.com/projects/esp-faq/en/latest/software-framework/peripherals/lcd.html#how-can-i-increase-the-upper-limit-of-pclk-settings-on-esp32-s3-while-ensuring-normal-rgb-screen-display
     #define ESP_PANEL_BOARD_LCD_RGB_HPW             (8)
     #define ESP_PANEL_BOARD_LCD_RGB_HBP             (10)
     #define ESP_PANEL_BOARD_LCD_RGB_HFP             (50)
-    #define ESP_PANEL_BOARD_LCD_RGB_VPW             (3)
-    #define ESP_PANEL_BOARD_LCD_RGB_VBP             (8)
+    #define ESP_PANEL_BOARD_LCD_RGB_VPW             (2)
+    #define ESP_PANEL_BOARD_LCD_RGB_VBP             (18)
     #define ESP_PANEL_BOARD_LCD_RGB_VFP             (8)
     #define ESP_PANEL_BOARD_LCD_RGB_PCLK_ACTIVE_NEG (0)     // 0: rising edge, 1: falling edge. Typically set to 0
                                                                                         // The following sheet shows the valid combinations of
@@ -174,52 +174,49 @@
  *    - ESP_PANEL_LCD_CMD_WITH_8BIT_PARAM(delay_ms, command, {data0, data1, ...})
  *    - ESP_PANEL_LCD_CMD_WITH_NONE_PARAM(delay_ms, command)
  */
-#define ESP_PANEL_BOARD_LCD_VENDOR_INIT_CMD() \
-    { \
-        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0}, \
-        {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0}, \
-        {0xC1, (uint8_t []){0x0B, 0x02}, 2, 0}, \
-        {0xC2, (uint8_t []){0x07, 0x02}, 2, 0}, \
-        {0xCC, (uint8_t []){0x10}, 1, 0}, \
-        {0xCD, (uint8_t []){0x08}, 1, 0}, \
-        {0xB0, (uint8_t []){0x00, 0x11, 0x16, 0x0E, 0x11, 0x06, 0x05, 0x09, 0x08, 0x21, 0x06, 0x13, 0x10, 0x29, 0x31, \
-                            0x18}, 16, 0}, \
-        {0xB1, (uint8_t []){0x00, 0x11, 0x16, 0x0E, 0x11, 0x07, 0x05, 0x09, 0x09, 0x21, 0x05, 0x13, 0x11, 0x2A, 0x31, \
-                            0x18}, 16, 0}, \
-        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x11}, 5, 0}, \
-        {0xB0, (uint8_t []){0x6D}, 1, 0}, \
-        {0xB1, (uint8_t []){0x37}, 1, 0}, \
-        {0xB2, (uint8_t []){0x81}, 1, 0}, \
-        {0xB3, (uint8_t []){0x80}, 1, 0}, \
-        {0xB5, (uint8_t []){0x43}, 1, 0}, \
-        {0xB7, (uint8_t []){0x85}, 1, 0}, \
-        {0xB8, (uint8_t []){0x20}, 1, 0}, \
-        {0xC1, (uint8_t []){0x78}, 1, 0}, \
-        {0xC2, (uint8_t []){0x78}, 1, 0}, \
-        {0xD0, (uint8_t []){0x88}, 1, 0}, \
-        {0xE0, (uint8_t []){0x00, 0x00, 0x02}, 3, 0}, \
-        {0xE1, (uint8_t []){0x03, 0xA0, 0x00, 0x00, 0x04, 0xA0, 0x00, 0x00, 0x00, 0x20, 0x20}, 11, 0}, \
-        {0xE2, (uint8_t []){0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, 13, 0}, \
-        {0xE3, (uint8_t []){0x00, 0x00, 0x11, 0x00}, 4, 0}, \
-        {0xE4, (uint8_t []){0x22, 0x00}, 2, 0}, \
-        {0xE5, (uint8_t []){0x05, 0xEC, 0xA0, 0xA0, 0x07, 0xEE, 0xA0, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-                            0x00}, 16, 0}, \
-        {0xE6, (uint8_t []){0x00, 0x00, 0x11, 0x00}, 4, 0}, \
-        {0xE7, (uint8_t []){0x22, 0x00}, 2, 0}, \
-        {0xE8, (uint8_t []){0x06, 0xED, 0xA0, 0xA0, 0x08, 0xEF, 0xA0, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-                            0x00}, 16, 0}, \
-        {0xEB, (uint8_t []){0x00, 0x00, 0x40, 0x40, 0x00, 0x00, 0x00}, 7, 0}, \
-        {0xED, (uint8_t []){0xFF, 0xFF, 0xFF, 0xBA, 0x0A, 0xBF, 0x45, 0xFF, 0xFF, 0x54, 0xFB, 0xA0, 0xAB, 0xFF, 0xFF, \
-                            0xFF}, 16, 0}, \
-        {0xEF, (uint8_t []){0x10, 0x0D, 0x04, 0x08, 0x3F, 0x1F}, 6, 0}, \
-        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x13}, 5, 0}, \
-        {0xEF, (uint8_t []){0x08}, 1, 0}, \
-        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x00}, 5, 0}, \
-        {0x36, (uint8_t []){0x00}, 1, 0}, \
-        {0x3A, (uint8_t []){0x66}, 1, 0}, \
-        {0x11, (uint8_t []){0x00}, 0, 480}, \
-        {0x20, (uint8_t []){0x00}, 0, 120}, \
-        {0x29, (uint8_t []){0x00}, 0, 0}, \
+#define ESP_PANEL_BOARD_LCD_VENDOR_INIT_CMD()                       \
+    {                                                               \
+        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x13}, 5, 0},\
+        {0xEF, (uint8_t []){0x08}, 1, 0},\
+        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x10}, 5, 0},\
+        {0xC0, (uint8_t []){0x3B, 0x00}, 2, 0},\
+        {0xC1, (uint8_t []){0x10, 0x0C}, 2, 0},\
+        {0xC2, (uint8_t []){0x07, 0x0A}, 2, 0},\
+        {0xC7, (uint8_t []){0x00}, 1, 0},\
+        {0xCC, (uint8_t []){0x10}, 1, 0},\
+        {0xCD, (uint8_t []){0x08}, 1, 0},\
+        {0xB0, (uint8_t []){0x05, 0x12, 0x98, 0x0E, 0x0F, 0x07, 0x07, 0x09, 0x09, 0x23, 0x05, 0x52, 0x0F, 0x67, 0x2C, 0x11}, 16, 0},\
+        {0xB1, (uint8_t []){0x0B, 0x11, 0x97, 0x0C, 0x12, 0x06, 0x06, 0x08, 0x08, 0x22, 0x03, 0x51, 0x11, 0x66, 0x2B, 0x0F}, 16, 0},\
+        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x11}, 5, 0},\
+        {0xB0, (uint8_t []){0x5D}, 1, 0},\
+        {0xB1, (uint8_t []){0x3E}, 1, 0},\
+        {0xB2, (uint8_t []){0x81}, 1, 0},\
+        {0xB3, (uint8_t []){0x80}, 1, 0},\
+        {0xB5, (uint8_t []){0x4E}, 1, 0},\
+        {0xB7, (uint8_t []){0x85}, 1, 0},\
+        {0xB8, (uint8_t []){0x20}, 1, 0},\
+        {0xC1, (uint8_t []){0x78}, 1, 0},\
+        {0xC2, (uint8_t []){0x78}, 1, 0},\
+        {0xD0, (uint8_t []){0x88}, 1, 0},\
+        {0xE0, (uint8_t []){0x00, 0x00, 0x02}, 3, 0},\
+        {0xE1, (uint8_t []){0x06, 0x30, 0x08, 0x30, 0x05, 0x30, 0x07, 0x30, 0x00, 0x33, 0x33}, 11, 0},\
+        {0xE2, (uint8_t []){0x11, 0x11, 0x33, 0x33, 0xF4, 0x00, 0x00, 0x00, 0xF4, 0x00, 0x00, 0x00}, 12, 0},\
+        {0xE3, (uint8_t []){0x00, 0x00, 0x11, 0x11}, 4, 0},\
+        {0xE4, (uint8_t []){0x44, 0x44}, 2, 0},\
+        {0xE5, (uint8_t []){0x0D, 0xF5, 0x30, 0xF0, 0x0F, 0xF7, 0x30, 0xF0, 0x09, 0xF1, 0x30, 0xF0, 0x0B, 0xF3, 0x30, 0xF0}, 16, 0},\
+        {0xE6, (uint8_t []){0x00, 0x00, 0x11, 0x11}, 4, 0},\
+        {0xE7, (uint8_t []){0x44, 0x44}, 2, 0},\
+        {0xE8, (uint8_t []){0x0C, 0xF4, 0x30, 0xF0, 0x0E, 0xF6, 0x30, 0xF0, 0x08, 0xF0, 0x30, 0xF0, 0x0A, 0xF2, 0x30, 0xF0}, 16, 0},\
+        {0xE9, (uint8_t []){0x36, 0x01}, 2, 0},\
+        {0xEB, (uint8_t []){0x00, 0x01, 0xE4, 0xE4, 0x44, 0x88, 0x40}, 7, 0},\
+        {0xED, (uint8_t []){0xFF, 0x10, 0xAF, 0x76, 0x54, 0x2B, 0xCF, 0xFF, 0xFF, 0xFC, 0xB2, 0x45, 0x67, 0xFA, 0x01, 0xFF}, 16, 0},\
+        {0xEF, (uint8_t []){0x08, 0x08, 0x08, 0x45, 0x3F, 0x54}, 6, 0},\
+        {0xFF, (uint8_t []){0x77, 0x01, 0x00, 0x00, 0x00}, 5, 0},\
+        {0x11, (uint8_t []){0x00}, 0, 120},\
+        {0x3A, (uint8_t []){0x66}, 1, 0},\
+        {0x36, (uint8_t []){0x00}, 1, 0},\
+        {0x35, (uint8_t []){0x00}, 1, 0},\
+        {0x29, (uint8_t []){0x00}, 0, 0},\
     }
 
 /**
@@ -261,7 +258,7 @@
 /**
  * @brief Touch controller selection
  */
-#define ESP_PANEL_BOARD_TOUCH_CONTROLLER        CST816S  // Actually a CST820 but the data structure is similar
+#define ESP_PANEL_BOARD_TOUCH_CONTROLLER        GT911
 
 /**
  * @brief Touch bus type selection
@@ -321,7 +318,7 @@
 #define ESP_PANEL_BOARD_TOUCH_RST_IO            (-1)    // Reset pin, -1 if not used
 #define ESP_PANEL_BOARD_TOUCH_RST_LEVEL         (0)     // Reset active level, 0: low, 1: high
 #define ESP_PANEL_BOARD_TOUCH_INT_IO            (16)    // Interrupt pin, -1 if not used
-#define ESP_PANEL_BOARD_TOUCH_INT_LEVEL         (1)     // Interrupt active level, 0: low, 1: high
+#define ESP_PANEL_BOARD_TOUCH_INT_LEVEL         (0)     // Interrupt active level, 0: low, 1: high
 
 #endif // ESP_PANEL_BOARD_USE_TOUCH
 
@@ -348,8 +345,24 @@
     /**
      * @brief Backlight control pin configuration
      */
-    #define ESP_PANEL_BOARD_BACKLIGHT_IO        (6)     // Output GPIO pin number
+    #define ESP_PANEL_BOARD_BACKLIGHT_IO        (6)    // Output GPIO pin number
     #define ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL  (1)     // Active level, 0: low, 1: high
+
+#if ESP_PANEL_BOARD_BACKLIGHT_TYPE == ESP_PANEL_BACKLIGHT_TYPE_PWM_LEDC
+    /**
+     * @brief PWM parameters configuration
+     */
+    #define ESP_PANEL_BOARD_BACKLIGHT_PWM_FREQ_HZ   (5000)  // LEDC timer frequency.
+                                                            // Different backlight driver chips may have different
+                                                            // frequency limits, please refer to the datasheet of
+                                                            // the specific chip.
+                                                            // https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues/188
+
+    #define ESP_PANEL_BOARD_BACKLIGHT_PWM_DUTY_RESOLUTION  (10) // LEDC timer duty resolution.
+                                                                // The frequency and duty resolution of the LEDC timer
+                                                                // need to be properly matched, please refer to:
+                                                                // https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/ledc.html#supported-range-of-frequency-and-duty-resolutions
+#endif
 
 #endif // ESP_PANEL_BOARD_BACKLIGHT_TYPE
 
@@ -410,42 +423,27 @@
 /////////////////////// Please utilize the following macros to execute any additional code if required /////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * @brief Pre-begin function for LCD initialization
- *
- * @param[in] p Pointer to the board object
- * @return true on success, false on failure
- */
-#define ESP_PANEL_BOARD_LCD_PRE_BEGIN_FUNCTION(p) \
-    {  \
-        constexpr int LCD_RST = 0; \
-        auto board = static_cast<Board *>(p);  \
-        auto expander = board->getIO_Expander()->getBase(); \
-        /* LCD reset */ \
-        expander->pinMode(LCD_RST, OUTPUT);       \
-        expander->digitalWrite(LCD_RST, LOW);     \
-        vTaskDelay(pdMS_TO_TICKS(10));          \
-        expander->digitalWrite(LCD_RST, HIGH);    \
-        vTaskDelay(pdMS_TO_TICKS(100));          \
-        return true;    \
-    }
-
-/**
- * @brief Pre-begin function for touch panel initialization
+ * @brief Post-begin function for touch panel initialization
  *
  * @param[in] p Pointer to the board object
  * @return true on success, false on failure
  */
 #define ESP_PANEL_BOARD_TOUCH_PRE_BEGIN_FUNCTION(p) \
     {  \
+        constexpr gpio_num_t TP_INT = static_cast<gpio_num_t>(ESP_PANEL_BOARD_TOUCH_INT_IO); \
         constexpr int TP_RST = 1; \
         auto board = static_cast<Board *>(p);  \
         auto expander = board->getIO_Expander()->getBase(); \
-        /* Touch reset */ \
-        expander->pinMode(TP_RST, OUTPUT);       \
-        expander->digitalWrite(TP_RST, LOW);     \
-        vTaskDelay(pdMS_TO_TICKS(30));          \
-        expander->digitalWrite(TP_RST, HIGH);    \
-        vTaskDelay(pdMS_TO_TICKS(50));          \
+        expander->pinMode(TP_RST,OUTPUT); \
+        gpio_set_direction(TP_INT, GPIO_MODE_OUTPUT); \
+        gpio_set_level(TP_INT, 0); \
+        vTaskDelay(pdMS_TO_TICKS(10)); \
+        expander->digitalWrite(TP_RST, 0); \
+        vTaskDelay(pdMS_TO_TICKS(10)); \
+        expander->digitalWrite(TP_RST, 1); \
+        vTaskDelay(pdMS_TO_TICKS(200)); \
+        gpio_set_level(TP_INT, 1); \
+        gpio_reset_pin(TP_INT); \
         return true;    \
     }
 
@@ -460,7 +458,7 @@
  * 3. Patch version mismatch: No impact on functionality
  */
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 0
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 1
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
 
 // *INDENT-ON*
