@@ -240,7 +240,7 @@
  *
  * Set to `1` to enable backlight support, `0` to disable
  */
-#define ESP_PANEL_BOARD_USE_BACKLIGHT           (0)
+#define ESP_PANEL_BOARD_USE_BACKLIGHT           (1)
 
 #if ESP_PANEL_BOARD_USE_BACKLIGHT
 /**
@@ -255,7 +255,7 @@
     /**
      * @brief Backlight control pin configuration
      */
-    #define ESP_PANEL_BOARD_BACKLIGHT_IO        (17)    // Output GPIO pin number
+    #define ESP_PANEL_BOARD_BACKLIGHT_IO        (40)    // Output GPIO pin number
     #define ESP_PANEL_BOARD_BACKLIGHT_ON_LEVEL  (1)     // Active level, 0: low, 1: high
 
 #endif // ESP_PANEL_BOARD_BACKLIGHT_TYPE
@@ -265,7 +265,7 @@
  *
  * Set to 1 if want to turn off the backlight after initializing. Otherwise, the backlight will be on.
  */
-#define ESP_PANEL_BOARD_BACKLIGHT_IDLE_OFF      (1)
+#define ESP_PANEL_BOARD_BACKLIGHT_IDLE_OFF      (0)
 
 #endif // ESP_PANEL_BOARD_USE_BACKLIGHT
 
@@ -282,19 +282,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////// Please utilize the following macros to execute any additional code if required /////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @brief Pre-begin function for board initialization
- *
- * @param[in] p Pointer to the board object
- * @return true on success, false on failure
- */
-#define ESP_PANEL_BOARD_PRE_BEGIN_FUNCTION(p) \
-    {  \
-        constexpr gpio_num_t BL = static_cast<gpio_num_t>(40); \
-        gpio_set_direction(BL, GPIO_MODE_OUTPUT); \
-        gpio_set_level(BL, 1); \
-        return true;    \
-    }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////// File Version ///////////////////////////////////////////////////////////
