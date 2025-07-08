@@ -1,10 +1,20 @@
 # ChangeLog
 
-## v1.0.3 - 2025-04-27
+## v1.0.3 - 2025-07-07
 
 ### Enhancements:
 
 * feat(docs): provides an example of how to integrate this library into micropython by @tsteinruecken (#190)
+* feat(board): add board Waveshare:ESP32_S3_TOUCH_LCD_1_85_C @hegdi (#208)
+* feat(board & touch):add new supported viewe board and cst820 touch @VIEWESMART (#197)
+* feat(examples): show the usage of 'configVendorCommands()' function in esp_idf/lvgl_v8_port @martinroger (#217)
+
+### Bugfixes:
+
+* fix(examples): lvgl_port_v8 only poll touch screen if interrupt happened @hegdi (#209)
+* fix(examples): update lv_conf.h for Arduino IDE @davetheghost (#219)
+* fix(lcd): correct conditional compilation logic for ST7701 driver @SinKy-Yan (#223)
+* fix(board): correct the RGB IO mapping and backlight configuration for Jingcai:JC8048W550C @jompjomp (#210)
 
 ## v1.0.2 - 2025-04-23
 

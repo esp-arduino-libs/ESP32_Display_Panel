@@ -15,6 +15,9 @@ if ESP_PANEL_BOARD_USE_TOUCH
         config ESP_PANEL_BOARD_TOUCH_CONTROLLER_CST816S
             bool "CST816S"
 
+        config ESP_PANEL_BOARD_TOUCH_CONTROLLER_CST820
+            bool "CST820"
+
         config ESP_PANEL_BOARD_TOUCH_CONTROLLER_FT5x06
             bool "FT5x06"
 

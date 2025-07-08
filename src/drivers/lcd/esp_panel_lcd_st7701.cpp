@@ -61,7 +61,7 @@ bool LCD_ST7701::init()
     // Process the device on initialization
     ESP_UTILS_CHECK_FALSE_RETURN(processDeviceOnInit(_bus_specifications), false, "Process device on init failed");
 
-#if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB
+#if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB || ESP_PANEL_DRIVERS_BUS_ENABLE_MIPI_DSI
     // Create refresh panel
     ESP_UTILS_CHECK_ERROR_RETURN(
         esp_lcd_new_panel_st7701(
@@ -70,8 +70,8 @@ bool LCD_ST7701::init()
     );
     ESP_UTILS_LOGD("Create refresh panel(@%p)", refresh_panel);
 #else
-    ESP_UTILS_CHECK_FALSE_RETURN(false, false, "MIPI-DSI is not supported");
-#endif // ESP_PANEL_DRIVERS_BUS_ENABLE_RGB
+    ESP_UTILS_CHECK_FALSE_RETURN(false, false, "Neither RGB nor MIPI-DSI is supported");
+#endif // ESP_PANEL_DRIVERS_BUS_ENABLE_RGB || ESP_PANEL_DRIVERS_BUS_ENABLE_MIPI_DSI
 
     /* Disable control panel if enable `auto_del_panel_io/enable_io_multiplex` flag */
     if (getConfig().getVendorFullConfig()->flags.auto_del_panel_io) {

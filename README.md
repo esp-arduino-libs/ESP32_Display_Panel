@@ -73,14 +73,14 @@ The functional block diagram is shown below:
 | **Manufacturer** | **Model** |
 | --------------- | --------- |
 | AXS | AXS15231B |
-| Fitipower | EK9716B、EK79007 |
-| GalaxyCore | GC9A01、GC9B71、GC9503 |
+| Fitipower | EK9716B,EK79007 |
+| GalaxyCore | GC9A01,GC9B71,GC9503 |
 | Himax | HX8399 |
-| Ilitek | ILI9341、ILI9881C |
-| JADARD | JD9165、JD9365 |
+| Ilitek | ILI9341,ILI9881C |
+| JADARD | JD9165,JD9365 |
 | NewVision | NV3022B |
 | SHENGHE | SH8601 |
-| Sitronix | ST7262、ST7701、ST7703、ST7789、ST7796、ST77903、ST77916、ST77922 |
+| Sitronix | ST7262,ST7701,ST7703,ST7789,ST7796,ST77903,ST77916,ST77922 |
 | Solomon Systech | SPD2010 |
 
 📌 For detailed information, please refer to [Supported LCD Controllers](./docs/drivers/lcd.md).
@@ -94,10 +94,10 @@ The functional block diagram is shown below:
 | AXS | AXS15231B |
 | Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
-| GOODiX | GT911、GT1151 |
-| Hynitron | CST816S |
+| GOODiX | GT911,GT1151 |
+| Hynitron | CST816S,CST820 |
 | Parade | TT21100 |
-| Sitronix | ST7123、ST1633 |
+| Sitronix | ST7123,ST1633 |
 | Solomon Systech | SPD2010 |
 | ST | STMPE610 |
 | Xptek | XPT2046 |

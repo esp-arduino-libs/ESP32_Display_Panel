@@ -1,13 +1,14 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
-exclude: '(libraries/ui/|lv_conf.h)'
+exclude: '(libraries/ui/)'
 repos:
   - repo: https://github.com/igrr/astyle_py.git
     rev: v1.0.5
     hooks:
       - id: astyle_py
         args: ['--style=otbs', '--attach-namespaces', '--attach-classes', '--indent=spaces=4', '--convert-tabs', '--align-pointer=name', '--align-reference=name', '--keep-one-line-statements', '--pad-header', '--pad-oper']
+        exclude: '(.*lv_conf.h)'
 
   - repo: https://github.com/espressif/check-copyright/
     rev: v1.0.3
@@ -42,6 +43,7 @@ repos:
             .*_pb2.py|
             .*.pb-c.h|
             .*.pb-c.c|
+            .*lv_conf.h|
             .*.yuv
           )$
       - id: end-of-file-fixer
@@ -49,8 +51,10 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: mixed-line-ending
+        exclude: *whitespace_excludes
         args: ['-f=lf']
       - id: double-quote-string-fixer
+        exclude: *whitespace_excludes
       - id: no-commit-to-branch
         name: Do not use more than one slash in the branch name
         args: ['--pattern', '^[^/]*/[^/]*/']

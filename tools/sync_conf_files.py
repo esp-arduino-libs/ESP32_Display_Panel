@@ -40,7 +40,7 @@ def is_same_file(file1, file2):
     if not os.path.exists(file1) or not os.path.exists(file2):
         return False
 
-    with open(file1, 'r') as f1, open(file2, 'r') as f2:
+    with open(file1, 'r', encoding='utf-8') as f1, open(file2, 'r', encoding='utf-8') as f2:
         file1_content = f1.read()
         file2_content = f2.read()
 

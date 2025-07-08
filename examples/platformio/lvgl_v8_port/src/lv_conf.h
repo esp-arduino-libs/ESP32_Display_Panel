@@ -362,7 +362,7 @@
  *===================*/
 
 /*Montserrat fonts with ASCII range and some symbols using bpp = 4
- *https://fonts.google.com/specimen/Montserrat*/
+ *https://fonts.google.com/specimen/Montserrat */
 #define LV_FONT_MONTSERRAT_8  1
 #define LV_FONT_MONTSERRAT_10 1
 #define LV_FONT_MONTSERRAT_12 1
@@ -453,7 +453,7 @@
 
 /*Support bidirectional texts. Allows mixing Left-to-Right and Right-to-Left texts.
  *The direction will be processed according to the Unicode Bidirectional Algorithm:
- *https://www.w3.org/International/articles/inline-bidi-markup/uba-basics*/
+ *https://www.w3.org/International/articles/inline-bidi-markup/uba-basics */
 #define LV_USE_BIDI 0
 #if LV_USE_BIDI
     /*Set the default direction. Supported values:
@@ -471,7 +471,7 @@
  *  WIDGET USAGE
  *================*/
 
-/*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html*/
+/*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html */
 
 #define LV_USE_ARC        1
 
