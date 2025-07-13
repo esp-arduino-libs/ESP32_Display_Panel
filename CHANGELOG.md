@@ -1,5 +1,16 @@
 # ChangeLog
 
+## v1.0.4 - 2025-07-13
+
+### Enhancements:
+
+* feat(board): add support for Waveshare ESP32-S3 Touch LCD 2.8C @martinroger (#226)
+* feat(docs): document usage of `esp_panel_board_custom_conf.h` with ESP-IDF @martinroger (#226)
+
+### Bugfixes:
+
+* fix(repo): update dependent esp-lib-utils version for Arduino
+
 ## v1.0.3 - 2025-07-07
 
 ### Enhancements:

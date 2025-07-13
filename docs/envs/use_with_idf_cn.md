@@ -9,6 +9,7 @@
   - [SDK 及依赖组件](#sdk-及依赖组件)
   - [添加到工程](#添加到工程)
   - [配置说明](#配置说明)
+  - [在 ESP-IDF 中使用 `esp_panel_board_custom_conf.h`](#在-esp-idf-中使用-esp_panel_board_custom_confh)
   - [示例说明](#示例说明)
   - [常见问题及解答](#常见问题及解答)
     - [在 ESP-IDF 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](#在-esp-idf-中使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
@@ -70,6 +71,36 @@ ESP32_Display_Panel 已上传到 [Espressif 组件库](https://components.espres
 > [!TIP]
 > * 运行 `idf.py save-defconfig` 即可保存当前工程的 `menuconfig` 配置，并在工程目录下生成 *sdkconfig.defaults* 默认配置文件。
 > * 如果想要舍弃当前工程 menuconfig 配置并加载默认配置，请先删除工程目录下的 *sdkconfig* 文件，然后再运行 `idf.py reconfigure` 即可。
+
+## 在 ESP-IDF 中使用 `esp_panel_board_custom_conf.h`
+
+有时我们希望不通过 `menuconfig` 配置自定义开发板，而是直接使用 `esp_panel_board_custom_conf.h` 文件。例如，这样可以方便地定义一些宏，在各个板级组件初始化步骤之间执行，或者便于调试和尝试高级厂商命令。
+
+由于 ESP-IDF 的组件化设计，不能像 Arduino 或 PlatformIO 那样，直接把配置文件放在 `main` 目录下并在主程序中包含即可生效。
+
+需要按照如下步骤操作：
+
+1. 运行 `idf.py menuconfig`，确保 *Enable to skip `esp_panel_board_*.h`* 选项**未勾选**。如果没有看到该选项，请先确保已经将本库作为组件添加到工程中！
+2. 将你的 `esp_panel_board_custom_conf.h` 文件复制到**工程目录下的某个文件夹**。本例假设你已正确配置好该文件，并将其放在 `/main/conf/` 目录下，结构如下：
+```
+工程目录 - |
+          | - CMakeLists.txt
+          | - main - |
+          |          | - main.c
+          |          | - conf - |
+          |          |          | - esp_panel_board_custom_conf.h
+          |          |          | ...
+          |          | ...
+          | ...
+```
+3. 编辑 **项目** `CMakeLists.txt`，在 `project` 指令之前添加以下行：
+```
+...
+include_directories(${CMAKE_CURRENT_LIST_DIR}/main/conf)
+project(...
+```
+
+这样，宏会在编译之前加载，使用方法与在 PlatformIO 或 Arduino 框架中类似。
 
 ## 示例说明
 
