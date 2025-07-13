@@ -19,7 +19,7 @@ extern "C" {
 
 #define ESP_LCD_TOUCH_STMPE610_VER_MAJOR    (1)
 #define ESP_LCD_TOUCH_STMPE610_VER_MINOR    (0)
-#define ESP_LCD_TOUCH_STMPE610_VER_PATCH    (6)
+#define ESP_LCD_TOUCH_STMPE610_VER_PATCH    (7)
 
 /**
  * @brief Create a new STMPE610 touch driver

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Espressif Systems (Shanghai) CO LTD
+ * SPDX-FileCopyrightText: 2024-2025 Espressif Systems (Shanghai) CO LTD
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,7 +43,7 @@ esp_err_t esp_lcd_touch_new_i2c_chsc6540(const esp_lcd_panel_io_handle_t io, con
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CHSC6540_CONFIG()             \
+#define ESP_LCD_TOUCH_IO_I2C_CHSC6540_CONFIG(freq_hz)      \
     {                                                    \
         .dev_addr = ESP_LCD_TOUCH_IO_I2C_CHSC6540_ADDRESS, \
         .control_phase_bytes = 1,                        \
@@ -52,7 +52,8 @@ esp_err_t esp_lcd_touch_new_i2c_chsc6540(const esp_lcd_panel_io_handle_t io, con
         .flags =                                         \
         {                                                \
             .disable_control_phase = 1,                  \
-        }                                                \
+        },                                                \
+        .scl_speed_hz = freq_hz,                            \
     }
 
 #ifdef __cplusplus

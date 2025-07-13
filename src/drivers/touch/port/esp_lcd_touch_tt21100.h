@@ -19,7 +19,7 @@ extern "C" {
 
 #define ESP_LCD_TOUCH_TT21100_VER_MAJOR    (1)
 #define ESP_LCD_TOUCH_TT21100_VER_MINOR    (1)
-#define ESP_LCD_TOUCH_TT21100_VER_PATCH    (0)
+#define ESP_LCD_TOUCH_TT21100_VER_PATCH    (1)
 
 /**
  * @brief Create a new TT21100 touch driver
@@ -45,7 +45,7 @@ esp_err_t esp_lcd_touch_new_i2c_tt21100(const esp_lcd_panel_io_handle_t io, cons
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_TT21100_CONFIG()           \
+#define ESP_LCD_TOUCH_IO_I2C_TT21100_CONFIG(freq_hz)           \
     {                                       \
         .dev_addr = ESP_LCD_TOUCH_IO_I2C_TT21100_ADDRESS, \
         .control_phase_bytes = 1,           \
@@ -54,7 +54,8 @@ esp_err_t esp_lcd_touch_new_i2c_tt21100(const esp_lcd_panel_io_handle_t io, cons
         .flags =                            \
         {                                   \
             .disable_control_phase = 1,     \
-        }                                   \
+        },                                  \
+        .scl_speed_hz = freq_hz,           \
     }
 
 #ifdef __cplusplus

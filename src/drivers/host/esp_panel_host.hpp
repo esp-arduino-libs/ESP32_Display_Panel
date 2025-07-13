@@ -27,7 +27,9 @@ public:
     /**
      * @brief Host handle type definition
      */
-    using HostHandle = void *;
+    using NativeHandle = void *;
+
+    using HostHandle [[deprecated("Deprecated, use `NativeHandle` instead")]] = NativeHandle;
 
     /**
      * @brief Driver state enumeration
@@ -38,13 +40,64 @@ public:
     };
 
     /**
+     * @brief Delete copy constructor and assignment operator
+     */
+    Host(const Host &) = delete;
+    Host &operator=(const Host &) = delete;
+    Host(Host &&) = delete;
+    Host &operator=(Host &&) = delete;
+
+    /**
+     * @brief Virtual destructor
+     */
+    virtual ~Host() = default;
+
+    /**
+     * @brief Startup the host
+     *
+     * @return `true` if successful, `false` otherwise
+     */
+    virtual bool begin() = 0;
+
+    /**
+     * @brief Get the ID of the host
+     *
+     * @return Host ID
+     */
+    int getID() const
+    {
+        return id_;
+    }
+
+    /**
+     * @brief Get the native handle of the host
+     *
+     * @return Host handle
+     */
+    NativeHandle getNativeHandle() const
+    {
+        return handle_;
+    }
+
+    /**
+     * @brief Check if driver has reached specified state
+     *
+     * @param[in] state State to check against
+     * @return `true` if current state >= given state, `false` otherwise
+     */
+    bool isOverState(State state)
+    {
+        return (state_ >= state);
+    }
+
+    /**
      * @brief Get the number of instances
      *
      * @return Number of instances
      */
     static int getInstanceCount()
     {
-        return _instances.size();
+        return instances_.size();
     }
 
     /**
@@ -72,49 +125,6 @@ public:
      */
     static bool tryReleaseInstance(int id);
 
-    /**
-     * @brief Virtual destructor
-     */
-    virtual ~Host() = default;
-
-    /**
-     * @brief Startup the host
-     *
-     * @return `true` if successful, `false` otherwise
-     */
-    virtual bool begin() = 0;
-
-    /**
-     * @brief Get the ID of the host
-     *
-     * @return Host ID
-     */
-    int getID() const
-    {
-        return _id;
-    }
-
-    /**
-     * @brief Get the handle of the host
-     *
-     * @return Host handle
-     */
-    HostHandle getHandle() const
-    {
-        return host_handle;
-    }
-
-    /**
-     * @brief Check if driver has reached specified state
-     *
-     * @param[in] state State to check against
-     * @return `true` if current state >= given state, `false` otherwise
-     */
-    bool isOverState(State state)
-    {
-        return (_state >= state);
-    }
-
 protected:
     /**
      * @brief Protected constructor for derived classes
@@ -122,7 +132,7 @@ protected:
      * @param[in] id Host ID
      * @param[in] config Host configuration
      */
-    Host(int id, const Config &config): config(config), _id(id) {}
+    Host(int id, const Config &config): config_(config), id_(id) {}
 
     /**
      * @brief Set driver state
@@ -131,11 +141,11 @@ protected:
      */
     void setState(State state)
     {
-        _state = state;
+        state_ = state;
     }
 
-    Config config = {};                    /*!< Host configuration */
-    HostHandle host_handle = nullptr;      /*!< Host handle */
+    Config config_ = {};                /*!< Host configuration */
+    NativeHandle handle_ = nullptr;     /*!< Host native handle */
 
 private:
     /**
@@ -146,9 +156,10 @@ private:
      */
     virtual bool calibrateConfig(const Config &config) = 0;
 
-    int _id = -1;                         /*!< Host ID */
-    State _state = State::DEINIT;         /*!< Current driver state */
-    inline static std::array<std::shared_ptr<Derived>, N> _instances;  /*!< Array of host instances */
+    int id_ = -1;                       /*!< Host ID */
+    State state_ = State::DEINIT;       /*!< Current driver state */
+
+    inline static std::array<std::shared_ptr<Derived>, N> instances_;  /*!< Array of host instances */
 };
 
 template <class Derived, typename Config, int N>
@@ -157,10 +168,10 @@ bool Host<Derived, Config, N>::tryReleaseInstance(int id)
     ESP_UTILS_LOG_TRACE_ENTER();
 
     ESP_UTILS_LOGD("Param: id(%d)", id);
-    ESP_UTILS_CHECK_FALSE_RETURN((size_t)id < _instances.size(), false, "Invalid ID");
+    ESP_UTILS_CHECK_FALSE_RETURN((size_t)id < instances_.size(), false, "Invalid ID");
 
-    if ((_instances[id] != nullptr) && (_instances[id].use_count() == 1)) {
-        _instances[id] = nullptr;
+    if ((instances_[id] != nullptr) && (instances_[id].use_count() == 1)) {
+        instances_[id] = nullptr;
         ESP_UTILS_LOGD("Release host(%d)", id);
     }
 
@@ -175,26 +186,26 @@ std::shared_ptr<Derived> Host<Derived, Config, N>::getInstance(int id, const Con
     ESP_UTILS_LOG_TRACE_ENTER();
 
     ESP_UTILS_LOGD("Param: id(%d), config(@%p)", id, &config);
-    ESP_UTILS_CHECK_FALSE_RETURN((size_t)id < _instances.size(), nullptr, "Invalid host ID");
+    ESP_UTILS_CHECK_FALSE_RETURN((size_t)id < instances_.size(), nullptr, "Invalid host ID");
 
-    if (_instances[id] == nullptr) {
+    if (instances_[id] == nullptr) {
         ESP_UTILS_CHECK_EXCEPTION_RETURN(
-            (_instances[id] = utils::make_shared<Derived>(id, config)), nullptr, "Create instance failed"
+            (instances_[id] = utils::make_shared<Derived>(id, config)), nullptr, "Create instance failed"
         );
-        ESP_UTILS_LOGD("No instance exist, create new one(@%p)", _instances[id].get());
+        ESP_UTILS_LOGD("No instance exist, create new one(@%p)", instances_[id].get());
     } else {
-        ESP_UTILS_LOGD("Instance exist(@%p)", _instances[id].get());
+        ESP_UTILS_LOGD("Instance exist(@%p)", instances_[id].get());
 
         Config new_config = config;
         ESP_UTILS_CHECK_FALSE_RETURN(
-            _instances[id]->calibrateConfig(new_config), nullptr,
+            instances_[id]->calibrateConfig(new_config), nullptr,
             "Calibrate configuration failed, attempt to configure host with a incompatible configuration"
         );
     }
 
     ESP_UTILS_LOG_TRACE_EXIT();
 
-    return _instances[id];
+    return instances_[id];
 }
 
 template <class Derived, typename Config, int N>
@@ -203,11 +214,11 @@ std::shared_ptr<Derived> Host<Derived, Config, N>::getInstance(int id)
     ESP_UTILS_LOG_TRACE_ENTER();
 
     ESP_UTILS_LOGD("Param: id(%d)", id);
-    ESP_UTILS_CHECK_FALSE_RETURN((size_t)id < _instances.size(), nullptr, "Invalid host ID");
+    ESP_UTILS_CHECK_FALSE_RETURN((size_t)id < instances_.size(), nullptr, "Invalid host ID");
 
     ESP_UTILS_LOG_TRACE_EXIT();
 
-    return _instances[id];
+    return instances_[id];
 }
 
 } // namespace esp_panel::drivers

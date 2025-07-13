@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "chip/esp_expander_base.hpp"
+#include "esp_expander_base.hpp"
 #include "esp_panel_io_expander_conf_internal.h"
 
 namespace esp_panel::drivers {
@@ -27,6 +27,7 @@ public:
      */
     using Config = esp_expander::Base::Config;
     using HostPartialConfig = esp_expander::Base::HostPartialConfig;
+    using DevicePartialConfig = esp_expander::Base::DevicePartialConfig;
 
     /**
      * @brief Construct a new IO expander device

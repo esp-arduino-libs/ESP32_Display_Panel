@@ -18,8 +18,8 @@ extern "C" {
 #endif
 
 #define ESP_LCD_TOUCH_CST816S_VER_MAJOR    (1)
-#define ESP_LCD_TOUCH_CST816S_VER_MINOR    (0)
-#define ESP_LCD_TOUCH_CST816S_VER_PATCH    (3)
+#define ESP_LCD_TOUCH_CST816S_VER_MINOR    (1)
+#define ESP_LCD_TOUCH_CST816S_VER_PATCH    (0)
 
 /**
  * @brief Create a new CST816S touch driver
@@ -44,16 +44,21 @@ esp_err_t esp_lcd_touch_new_i2c_cst816s(const esp_lcd_panel_io_handle_t io, cons
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG()             \
-    {                                                    \
+#define ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG(freq_hz)      \
+    {                                                     \
         .dev_addr = ESP_LCD_TOUCH_IO_I2C_CST816S_ADDRESS, \
-        .control_phase_bytes = 1,                        \
-        .dc_bit_offset = 0,                              \
-        .lcd_cmd_bits = 8,                              \
-        .flags =                                         \
-        {                                                \
-            .disable_control_phase = 1,                  \
-        }                                                \
+        .on_color_trans_done = 0,                         \
+        .user_ctx = 0,                                    \
+        .control_phase_bytes = 1,                         \
+        .dc_bit_offset = 0,                               \
+        .lcd_cmd_bits = 8,                                \
+        .lcd_param_bits = 0,                              \
+        .flags =                                          \
+        {                                                 \
+            .dc_low_on_data = 0,                          \
+            .disable_control_phase = 1,                   \
+        },                                                \
+        .scl_speed_hz = freq_hz,                          \
     }
 
 #ifdef __cplusplus

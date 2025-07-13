@@ -390,13 +390,10 @@
     /* For general */
     #define ESP_PANEL_BOARD_TOUCH_I2C_HOST_ID           (0)     // Typically set to 0
 #if !ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST
-    /* For host */
-    #define ESP_PANEL_BOARD_TOUCH_I2C_CLK_HZ            (400 * 1000)
-                                                                // Typically set to 400K
-    #define ESP_PANEL_BOARD_TOUCH_I2C_SCL_PULLUP        (1)     // 0/1. Typically set to 1
-    #define ESP_PANEL_BOARD_TOUCH_I2C_SDA_PULLUP        (1)     // 0/1. Typically set to 1
-    #define ESP_PANEL_BOARD_TOUCH_I2C_IO_SCL            (18)
-    #define ESP_PANEL_BOARD_TOUCH_I2C_IO_SDA            (8)
+/* For host */
+#   define ESP_PANEL_BOARD_TOUCH_I2C_INTERNAL_PULLUP    (1)    // 0/1. Typically set to 1
+#   define ESP_PANEL_BOARD_TOUCH_I2C_IO_SCL             (18)   // SCL pin number
+#   define ESP_PANEL_BOARD_TOUCH_I2C_IO_SDA             (8)    // SDA pin number
 #endif
     /* For panel */
     #define ESP_PANEL_BOARD_TOUCH_I2C_ADDRESS           (0)     // Typically set to 0 to use the default address.
@@ -404,6 +401,7 @@
                                                                 // - For touchs with multiple addresses, set to 0 or
                                                                 //   the address. Like GT911, there are two addresses:
                                                                 //   0x5D(default) and 0x14
+#   define ESP_PANEL_BOARD_TOUCH_I2C_CLK_HZ             (400 * 1000)    // Typically set to 400K
 
 #elif ESP_PANEL_BOARD_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_SPI
 
@@ -557,17 +555,15 @@
 #define ESP_PANEL_BOARD_EXPANDER_I2C_HOST_ID        (0)     // Typically set to 0
 /* For host */
 #if !ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST
-#define ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ         (400 * 1000)
-                                                            // Typically set to 400K
-#define ESP_PANEL_BOARD_EXPANDER_I2C_SCL_PULLUP     (1)     // 0/1. Typically set to 1
-#define ESP_PANEL_BOARD_EXPANDER_I2C_SDA_PULLUP     (1)     // 0/1. Typically set to 1
-#define ESP_PANEL_BOARD_EXPANDER_I2C_IO_SCL         (18)
-#define ESP_PANEL_BOARD_EXPANDER_I2C_IO_SDA         (8)
+#   define ESP_PANEL_BOARD_EXPANDER_I2C_INTERNAL_PULLUP     (1)     // 0/1. Typically set to 1
+#   define ESP_PANEL_BOARD_EXPANDER_I2C_IO_SCL              (18)    // SCL pin number
+#   define ESP_PANEL_BOARD_EXPANDER_I2C_IO_SDA              (8)     // SDA pin number
 #endif // ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST
 /* For device */
 #define ESP_PANEL_BOARD_EXPANDER_I2C_ADDRESS        (0x20)  // The actual I2C address. Even for the same model of IC,
                                                             // the I2C address may be different, and confirmation based on
                                                             // the actual hardware connection is required
+#define ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ         (400 * 1000)    // Typically set to 400K
 #endif // ESP_PANEL_BOARD_USE_EXPANDER
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -751,8 +747,8 @@
  * 2. Minor version mismatch: May be missing new configurations, recommended to update
  * 3. Patch version mismatch: No impact on functionality
  */
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 2
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MAJOR 2
+#define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_MINOR 0
 #define ESP_PANEL_BOARD_CUSTOM_FILE_VERSION_PATCH 0
 
 #endif // ESP_PANEL_BOARD_DEFAULT_USE_CUSTOM

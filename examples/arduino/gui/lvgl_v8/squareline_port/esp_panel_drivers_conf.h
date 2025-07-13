@@ -197,6 +197,19 @@
 #define ESP_PANEL_DRIVERS_TOUCH_XPT2046_ENABLE_LOCKING          (0)
 #endif // ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046 || ESP_PANEL_DRIVERS_TOUCH_COMPILE_UNUSED_DRIVERS
 
+/**
+ * @brief CST816S specific configurations
+ */
+#if ESP_PANEL_DRIVERS_TOUCH_USE_CST816S || ESP_PANEL_DRIVERS_TOUCH_COMPILE_UNUSED_DRIVERS
+/**
+ * @brief Disable read ID
+ *
+ * When enabled, CST816S will not read the ID in the initialization process. This is useful for some cases that the
+ * failure of reading ID is occurred.
+ */
+#define ESP_PANEL_DRIVERS_TOUCH_CST816S_DISABLE_READ_ID         (0)
+#endif // ESP_PANEL_DRIVERS_TOUCH_USE_CST816S || ESP_PANEL_DRIVERS_TOUCH_COMPILE_UNUSED_DRIVERS
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////// IO Expander Configurations //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,7 +274,7 @@
  * 3. Patch version mismatch: No impact on functionality
  */
 #define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MAJOR 1
-#define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MINOR 1
+#define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_MINOR 2
 #define ESP_PANEL_DRIVERS_CONF_FILE_VERSION_PATCH 0
 
 // *INDENT-ON*

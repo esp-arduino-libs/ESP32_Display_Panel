@@ -57,7 +57,7 @@ typedef struct {
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG()           \
+#define ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG(freq_hz)           \
     {                                       \
         .dev_addr = ESP_LCD_TOUCH_IO_I2C_GT911_ADDRESS, \
         .control_phase_bytes = 1,           \
@@ -66,7 +66,8 @@ typedef struct {
         .flags =                            \
         {                                   \
             .disable_control_phase = 1,     \
-        }                                   \
+        },                                  \
+        .scl_speed_hz = freq_hz,           \
     }
 
 /**
@@ -75,7 +76,7 @@ typedef struct {
  * @param[in] addr I2C address of the touch panel
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR(addr) \
+#define ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR(addr, freq_hz) \
     {                                       \
         .dev_addr = addr,                   \
         .control_phase_bytes = 1,           \
@@ -84,7 +85,8 @@ typedef struct {
         .flags =                            \
         {                                   \
             .disable_control_phase = 1,     \
-        }                                   \
+        },                                  \
+        .scl_speed_hz = freq_hz,           \
     }
 
 #ifdef __cplusplus
