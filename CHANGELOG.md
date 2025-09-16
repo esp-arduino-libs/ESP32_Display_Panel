@@ -1,6 +1,6 @@
 # ChangeLog
 
-## v1.0.4 - 2025-07-13
+## v1.0.4 - 2025-09-19
 
 ### Enhancements:
 
@@ -10,6 +10,7 @@
 ### Bugfixes:
 
 * fix(repo): update dependent esp-lib-utils version for Arduino
+* fix(board): fixing error on inverted colors (may still need bitshifting in LVGL) @martinroger (#238)
 
 ## v1.0.3 - 2025-07-07
 
