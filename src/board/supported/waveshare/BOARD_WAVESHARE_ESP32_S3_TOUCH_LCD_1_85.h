@@ -100,7 +100,7 @@
 #define ESP_PANEL_BOARD_LCD_COLOR_BITS          (ESP_PANEL_LCD_COLOR_BITS_RGB565)
                                                         // ESP_PANEL_LCD_COLOR_BITS_RGB565/RGB666/RGB888
 #define ESP_PANEL_BOARD_LCD_COLOR_BGR_ORDER     (0)     // 0: RGB, 1: BGR
-#define ESP_PANEL_BOARD_LCD_COLOR_INEVRT_BIT    (0)     // 0/1
+#define ESP_PANEL_BOARD_LCD_COLOR_INEVRT_BIT    (1)     // 0/1
 
 /**
  * @brief LCD transformation configuration
