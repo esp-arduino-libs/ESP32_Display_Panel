@@ -1,6 +1,6 @@
 # ChangeLog
 
-## v1.0.4 - 2025-07-13
+## v1.0.4 - 2025-09-19
 
 ### Enhancements:
 
@@ -10,6 +10,8 @@
 ### Bugfixes:
 
 * fix(repo): update dependent esp-lib-utils version for Arduino
+* fix(board): fixing error on inverted colors (may still need bitshifting in LVGL) @martinroger (#238)
+* fix(board): fix screen initialization code for BOARD_ESP32_S3_TOUCH_LCD_1_85 @ggc121238 (#239)
 
 ## v1.0.3 - 2025-07-07
 
