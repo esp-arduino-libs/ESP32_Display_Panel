@@ -81,9 +81,8 @@ static void run_test(shared_ptr<Touch> touch, bool use_config)
     ({ \
         ESP_LOGI(TAG, "Create bus with default parameters"); \
         auto bus = make_shared<BusI2C>(TEST_TOUCH_PIN_NUM_I2C_SCL, TEST_TOUCH_PIN_NUM_I2C_SDA, \
-            (BusI2C::ControlPanelFullConfig)ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name)); \
+            (BusI2C::ControlPanelFullConfig)ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name, TEST_TOUCH_I2C_FREQ_HZ)); \
         TEST_ASSERT_NOT_NULL_MESSAGE(bus, "Create bus object failed"); \
-        TEST_ASSERT_TRUE_MESSAGE(bus->configI2C_FreqHz(TEST_TOUCH_I2C_FREQ_HZ), "Bus config I2C frequency failed"); \
         TEST_ASSERT_TRUE_MESSAGE(bus->begin(), "Bus begin failed"); \
         bus; \
     })
@@ -126,7 +125,7 @@ decltype(auto) create_touch_impl(Bus *bus, std::nullptr_t)
                 .sda_pullup_en = TEST_TOUCH_PIN_NUM_I2C_SDA_PULLUP, \
                 .scl_pullup_en = TEST_TOUCH_PIN_NUM_I2C_SCL_PULLUP, \
             }, \
-            .control_panel = (BusI2C::ControlPanelFullConfig)ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name), \
+            .control_panel = (BusI2C::ControlPanelFullConfig)ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name, TEST_TOUCH_I2C_FREQ_HZ), \
         }; \
         bus = CREATE_BUS_WITH_CONFIG(name, bus_config); \
         touch = CREATE_TOUCH(name, bus.get(), touch_config); \

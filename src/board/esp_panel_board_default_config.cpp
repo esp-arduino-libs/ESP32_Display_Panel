@@ -219,20 +219,18 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
             .host = BusI2C::HostPartialConfig{
                 .sda_io_num = ESP_PANEL_BOARD_TOUCH_I2C_IO_SDA,
                 .scl_io_num = ESP_PANEL_BOARD_TOUCH_I2C_IO_SCL,
-                .sda_pullup_en = ESP_PANEL_BOARD_TOUCH_I2C_SDA_PULLUP,
-                .scl_pullup_en = ESP_PANEL_BOARD_TOUCH_I2C_SCL_PULLUP,
-                .clk_speed = ESP_PANEL_BOARD_TOUCH_I2C_CLK_HZ,
+                .enable_internal_pullup = ESP_PANEL_BOARD_TOUCH_I2C_INTERNAL_PULLUP,
             },
         #endif // ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST
             // Control Panel
         #if ESP_PANEL_BOARD_TOUCH_I2C_ADDRESS == 0
-            .control_panel = BusI2C::ControlPanelFullConfig
-                ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(ESP_PANEL_BOARD_TOUCH_CONTROLLER),
+            .control_panel = BusI2C::ControlPanelFullConfig ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(
+                    ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_I2C_CLK_HZ
+            ),
         #else
-            .control_panel = BusI2C::ControlPanelFullConfig
-                ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(
-                    ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_I2C_ADDRESS
-                ),
+            .control_panel = BusI2C::ControlPanelFullConfig ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(
+                ESP_PANEL_BOARD_TOUCH_CONTROLLER, ESP_PANEL_BOARD_TOUCH_I2C_ADDRESS, ESP_PANEL_BOARD_TOUCH_I2C_CLK_HZ
+            ),
         #endif // ESP_PANEL_BOARD_TOUCH_I2C_ADDRESS
         },
     #elif ESP_PANEL_BOARD_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_SPI
@@ -326,14 +324,13 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
             .host = IO_Expander::HostPartialConfig{
                 .sda_io_num = ESP_PANEL_BOARD_EXPANDER_I2C_IO_SDA,
                 .scl_io_num = ESP_PANEL_BOARD_EXPANDER_I2C_IO_SCL,
-                .sda_pullup_en = ESP_PANEL_BOARD_EXPANDER_I2C_SDA_PULLUP,
-                .scl_pullup_en = ESP_PANEL_BOARD_EXPANDER_I2C_SCL_PULLUP,
-                .clk_speed = ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ,
+                .enable_internal_pullup = ESP_PANEL_BOARD_EXPANDER_I2C_INTERNAL_PULLUP,
             },
     #endif // ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST
             // Device
-            .device = {
+            .device = IO_Expander::DevicePartialConfig{
                 .address = ESP_PANEL_BOARD_EXPANDER_I2C_ADDRESS,
+                .freq_hz = ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ,
             },
         },
     },

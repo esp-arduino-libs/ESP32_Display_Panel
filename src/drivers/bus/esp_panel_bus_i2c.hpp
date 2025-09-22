@@ -9,8 +9,9 @@
 #include <optional>
 #include <memory>
 #include <variant>
-#include "driver/i2c.h"
+#include "driver/i2c_master.h"
 #include "esp_panel_types.h"
+#include "esp_lcd_io_i2c.h"
 #include "utils/esp_panel_utils_cxx.hpp"
 #include "esp_panel_bus_conf_internal.h"
 #include "esp_panel_bus.hpp"
@@ -34,22 +35,19 @@ public:
         .type = ESP_PANEL_BUS_TYPE_I2C,
         .name = "I2C",
     };
-    static constexpr int I2C_HOST_ID_DEFAULT = static_cast<int>(I2C_NUM_0);
-    static constexpr int I2C_CLK_SPEED_DEFAULT = 400 * 1000;
-
+    static constexpr int  I2C_HOST_ID_DEFAULT = static_cast<int>(I2C_NUM_0);
+    static constexpr int  I2C_CLK_SPEED_DEFAULT = 400 * 1000;
+    static constexpr bool I2C_ENABLE_INTERNAL_PULLUP_DEFAULT = true;
 
     struct HostPartialConfig {
-        int sda_io_num = -1;         ///< GPIO number for SDA signal
-        int scl_io_num = -1;         ///< GPIO number for SCL signal
-        bool sda_pullup_en = GPIO_PULLUP_ENABLE;  ///< Enable internal pullup for SDA
-        bool scl_pullup_en = GPIO_PULLUP_ENABLE;  ///< Enable internal pullup for SCL
-        int clk_speed = I2C_CLK_SPEED_DEFAULT;    ///< I2C clock frequency in Hz
+        int sda_io_num = -1;    /*!< GPIO number of I2C SDA signal */
+        int scl_io_num = -1;    /*!< GPIO number of I2C SCL signal */
+        bool enable_internal_pullup = I2C_ENABLE_INTERNAL_PULLUP_DEFAULT;   /*!< Enable internal pullups */
     };
-    using HostFullConfig = i2c_config_t;
+    using HostFullConfig = i2c_master_bus_config_t;
+    using HostConfig = std::variant<HostPartialConfig, HostFullConfig>;
 
     using ControlPanelFullConfig = esp_lcd_panel_io_i2c_config_t;
-
-    using HostConfig = std::variant<HostPartialConfig, HostFullConfig>;
     using ControlPanelConfig = ControlPanelFullConfig;
 
     /**
@@ -151,15 +149,24 @@ public:
      */
     bool configI2C_HostSkipInit();
 
+    // /**
+    //  * @brief Configure I2C internal pullup
+    //  *
+    //  * @param[in] sda_pullup_en Enable internal pullup for SDA
+    //  * @param[in] scl_pullup_en Enable internal pullup for SCL
+    //  * @return `true` if configuration succeeds, `false` otherwise
+    //  * @note This function should be called before `init()`
+    //  */
+    // bool configI2C_PullupEnable(bool sda_pullup_en, bool scl_pullup_en);
+
     /**
      * @brief Configure I2C internal pullup
      *
-     * @param[in] sda_pullup_en Enable internal pullup for SDA
-     * @param[in] scl_pullup_en Enable internal pullup for SCL
+     * @param[in] enable Enable internal pullup
      * @return `true` if configuration succeeds, `false` otherwise
      * @note This function should be called before `init()`
      */
-    bool configI2C_PullupEnable(bool sda_pullup_en, bool scl_pullup_en);
+    bool configI2C_PullupEnable(bool enable);
 
     /**
      * @brief Configure I2C clock frequency
@@ -273,7 +280,7 @@ public:
     [[deprecated("Use `configI2C_PullupEnable()` instead")]]
     void configI2cPullupEnable(bool sda_pullup_en, bool scl_pullup_en)
     {
-        configI2C_PullupEnable(sda_pullup_en, scl_pullup_en);
+        configI2C_PullupEnable(sda_pullup_en);
     }
 
     /**

@@ -1,7 +1,11 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
-exclude: '(libraries/ui/)'
+exclude: |
+  (?x)(
+    .*libraries/ui/.*
+    | .*.pio/.*
+  )
 repos:
   - repo: https://github.com/igrr/astyle_py.git
     rev: v1.0.5
