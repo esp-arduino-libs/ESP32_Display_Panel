@@ -23,6 +23,7 @@
 #include "esp_panel_touch_stmpe610.hpp"
 #include "esp_panel_touch_tt21100.hpp"
 #include "esp_panel_touch_xpt2046.hpp"
+#include "esp_panel_touch_gsl3680.hpp"
 
 namespace esp_panel::drivers {
 

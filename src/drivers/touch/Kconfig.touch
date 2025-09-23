@@ -70,6 +70,10 @@ menu "Touch"
             config ESP_PANEL_DRIVERS_TOUCH_USE_XPT2046
                 bool "Use XPT2046"
                 default n
+
+            config ESP_PANEL_DRIVERS_TOUCH_USE_GSL3680
+                bool "Use GSL3680"
+                default n
         endif
     endmenu
 
