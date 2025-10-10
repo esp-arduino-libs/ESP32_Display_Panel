@@ -120,6 +120,8 @@
         + defined(BOARD_VIEWE_UEDX80480050E_WB_A_2) \
         + defined(BOARD_VIEWE_UEDX80480050E_AC_A) \
         + defined(BOARD_VIEWE_UEDX80480070E_WB_A) \
+        /* Wireless-Tag */ \
+        + defined(BOARD_WIRELESSTAG_WTP4C5MP07S) \
         > 1
         #error "Multiple boards enabled! Please check file `esp_panel_board_supported_conf.h` and make sure only one board is enabled."
     #endif
@@ -225,6 +227,9 @@
         #include "viewe/BOARD_VIEWE_UEDX80480050E_AC_A.h"
     #elif defined(BOARD_VIEWE_UEDX80480070E_WB_A)
         #include "viewe/BOARD_VIEWE_UEDX80480070E_WB_A.h"
+    /* Wireless-Tag */
+    #elif defined(BOARD_WIRELESSTAG_WTP4C5MP07S)
+        #include "wirelesstag/BOARD_WIRELESSTAG_WTP4C5MP07S.h"
     #else
         #error "Unknown board selected!"
     #endif

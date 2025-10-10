@@ -36,6 +36,11 @@ choice
         bool "VIEWE"
         help
             https://viewedisplay.com/
+
+    config ESP_PANEL_BOARD_MANUFACTURER_WIRELESSTAG
+        bool "Wireless-Tag"
+        help
+            https://www.wireless-tag.com/
 endchoice
 
 choice
@@ -63,5 +68,9 @@ choice
 
     if ESP_PANEL_BOARD_MANUFACTURER_VIEWE || ESP_PANEL_BOARD_MANUFACTURER_ALL
         orsource "./viewe/Kconfig.viewe"
+    endif
+
+    if ESP_PANEL_BOARD_MANUFACTURER_WIRELESSTAG || ESP_PANEL_BOARD_MANUFACTURER_ALL
+        orsource "./wirelesstag/Kconfig.wirelesstag"
     endif
 endchoice
