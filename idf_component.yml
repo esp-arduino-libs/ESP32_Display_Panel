@@ -4,10 +4,13 @@ url: https://github.com/esp-arduino-libs/ESP32_Display_Panel
 repository: https://github.com/esp-arduino-libs/ESP32_Display_Panel.git
 issues: https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues
 dependencies:
-  idf: ">=5.1"
+  idf: ">=5.4"
+
   espressif/esp-lib-utils:
     version: "0.2.*"
     public: true
-  espressif/esp32_io_expander:
-    version: "1.*"
+
+  ESP32_IO_Expander:
+    version: "2.*"
+    override_path: "../ESP32_IO_Expander"
     public: true

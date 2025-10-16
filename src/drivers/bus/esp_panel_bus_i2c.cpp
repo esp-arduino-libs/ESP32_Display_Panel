@@ -23,16 +23,15 @@ void BusI2C::Config::convertPartialToFull()
         printHostConfig();
 #endif // ESP_UTILS_LOG_LEVEL_DEBUG
         auto &config = std::get<HostPartialConfig>(host.value());
-        host = i2c_config_t{
-            .mode = I2C_MODE_MASTER,
-            .sda_io_num = config.sda_io_num,
-            .scl_io_num = config.scl_io_num,
-            .sda_pullup_en = config.sda_pullup_en,
-            .scl_pullup_en = config.scl_pullup_en,
-            .master = {
-                .clk_speed = static_cast<uint32_t>(config.clk_speed),
+        host = HostFullConfig{
+            .i2c_port = static_cast<i2c_port_t>(host_id),
+            .sda_io_num = static_cast<gpio_num_t>(config.sda_io_num),
+            .scl_io_num = static_cast<gpio_num_t>(config.scl_io_num),
+            .clk_source = I2C_CLK_SRC_DEFAULT,
+            .glitch_ignore_cnt = 7,
+            .flags = {
+                .enable_internal_pullup = config.enable_internal_pullup,
             },
-            .clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL,
         };
     }
 
@@ -51,40 +50,39 @@ void BusI2C::Config::printHostConfig() const
     if (isHostConfigValid() && std::holds_alternative<HostFullConfig>(host.value())) {
         auto &config = std::get<HostFullConfig>(host.value());
         ESP_UTILS_LOGI(
-            "\n\t{Host config}[full]"
-            "\n\t\t-> [host_id]: %d"
-            "\n\t\t-> [mode]: %d"
-            "\n\t\t-> [sda_io_num]: %d"
-            "\n\t\t-> [scl_io_num]: %d"
-            "\n\t\t-> [sda_pullup_en]: %d"
-            "\n\t\t-> [scl_pullup_en]: %d"
-            "\n\t\t-> [master.clk_speed]: %d"
-            "\n\t\t-> [clk_flags]: %d"
-            , static_cast<int>(host_id)
-            , static_cast<int>(config.mode)
+            "\n\t{Host config}[full]\n"
+            "\t\t-> [i2c_port]: %d\n"
+            "\t\t-> [sda_io_num]: %d\n"
+            "\t\t-> [scl_io_num]: %d\n"
+            "\t\t-> [clk_source]: %d\n"
+            "\t\t-> [glitch_ignore_cnt]: %d\n"
+            "\t\t-> [intr_priority]: %d\n"
+            "\t\t-> [trans_queue_depth]: %d\n"
+            "\t\t-> [flags]:\n"
+            "\t\t\t-> [enable_internal_pullup]: %d\n"
+            "\t\t\t-> [allow_pd]: %d\n"
+            , static_cast<int>(config.i2c_port)
             , static_cast<int>(config.sda_io_num)
             , static_cast<int>(config.scl_io_num)
-            , static_cast<int>(config.sda_pullup_en)
-            , static_cast<int>(config.scl_pullup_en)
-            , static_cast<int>(config.master.clk_speed)
-            , static_cast<int>(config.clk_flags)
+            , static_cast<int>(config.clk_source)
+            , static_cast<int>(config.glitch_ignore_cnt)
+            , static_cast<int>(config.intr_priority)
+            , static_cast<int>(config.trans_queue_depth)
+            , static_cast<int>(config.flags.enable_internal_pullup)
+            , static_cast<int>(config.flags.allow_pd)
         );
     } else {
         auto &config = std::get<HostPartialConfig>(host.value());
         ESP_UTILS_LOGI(
-            "\n\t{Host config}[partial]"
-            "\n\t\t-> [host_id]: %d"
-            "\n\t\t-> [sda_io_num]: %d"
-            "\n\t\t-> [scl_io_num]: %d"
-            "\n\t\t-> [sda_pullup_en]: %d"
-            "\n\t\t-> [scl_pullup_en]: %d"
-            "\n\t\t-> [clk_speed]: %d"
+            "\n\t{Host config}[partial]\n"
+            "\t\t-> [id]: %d\n"
+            "\t\t-> [sda_io_num]: %d\n"
+            "\t\t-> [scl_io_num]: %d\n"
+            "\t\t-> [enable_internal_pullup]: %d\n"
             , static_cast<int>(host_id)
             , static_cast<int>(config.sda_io_num)
             , static_cast<int>(config.scl_io_num)
-            , static_cast<int>(config.sda_pullup_en)
-            , static_cast<int>(config.scl_pullup_en)
-            , static_cast<int>(config.clk_speed)
+            , static_cast<int>(config.enable_internal_pullup)
         );
     }
 
@@ -142,17 +140,16 @@ bool BusI2C::configI2C_HostSkipInit()
     return true;
 }
 
-bool BusI2C::configI2C_PullupEnable(bool sda_pullup_en, bool scl_pullup_en)
+bool BusI2C::configI2C_PullupEnable(bool enable)
 {
     ESP_UTILS_LOG_TRACE_ENTER_WITH_THIS();
 
     ESP_UTILS_CHECK_FALSE_RETURN(!isOverState(State::INIT), false, "Should be called before `init()`");
     ESP_UTILS_CHECK_FALSE_RETURN(!isHostSkipInit(), false, "Host is skipped initialization");
 
-    ESP_UTILS_LOGD("Param: sda_pullup_en(%d), scl_pullup_en(%d)", sda_pullup_en, scl_pullup_en);
+    ESP_UTILS_LOGD("Param: enable(%d)", enable);
     auto &host_config = getHostFullConfig();
-    host_config.sda_pullup_en = sda_pullup_en ? GPIO_PULLUP_ENABLE : GPIO_PULLUP_DISABLE;
-    host_config.scl_pullup_en = scl_pullup_en ? GPIO_PULLUP_ENABLE : GPIO_PULLUP_DISABLE;
+    host_config.flags.enable_internal_pullup = enable;
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
 
@@ -167,7 +164,7 @@ bool BusI2C::configI2C_FreqHz(uint32_t hz)
     ESP_UTILS_CHECK_FALSE_RETURN(!isHostSkipInit(), false, "Host is skipped initialization");
 
     ESP_UTILS_LOGD("Param: hz(%d)", static_cast<int>(hz));
-    getHostFullConfig().master.clk_speed = hz;
+    getControlPanelFullConfig().scl_speed_hz = hz;
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
 
@@ -307,19 +304,12 @@ bool BusI2C::begin()
     }
 
     // Create the control panel
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 2, 0)
     ESP_UTILS_CHECK_ERROR_RETURN(
         esp_lcd_new_panel_io_i2c(
-            reinterpret_cast<esp_lcd_i2c_bus_handle_t>(host_id), &getControlPanelFullConfig(), &control_panel
+            reinterpret_cast<i2c_master_bus_handle_t>(_host->getNativeHandle()), &getControlPanelFullConfig(),
+            &control_panel
         ), false, "create control panel failed"
     );
-#else
-    ESP_UTILS_CHECK_ERROR_RETURN(
-        esp_lcd_new_panel_io_i2c_v1(
-            static_cast<esp_lcd_i2c_bus_handle_t>(host_id), &getControlPanelFullConfig(), &control_panel
-        ), false, "create control panel failed"
-    );
-#endif // ESP_IDF_VERSION
     ESP_UTILS_LOGD("Create control panel @%p", control_panel);
 
     setState(State::BEGIN);

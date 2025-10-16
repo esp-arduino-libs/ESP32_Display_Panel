@@ -14,11 +14,10 @@ HostI2C::~HostI2C()
     ESP_UTILS_LOG_TRACE_ENTER_WITH_THIS();
 
     if (isOverState(State::BEGIN)) {
-        int id = getID();
         ESP_UTILS_CHECK_ERROR_EXIT(
-            i2c_driver_delete(static_cast<i2c_port_t>(id)), "Delete I2C host(%d) failed", id
+            i2c_del_master_bus(static_cast<i2c_master_bus_handle_t>(handle_)), "I2C driver delete failed"
         );
-        ESP_UTILS_LOGD("Delete I2C host(%d)", id);
+        ESP_UTILS_LOGD("Delete I2C host(%d)", getID());
 
         setState(State::DEINIT);
     }
@@ -35,14 +34,11 @@ bool HostI2C::begin()
     }
 
     {
-        int id = getID();
         ESP_UTILS_CHECK_ERROR_RETURN(
-            i2c_param_config(static_cast<i2c_port_t>(id), &config), false, "I2C param config failed"
+            i2c_new_master_bus(&config_, reinterpret_cast<i2c_master_bus_handle_t *>(&handle_)), false,
+            "I2C new master bus failed"
         );
-        ESP_UTILS_CHECK_ERROR_RETURN(
-            i2c_driver_install(static_cast<i2c_port_t>(id), config.mode, 0, 0, 0), false, "I2C driver install failed"
-        );
-        ESP_UTILS_LOGD("Initialize I2C host(%d)", id);
+        ESP_UTILS_LOGD("Initialize I2C host(%d)", getID());
     }
 
     setState(State::BEGIN);
@@ -53,18 +49,52 @@ end:
     return true;
 }
 
-bool HostI2C::calibrateConfig(const i2c_config_t &config)
+bool HostI2C::calibrateConfig(const i2c_master_bus_config_t &config)
 {
-    if (memcmp(&config, &this->config, sizeof(i2c_config_t))) {
+    if (memcmp(&config, &this->config_, sizeof(i2c_master_bus_config_t))) {
         ESP_UTILS_LOGI(
-            "Original config: mode(%d), sda_io_num(%d), scl_io_num(%d), sda_pullup_en(%d), scl_pullup_en(%d),"
-            "clk_speed(%d)", this->config.mode, this->config.sda_io_num, this->config.scl_io_num,
-            this->config.sda_pullup_en, this->config.scl_pullup_en, static_cast<int>(this->config.master.clk_speed)
+            "\n{Original config}\n"
+            "\t- [i2c_port]: %d\n"
+            "\t- [sda_io_num]: %d\n"
+            "\t- [scl_io_num]: %d\n"
+            "\t- [clk_source]: %d\n"
+            "\t- [glitch_ignore_cnt]: %d\n"
+            "\t- [intr_priority]: %d\n"
+            "\t- [trans_queue_depth]: %d\n"
+            "\t- {flags}\n"
+            "\t\t- [enable_internal_pullup]: %d\n"
+            "\t\t- [allow_pd]: %d\n"
+            , static_cast<int>(this->config_.i2c_port)
+            , static_cast<int>(this->config_.sda_io_num)
+            , static_cast<int>(this->config_.scl_io_num)
+            , static_cast<int>(this->config_.clk_source)
+            , static_cast<int>(this->config_.glitch_ignore_cnt)
+            , static_cast<int>(this->config_.intr_priority)
+            , static_cast<int>(this->config_.trans_queue_depth)
+            , static_cast<int>(this->config_.flags.enable_internal_pullup)
+            , static_cast<int>(this->config_.flags.allow_pd)
         );
         ESP_UTILS_LOGI(
-            "New config: mode(%d), sda_io_num(%d), scl_io_num(%d), sda_pullup_en(%d), scl_pullup_en(%d), clk_speed(%d)",
-            config.mode, config.sda_io_num, config.scl_io_num, config.sda_pullup_en, config.scl_pullup_en,
-            static_cast<int>(config.master.clk_speed)
+            "\n{New config}\n"
+            "\t- [i2c_port]: %d\n"
+            "\t- [sda_io_num]: %d\n"
+            "\t- [scl_io_num]: %d\n"
+            "\t- [clk_source]: %d\n"
+            "\t- [glitch_ignore_cnt]: %d\n"
+            "\t- [intr_priority]: %d\n"
+            "\t- [trans_queue_depth]: %d\n"
+            "\t- {flags}\n"
+            "\t\t- [enable_internal_pullup]: %d\n"
+            "\t\t- [allow_pd]: %d\n"
+            , static_cast<int>(config.i2c_port)
+            , static_cast<int>(config.sda_io_num)
+            , static_cast<int>(config.scl_io_num)
+            , static_cast<int>(config.clk_source)
+            , static_cast<int>(config.glitch_ignore_cnt)
+            , static_cast<int>(config.intr_priority)
+            , static_cast<int>(config.trans_queue_depth)
+            , static_cast<int>(config.flags.enable_internal_pullup)
+            , static_cast<int>(config.flags.allow_pd)
         );
         ESP_UTILS_CHECK_FALSE_RETURN(false, false, "Config mismatch");
     }

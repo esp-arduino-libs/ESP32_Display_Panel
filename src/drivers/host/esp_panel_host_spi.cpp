@@ -37,7 +37,7 @@ bool HostSPI::begin()
     {
         int id = getID();
         ESP_UTILS_CHECK_ERROR_RETURN(
-            spi_bus_initialize(static_cast<spi_host_device_t>(id), &config, SPI_DMA_CH_AUTO), false,
+            spi_bus_initialize(static_cast<spi_host_device_t>(id), &config_, SPI_DMA_CH_AUTO), false,
             "SPI host(%d) initialize failed", id
         );
         ESP_UTILS_LOGD("Initialize SPI host(%d)", id);
@@ -57,30 +57,47 @@ bool HostSPI::calibrateConfig(const spi_bus_config_t &config)
 
     // Keep the compatibility between SPI and QSPI
     if (temp_config.miso_io_num < 0) {
-        temp_config.miso_io_num = this->config.miso_io_num;
-    } else if (this->config.miso_io_num < 0) {
-        this->config.miso_io_num = temp_config.miso_io_num;
+        temp_config.miso_io_num = this->config_.miso_io_num;
+    } else if (this->config_.miso_io_num < 0) {
+        this->config_.miso_io_num = temp_config.miso_io_num;
     }
     if (temp_config.quadwp_io_num < 0) {
-        temp_config.quadwp_io_num = this->config.quadwp_io_num;
-    } else if (this->config.quadwp_io_num < 0) {
-        this->config.quadwp_io_num = temp_config.quadwp_io_num;
+        temp_config.quadwp_io_num = this->config_.quadwp_io_num;
+    } else if (this->config_.quadwp_io_num < 0) {
+        this->config_.quadwp_io_num = temp_config.quadwp_io_num;
     }
     if (temp_config.quadhd_io_num < 0) {
-        temp_config.quadhd_io_num = this->config.quadhd_io_num;
-    } else if (this->config.quadhd_io_num < 0) {
-        this->config.quadhd_io_num = temp_config.quadhd_io_num;
+        temp_config.quadhd_io_num = this->config_.quadhd_io_num;
+    } else if (this->config_.quadhd_io_num < 0) {
+        this->config_.quadhd_io_num = temp_config.quadhd_io_num;
     }
 
-    if (memcmp(&config, &this->config, sizeof(spi_bus_config_t))) {
+    if (memcmp(&config, &this->config_, sizeof(spi_bus_config_t))) {
         ESP_UTILS_LOGI(
-            "Original config: mosi_io_num(%d), miso_io_num(%d), sclk_io_num(%d), quadwp_io_num(%d), quadhd_io_num(%d)",
-            this->config.mosi_io_num, this->config.miso_io_num, this->config.sclk_io_num,
-            this->config.quadwp_io_num, this->config.quadhd_io_num
+            "\n{Original config}\n"
+            "\t- mosi_io_num: %d\n"
+            "\t- miso_io_num: %d\n"
+            "\t- sclk_io_num: %d\n"
+            "\t- quadwp_io_num: %d\n"
+            "\t- quadhd_io_num: %d\n"
+            , this->config_.mosi_io_num
+            , this->config_.miso_io_num
+            , this->config_.sclk_io_num
+            , this->config_.quadwp_io_num
+            , this->config_.quadhd_io_num
         );
         ESP_UTILS_LOGI(
-            "New config: mosi_io_num(%d), miso_io_num(%d), sclk_io_num(%d), quadwp_io_num(%d), quadhd_io_num(%d)",
-            config.mosi_io_num, config.miso_io_num, config.sclk_io_num, config.quadwp_io_num, config.quadhd_io_num
+            "\n{New config}\n"
+            "\t- mosi_io_num: %d\n"
+            "\t- miso_io_num: %d\n"
+            "\t- sclk_io_num: %d\n"
+            "\t- quadwp_io_num: %d\n"
+            "\t- quadhd_io_num: %d\n"
+            , temp_config.mosi_io_num
+            , temp_config.miso_io_num
+            , temp_config.sclk_io_num
+            , temp_config.quadwp_io_num
+            , temp_config.quadhd_io_num
         );
         ESP_UTILS_CHECK_FALSE_RETURN(false, false, "Config mismatch");
     }

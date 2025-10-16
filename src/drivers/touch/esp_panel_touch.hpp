@@ -740,12 +740,13 @@ using ESP_PanelTouch [[deprecated("Use `esp_panel::drivers::Touch` instead")]] =
  * @brief This macro is used to generate the I2C control panel configuration according to the touch panel name.
  *
  * @param[in] name Touch panel name
+ * @param[in] freq_hz I2C clock frequency in Hz
  *
  * Taking GT911 as an example, the following is the actual code after macro expansion:
- *      ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(GT911) => ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG()
+ *      ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(GT911, 400000) => ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG(400000)
  */
-#define _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name) ESP_LCD_TOUCH_IO_I2C_ ## name ## _CONFIG()
-#define ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name)  _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name)
+#define _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_NG(name, freq_hz) ESP_LCD_TOUCH_IO_I2C_ ## name ## _CONFIG(freq_hz)
+#define ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_NG(name, freq_hz)  _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_NG(name, freq_hz)
 
 /**
  * @brief This macro is used to generate the I2C control panel configuration according to the touch panel name and
@@ -753,14 +754,26 @@ using ESP_PanelTouch [[deprecated("Use `esp_panel::drivers::Touch` instead")]] =
  *
  * @param[in] name Touch panel name
  * @param[in] addr I2C address of the touch panel
+ * @param[in] freq_hz I2C clock frequency in Hz
  *
  * Taking GT911 as an example, the following is the actual code after macro expansion:
- *      ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(GT911, 0x14) => ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR(0x14)
+ *      ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(GT911, 0x14, 400000) => ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR(0x14, 400000)
  */
-#define _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(name, addr) \
-    ESP_LCD_TOUCH_IO_I2C_ ## name ## _CONFIG_WITH_ADDR(addr)
+#define _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR_NG(name, addr, freq_hz) \
+    ESP_LCD_TOUCH_IO_I2C_ ## name ## _CONFIG_WITH_ADDR(addr, freq_hz)
+#define ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR_NG(name, addr, freq_hz) \
+    _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR_NG(name, addr, freq_hz)
+
+/**
+ * @brief This macro is deprecated, use `ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_NG()` instead
+ */
+#define ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG(name)  ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_NG(name, 400000)
+
+/**
+ * @brief This macro is deprecated, use `ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR_NG()` instead
+ */
 #define ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(name, addr) \
-    _ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR(name, addr)
+    ESP_PANEL_TOUCH_I2C_CONTROL_PANEL_CONFIG_WITH_ADDR_NG(name, addr, 400000)
 
 /**
  * @brief This macro is used to generate the SPI control panel configuration according to the touch panel name.

@@ -45,7 +45,7 @@ esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CST820_CONFIG()             \
+#define ESP_LCD_TOUCH_IO_I2C_CST820_CONFIG(freq_hz)      \
     {                                                    \
         .dev_addr = ESP_LCD_TOUCH_IO_I2C_CST820_ADDRESS, \
         .control_phase_bytes = 1,                        \
@@ -54,7 +54,8 @@ esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const
         .flags =                                         \
         {                                                \
             .disable_control_phase = 1,                  \
-        }                                                \
+        },                                               \
+        .scl_speed_hz = freq_hz,                        \
     }
 
 #ifdef __cplusplus

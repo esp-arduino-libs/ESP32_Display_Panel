@@ -19,7 +19,7 @@ extern "C" {
 
 #define ESP_LCD_TOUCH_FT5x06_VER_MAJOR    (1)
 #define ESP_LCD_TOUCH_FT5x06_VER_MINOR    (0)
-#define ESP_LCD_TOUCH_FT5x06_VER_PATCH    (6)
+#define ESP_LCD_TOUCH_FT5x06_VER_PATCH    (7)
 
 /**
  * @brief Create a new FT5x06 touch driver
@@ -45,7 +45,7 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_FT5x06_CONFIG()           \
+#define ESP_LCD_TOUCH_IO_I2C_FT5x06_CONFIG(freq_hz)           \
     {                                       \
         .dev_addr = ESP_LCD_TOUCH_IO_I2C_FT5x06_ADDRESS, \
         .control_phase_bytes = 1,           \
@@ -54,7 +54,8 @@ esp_err_t esp_lcd_touch_new_i2c_ft5x06(const esp_lcd_panel_io_handle_t io, const
         .flags =                            \
         {                                   \
             .disable_control_phase = 1,     \
-        }                                   \
+        },                                  \
+        .scl_speed_hz = freq_hz,           \
     }
 
 

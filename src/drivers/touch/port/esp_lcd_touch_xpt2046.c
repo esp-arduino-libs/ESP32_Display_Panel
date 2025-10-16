@@ -29,23 +29,27 @@ static const char *TAG = "xpt2046";
 
 #define CONFIG_XPT2046_Z_THRESHOLD              (ESP_PANEL_DRIVERS_TOUCH_XPT2046_Z_THRESHOLD)
 #if ESP_PANEL_DRIVERS_TOUCH_XPT2046_INTERRUPT_MODE
-#define CONFIG_XPT2046_INTERRUPT_MODE           (ESP_PANEL_DRIVERS_TOUCH_XPT2046_INTERRUPT_MODE)
+#   define CONFIG_XPT2046_INTERRUPT_MODE        (ESP_PANEL_DRIVERS_TOUCH_XPT2046_INTERRUPT_MODE)
+#else
+#   define CONFIG_XPT2046_INTERRUPT_MODE        (0)
 #endif
 #if ESP_PANEL_DRIVERS_TOUCH_XPT2046_VREF_ON_MODE
-#define CONFIG_XPT2046_VREF_ON_MODE             (ESP_PANEL_DRIVERS_TOUCH_XPT2046_VREF_ON_MODE)
+#   define CONFIG_XPT2046_VREF_ON_MODE          (ESP_PANEL_DRIVERS_TOUCH_XPT2046_VREF_ON_MODE)
+#else
+#   define CONFIG_XPT2046_VREF_ON_MODE          (0)
 #endif
 #define CONFIG_XPT2046_CONVERT_ADC_TO_COORDS    (ESP_PANEL_DRIVERS_TOUCH_XPT2046_CONVERT_ADC_TO_COORDS)
 
 #ifdef CONFIG_XPT2046_INTERRUPT_MODE
-#define XPT2046_PD0_BIT       (0x00)
+#   define XPT2046_PD0_BIT       (0x00)
 #else
-#define XPT2046_PD0_BIT       (0x01)
+#   define XPT2046_PD0_BIT       (0x01)
 #endif
 
 #ifdef CONFIG_XPT2046_VREF_ON_MODE
-#define XPT2046_PD1_BIT   (0x02)
+#   define XPT2046_PD1_BIT      (0x02)
 #else
-#define XPT2046_PD1_BIT   (0x00)
+#   define XPT2046_PD1_BIT      (0x00)
 #endif
 
 #define XPT2046_PD_BITS       (XPT2046_PD1_BIT | XPT2046_PD0_BIT)
@@ -132,6 +136,13 @@ esp_err_t esp_lcd_touch_new_spi_xpt2046(const esp_lcd_panel_io_handle_t io,
         if (config->interrupt_callback) {
             esp_lcd_touch_register_interrupt_callback(handle, config->interrupt_callback);
         }
+
+#if CONFIG_XPT2046_INTERRUPT_MODE
+        // Read a register to enable Low Power mode, which is required for interrupt to work.
+        uint8_t battery = 0;
+        ESP_GOTO_ON_ERROR(esp_lcd_panel_io_rx_param(handle->io, BATTERY, &battery, 1), err, TAG, "XPT2046 read error!");
+#endif
+
     }
 
     *out_touch = handle;

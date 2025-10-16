@@ -16,7 +16,7 @@ extern "C" {
 
 #define ESP_LCD_TOUCH_XPT2046_VER_MAJOR    (1)
 #define ESP_LCD_TOUCH_XPT2046_VER_MINOR    (0)
-#define ESP_LCD_TOUCH_XPT2046_VER_PATCH    (5)
+#define ESP_LCD_TOUCH_XPT2046_VER_PATCH    (6)
 
 /**
  * @brief Recommended clock for SPI read of the XPT2046
