@@ -96,7 +96,7 @@ The functional block diagram is shown below:
 | Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
 | GOODiX | GT911,GT1151 |
-| Hynitron | CST816S,CST820 |
+| Hynitron | CST816S,CST820,CST9217 |
 | Parade | TT21100 |
 | Sitronix | ST7123,ST1633 |
 | Solomon Systech | SPD2010 |

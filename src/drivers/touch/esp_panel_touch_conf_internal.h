@@ -78,6 +78,14 @@
             #endif
         #endif
 
+        #ifndef ESP_PANEL_DRIVERS_TOUCH_USE_CST9217
+            #ifdef CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_CST9217
+                #define ESP_PANEL_DRIVERS_TOUCH_USE_CST9217 CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_CST9217
+            #else
+                #define ESP_PANEL_DRIVERS_TOUCH_USE_CST9217 (0)
+            #endif
+        #endif
+
         #ifndef ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06
             #ifdef CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06
                 #define ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06 CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06
@@ -240,6 +248,14 @@
         #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST820  (1)
     #else
         #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST820  (0)
+    #endif
+#endif
+
+#ifndef ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST9217
+    #if ESP_PANEL_DRIVERS_TOUCH_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_TOUCH_USE_CST9217
+        #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST9217  (1)
+    #else
+        #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST9217  (0)
     #endif
 #endif
 

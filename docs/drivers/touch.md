@@ -7,6 +7,7 @@
 |                                         CHSC6540                                         |      -      |    ✅    |         |
 |  [CST816S](https://components.espressif.com/components/espressif/esp_lcd_touch_cst816s)  |   1.0.3~1   |    ✅    |         |
 |                                          CST820                                          |      -      |    ✅    |         |
+|                                         CST9217                                          |    1.0.0    |    ✅    |         |
 |   [FT5x06](https://components.espressif.com/components/espressif/esp_lcd_touch_ft5x06)   |   1.0.6~1   |    ✅    |         |
 |    [GT911](https://components.espressif.com/components/espressif/esp_lcd_touch_gt911)    |   1.1.1~1   |    ✅    |         |
 |   [GT1151](https://components.espressif.com/components/espressif/esp_lcd_touch_gt1151)   |   1.0.5~2   |    ✅    |         |

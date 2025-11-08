@@ -346,8 +346,7 @@
  * Supported controllers:
  * - `AXS15231B`
  * - `CHSC6540`
- * - `CST816S`
- * - `CST820`
+ * - `CST816S`, 'CST820', 'CST9217'
  * - `FT5x06`
  * - `GT911`, `GT1151`
  * - `SPD2010`

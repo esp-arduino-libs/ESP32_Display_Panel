@@ -14,6 +14,7 @@
 #include "esp_panel_touch_chsc6540.hpp"
 #include "esp_panel_touch_cst816s.hpp"
 #include "esp_panel_touch_cst820.hpp"
+#include "esp_panel_touch_cst9217.hpp"
 #include "esp_panel_touch_ft5x06.hpp"
 #include "esp_panel_touch_gt911.hpp"
 #include "esp_panel_touch_gt1151.hpp"

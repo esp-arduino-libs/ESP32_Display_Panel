@@ -5,10 +5,9 @@
  */
 
 /**
- * @file   esp_lcd_touch_cst820.h
- * @brief  ESP LCD touch: CST820
- * @author Viewe@VIEWESMART
- */
+ * @file   esp_lcd_touch_cst9217.h
+ * @brief  ESP LCD touch: CST9217
+  */
 
 #pragma once
 
@@ -18,12 +17,12 @@
 extern "C" {
 #endif
 
-#define ESP_LCD_TOUCH_CST820_VER_MAJOR    (0)
-#define ESP_LCD_TOUCH_CST820_VER_MINOR    (1)
-#define ESP_LCD_TOUCH_CST820_VER_PATCH    (0)
+#define ESP_LCD_TOUCH_CST9217_VER_MAJOR    (1)
+#define ESP_LCD_TOUCH_CST9217_VER_MINOR    (0)
+#define ESP_LCD_TOUCH_CST9217_VER_PATCH    (0)
 
 /**
- * @brief Create a new CST820 touch driver
+ * @brief Create a new CST9217 touch driver
  *
  * @note  The I2C communication should be initialized before use this function.
  *
@@ -33,21 +32,21 @@ extern "C" {
  * @return
  *      - ESP_OK: on success
  */
-esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp);
+esp_err_t esp_lcd_touch_new_i2c_cst9217(const esp_lcd_panel_io_handle_t io, const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp);
 
 /**
- * @brief I2C address of the CST820 controller
+ * @brief I2C address of the CST9217 controller
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CST820_ADDRESS    (0x15)
+#define ESP_LCD_TOUCH_IO_I2C_CST9217_ADDRESS    (0x5A)
 
 /**
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CST820_CONFIG()             \
+#define ESP_LCD_TOUCH_IO_I2C_CST9217_CONFIG()             \
     {                                                    \
-        .dev_addr = ESP_LCD_TOUCH_IO_I2C_CST820_ADDRESS, \
+        .dev_addr = ESP_LCD_TOUCH_IO_I2C_CST9217_ADDRESS, \
         .control_phase_bytes = 1,                        \
         .dc_bit_offset = 0,                              \
         .lcd_cmd_bits = 8,                              \
@@ -63,7 +62,7 @@ esp_err_t esp_lcd_touch_new_i2c_cst820(const esp_lcd_panel_io_handle_t io, const
  * @param[in] addr I2C address of the touch panel
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CST820_CONFIG_WITH_ADDR(addr) \
+#define ESP_LCD_TOUCH_IO_I2C_CST9217_CONFIG_WITH_ADDR(addr) \
     {                                       \
         .dev_addr = addr,                   \
         .control_phase_bytes = 1,           \
