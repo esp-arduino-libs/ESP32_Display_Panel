@@ -27,7 +27,7 @@ void BusDSI::Config::convertPartialToFull()
         host = HostFullConfig{
             .bus_id = HOST_ID_DEFAULT,
             .num_data_lanes = static_cast<uint8_t>(config.num_data_lanes),
-            .phy_clk_src = MIPI_DSI_PHY_CLK_SRC_DEFAULT,
+            .phy_clk_src = static_cast<mipi_dsi_phy_clock_source_t>(MIPI_DSI_PHY_CLK_SRC_DEFAULT),
             .lane_bit_rate_mbps = static_cast<uint32_t>(config.lane_bit_rate_mbps),
         };
     }
