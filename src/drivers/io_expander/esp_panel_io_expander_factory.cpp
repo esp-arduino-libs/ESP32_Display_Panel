@@ -39,6 +39,9 @@ IO_ExpanderFactory::_name_function_map = {
 #if ESP_PANEL_DRIVERS_EXPANDER_USE_TCA95XX_16BIT
     MAP_ITEM(TCA95XX_16BIT),
 #endif
+#if ESP_PANEL_DRIVERS_EXPANDER_USE_WAVESHARE_LCD_4_CH32V003
+    MAP_ITEM(WAVESHARE_LCD_4_CH32V003),
+#endif
 };
 
 std::shared_ptr<IO_Expander> IO_ExpanderFactory::create(utils::string name, const IO_Expander::Config &config)
