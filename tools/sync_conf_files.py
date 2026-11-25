@@ -7,6 +7,7 @@ import shutil
 
 exclude_files = [
     './examples/arduino/board/board_dynamic_config/esp_panel_drivers_conf.h',
+    './examples/arduino/board/esp_mosaico/esp_panel_drivers_conf.h',
     './examples/platformio/lvgl_v8_port/src/lv_conf.h',
 ]
 exclude_dirs = [
