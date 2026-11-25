@@ -12,6 +12,8 @@
 
 #pragma once
 
+#include "esp_panel_m5stack_power.hpp"
+
 // *INDENT-OFF*
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,92 +227,42 @@
  * @param[in] p Pointer to the board object
  * @return true on success, false on failure
  */
-#define ESP_PANEL_BOARD_POST_BEGIN_FUNCTION(p) \
-    {  \
-        constexpr uint8_t AXP_ADDR = 0x34; \
-        constexpr i2c_port_t i2c_port = I2C_NUM_0; \
-        constexpr uint32_t I2C_TIMEOUT_TICKS = pdMS_TO_TICKS(1000); \
-        uint8_t device_id = 0; \
-        uint8_t read_value = 0; \
-        uint8_t write_value = 0; \
-        uint8_t reg_addr = 0; \
-        uint8_t write_buf[2] = {0}; \
-        reg_addr = 0x03; \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_read_device( \
-                i2c_port, AXP_ADDR, &reg_addr, 1, &device_id, 1, I2C_TIMEOUT_TICKS \
-            ), false, "Failed to read device ID" \
-        ); \
-        if (device_id == 0x03) { \
-            reg_addr = 0x28; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_read_device( \
-                    i2c_port, AXP_ADDR, &reg_addr, 1, &read_value, 1, I2C_TIMEOUT_TICKS \
-                ), false, "Failed to read value" \
-            ); \
-            write_value = (read_value & 0x0F) | ((((3300 - 1800) / 100) & 0x0F) << 4); \
-            write_buf[0] = 0x28; \
-            write_buf[1] = write_value; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_to_device( \
-                    i2c_port, AXP_ADDR, write_buf, sizeof(write_buf), I2C_TIMEOUT_TICKS \
-                ), false, "Failed to write value" \
-            ); \
-            reg_addr = 0x12; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_read_device( \
-                    i2c_port, AXP_ADDR, &reg_addr, 1, &read_value, 1, I2C_TIMEOUT_TICKS \
-                ), false, "Failed to read value" \
-            ); \
-            write_value = (read_value | (0x01 << 2)); \
-            write_buf[0] = 0x12; \
-            write_buf[1] = write_value; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_to_device( \
-                    i2c_port, AXP_ADDR, write_buf, sizeof(write_buf), I2C_TIMEOUT_TICKS \
-                ), false, "Failed to write value" \
-            ); \
-            reg_addr = 0x12; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_read_device( \
-                    i2c_port, AXP_ADDR, &reg_addr, 1, &read_value, 1, I2C_TIMEOUT_TICKS \
-                ), false, "Failed to read value" \
-            ); \
-            write_value = (read_value | (0x01 << 1)); \
-            write_buf[0] = 0x12; \
-            write_buf[1] = write_value; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_to_device( \
-                    i2c_port, AXP_ADDR, write_buf, sizeof(write_buf), I2C_TIMEOUT_TICKS \
-                ), false, "Failed to write value" \
-            ); \
-        } else if (device_id == 0x4A) { \
-            reg_addr = 0x90; \
-            read_value = device_id; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_read_device( \
-                    i2c_port, AXP_ADDR, &reg_addr, 1, &read_value, 1, I2C_TIMEOUT_TICKS \
-                ), false, "Failed to read value" \
-            ); \
-            write_value = (read_value | (1 << 4)); \
-            write_buf[0] = 0x90; \
-            write_buf[1] = write_value; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_to_device( \
-                    i2c_port, AXP_ADDR, write_buf, sizeof(write_buf), I2C_TIMEOUT_TICKS \
-                ), false, "Failed to write value" \
-            ); \
-            write_value = (3000 - 500) / 100; \
-            write_buf[0] = 0x94; \
-            write_buf[1] = write_value; \
-            ESP_UTILS_CHECK_ERROR_RETURN( \
-                i2c_master_write_to_device( \
-                    i2c_port, AXP_ADDR, write_buf, sizeof(write_buf), I2C_TIMEOUT_TICKS \
-                ), false, "Failed to write value" \
-            ); \
-        } \
-        return true;    \
-    }
+#define ESP_PANEL_BOARD_POST_BEGIN_FUNCTION(p) { return esp_panel::board::initM5StackCore2Power(); }
+
+namespace esp_panel::board {
+
+inline bool initM5StackCore2Power()
+{
+    i2c_master_bus_handle_t bus = nullptr;
+    ESP_UTILS_CHECK_ERROR_RETURN(
+        i2c_master_get_bus_handle(ESP_PANEL_BOARD_TOUCH_I2C_HOST_ID, &bus), false, "Get Core2 I2C bus failed"
+    );
+
+    return withM5StackPowerDevice(bus, 0x34, [](i2c_master_dev_handle_t device) {
+        uint8_t device_id = 0;
+        if (!readM5StackPowerRegister(device, 0x03, device_id)) {
+            return false;
+        }
+
+        uint8_t value = 0;
+        if (device_id == 0x03) {
+            return readM5StackPowerRegister(device, 0x28, value) &&
+                   writeM5StackPowerRegister(device, 0x28, (value & 0x0F) | (((3300 - 1800) / 100) << 4)) &&
+                   readM5StackPowerRegister(device, 0x12, value) &&
+                   writeM5StackPowerRegister(device, 0x12, value | (1 << 2)) &&
+                   readM5StackPowerRegister(device, 0x12, value) &&
+                   writeM5StackPowerRegister(device, 0x12, value | (1 << 1));
+        }
+        if (device_id == 0x4A) {
+            return readM5StackPowerRegister(device, 0x90, value) &&
+                   writeM5StackPowerRegister(device, 0x90, value | (1 << 4)) &&
+                   writeM5StackPowerRegister(device, 0x94, (3000 - 500) / 100);
+        }
+        return true;
+    });
+}
+
+} // namespace esp_panel::board
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////// File Version ///////////////////////////////////////////////////////////

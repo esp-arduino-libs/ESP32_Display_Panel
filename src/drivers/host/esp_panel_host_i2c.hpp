@@ -6,21 +6,12 @@
 
 #pragma once
 
-#include "esp_idf_version.h"
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
 #include "driver/i2c_master.h"
-#else
-#include "driver/i2c.h"
-#endif
 #include "esp_panel_host.hpp"
 
 namespace esp_panel::drivers {
 
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
 using HostI2CConfig = i2c_master_bus_config_t;
-#else
-using HostI2CConfig = i2c_config_t;
-#endif
 
 /**
  * @brief I2C bus host class
