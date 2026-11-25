@@ -72,7 +72,12 @@ void setup()
     Serial.println("Initializing board with default config");
     // Statically load the default board configuration
     board = new Board();
-    assert(board->begin());
+    if (!board->begin()) {
+        Serial.println("Board startup failed");
+        delete board;
+        board = nullptr;
+        return;
+    }
 
     auto backlight = board->getBacklight();
     if (backlight != nullptr) {
@@ -122,6 +127,11 @@ void setup()
 
 void loop()
 {
+    if (board == nullptr) {
+        delay(1000);
+        return;
+    }
+
     auto touch = board->getTouch();
     if (touch != nullptr) {
         // Read all touch points and buttons

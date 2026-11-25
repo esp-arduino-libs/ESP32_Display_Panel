@@ -57,9 +57,18 @@ void setup()
 
     Serial.println("Initializing board");
     Board *board = new Board();
-    board->init();
-#if LVGL_PORT_AVOID_TEARING_MODE
+    if (!board->init()) {
+        Serial.println("Board initialization failed");
+        delete board;
+        return;
+    }
     auto lcd = board->getLCD();
+    if (lcd == nullptr) {
+        Serial.println("LCD is not available");
+        delete board;
+        return;
+    }
+#if LVGL_PORT_AVOID_TEARING_MODE
     // When avoid tearing function is enabled, the frame buffer number should be set in the board driver
     lcd->configFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB && CONFIG_IDF_TARGET_ESP32S3
@@ -74,10 +83,17 @@ void setup()
     }
 #endif
 #endif
-    assert(board->begin());
+    if (!board->begin()) {
+        Serial.println("Board startup failed");
+        delete board;
+        return;
+    }
 
     Serial.println("Initializing LVGL");
-    lvgl_port_init(board->getLCD(), board->getTouch());
+    if (!lvgl_port_init(lcd, board->getTouch())) {
+        Serial.println("LVGL initialization failed");
+        return;
+    }
 
     Serial.println("Creating UI");
     /* Lock the mutex due to the LVGL APIs are not thread-safe */

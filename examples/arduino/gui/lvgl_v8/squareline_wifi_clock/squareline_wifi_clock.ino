@@ -714,6 +714,8 @@ void handleButtonReturnWifiAction(lv_event_t * e)
     wifi_list_switch = true;
 }
 
+static bool ui_ready = false;
+
 void setup()
 {
     Serial.begin(115200);
@@ -733,14 +735,23 @@ void setup()
 
     Serial.println("Initializing board");
     Board *board = new Board();
-    board->init();
+    if (!board->init()) {
+        Serial.println("Board initialization failed");
+        delete board;
+        return;
+    }
+    auto lcd = board->getLCD();
+    if (lcd == nullptr) {
+        Serial.println("LCD is not available");
+        delete board;
+        return;
+    }
 
 #if LVGL_PORT_AVOID_TEARING_MODE
     // When avoid tearing function is enabled, the frame buffer number should be set in the board driver
-    board->getLCD()->configFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);
+    lcd->configFrameBufferNumber(LVGL_PORT_DISP_BUFFER_NUM);
 #endif
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB && CONFIG_IDF_TARGET_ESP32S3
-    auto lcd = board->getLCD();
     auto lcd_bus = lcd->getBus();
     /**
      * When using "ESP32-S3 + RGB LCD" to operate WiFi or flash, the screen may drift. We need to enable the
@@ -751,10 +762,17 @@ void setup()
         static_cast<BusRGB *>(lcd_bus)->configRGB_BounceBufferSize(lcd->getFrameWidth() * 20);
     }
 #endif
-    assert(board->begin());
+    if (!board->begin()) {
+        Serial.println("Board startup failed");
+        delete board;
+        return;
+    }
 
     Serial.println("Initializing LVGL");
-    lvgl_port_init(board->getLCD(), board->getTouch());
+    if (!lvgl_port_init(lcd, board->getTouch())) {
+        Serial.println("LVGL initialization failed");
+        return;
+    }
 
     Serial.println("Creating UI");
     /* Lock the mutex due to the LVGL APIs are not thread-safe */
@@ -768,10 +786,16 @@ void setup()
     lvgl_port_unlock();
 
     initializeNVSRead();
+    ui_ready = true;
 }
 
 void loop()
 {
+    if (!ui_ready) {
+        delay(LOOP_DELAY_MS);
+        return;
+    }
+
     scanAndDisplayWiFiList();
 
     handleWifiConnection();
