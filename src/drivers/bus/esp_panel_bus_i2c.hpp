@@ -9,7 +9,13 @@
 #include <optional>
 #include <memory>
 #include <variant>
+#include "esp_idf_version.h"
+#include "driver/gpio.h"
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+#include "driver/i2c_master.h"
+#else
 #include "driver/i2c.h"
+#endif
 #include "esp_panel_types.h"
 #include "utils/esp_panel_utils_cxx.hpp"
 #include "esp_panel_bus_conf_internal.h"
@@ -45,7 +51,11 @@ public:
         bool scl_pullup_en = GPIO_PULLUP_ENABLE;  ///< Enable internal pullup for SCL
         int clk_speed = I2C_CLK_SPEED_DEFAULT;    ///< I2C clock frequency in Hz
     };
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+    using HostFullConfig = i2c_master_bus_config_t;
+#else
     using HostFullConfig = i2c_config_t;
+#endif
 
     using ControlPanelFullConfig = esp_lcd_panel_io_i2c_config_t;
 

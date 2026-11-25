@@ -25,6 +25,8 @@
     #define ESP_PANEL_BUS_RGB_DATA_BITS SOC_LCDCAM_RGB_DATA_WIDTH
 #elif defined(SOC_LCD_RGB_DATA_WIDTH)
     #define ESP_PANEL_BUS_RGB_DATA_BITS SOC_LCD_RGB_DATA_WIDTH
+#elif defined(ESP_LCD_RGB_BUS_WIDTH_MAX)
+    #define ESP_PANEL_BUS_RGB_DATA_BITS ESP_LCD_RGB_BUS_WIDTH_MAX
 #else
     #warning "`SOC_LCDCAM_RGB_DATA_WIDTH` or `SOC_LCD_RGB_DATA_WIDTH` not defined, using default value 16"
     #define ESP_PANEL_BUS_RGB_DATA_BITS 16
@@ -96,8 +98,11 @@ public:
         int data_gpio_nums[ESP_PANEL_BUS_RGB_DATA_BITS] = {  ///< GPIO numbers for data signals
             -1, -1, -1, -1, -1, -1, -1, -1,
 #if ESP_PANEL_BUS_RGB_DATA_BITS >= 16
-            -1, -1, -1, -1, -1, -1, -1, -1
+            -1, -1, -1, -1, -1, -1, -1, -1,
 #endif // ESP_PANEL_BUS_RGB_DATA_BITS
+#if ESP_PANEL_BUS_RGB_DATA_BITS >= 24
+            -1, -1, -1, -1, -1, -1, -1, -1,
+#endif
         };
         bool flags_pclk_active_neg = false;                  ///< PCLK active on negative edge if true
     };

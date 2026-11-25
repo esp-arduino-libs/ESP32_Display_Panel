@@ -15,6 +15,10 @@
 
 namespace esp_panel::drivers {
 
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+static constexpr auto UNSUPPORTED_DPI_COLOR_FORMAT = static_cast<lcd_color_format_t>(-1);
+#endif
+
 void BusDSI::Config::convertPartialToFull()
 {
     ESP_UTILS_LOG_TRACE_ENTER_WITH_THIS();
@@ -28,7 +32,7 @@ void BusDSI::Config::convertPartialToFull()
             .bus_id = HOST_ID_DEFAULT,
             .num_data_lanes = static_cast<uint8_t>(config.num_data_lanes),
             // A zero clock source lets ESP-IDF choose the default for the chip revision.
-            .lane_bit_rate_mbps = static_cast<uint32_t>(config.lane_bit_rate_mbps),
+            .lane_bit_rate_mbps = static_cast<decltype(HostFullConfig::lane_bit_rate_mbps)>(config.lane_bit_rate_mbps),
         };
     }
 
@@ -40,10 +44,15 @@ void BusDSI::Config::convertPartialToFull()
         refresh_panel = RefreshPanelFullConfig{
             .virtual_channel = 0,
             .dpi_clk_src = MIPI_DSI_DPI_CLK_SRC_DEFAULT,
-            .dpi_clock_freq_mhz = static_cast<uint32_t>(config.dpi_clock_freq_mhz),
+            .dpi_clock_freq_mhz = static_cast<decltype(RefreshPanelFullConfig::dpi_clock_freq_mhz)>(config.dpi_clock_freq_mhz),
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+            .in_color_format = config.bits_per_pixel == 16 ? LCD_COLOR_FMT_RGB565 :
+            (config.bits_per_pixel == 18 ? UNSUPPORTED_DPI_COLOR_FORMAT : LCD_COLOR_FMT_RGB888),
+#else
             .pixel_format = (config.bits_per_pixel == 16) ?  LCD_COLOR_PIXEL_FORMAT_RGB565 :
             ((config.bits_per_pixel == 18) ? LCD_COLOR_PIXEL_FORMAT_RGB666 :
              LCD_COLOR_PIXEL_FORMAT_RGB888),
+#endif
             .num_fbs = 1,
             .video_timing = {
                 .h_size = static_cast<uint32_t>(config.h_size),
@@ -55,9 +64,11 @@ void BusDSI::Config::convertPartialToFull()
                 .vsync_back_porch = static_cast<uint32_t>(config.vsync_back_porch),
                 .vsync_front_porch = static_cast<uint32_t>(config.vsync_front_porch),
             },
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(6, 0, 0)
             .flags = {
                 .use_dma2d = true,
             },
+#endif
         };
     }
 
@@ -135,12 +146,20 @@ void BusDSI::Config::printRefreshPanelConfig() const
             "\n\t\t-> [virtual_channel]: %d"
             "\n\t\t-> [dpi_clk_src]: %d"
             "\n\t\t-> [dpi_clock_freq_mhz]: %d"
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+            "\n\t\t-> [in_color_format]: %#x"
+#else
             "\n\t\t-> [pixel_format]: %d"
+#endif
             "\n\t\t-> [num_fbs]: %d"
             , static_cast<int>(config.virtual_channel)
             , static_cast<int>(config.dpi_clk_src)
             , static_cast<int>(config.dpi_clock_freq_mhz)
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+            , static_cast<unsigned>(config.in_color_format)
+#else
             , static_cast<int>(config.pixel_format)
+#endif
             , static_cast<int>(config.num_fbs)
         );
         ESP_UTILS_LOGI(
@@ -164,9 +183,13 @@ void BusDSI::Config::printRefreshPanelConfig() const
         );
         ESP_UTILS_LOGI(
             "\n\t\t-> {flags}"
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(6, 0, 0)
             "\n\t\t\t-> [use_dma2d]: %d"
+#endif
             "\n\t\t\t-> [disable_lp]: %d"
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(6, 0, 0)
             , static_cast<int>(config.flags.use_dma2d)
+#endif
             , static_cast<int>(config.flags.disable_lp)
         );
     } else {
@@ -262,6 +285,12 @@ bool BusDSI::init()
 
     // Convert the partial configuration to full configuration
     _config.convertPartialToFull();
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+    ESP_UTILS_CHECK_FALSE_RETURN(
+        getRefreshPanelFullConfig().in_color_format != UNSUPPORTED_DPI_COLOR_FORMAT, false,
+        "RGB666 is unavailable on this IDF version. Select RGB565 or RGB888"
+    );
+#endif
 #if ESP_UTILS_CONF_LOG_LEVEL == ESP_UTILS_LOG_LEVEL_DEBUG
     _config.printHostConfig();
     _config.printControlPanelConfig();

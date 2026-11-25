@@ -23,7 +23,22 @@ void BusI2C::Config::convertPartialToFull()
         printHostConfig();
 #endif // ESP_UTILS_LOG_LEVEL_DEBUG
         auto &config = std::get<HostPartialConfig>(host.value());
-        host = i2c_config_t{
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+        if (control_panel.scl_speed_hz == 0) {
+            control_panel.scl_speed_hz = config.clk_speed;
+        }
+        host = HostFullConfig{
+            .i2c_port = host_id,
+            .sda_io_num = static_cast<gpio_num_t>(config.sda_io_num),
+            .scl_io_num = static_cast<gpio_num_t>(config.scl_io_num),
+            .clk_source = I2C_CLK_SRC_DEFAULT,
+            .glitch_ignore_cnt = 7,
+            .flags = {
+                .enable_internal_pullup = config.sda_pullup_en && config.scl_pullup_en,
+            },
+        };
+#else
+        host = HostFullConfig {
             .mode = I2C_MODE_MASTER,
             .sda_io_num = config.sda_io_num,
             .scl_io_num = config.scl_io_num,
@@ -34,6 +49,7 @@ void BusI2C::Config::convertPartialToFull()
             },
             .clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL,
         };
+#endif
     }
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
@@ -50,6 +66,13 @@ void BusI2C::Config::printHostConfig() const
 
     if (isHostConfigValid() && std::holds_alternative<HostFullConfig>(host.value())) {
         auto &config = std::get<HostFullConfig>(host.value());
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+        ESP_UTILS_LOGI(
+            "I2C host(%d): SDA(%d), SCL(%d), internal pull-ups(%d), glitch filter(%d)",
+            host_id, config.sda_io_num, config.scl_io_num, config.flags.enable_internal_pullup,
+            config.glitch_ignore_cnt
+        );
+#else
         ESP_UTILS_LOGI(
             "\n\t{Host config}[full]"
             "\n\t\t-> [host_id]: %d"
@@ -69,6 +92,7 @@ void BusI2C::Config::printHostConfig() const
             , static_cast<int>(config.master.clk_speed)
             , static_cast<int>(config.clk_flags)
         );
+#endif
     } else {
         auto &config = std::get<HostPartialConfig>(host.value());
         ESP_UTILS_LOGI(
@@ -151,8 +175,12 @@ bool BusI2C::configI2C_PullupEnable(bool sda_pullup_en, bool scl_pullup_en)
 
     ESP_UTILS_LOGD("Param: sda_pullup_en(%d), scl_pullup_en(%d)", sda_pullup_en, scl_pullup_en);
     auto &host_config = getHostFullConfig();
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+    host_config.flags.enable_internal_pullup = sda_pullup_en && scl_pullup_en;
+#else
     host_config.sda_pullup_en = sda_pullup_en ? GPIO_PULLUP_ENABLE : GPIO_PULLUP_DISABLE;
     host_config.scl_pullup_en = scl_pullup_en ? GPIO_PULLUP_ENABLE : GPIO_PULLUP_DISABLE;
+#endif
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
 
@@ -164,10 +192,13 @@ bool BusI2C::configI2C_FreqHz(uint32_t hz)
     ESP_UTILS_LOG_TRACE_ENTER_WITH_THIS();
 
     ESP_UTILS_CHECK_FALSE_RETURN(!isOverState(State::INIT), false, "Should be called before `init()`");
-    ESP_UTILS_CHECK_FALSE_RETURN(!isHostSkipInit(), false, "Host is skipped initialization");
-
     ESP_UTILS_LOGD("Param: hz(%d)", static_cast<int>(hz));
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+    getControlPanelFullConfig().scl_speed_hz = hz;
+#else
+    ESP_UTILS_CHECK_FALSE_RETURN(!isHostSkipInit(), false, "Host is skipped initialization");
     getHostFullConfig().master.clk_speed = hz;
+#endif
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
 
@@ -307,7 +338,23 @@ bool BusI2C::begin()
     }
 
     // Create the control panel
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 2, 0)
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+    i2c_master_bus_handle_t handle = nullptr;
+    if (_host != nullptr) {
+        handle = static_cast<i2c_master_bus_handle_t>(_host->getHandle());
+    } else {
+        ESP_UTILS_CHECK_ERROR_RETURN(
+            i2c_master_get_bus_handle(host_id, &handle), false, "Get external I2C host failed"
+        );
+    }
+    auto &panel_config = getControlPanelFullConfig();
+    if (panel_config.scl_speed_hz == 0) {
+        panel_config.scl_speed_hz = I2C_CLK_SPEED_DEFAULT;
+    }
+    ESP_UTILS_CHECK_ERROR_RETURN(
+        esp_lcd_new_panel_io_i2c(handle, &panel_config, &control_panel), false, "Create control panel failed"
+    );
+#elif ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 2, 0)
     ESP_UTILS_CHECK_ERROR_RETURN(
         esp_lcd_new_panel_io_i2c(
             reinterpret_cast<esp_lcd_i2c_bus_handle_t>(host_id), &getControlPanelFullConfig(), &control_panel

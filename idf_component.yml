@@ -4,7 +4,7 @@ url: https://github.com/esp-arduino-libs/ESP32_Display_Panel
 repository: https://github.com/esp-arduino-libs/ESP32_Display_Panel.git
 issues: https://github.com/esp-arduino-libs/ESP32_Display_Panel/issues
 dependencies:
-  idf: ">=5.1"
+  idf: ">=5.1,<6.0"
   espressif/esp-lib-utils:
     version: "0.2.*"
     public: true

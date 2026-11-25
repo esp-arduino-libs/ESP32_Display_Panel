@@ -14,10 +14,16 @@
 
 namespace esp_panel::drivers {
 
+#ifdef MIPI_DSI_LL_BUS_NUM
+inline constexpr int MIPI_DSI_BUS_COUNT = MIPI_DSI_LL_BUS_NUM;
+#else
+inline constexpr int MIPI_DSI_BUS_COUNT = MIPI_DSI_LL_NUM_BUS;
+#endif
+
 /**
  * @brief MIPI-DSI bus host class
  */
-class HostDSI : public Host<HostDSI, esp_lcd_dsi_bus_config_t, MIPI_DSI_LL_NUM_BUS> {
+class HostDSI : public Host<HostDSI, esp_lcd_dsi_bus_config_t, MIPI_DSI_BUS_COUNT> {
 public:
     /* Add friend class to allow them to access the private member */
     template <typename U>
@@ -45,7 +51,7 @@ private:
      * @param[in] config Host configuration
      */
     HostDSI(int id, const esp_lcd_dsi_bus_config_t &config):
-        Host<HostDSI, esp_lcd_dsi_bus_config_t, MIPI_DSI_LL_NUM_BUS>(id, config) {}
+        Host<HostDSI, esp_lcd_dsi_bus_config_t, MIPI_DSI_BUS_COUNT>(id, config) {}
 
     /**
      * @brief Calibrate configuration when host already exists

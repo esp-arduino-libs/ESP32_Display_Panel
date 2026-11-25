@@ -16,6 +16,11 @@
 #include "utils/esp_panel_utils_log.h"
 #include "esp_panel_lcd.hpp"
 
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0) && \
+    (ESP_PANEL_DRIVERS_BUS_ENABLE_RGB || ESP_PANEL_DRIVERS_BUS_ENABLE_MIPI_DSI)
+#include "hal/color_hal.h"
+#endif
+
 namespace esp_panel::drivers {
 
 void LCD::BasicBusSpecification::print(utils::string bus_name) const
@@ -110,16 +115,13 @@ void LCD::Config::convertPartialToFull()
         printDeviceConfig();
 #endif // ESP_UTILS_LOG_LEVEL_DEBUG
         auto &config = std::get<DevicePartialConfig>(device);
-        device = DeviceFullConfig{
-            .reset_gpio_num = config.reset_gpio_num,
-            .rgb_ele_order = static_cast<lcd_rgb_element_order_t>(config.rgb_ele_order),
-            .data_endian = LCD_RGB_DATA_ENDIAN_BIG,
-            .bits_per_pixel = static_cast<uint32_t>(config.bits_per_pixel),
-            .flags = {
-                .reset_active_high = config.flags_reset_active_high,
-            },
-            .vendor_config = nullptr,
-        };
+        DeviceFullConfig full_config = {};
+        full_config.reset_gpio_num = static_cast<decltype(full_config.reset_gpio_num)>(config.reset_gpio_num);
+        full_config.rgb_ele_order = static_cast<lcd_rgb_element_order_t>(config.rgb_ele_order);
+        full_config.data_endian = LCD_RGB_DATA_ENDIAN_BIG;
+        full_config.bits_per_pixel = config.bits_per_pixel;
+        full_config.flags.reset_active_high = config.flags_reset_active_high;
+        device = full_config;
     }
 
     if (std::holds_alternative<VendorPartialConfig>(vendor)) {
@@ -458,7 +460,11 @@ bool LCD::begin()
     case ESP_PANEL_BUS_TYPE_MIPI_DSI: {
         esp_lcd_dpi_panel_event_callbacks_t dpi_event_cb = {
             .on_color_trans_done = (esp_lcd_dpi_panel_color_trans_done_cb_t)onDrawBitmapFinish,
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 1, 0)
+            .on_frame_buf_complete = (esp_lcd_dpi_panel_frame_buf_complete_cb_t)onRefreshFinish,
+#else
             .on_refresh_done = (esp_lcd_dpi_panel_refresh_done_cb_t)onRefreshFinish,
+#endif
         };
         ESP_UTILS_CHECK_ERROR_RETURN(
             esp_lcd_dpi_panel_register_event_callbacks(refresh_panel, &dpi_event_cb, &_interruption.data), false,
@@ -939,7 +945,19 @@ int LCD::getFrameColorBits()
         auto rgb_config = getBusRGB_RefreshPanelFullConfig();
         ESP_UTILS_CHECK_NULL_RETURN(rgb_config, -1, "Invalid RGB config");
 
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+        auto format = rgb_config->in_color_format;
+        if (!format) {
+            // Match the driver's default for full configurations that leave the format unset.
+            ESP_UTILS_CHECK_FALSE_RETURN(
+                rgb_config->data_width == 16 || rgb_config->data_width == 24, -1, "Cannot determine RGB input format"
+            );
+            format = rgb_config->data_width == 24 ? LCD_COLOR_FMT_RGB888 : LCD_COLOR_FMT_RGB565;
+        }
+        bits_per_pixel = color_hal_pixel_format_fourcc_get_bit_depth(static_cast<esp_color_fourcc_t>(format));
+#else
         bits_per_pixel = rgb_config->bits_per_pixel;
+#endif
         break;
     }
 #endif // ESP_PANEL_DRIVERS_BUS_ENABLE_RGB
@@ -948,6 +966,10 @@ int LCD::getFrameColorBits()
         auto dpi_config = getBusDSI_RefreshPanelFullConfig();
         ESP_UTILS_CHECK_NULL_RETURN(dpi_config, -1, "Invalid MIPI DPI config");
 
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+        auto format = dpi_config->in_color_format ? dpi_config->in_color_format : LCD_COLOR_FMT_RGB888;
+        bits_per_pixel = color_hal_pixel_format_fourcc_get_bit_depth(static_cast<esp_color_fourcc_t>(format));
+#else
         switch (dpi_config->pixel_format) {
         case LCD_COLOR_PIXEL_FORMAT_RGB565:
             bits_per_pixel = 16;
@@ -962,6 +984,7 @@ int LCD::getFrameColorBits()
             bits_per_pixel = getConfig().getDeviceFullConfig()->bits_per_pixel;
             break;
         }
+#endif
         break;
     }
 #endif /* ESP_PANEL_DRIVERS_BUS_ENABLE_MIPI_DSI */

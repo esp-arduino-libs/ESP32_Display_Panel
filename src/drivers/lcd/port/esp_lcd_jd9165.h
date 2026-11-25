@@ -12,6 +12,7 @@
 #if SOC_MIPI_DSI_SUPPORTED
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_mipi_dsi.h"
+#include "esp_panel_lcd_dpi_compat.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -73,22 +74,22 @@ esp_err_t esp_lcd_new_panel_jd9165(const esp_lcd_panel_io_handle_t io, const esp
  */
 #define JD9165_1024_600_PANEL_60HZ_DPI_CONFIG(px_format) \
     {                                                    \
+        .virtual_channel = 0,                            \
         .dpi_clk_src = MIPI_DSI_DPI_CLK_SRC_DEFAULT,     \
         .dpi_clock_freq_mhz = 50,                        \
-        .virtual_channel = 0,                            \
-        .pixel_format = px_format,                       \
+        ESP_PANEL_LCD_DPI_COLOR_CONFIG(px_format)        \
         .num_fbs = 1,                                    \
         .video_timing = {                                \
             .h_size = 1024,                              \
             .v_size = 600,                               \
-            .hsync_back_porch = 136,                     \
             .hsync_pulse_width = 20,                     \
+            .hsync_back_porch = 136,                     \
             .hsync_front_porch = 160,                    \
-            .vsync_back_porch = 12,                      \
             .vsync_pulse_width = 2,                      \
+            .vsync_back_porch = 12,                      \
             .vsync_front_porch = 20,                     \
         },                                               \
-        .flags.use_dma2d = true,                         \
+        ESP_PANEL_LCD_DPI_LEGACY_DMA_CONFIG              \
     }
 
 #ifdef __cplusplus

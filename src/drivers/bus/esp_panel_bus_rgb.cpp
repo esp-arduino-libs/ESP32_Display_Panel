@@ -8,6 +8,8 @@
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_RGB
 
 #include <cstdlib>
+#include <algorithm>
+#include <iterator>
 #include <cstring>
 #include "esp_lcd_panel_io.h"
 #include "utils/esp_panel_utils_log.h"
@@ -52,7 +54,7 @@ void BusRGB::Config::convertPartialToFull()
         printRefreshPanelConfig();
 #endif // ESP_UTILS_LOG_LEVEL_DEBUG
         auto &config = std::get<RefreshPanelPartialConfig>(refresh_panel);
-        refresh_panel = RefreshPanelFullConfig{
+        RefreshPanelFullConfig full_config = {
             .clk_src = LCD_CLK_SRC_DEFAULT,
             .timings = {
                 .pclk_hz = static_cast<uint32_t>(config.pclk_hz),
@@ -73,7 +75,11 @@ void BusRGB::Config::convertPartialToFull()
                 },
             },
             .data_width = static_cast<size_t>(config.data_width),
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+            .in_color_format = config.bits_per_pixel == 24 ? LCD_COLOR_FMT_RGB888 : LCD_COLOR_FMT_RGB565,
+#else
             .bits_per_pixel = static_cast<size_t>(config.bits_per_pixel),
+#endif
             .num_fbs = 1,
             .bounce_buffer_size_px = static_cast<size_t>(config.bounce_buffer_size_px),
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)
@@ -82,23 +88,11 @@ void BusRGB::Config::convertPartialToFull()
             .sram_trans_align = 4,
             .psram_trans_align = 64,
 #endif // ESP_IDF_VERSION
-            .hsync_gpio_num = config.hsync_gpio_num,
-            .vsync_gpio_num = config.vsync_gpio_num,
-            .de_gpio_num = config.de_gpio_num,
-            .pclk_gpio_num = config.pclk_gpio_num,
-            .disp_gpio_num = config.disp_gpio_num,
-            .data_gpio_nums = {
-                config.data_gpio_nums[0], config.data_gpio_nums[1],
-                config.data_gpio_nums[2], config.data_gpio_nums[3],
-                config.data_gpio_nums[4], config.data_gpio_nums[5],
-                config.data_gpio_nums[6], config.data_gpio_nums[7],
-#if ESP_PANEL_BUS_RGB_DATA_BITS >= 16
-                config.data_gpio_nums[8], config.data_gpio_nums[9],
-                config.data_gpio_nums[10], config.data_gpio_nums[11],
-                config.data_gpio_nums[12], config.data_gpio_nums[13],
-                config.data_gpio_nums[14], config.data_gpio_nums[15],
-#endif // ESP_PANEL_BUS_RGB_DATA_BITS
-            },
+            .hsync_gpio_num = static_cast<decltype(RefreshPanelFullConfig::hsync_gpio_num)>(config.hsync_gpio_num),
+            .vsync_gpio_num = static_cast<decltype(RefreshPanelFullConfig::vsync_gpio_num)>(config.vsync_gpio_num),
+            .de_gpio_num = static_cast<decltype(RefreshPanelFullConfig::de_gpio_num)>(config.de_gpio_num),
+            .pclk_gpio_num = static_cast<decltype(RefreshPanelFullConfig::pclk_gpio_num)>(config.pclk_gpio_num),
+            .disp_gpio_num = static_cast<decltype(RefreshPanelFullConfig::disp_gpio_num)>(config.disp_gpio_num),
             .flags = {
                 .disp_active_low = 0,
                 .refresh_on_demand = 0,
@@ -108,6 +102,17 @@ void BusRGB::Config::convertPartialToFull()
                 .bb_invalidate_cache = 0,
             },
         };
+        static_assert(
+            std::extent_v<decltype(full_config.data_gpio_nums)> == std::extent_v<decltype(config.data_gpio_nums)>
+        );
+        using DataGpio = std::remove_extent_t<decltype(full_config.data_gpio_nums)>;
+        std::transform(
+            std::begin(config.data_gpio_nums), std::end(config.data_gpio_nums), std::begin(full_config.data_gpio_nums),
+        [](int pin) {
+            return static_cast<DataGpio>(pin);
+        }
+        );
+        refresh_panel = full_config;
     }
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
@@ -245,7 +250,11 @@ void BusRGB::Config::printRefreshPanelConfig() const
         );
         ESP_UTILS_LOGI(
             "\n\t\t-> [data_width]: %d"
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+            "\n\t\t-> [in_color_format]: %#x"
+#else
             "\n\t\t-> [bits_per_pixel]: %d"
+#endif
             "\n\t\t-> [num_fbs]: %d"
             "\n\t\t-> [bounce_buffer_size_px]: %d"
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)
@@ -260,7 +269,11 @@ void BusRGB::Config::printRefreshPanelConfig() const
             "\n\t\t-> [pclk_gpio_num]: %d"
             "\n\t\t-> [disp_gpio_num]: %d"
             , static_cast<int>(config.data_width)
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
+            , static_cast<unsigned>(config.in_color_format)
+#else
             , static_cast<int>(config.bits_per_pixel)
+#endif
             , static_cast<int>(config.num_fbs)
             , static_cast<int>(config.bounce_buffer_size_px)
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)

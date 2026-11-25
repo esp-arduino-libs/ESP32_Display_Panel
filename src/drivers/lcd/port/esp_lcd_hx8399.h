@@ -12,6 +12,7 @@
 #if SOC_MIPI_DSI_SUPPORTED
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_mipi_dsi.h"
+#include "esp_panel_lcd_dpi_compat.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,22 +69,22 @@ esp_err_t esp_lcd_new_panel_hx8399(const esp_lcd_panel_io_handle_t io, const esp
  */
 #define HX8399_1080_1920_PANEL_30HZ_DPI_CONFIG(px_format)            \
     {                                                            \
+        .virtual_channel = 0,                                    \
         .dpi_clk_src = MIPI_DSI_DPI_CLK_SRC_DEFAULT,             \
         .dpi_clock_freq_mhz = 75,                                \
-        .virtual_channel = 0,                                    \
-        .pixel_format = px_format,                               \
+        ESP_PANEL_LCD_DPI_COLOR_CONFIG(px_format)                \
         .num_fbs = 1,                                            \
         .video_timing = {                                        \
             .h_size = 1080,                                      \
             .v_size = 1920,                                      \
-            .hsync_back_porch = 140,                             \
             .hsync_pulse_width = 40,                             \
+            .hsync_back_porch = 140,                             \
             .hsync_front_porch = 40,                             \
-            .vsync_back_porch = 16,                              \
             .vsync_pulse_width = 4,                              \
+            .vsync_back_porch = 16,                              \
             .vsync_front_porch = 16,                             \
         },                                                       \
-        .flags.use_dma2d = true,                                 \
+        ESP_PANEL_LCD_DPI_LEGACY_DMA_CONFIG                      \
     }
 
 #ifdef __cplusplus

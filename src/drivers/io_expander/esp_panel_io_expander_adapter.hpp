@@ -156,6 +156,9 @@ bool IO_ExpanderAdapter<T>::del()
 {
     ESP_UTILS_LOG_TRACE_ENTER_WITH_THIS();
 
+    // Remove the device before releasing the shared I2C host.
+    ESP_UTILS_CHECK_FALSE_RETURN(T::del(), false, "Delete base failed");
+
     if (_host != nullptr) {
         _host = nullptr;
         int host_id = this->getConfig().host_id;
@@ -163,8 +166,6 @@ bool IO_ExpanderAdapter<T>::del()
             HostI2C::tryReleaseInstance(host_id), false, "Release I2C host(%d) failed", host_id
         );
     }
-
-    ESP_UTILS_CHECK_FALSE_RETURN(T::del(), false, "Delete base failed");
 
     ESP_UTILS_LOG_TRACE_EXIT_WITH_THIS();
 
