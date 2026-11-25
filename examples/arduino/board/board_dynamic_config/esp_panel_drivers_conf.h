@@ -64,10 +64,13 @@
 #define ESP_PANEL_DRIVERS_LCD_USE_ALL                   (1)
 #if !ESP_PANEL_DRIVERS_LCD_USE_ALL
     #define ESP_PANEL_DRIVERS_LCD_USE_AXS15231B         (0)
+    #define ESP_PANEL_DRIVERS_LCD_USE_CO5300               (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_EK9716B           (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_EK79007           (0)
+    #define ESP_PANEL_DRIVERS_LCD_USE_GC9107               (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_GC9A01            (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_GC9B71            (0)
+    #define ESP_PANEL_DRIVERS_LCD_USE_GC9D01               (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_GC9503            (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_HX8399            (0)
     #define ESP_PANEL_DRIVERS_LCD_USE_ILI9341           (0)
@@ -125,6 +128,7 @@
 #if !ESP_PANEL_DRIVERS_TOUCH_USE_ALL
     #define ESP_PANEL_DRIVERS_TOUCH_USE_AXS15231B       (0)
     #define ESP_PANEL_DRIVERS_TOUCH_USE_CHSC6540        (0)
+    #define ESP_PANEL_DRIVERS_TOUCH_USE_CST9220            (0)
     #define ESP_PANEL_DRIVERS_TOUCH_USE_CST816S         (0)
     #define ESP_PANEL_DRIVERS_TOUCH_USE_CST820          (0)
     #define ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06          (0)

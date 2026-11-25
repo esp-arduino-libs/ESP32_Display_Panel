@@ -9,6 +9,10 @@ menu "LCD"
                 bool "Use AXS15231B"
                 default n
 
+            config ESP_PANEL_DRIVERS_LCD_USE_CO5300
+                bool "CO5300 (SPI/QSPI)"
+                default n
+
             config ESP_PANEL_DRIVERS_LCD_USE_EK9716B
                 bool "Use EK9716B"
                 default n
@@ -17,12 +21,20 @@ menu "LCD"
                 bool "Use EK79007"
                 default n
 
+            config ESP_PANEL_DRIVERS_LCD_USE_GC9107
+                bool "GC9107 (SPI)"
+                default n
+
             config ESP_PANEL_DRIVERS_LCD_USE_GC9A01
                 bool "Use GC9A01"
                 default n
 
             config ESP_PANEL_DRIVERS_LCD_USE_GC9B71
                 bool "Use GC9B71"
+                default n
+
+            config ESP_PANEL_DRIVERS_LCD_USE_GC9D01
+                bool "GC9D01 (SPI)"
                 default n
 
             config ESP_PANEL_DRIVERS_LCD_USE_GC9503
