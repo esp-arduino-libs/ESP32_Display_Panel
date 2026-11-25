@@ -67,6 +67,7 @@ const esp_panel_lcd_vendor_init_cmd_t lcd_init_cmd[] = {
 #define EXAMPLE_LCD_SPI_IO_SDA      (6)
 #define EXAMPLE_LCD_SPI_IO_SDO      (-1)
 #define EXAMPLE_LCD_RST_IO          (48)    // Set to -1 if not used
+#define EXAMPLE_LCD_RST_LEVEL       (1)
 #define EXAMPLE_LCD_BL_IO           (47)    // Set to -1 if not used
 #define EXAMPLE_LCD_BL_ON_LEVEL     (1)
 #define EXAMPLE_LCD_BL_OFF_LEVEL    (!EXAMPLE_LCD_BL_ON_LEVEL)

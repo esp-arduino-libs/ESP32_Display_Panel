@@ -516,8 +516,8 @@ public:
      * @param[in] callback Function to be called on completion
      * @param[in] user_data User data to pass to callback function
      * @return `true` if successful, `false` otherwise
-     * @note For bus which not use DMA operation (like RGB), callback is called at end of draw function
-     * @note For other bus types, callback is called when DMA operation completes
+     * @note The callback can run in task context for synchronous draws, such as RGB and CPU copies on MIPI-DSI.
+     *       For asynchronous transfers it can run in interrupt context.
      */
     bool attachDrawBitmapFinishCallback(FunctionDrawBitmapFinishCallback callback, void *user_data = nullptr);
 

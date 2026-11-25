@@ -27,7 +27,7 @@ void BusDSI::Config::convertPartialToFull()
         host = HostFullConfig{
             .bus_id = HOST_ID_DEFAULT,
             .num_data_lanes = static_cast<uint8_t>(config.num_data_lanes),
-            .phy_clk_src = MIPI_DSI_PHY_CLK_SRC_DEFAULT,
+            // A zero clock source lets ESP-IDF choose the default for the chip revision.
             .lane_bit_rate_mbps = static_cast<uint32_t>(config.lane_bit_rate_mbps),
         };
     }
