@@ -12,6 +12,7 @@
 #if SOC_MIPI_DSI_SUPPORTED
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_mipi_dsi.h"
+#include "esp_panel_lcd_dpi_compat.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,22 +71,22 @@ esp_err_t esp_lcd_new_panel_st7703(const esp_lcd_panel_io_handle_t io, const esp
  */
 #define ST7703_720_1280_PANEL_60HZ_DPI_CONFIG(px_format) \
     {                                                    \
+        .virtual_channel = 0,                            \
         .dpi_clk_src = MIPI_DSI_DPI_CLK_SRC_DEFAULT,     \
         .dpi_clock_freq_mhz = 58,                        \
-        .virtual_channel = 0,                            \
-        .pixel_format = px_format,                       \
+        ESP_PANEL_LCD_DPI_COLOR_CONFIG(px_format)        \
         .num_fbs = 1,                                    \
         .video_timing = {                                \
             .h_size = 720,                               \
             .v_size = 1280,                              \
-            .hsync_back_porch = 40,                      \
             .hsync_pulse_width = 4,                      \
+            .hsync_back_porch = 40,                      \
             .hsync_front_porch = 40,                     \
-            .vsync_back_porch = 12,                      \
             .vsync_pulse_width = 4,                      \
+            .vsync_back_porch = 12,                      \
             .vsync_front_porch = 16,                     \
         },                                               \
-        .flags.use_dma2d = true,                         \
+        ESP_PANEL_LCD_DPI_LEGACY_DMA_CONFIG              \
     }
 
 #ifdef __cplusplus

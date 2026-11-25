@@ -15,6 +15,7 @@
 #include "esp_idf_version.h"
 #if SOC_MIPI_DSI_SUPPORTED
 #include "esp_lcd_mipi_dsi.h"
+#include "esp_panel_lcd_dpi_compat.h"
 #endif
 
 #ifdef __cplusplus
@@ -152,22 +153,22 @@ esp_err_t esp_lcd_new_panel_st7796(const esp_lcd_panel_io_handle_t io, const esp
  */
 #define ST7796_320_480_PANEL_60HZ_DPI_CONFIG(px_format)  \
     {                                                    \
+        .virtual_channel = 0,                            \
         .dpi_clk_src = MIPI_DSI_DPI_CLK_SRC_DEFAULT,     \
         .dpi_clock_freq_mhz = 10,                        \
-        .virtual_channel = 0,                            \
-        .pixel_format = px_format,                       \
+        ESP_PANEL_LCD_DPI_COLOR_CONFIG(px_format)        \
         .num_fbs = 1,                                    \
         .video_timing = {                                \
             .h_size = 320,                               \
             .v_size = 480,                               \
-            .hsync_back_porch = 10,                      \
             .hsync_pulse_width = 10,                     \
+            .hsync_back_porch = 10,                      \
             .hsync_front_porch = 20,                     \
-            .vsync_back_porch = 10,                      \
             .vsync_pulse_width = 10,                     \
+            .vsync_back_porch = 10,                      \
             .vsync_front_porch = 10,                     \
         },                                               \
-        .flags.use_dma2d = true,                         \
+        ESP_PANEL_LCD_DPI_LEGACY_DMA_CONFIG              \
     }
 
 #ifdef __cplusplus
