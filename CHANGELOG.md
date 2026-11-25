@@ -1,15 +1,27 @@
 # ChangeLog
 
-## v1.0.5 - 2025-10-14
+## v1.0.5
 
 ### Enhancements:
 
 * feat(board): add support for Wireless-Tag WTP4C5MP07S @lyusupov (#244)
 * feat(touch): add touch controller GSL3680 @DejanBukovec (#212)
 
+### Preview support
+
+* Arduino-ESP32 4.0 with the development IO Expander dependency
+* ESP32-S31 24-bit RGB888 example
+* ESP-Mosaico display, touch, and brightness example
+* CO5300 SPI/QSPI, GC9107 and GC9D01 SPI, and CST9220-compatible I²C touch drivers
+
 ### Bugfixes:
 
 * fix(touch): fix reset issue @skyluke86 (#242)
+* fix(dsi): use the SDK default PHY clock for each P4 revision (#251)
+* fix(examples): define the SPI LCD reset level
+* fix(touch): allow custom I2C addresses for CST816S and CST820 (#248)
+* fix(lcd): allow refresh callbacks without user data when IRAM safety is enabled
+* fix(lcd): handle synchronous draws and color bar bounds
 
 ## v1.0.4 - 2025-09-19
 

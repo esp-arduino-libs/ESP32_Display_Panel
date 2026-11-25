@@ -54,6 +54,7 @@ The functional block diagram is shown below:
 | **Manufacturer** | **Model** |
 | --------------- | --------- |
 | [Espressif](./docs/board/board_espressif.md) | ESP32-C3-LCDkit, ESP32-S3-BOX, ESP32-S3-BOX-3, ESP32-S3-BOX-3B, ESP32-S3-BOX-3(beta), ESP32-S3-BOX-Lite, ESP32-S3-EYE, ESP32-S3-Korvo-2, ESP32-S3-LCD-EV-Board, ESP32-S3-LCD-EV-Board-2, ESP32-S3-USB-OTG, ESP32-P4-Function-EV-Board |
+| Espressif | [ESP-Mosaico (Arduino 4.0 preview)](./examples/arduino/board/esp_mosaico/) |
 | [M5Stack](./docs/board/board_m5stack.md) | M5STACK-M5CORE2, M5STACK-M5DIAL, M5STACK-M5CORES3 |
 | [Elecrow](./docs/board/board_elecrow.md) | CrowPanel 7.0" |
 | [Jingcai](./docs/board/board_jingcai.md) | ESP32-4848S040C_I_Y_3 |
@@ -74,8 +75,9 @@ The functional block diagram is shown below:
 | **Manufacturer** | **Model** |
 | --------------- | --------- |
 | AXS | AXS15231B |
+| Chipone | CO5300 |
 | Fitipower | EK9716B,EK79007 |
-| GalaxyCore | GC9A01,GC9B71,GC9503 |
+| GalaxyCore | GC9107,GC9A01,GC9B71,GC9D01,GC9503 |
 | Himax | HX8399 |
 | Ilitek | ILI9341,ILI9881C |
 | JADARD | JD9165,JD9365 |
@@ -96,8 +98,9 @@ The functional block diagram is shown below:
 | Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
 | GOODiX | GT911,GT1151 |
-| Hynitron | CST816S,CST820 |
+| Hynitron | CST816S,CST820,CST9220 (CST9217) |
 | Parade | TT21100 |
+| Silead | GSL3680 |
 | Sitronix | ST7123,ST1633 |
 | Solomon Systech | SPD2010 |
 | ST | STMPE610 |
@@ -130,4 +133,4 @@ The functional block diagram is shown below:
 
 * [Other FAQs](./docs/faq_others.md)
 
-  * [Can't find drivers for the same model of LCD/Touch device?](./docs/faq_others.md#can-t-find-drivers-for-the-same-model-of-lcd/touch-device)
+  * [Can't find drivers for the same model of LCD/Touch device?](./docs/faq_others.md#cant-find-drivers-for-the-same-model-of-lcdtouch-device)

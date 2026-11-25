@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 28 px
  * Bpp: 4
- * Opts: --bpp 4 --size 28 --font /home/lvhaiyu/SquareLine/assets/AlimamaShuHeiTi-Bold.ttf -o /home/lvhaiyu/SquareLine/assets/ui_font_FontNumber28bp4.c --format lvgl -r 0x20-0x7f --symbols 星期一二三四五六日℃晴多云阴小雨中雨大雨暴雨小雪大雪℃ --no-compress --no-prefilter
+ * Opts: --bpp 4 --size 28 --font AlimamaShuHeiTi-Bold.ttf -o ui_font_FontNumber28bp4.c --format lvgl -r 0x20-0x7f --symbols 星期一二三四五六日℃晴多云阴小雨中雨大雨暴雨小雪大雪℃ --no-compress --no-prefilter
  ******************************************************************************/
 
 #include "../ui.h"

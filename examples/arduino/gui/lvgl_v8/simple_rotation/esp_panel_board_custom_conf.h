@@ -54,9 +54,9 @@
  * @brief LCD controller selection
  *
  * Supported controllers:
- * - `AXS15231B`
+ * - `AXS15231B`, `CO5300`
  * - `EK9716B`, `EK79007`
- * - `GC9A01`, `GC9B71`, `GC9503`
+ * - `GC9107`, `GC9A01`, `GC9B71`, `GC9D01`, `GC9503`
  * - `HX8399`
  * - `ILI9341`, `ILI9881C`
  * - `JD9165`, `JD9365`
@@ -347,8 +347,9 @@
  * - `AXS15231B`
  * - `CHSC6540`
  * - `CST816S`
- * - `CST820`
+ * - `CST820`, `CST9220`
  * - `FT5x06`
+ * - `GSL3680`
  * - `GT911`, `GT1151`
  * - `SPD2010`
  * - `ST1633`, `ST7123`

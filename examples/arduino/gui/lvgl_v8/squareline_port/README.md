@@ -18,7 +18,7 @@ This example demonstrates how to port `SquareLine (v1.4.x)` project. And for `RG
 - Install the following example dependencies:
 
   - `lvgl`: v8.4.0
-  - `ui`: To directly use the example, please copy the [ui](./ui) folder from project directory to [Arduino library directory](../../../../../docs/envs/use_with_arduino.md#where-is-the-arduino-library-directory). See [Porting SquareLine Projects](../../../../../docs/envs/use_with_arduino.md#porting-squareline-projects) for more information
+  - `ui`: To directly use the example, please copy the [ui](./libraries/ui) folder to [Arduino library directory](../../../../../docs/envs/use_with_arduino.md#where-is-the-arduino-library-directory). See [Porting SquareLine Projects](../../../../../docs/envs/use_with_arduino.md#porting-squareline-projects) for more information
 
 ### Step 2. Configure the libraries
 
@@ -57,7 +57,7 @@ This example demonstrates how to port `SquareLine (v1.4.x)` project. And for `RG
 - Select the target board in the `Board` menu
 - Change the `Partition Scheme` and `Flash Size` to make the flash size enough for the project (like `Huge App` + `4MB`)
 - Change the `PSRAM` option to `OPI PSRAM` if using `ESP32S3R8 + RGB LCD`, or `Enabled` if using `ESP32P4 + MIPI-DSI LCD`
-- Change the `USB CDC On Boot` option to `Enabled` if using `USB` port, or `Disabled` if using `UART` port. If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
+- Change the `USB CDC On Boot` option to `Enabled` if using `USB` port, or `Disabled` if using `UART` port. Reselect the port after uploading if its name changes.
 - Change other configurations as needed
 - see [Configuring Arduino IDE](../../../../../docs/envs/use_with_arduino.md#configuring-arduino-ide) for more information
 

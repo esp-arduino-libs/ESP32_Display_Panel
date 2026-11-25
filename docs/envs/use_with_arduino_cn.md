@@ -11,6 +11,7 @@
     - [运行第一个示例](#运行第一个示例)
     - [下一步](#下一步)
   - [SDK 及依赖库](#sdk-及依赖库)
+    - [Arduino-ESP32 4.0 预览支持](#arduino-esp32-40-预览支持)
   - [安装库](#安装库)
   - [配置说明](#配置说明)
     - [调整驱动配置](#调整驱动配置)
@@ -27,7 +28,7 @@
     - [移植 SquareLine 工程](#移植-squareline-工程)
   - [常见问题及解答](#常见问题及解答)
     - [Arduino 库的目录在哪儿？](#arduino-库的目录在哪儿)
-    - [arduino-eps32 的安装目录以及 SDK 的目录在哪儿？](#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)
+    - [arduino-esp32 的安装目录以及 SDK 的目录在哪儿？](#arduino-esp32-的安装目录以及-sdk-的目录在哪儿)
     - [如何在 Arduino IDE 中安装 ESP32\_Display\_Panel？](#如何在-arduino-ide-中安装-esp32_display_panel)
     - [如何在 Arduino IDE 中选择和配置支持的开发板？](#如何在-arduino-ide-中选择和配置支持的开发板)
     - [如何在 Arduino IDE 中使用 SquareLine 导出的 UI 源文件？](#如何在-arduino-ide-中使用-squareline-导出的-ui-源文件)
@@ -56,7 +57,7 @@
   ```
 
 - 导航到 `Tools` > `Board` > `Boards Manager`
-- 搜索 `esp32` by `Espressif Systems` 并安装符合要求的版本（参阅 [SDK 及依赖库](#sdk-及依赖库)）
+- 搜索 Espressif Systems 发布的 `esp32`，按本节步骤入门时安装 3.3.13。兼容范围见 [SDK 及依赖库](#sdk-及依赖库)。
 
 3. **安装必需的库**
 
@@ -106,7 +107,7 @@
 
 |                           **SDK**                           | **版本要求**  |
 | ----------------------------------------------------------- | ------------ |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.1.0     |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.1.0, < 4.0.0 |
 
 |                                 **依赖库**                                  |      **版本要求**      |
 | -------------------------------------------------------------------------- | --------------------- |
@@ -116,6 +117,15 @@
 > [!NOTE]
 > * SDK 的安装方法请参阅 [Arduino ESP32 文档 - 安装](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html)。
 > * 依赖库的安装方法请参阅 [安装库](#安装库) 章节。
+
+### Arduino-ESP32 4.0 预览支持
+
+使用 Arduino-ESP32 4.0.0、ESP32_Display_Panel 1.0.5 和 `esp-lib-utils` 0.2.3。Panel 可按下文步骤从库管理器或 ZIP 安装。
+使用此预览功能时，请安装 [ESP32_IO_Expander 提交 `e2028bb`](https://github.com/esp-arduino-libs/ESP32_IO_Expander/tree/e2028bb041b00665bf7b72dd8a8c84c22db4b303) 作为本地库，替换 1.x 发布版。该提交使用 ESP-IDF 6.x 所需的新版 I²C 主控总线驱动。
+
+该依赖组合已编译验证 ESP32-C3 SPI、ESP32-S3 RGB、ESP32-P4 MIPI-DSI 和 ESP32-S31 RGB888 示例。新版驱动按设备设置 I²C 时钟，两个引脚的内部上拉同时启用或关闭。DSI 支持 RGB565 和 RGB888。
+
+24 位 ST7262 配置见 [ESP32-S31 RGB888 示例](../../examples/arduino/drivers/lcd/lcd_rgb_s31/)。[ESP-Mosaico 预览示例](../../examples/arduino/board/esp_mosaico/) 使用 CO5300 QSPI 显示和 CST9217 触摸，并从 eFuse 识别板卡版本。
 
 ## 安装库
 
@@ -320,7 +330,7 @@ ESP32_Display_Panel 会根据 [esp_panel_board_custom_conf.h](../../esp_panel_bo
 > [!NOTE]
 > * 使用上述示例时，请确保已经安装了符合版本要求的 `LVGL` 库。
 > * 关于如何配置 `LVGL`（v8.4.x），请参阅 [配置 LVGL](#配置-lvgl) 以获取更多详细信息。
-> * 关于如何移植 `Squarelina`（v1.4.x）项目，请参阅 [移植 SquareLine 工程](#移植-SquareLine-工程) 获取更多详细信息。
+> * 关于如何移植 `SquareLine`（v1.4.x）项目，请参阅 [移植 SquareLine 工程](#移植-squareline-工程) 获取更多详细信息。
 
 > [!WARNING]
 > 目前，`LVGL` 的防撕裂功能仅支持 `RGB/MIPI-DSI` LCD，并且需要其版本满足 `>= v8.3.9`，如果使用的是其他类型的 LCD 或不符合要求的 `LVGL` 版本，请不要启用此功能。
@@ -484,7 +494,7 @@ LVGL 的功能和参数可以通过修改 [lv_conf.h](../../template_files/lv_co
 
 您可以在 Arduino IDE 的菜单栏中选择 `File` > `Preferences` > `Settings` > `Sketchbook location` 来查找和修改 Arduino 库的目录路径。
 
-### arduino-eps32 的安装目录以及 SDK 的目录在哪儿？
+### arduino-esp32 的安装目录以及 SDK 的目录在哪儿？
 
 arduino-esp32 的默认安装路径取决于您的操作系统：
 
@@ -492,7 +502,7 @@ arduino-esp32 的默认安装路径取决于您的操作系统：
 - Linux： `~/.arduino15/packages/esp32`
 - macOS： `~/Library/Arduino15/packages/esp32`
 
-arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-arduino-libs > idf-release_x` 目录中。
+预编译 SDK 位于安装目录的 `tools/` 下。Arduino-ESP32 3.3.13 按芯片分包，例如 `tools/esp32s3-libs/3.3.13/`。使用合并 SDK 包的早期 3.x 版本可查看 `tools/esp32-arduino-libs/`。
 
 ### 如何在 Arduino IDE 中安装 ESP32_Display_Panel？
 
@@ -504,7 +514,7 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
 
 ### 如何在 Arduino IDE 中使用 SquareLine 导出的 UI 源文件？
 
-请参阅 [移植 SquareLine 工程](#移植-SquareLine-工程)。
+请参阅 [移植 SquareLine 工程](#移植-squareline-工程)。
 
 ### 在 Arduino IDE 中使用库点不亮屏幕，如何调试？
 
@@ -521,7 +531,7 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
 
 1. 检查 Arduino IDE 中 `Tools` > `Port` 是否设置正确
 2. 检查 Arduino IDE 中 `Tools` > `Core Debug Level` 是否设置为期望等级，如 `Info` 或更低级别
-3. 检查 Arduino IDE 中 `Tools` > `USB CDC On Boot` 是否设置正确，如 ESP32 使用 `UART` 端口连接则设置为 `Disabled`，使用 `USB` 端口连接则设置为 `Enabled`。修改设置后需要使能 `Erase All Flash Before Sketch Upload` 选项后重新烧录。
+3. 检查 Arduino IDE 中 `Tools` > `USB CDC On Boot` 是否设置正确，如 ESP32 使用 `UART` 端口连接则设置为 `Disabled`，使用 `USB` 端口连接则设置为 `Enabled`。修改设置后重新编译并上传。若串口号变化，请在 Arduino IDE 中重新选择端口。
 4. 检查 Arduino IDE 中串口调试器波特率是否设置正确，如 `115200`
 
 ### 在 Arduino IDE 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案
@@ -537,7 +547,7 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
     a. **更新 SDK 以使能 `XIP on PSRAM` 功能**
 
     - 从 [arduino-esp32-sdk](https://github.com/esp-arduino-libs/arduino-esp32-sdk) 下载 `high_perf` 版本
-    - 按照 [说明文档](https://github.com/esp-arduino-libs/arduino-esp32-sdk#how-to-use) 替换到 [arduino-esp32 安装目录](#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)
+    - 按照 [说明文档](https://github.com/esp-arduino-libs/arduino-esp32-sdk#how-to-use) 替换到 [arduino-esp32 安装目录](#arduino-esp32-的安装目录以及-sdk-的目录在哪儿)
 
     b. **配置 `RGB LCD Bounce Buffer`**
 
@@ -621,41 +631,17 @@ arduino-esp32 v3.x 版本的 SDK 位于默认安装路径下的 `tools > esp32-a
 
 ### 在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何避免 I2C 重复初始化（如使用 Wire 库）？
 
-如果您需要使用 ESP32_Display_Panel 的 I2C 总线功能，如使用 `I2C IO_Expander` 或 `I2C Touch` 等驱动，而您的项目中已经使用了 `Wire` 库，可能会因为 I2C 总线重复初始化导致错误。为了避免这种情况，请在创建 `Board` 对象之前初始化 `Wire`，然后参考以下步骤设置 ESP32_Display_Panel 跳过初始化 I2C：
+已发布依赖组合使用旧版 ESP-IDF I²C 驱动，Arduino Core 3.3.13 的 `Wire` 使用新版驱动。遇到 `CONFLICT! driver_ng is not allowed to be used with this old driver` 时，由 Panel 初始化 I²C，并让同一应用中的其他 I²C 设备使用旧版驱动 API。跳过 host 初始化这个选项适用于已由同一套驱动初始化的总线。
 
-1. 通过修改 *esp_panel_board_custom_conf.h* 配置文件的方法（仅适用于 [自定义开发板](#加载自定义开发板)）：
+在 Arduino-ESP32 4.0 上，Panel 使用新版 I²C 驱动。共享总线时，先在目标引脚上启动 `Wire`，将每个 Panel 驱动的 host ID 设为同一控制器，并在 `board->del()` 释放 Panel 设备后再调用 `Wire.end()`。
 
-- 对于 `I2C Touch` 驱动：
+自定义板使用以下设置借用 I²C 0。在 `esp_panel_board_custom_conf.h` 中设置已启用驱动对应的宏。
 
-    ```c
-    ...
-    #define ESP_PANEL_BOARD_LCD_BUS_SKIP_INIT_HOST    (1)     // 0/1
-    ...
-    ```
+```c
+#define ESP_PANEL_BOARD_TOUCH_I2C_HOST_ID          (0)
+#define ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST   (1)
+#define ESP_PANEL_BOARD_EXPANDER_I2C_HOST_ID        (0)
+#define ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST    (1)
+```
 
-- 对于 `I2C IO_Expander` 驱动：
-
-    ```c
-    ...
-    #define ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST     (1)     // 0/1
-    ...
-    ```
-
-2. 通过代码的方法（适用于 [支持的开发板](#加载支持的开发板) 以及 [自定义开发板](#加载自定义开发板)）：
-
-    ```c
-    ...
-    esp_panel::board::Board *board = new esp_panel::board::Board();
-    board->init();
-    ...
-    /**
-     * Should be called after `board->init()` and before `board->begin()`
-     */
-    // For I2C Touch
-    static_cast<esp_panel::drivers::BusI2C *>(board->getTouch()->getBus())->configI2C_HostSkipInit();
-    // For I2C IO_Expander
-    board->getIO_Expander()->skipInitHost();
-    ...
-    board->begin();
-    ...
-    ```
+如果通过代码配置现有板型，在 `board->init()` 成功后、`board->begin()` 前设置对应驱动。已启用的 I²C 触摸在总线上调用 `BusI2C::configI2C_HostSkipInit()`，已启用的 I/O 扩展器调用 `IO_Expander::skipInitHost()`。

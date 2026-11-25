@@ -54,11 +54,13 @@ ESP32_Display_Panel 的主要特性如下：
 | **制造商** | **型号** |
 | -------- | -------------- |
 | [Espressif](./docs/board/board_espressif.md) | ESP32-C3-LCDkit、ESP32-S3-BOX、ESP32-S3-BOX-3、ESP32-S3-BOX-3B、ESP32-S3-BOX-3(beta)、ESP32-S3-BOX-Lite、ESP32-S3-EYE、ESP32-S3-Korvo-2、ESP32-S3-LCD-EV-Board、ESP32-S3-LCD-EV-Board-2、ESP32-S3-USB-OTG、ESP32-P4-Function-EV-Board |
+| Espressif | [ESP-Mosaico（Arduino 4.0 预览）](./examples/arduino/board/esp_mosaico/) |
 | [M5Stack](./docs/board/board_m5stack.md) | M5STACK-M5CORE2、M5STACK-M5DIAL、M5STACK-M5CORES3 |
 | [Elecrow](./docs/board/board_elecrow.md) | CrowPanel 7.0" |
 | [Jingcai](./docs/board/board_jingcai.md) | ESP32-4848S040C_I_Y_3 |
 | [Waveshare](./docs/board/board_waveshare.md) | ESP32-S3-Touch-LCD-1.85、ESP32-S3-Touch-LCD-2.1、ESP32-S3-Touch-LCD-2.8C、ESP32-S3-Touch-LCD-4.3、ESP32-S3-Touch-LCD-4.3B、ESP32-S3-Touch-LCD-5、ESP32-S3-Touch-LCD-5B、ESP32-S3-Touch-LCD-7、ESP32-P4-NANO |
 | [VIEWE](./docs/board/board_viewe.md) | UEDX24320024E-WB-A、UEDX24320028E-WB-A、UEDX24320035E-WB-A、UEDX32480035E-WB-A、UEDX48270043E-WB-A、UEDX48480040E-WB-A、UEDX80480043E-WB-A、UEDX80480050E-WB-A、UEDX80480070E-WB-A |
+| Wireless-Tag | WTP4C5MP07S |
 
 📌 详细说明请点击制造商名称查看。
 
@@ -73,8 +75,9 @@ ESP32_Display_Panel 的主要特性如下：
 | **制造商** | **型号** |
 | -------- | -------- |
 | AXS | AXS15231B |
+| Chipone | CO5300 |
 | Fitipower | EK9716B、EK79007 |
-| GalaxyCore | GC9A01、GC9B71、GC9503 |
+| GalaxyCore | GC9107、GC9A01、GC9B71、GC9D01、GC9503 |
 | Himax | HX8399 |
 | Ilitek | ILI9341、ILI9881C |
 | JADARD | JD9165、JD9365 |
@@ -95,8 +98,9 @@ ESP32_Display_Panel 的主要特性如下：
 | Chipsemicorp | CHSC6540 |
 | FocalTech | FT5x06 |
 | GOODiX | GT911、GT1151 |
-| Hynitron | CST816S、CST820 |
+| Hynitron | CST816S、CST820、CST9220 (CST9217) |
 | Parade | TT21100 |
+| Silead | GSL3680 |
 | Sitronix | ST7123、ST1633 |
 | Solomon Systech | SPD2010 |
 | ST | STMPE610 |
@@ -111,11 +115,11 @@ ESP32_Display_Panel 的主要特性如下：
 * [Arduino IDE](./docs/envs/use_with_arduino_cn.md#常见问题及解答)
 
   * [Arduino 库的目录在哪儿？](./docs/envs/use_with_arduino_cn.md#arduino-库的目录在哪儿)
-  * [arduino-eps32 的安装目录以及 SDK 的目录在哪儿？](./docs/envs/use_with_arduino_cn.md#arduino-eps32-的安装目录以及-sdk-的目录在哪儿)
+  * [arduino-esp32 的安装目录以及 SDK 的目录在哪儿？](./docs/envs/use_with_arduino_cn.md#arduino-esp32-的安装目录以及-sdk-的目录在哪儿)
   * [如何在 Arduino IDE 中安装 ESP32_Display_Panel？](./docs/envs/use_with_arduino_cn.md#如何在-arduino-ide-中安装-esp32_display_panel)
   * [如何在 Arduino IDE 中选择和配置支持的开发板？](./docs/envs/use_with_arduino_cn.md#如何在-arduino-ide-中选择和配置支持的开发板)
   * [如何在 Arduino IDE 中使用 SquareLine 导出的 UI 源文件？](./docs/envs/use_with_arduino_cn.md#如何在-arduino-ide-中使用-squareline-导出的-ui-源文件)
-  * [在 Arduino IDE 中使用库点不亮屏幕，如何调试？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用库点不亮屏幕，如何调试)
+  * [在 Arduino IDE 中使用库点不亮屏幕，如何调试？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用库点不亮屏幕如何调试)
   * [在 Arduino IDE 中打开串口调试器看不到日志信息或日志信息显示不全，如何解决？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中打开串口调试器看不到日志信息或日志信息显示不全如何解决)
   * [在 Arduino IDE 中使用 ESP32-S3 驱动 RGB LCD 时出现画面漂移问题的解决方案](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32-s3-驱动-rgb-lcd-时出现画面漂移问题的解决方案)
   * [在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何降低其 Flash 占用及加快编译速度？](./docs/envs/use_with_arduino_cn.md#在-arduino-ide-中使用-esp32_display_panel-时如何降低其-flash-占用及加快编译速度)
@@ -129,4 +133,4 @@ ESP32_Display_Panel 的主要特性如下：
 
 * [其他问题](./docs/faq_others_cn.md)
 
-  * [找不到相同型号的 LCD/Touch 设备驱动？](./docs/faq_others_cn.md#找不到相同型号的-lcd/touch-设备驱动)
+  * [找不到相同型号的 LCD/Touch 设备驱动？](./docs/faq_others_cn.md#找不到相同型号的-lcdtouch-设备驱动)

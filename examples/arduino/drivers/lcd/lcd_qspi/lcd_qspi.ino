@@ -13,7 +13,7 @@ using namespace esp_panel::drivers;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Currently, the library supports the following QSPI LCDs:
- *      - AXS15231B
+ *      - AXS15231B, CO5300
  *      - GC9B71
  *      - SH8601
  *      - SPD2010

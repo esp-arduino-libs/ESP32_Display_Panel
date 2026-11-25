@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 20 px
  * Bpp: 4
- * Opts: --bpp 4 --size 20 --font /home/lvhaiyu/SquareLine/assets/Alibaba_PuHuiTi_2.0_55_Regular_85_Bold.ttf -o /home/lvhaiyu/SquareLine/assets/ui_font_FontPuHui20bp4.c --format lvgl -r 0x20-0x7f --symbols 晴多云阴小雨中雨大雨暴雨小雪大雪℃ --no-compress --no-prefilter
+ * Opts: --bpp 4 --size 20 --font Alibaba_PuHuiTi_2.0_55_Regular_85_Bold.ttf -o ui_font_FontPuHui20bp4.c --format lvgl -r 0x20-0x7f --symbols 晴多云阴小雨中雨大雨暴雨小雪大雪℃ --no-compress --no-prefilter
  ******************************************************************************/
 
 #include "../ui.h"

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 16 px
  * Bpp: 4
- * Opts: --bpp 4 --size 16 --font /home/lvhaiyu/SquareLine/assets/AlimamaShuHeiTi-Bold.ttf -o /home/lvhaiyu/SquareLine/assets/ui_font_AliShuHeTi16sbpp4.c --format lvgl -r 0x20-0x7f --symbols 确认 --no-compress --no-prefilter
+ * Opts: --bpp 4 --size 16 --font AlimamaShuHeiTi-Bold.ttf -o ui_font_AliShuHeTi16sbpp4.c --format lvgl -r 0x20-0x7f --symbols 确认 --no-compress --no-prefilter
  ******************************************************************************/
 
 #include "../ui.h"

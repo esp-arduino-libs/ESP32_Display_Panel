@@ -32,13 +32,13 @@ This example demonstrates how to develop different model touches with SPI interf
 
 ### Step 3. Configure the example
 
-- [Mandatory] Edit the macro definitions in the [touch_i2c.ino](./touch_i2c.ino) file
+- [Mandatory] Edit the macro definitions in the [touch_spi.ino](./touch_spi.ino) file
 
 ### Step 4. Configure Arduino IDE
 
 - Navigate to the `Tools` menu
 - Select the target board in the `Board` menu
-- Change the `USB CDC On Boot` option to `Enabled` if using `USB` port, or `Disabled` if using `UART` port. If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
+- Change the `USB CDC On Boot` option to `Enabled` if using `USB` port, or `Disabled` if using `UART` port. Reselect the port after uploading if its name changes.
 - Change other configurations as needed
 - see [Configuring Arduino IDE](../../../../../docs/envs/use_with_arduino.md#configuring-arduino-ide) for more information
 
