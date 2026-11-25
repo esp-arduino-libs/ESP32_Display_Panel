@@ -10,6 +10,8 @@
 
 This example demonstrates how to drive different model LCDs with `MIPI-DSI` interface bus and test them by displaying color bars.
 
+On Arduino-ESP32 4.0, the default DSI path copies draw buffers on the CPU and can call the draw completion callback in task context. Framebuffer refresh continues in hardware.
+
 ## How to Use
 
 ### Step 1. Install SDK and dependencies
@@ -38,8 +40,8 @@ This example demonstrates how to drive different model LCDs with `MIPI-DSI` inte
 
 - Navigate to the `Tools` menu
 - Select the target board in the `Board` menu
-- Change the `PSRAM` option to `OPI PSRAM` if using `ESP32S3R8 + RGB LCD`, or `Enabled` if using `ESP32P4 + MIPI-DSI LCD`
-- Change the `USB CDC On Boot` option to `Enabled` if using `USB` port, or `Disabled` if using `UART` port. If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
+- Set `PSRAM` to `Enabled` so the ESP32-P4 can allocate the DSI framebuffer
+- Change the `USB CDC On Boot` option to `Enabled` if using `USB` port, or `Disabled` if using `UART` port. Reselect the port after uploading if its name changes.
 - Change other configurations as needed
 - see [Configuring Arduino IDE](../../../../../docs/envs/use_with_arduino.md#configuring-arduino-ide) for more information
 

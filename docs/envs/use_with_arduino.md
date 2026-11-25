@@ -11,6 +11,7 @@
     - [Run First Example](#run-first-example)
     - [Next Steps](#next-steps)
   - [SDK \& Dependencies](#sdk--dependencies)
+    - [Arduino-ESP32 4.0 preview](#arduino-esp32-40-preview)
   - [Installing Libraries](#installing-libraries)
   - [Configuration Guide](#configuration-guide)
     - [Adjusting Driver Configuration](#adjusting-driver-configuration)
@@ -56,7 +57,7 @@
   ```
 
 - Navigate to `Tools` > `Board` > `Boards Manager`
-- Search for `esp32` by `Espressif Systems` and install the required version (see [SDK & Dependencies](#sdk--dependencies))
+- Search for `esp32` by `Espressif Systems` and install 3.3.13 for these quick-start steps. See [SDK & Dependencies](#sdk--dependencies) for the supported range.
 
 3. **Install Required Libraries**
 
@@ -106,7 +107,7 @@ Before using this library, ensure you have installed SDK and dependencies that m
 
 |                           **SDK**                           | **Required Version** |
 | ----------------------------------------------------------- | -------------------- |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.1.0             |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.1.0, < 4.0.0    |
 
 |                              **Dependencies**                              | **Required Version** |
 | -------------------------------------------------------------------------- | -------------------- |
@@ -116,6 +117,15 @@ Before using this library, ensure you have installed SDK and dependencies that m
 > [!NOTE]
 > * For SDK installation, please refer to [Arduino ESP32 Documentation - Installing](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html).
 > * For dependencies installation, please refer to [Installing Libraries](#installing-libraries) section.
+
+### Arduino-ESP32 4.0 preview
+
+Use Arduino-ESP32 4.0.0, ESP32_Display_Panel 1.0.5, and `esp-lib-utils` 0.2.3. Install Panel from Library Manager or a ZIP as described below.
+For this preview, install [ESP32_IO_Expander at `e2028bb`](https://github.com/esp-arduino-libs/ESP32_IO_Expander/tree/e2028bb041b00665bf7b72dd8a8c84c22db4b303) as a local library in place of the 1.x release. It implements the I²C master bus required by ESP-IDF 6.x.
+
+This dependency combination has been compile-tested with the ESP32-C3 SPI, ESP32-S3 RGB, ESP32-P4 MIPI-DSI, and ESP32-S31 RGB888 examples. The new driver sets I²C speed per device and applies the pull-up setting to both pins. The DSI path supports RGB565 and RGB888.
+
+The [ESP32-S31 RGB888 example](../../examples/arduino/drivers/lcd/lcd_rgb_s31/) uses the 24-bit ST7262 configuration. The [ESP-Mosaico preview](../../examples/arduino/board/esp_mosaico/) uses CO5300 QSPI, CST9217 touch, and the board revision stored in eFuse.
 
 ## Installing Libraries
 
@@ -492,7 +502,7 @@ The default installation path for arduino-esp32 depends on your operating system
 - Linux: `~/.arduino15/packages/esp32`
 - macOS: `~/Library/Arduino15/packages/esp32`
 
-For arduino-esp32 v3.x version, the SDK is located in the `tools > esp32-arduino-libs > idf-release_x` directory under the default installation path.
+The prebuilt SDK is under `tools/` in the installation directory. Arduino-ESP32 3.3.13 provides per-target packages such as `tools/esp32s3-libs/3.3.13/`. Earlier 3.x releases with a combined SDK package use `tools/esp32-arduino-libs/`.
 
 ### How to install ESP32_Display_Panel in Arduino IDE?
 
@@ -521,7 +531,7 @@ Please follow these steps to resolve:
 
 1. Check if `Tools` > `Port` is set correctly in Arduino IDE
 2. Check if `Tools` > `Core Debug Level` is set to the desired level, such as `Info` or lower
-3. Check if `Tools` > `USB CDC On Boot` is set correctly in Arduino IDE - set to `Disabled` when ESP32 is connected via `UART` port, or `Enabled` when connected via `USB` port. After changing this setting, enable the `Erase All Flash Before Sketch Upload` option and reflash.
+3. Check if `Tools` > `USB CDC On Boot` is set correctly in Arduino IDE - set to `Disabled` when ESP32 is connected via `UART` port, or `Enabled` when connected via `USB` port. Rebuild and upload after changing this setting. Reselect the serial port if its name changes.
 4. Check if the baud rate in Arduino IDE's Serial Monitor is set correctly, such as `115200`
 
 ### Solution for screen drift issue when using ESP32-S3 to drive RGB LCD in Arduino IDE
@@ -621,41 +631,17 @@ Please follow these steps:
 
 ### How to avoid I2C re-initialization when using ESP32_Display_Panel in Arduino IDE (e.g., when using Wire library)?
 
-If you need to use ESP32_Display_Panel's I2C bus functionality, such as `I2C IO_Expander` or `I2C Touch` drivers, while your project is already using the `Wire` library, errors may occur due to I2C bus re-initialization. To avoid this, initialize `Wire` before creating the `Board` object, then follow these steps to configure ESP32_Display_Panel to skip I2C initialization:
+The released dependency combination uses the legacy ESP-IDF I²C driver. `Wire` in Arduino Core 3.3.13 uses the new driver. If the core logs `CONFLICT! driver_ng is not allowed to be used with this old driver`, let Panel initialize I²C and use legacy driver APIs for the other I²C devices in that application. The host-skip option applies to a bus already initialized through the same driver.
 
-1. By modifying the *esp_panel_board_custom_conf.h* configuration file (only applicable for [custom boards](#loading-of-custom-boards)):
+With Arduino-ESP32 4.0, Panel uses the new driver. For a shared bus, initialize `Wire` on the target pins first, set the Panel host IDs to the same controller, and call `Wire.end()` after `board->del()` has released the Panel devices.
 
-- For `I2C Touch` driver:
+For a custom board that borrows I²C controller 0, set the macros for the enabled drivers in `esp_panel_board_custom_conf.h`.
 
-    ```c
-    ...
-    #define ESP_PANEL_BOARD_LCD_BUS_SKIP_INIT_HOST    (1)     // 0/1
-    ...
-    ```
+```c
+#define ESP_PANEL_BOARD_TOUCH_I2C_HOST_ID          (0)
+#define ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST   (1)
+#define ESP_PANEL_BOARD_EXPANDER_I2C_HOST_ID        (0)
+#define ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST    (1)
+```
 
-- For `I2C IO_Expander` driver:
-
-    ```c
-    ...
-    #define ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST     (1)     // 0/1
-    ...
-    ```
-
-2. By using code (applicable for both [supported boards](#loading-of-supported-boards) and [custom boards](#loading-of-custom-boards)):
-
-    ```c
-    ...
-    esp_panel::board::Board *board = new esp_panel::board::Board();
-    board->init();
-    ...
-    /**
-     * Should be called after `board->init()` and before `board->begin()`
-     */
-    // For I2C Touch
-    static_cast<esp_panel::drivers::BusI2C *>(board->getTouch()->getBus())->configI2C_HostSkipInit();
-    // For I2C IO_Expander
-    board->getIO_Expander()->skipInitHost();
-    ...
-    board->begin();
-    ...
-    ```
+To configure an existing board in code, set the relevant options after `board->init()` succeeds and before `board->begin()`. For an enabled I²C touch controller, call `BusI2C::configI2C_HostSkipInit()` on its bus. For an enabled I/O expander, call `IO_Expander::skipInitHost()`.

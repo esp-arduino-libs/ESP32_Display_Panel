@@ -26,8 +26,8 @@ These settings can be adjusted according to specific requirements, and users can
 > 1. Enable or disable `USB CDC On Boot` based on the type of port used:
 >
 >    * Disable this configuration if using **UART** port; enable it if using **USB** port.
->    * If this configuration differs from previous flashing, first enable `Erase All Flash Before Sketch Upload`, then it can be disabled after flashing.
+>    * Reselect the port after uploading if its name changes.
 >    * If this configuration does not match the actual port type, it will prevent the development board from printing serial logs correctly.
 >
 > 2. To view more output logs, set `Core Debug Level` to `Info` or a lower level.
-> 3. If the predefined partition schemes provided by ESP32 do not meet the requirements, users can also select `Custom` in the "Partition Scheme" and create a custom partition table file `Custom.csv` in the `hardware/esp32/3.x.x/tools/partitions` directory under the [arduino-esp32 installation directory](#where-are-the-installation-directory-for-arduino-esp32-and-the-sdk-located). For detailed information on partition tables, please refer to the [ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html).
+> 3. If the predefined partition schemes provided by ESP32 do not meet the requirements, users can also select `Custom` in the "Partition Scheme" and create a custom partition table file `Custom.csv` in the `hardware/esp32/3.x.x/tools/partitions` directory under the [arduino-esp32 installation directory](../envs/use_with_arduino.md#where-are-the-arduino-esp32-installation-directory-and-sdk-directory). For detailed information on partition tables, please refer to the [ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html).

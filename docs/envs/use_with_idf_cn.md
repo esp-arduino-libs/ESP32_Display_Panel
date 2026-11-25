@@ -22,7 +22,7 @@
 
 |                     **SDK**                     | **版本要求** |
 | ----------------------------------------------- | ------------ |
-| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1       |
+| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1, < 6.0 |
 
 |                                         **依赖组件**                                         | **版本要求** |
 | -------------------------------------------------------------------------------------------- | ------------ |
@@ -32,6 +32,8 @@
 > [!NOTE]
 > * SDK 的安装方法请参阅 [ESP-IDF 编程指南 - 安装](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/get-started/index.html#get-started-how-to-get-esp-idf)
 > * 依赖组件无需手动下载，工程添加本库后在编译时会自动下载
+
+上表适用于组件库发布版本及其依赖组合。使用 IDF 5.x 构建后，提交工程的 `dependencies.lock` 可固定已解析的版本。
 
 ## 添加到工程
 

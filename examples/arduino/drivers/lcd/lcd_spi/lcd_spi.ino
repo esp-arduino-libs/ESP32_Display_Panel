@@ -14,7 +14,8 @@ using namespace esp_panel::drivers;
 /**
  * Currently, the library supports the following SPI LCDs:
  *      - AXS15231B
- *      - GC9A01, GC9B71
+ *      - CO5300
+ *      - GC9107, GC9A01, GC9B71, GC9D01
  *      - ILI9341
  *      - NV3022B
  *      - SH8601

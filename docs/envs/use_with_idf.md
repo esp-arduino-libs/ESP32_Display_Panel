@@ -22,7 +22,7 @@ Before using this library, please ensure you have installed the SDK that meets t
 
 |                     **SDK**                     | **Version Required** |
 | ----------------------------------------------- | ------------------- |
-| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1              |
+| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1, < 6.0 |
 
 |                                       **Dependencies**                                       | **Version Required** |
 | -------------------------------------------------------------------------------------------- | ------------------- |
@@ -32,6 +32,8 @@ Before using this library, please ensure you have installed the SDK that meets t
 > [!NOTE]
 > * For SDK installation, please refer to [ESP-IDF Programming Guide - Installation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html#get-started-how-to-get-esp-idf)
 > * Dependencies will be automatically downloaded during compilation after adding this library to your project
+
+This table applies to the component as installed from the Registry. Commit the project’s `dependencies.lock` to preserve the resolved versions.
 
 ## Adding to Project
 
