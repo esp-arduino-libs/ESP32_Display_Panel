@@ -73,7 +73,12 @@ void setup()
     Serial.println("Initializing board with external config");
     // Dynamically load the external board configuration
     board = new Board(BOARD_EXTERNAL_CONFIG);
-    assert(board->begin());
+    if (!board->begin()) {
+        Serial.println("Board startup failed");
+        delete board;
+        board = nullptr;
+        return;
+    }
 
     auto backlight = board->getBacklight();
     if (backlight != nullptr) {
@@ -123,6 +128,11 @@ void setup()
 
 void loop()
 {
+    if (board == nullptr) {
+        delay(1000);
+        return;
+    }
+
     auto touch = board->getTouch();
     if (touch != nullptr) {
         // Read all touch points and buttons
