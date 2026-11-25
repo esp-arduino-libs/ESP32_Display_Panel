@@ -326,29 +326,17 @@ const BoardConfig ESP_PANEL_BOARD_DEFAULT_CONFIG = {
             .host = IO_Expander::HostPartialConfig{
                 .sda_io_num = ESP_PANEL_BOARD_EXPANDER_I2C_IO_SDA,
                 .scl_io_num = ESP_PANEL_BOARD_EXPANDER_I2C_IO_SCL,
-    #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
                 .enable_internal_pullup = ESP_PANEL_BOARD_EXPANDER_I2C_SDA_PULLUP &&
                                           ESP_PANEL_BOARD_EXPANDER_I2C_SCL_PULLUP,
-    #else
-                .sda_pullup_en = ESP_PANEL_BOARD_EXPANDER_I2C_SDA_PULLUP,
-                .scl_pullup_en = ESP_PANEL_BOARD_EXPANDER_I2C_SCL_PULLUP,
-                .clk_speed = ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ,
-    #endif
             },
     #endif // ESP_PANEL_BOARD_EXPANDER_SKIP_INIT_HOST
             // Device
-    #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
             .device = IO_Expander::DevicePartialConfig{
                 .address = ESP_PANEL_BOARD_EXPANDER_I2C_ADDRESS,
     #ifdef ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ
                 .freq_hz = ESP_PANEL_BOARD_EXPANDER_I2C_CLK_HZ,
     #endif
             },
-    #else
-            .device = {
-                .address = ESP_PANEL_BOARD_EXPANDER_I2C_ADDRESS,
-            },
-    #endif
         },
     },
 #endif // ESP_PANEL_BOARD_USE_EXPANDER

@@ -12,6 +12,10 @@
 
 #pragma once
 
+#include "board/esp_panel_board.hpp"
+#include "drivers/host/esp_panel_host_i2c.hpp"
+#include "esp_panel_m5stack_power.hpp"
+
 // *INDENT-OFF*
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +152,7 @@
  * So it is not necessary to set the macro to `1`. For other drivers (like `Wire`), please set the macro to `1`
  * ensure that the host is initialized only once.
  */
-#define ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST        (1)     // 0/1. Typically set to 0
+#define ESP_PANEL_BOARD_TOUCH_BUS_SKIP_INIT_HOST        (0)     // 0/1. Typically set to 0
 #endif
 
 /**
@@ -225,103 +229,52 @@
  * @param[in] p Pointer to the board object
  * @return true on success, false on failure
  */
-#define ESP_PANEL_BOARD_PRE_BEGIN_FUNCTION(p) \
-    {  \
-        constexpr uint8_t AXP_ADDR = 0x34;                  \
-        constexpr uint32_t I2C_MASTER_TIMEOUT_MS = 1000;     \
-        constexpr i2c_port_t i2c_port = I2C_NUM_0;    \
-        /* Initialize I2C host */ \
-        i2c_config_t config = { \
-            .mode = I2C_MODE_MASTER, \
-            .sda_io_num = 12, \
-            .scl_io_num = 11, \
-            .sda_pullup_en = true, \
-            .scl_pullup_en = true, \
-            .master = { \
-                .clk_speed = 400 * 1000, \
-            }, \
-        }; \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_param_config(i2c_port, &config), false, "I2C param config failed" \
-        ); \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_driver_install(i2c_port, config.mode, 0, 0, 0), false, "I2C driver install failed" \
-        ); \
-        /* Write to AXP2101 Power */ \
-        uint8_t write_buf[2] = {0};                     \
-        write_buf[0] = 0x90;                            \
-        write_buf[1] = 0xBF;                            \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, AXP_ADDR, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x02;                            \
-        write_buf[1] = 0b00000101;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x03;                            \
-        write_buf[1] = 0b00000011;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x04;                            \
-        write_buf[1] = 0b00011000;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x05;                            \
-        write_buf[1] = 0b00001100;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x11;                            \
-        write_buf[1] = 0b00010000;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x12;                            \
-        write_buf[1] = 0b11111111;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        write_buf[0] = 0x13;                            \
-        write_buf[1] = 0b11111111;                      \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_master_write_to_device( \
-                i2c_port, 0x58, write_buf, sizeof(write_buf), pdMS_TO_TICKS(I2C_MASTER_TIMEOUT_MS) \
-            ), false, "Failed to write to AXP2101 Power" \
-        ); \
-        return true;    \
+#define ESP_PANEL_BOARD_PRE_BEGIN_FUNCTION(p) { \
+    return esp_panel::board::initM5StackCoreS3Power(*static_cast<esp_panel::board::Board *>(p)); \
+}
+
+namespace esp_panel::board {
+
+inline bool initM5StackCoreS3Power(Board &board)
+{
+    auto *touch = board.getTouch();
+    ESP_UTILS_CHECK_NULL_RETURN(touch, false, "CoreS3 touch driver is unavailable");
+    auto *bus = static_cast<drivers::BusI2C *>(touch->getBus());
+    ESP_UTILS_CHECK_NULL_RETURN(bus, false, "CoreS3 touch bus is unavailable");
+
+    i2c_master_bus_handle_t handle = nullptr;
+    if (!bus->getConfig().isHostConfigValid()) {
+        ESP_UTILS_CHECK_ERROR_RETURN(
+            i2c_master_get_bus_handle(bus->getConfig().host_id, &handle), false, "Get external CoreS3 I2C bus failed"
+        );
+    } else {
+        // Power needs I2C before the LCD and touch devices start. The touch bus owns the host.
+        if (!bus->isOverState(drivers::Bus::State::INIT)) {
+            ESP_UTILS_CHECK_FALSE_RETURN(bus->init(), false, "Init CoreS3 I2C bus failed");
+        }
+        auto host = drivers::HostI2C::getInstance(bus->getConfig().host_id);
+        ESP_UTILS_CHECK_NULL_RETURN(host, false, "Get CoreS3 I2C host failed");
+        ESP_UTILS_CHECK_FALSE_RETURN(host->begin(), false, "Start CoreS3 I2C host failed");
+        handle = static_cast<i2c_master_bus_handle_t>(host->getHandle());
     }
 
-/**
- * @brief Pre-delete function for board initialization
- *
- * @param[in] p Pointer to the board object
- * @return true on success, false on failure
- */
-#define ESP_PANEL_BOARD_PRE_DEL_FUNCTION(p) \
-    {  \
-        constexpr i2c_port_t i2c_port = I2C_NUM_0;    \
-        ESP_UTILS_CHECK_ERROR_RETURN( \
-            i2c_driver_delete(i2c_port), false, "I2C driver delete failed" \
-        ); \
-        return true;    \
-    }
+    return withM5StackPowerDevice(handle, 0x34, [](i2c_master_dev_handle_t device) {
+        return writeM5StackPowerRegister(device, 0x90, 0xBF);
+    }) && withM5StackPowerDevice(handle, 0x58, [](i2c_master_dev_handle_t device) {
+        const uint8_t settings[][2] = {
+            {0x02, 0x05}, {0x03, 0x03}, {0x04, 0x18}, {0x05, 0x0C},
+            {0x11, 0x10}, {0x12, 0xFF}, {0x13, 0xFF},
+        };
+        for (const auto &setting : settings) {
+            if (!writeM5StackPowerRegister(device, setting[0], setting[1])) {
+                return false;
+            }
+        }
+        return true;
+    });
+}
+
+} // namespace esp_panel::board
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////// File Version ///////////////////////////////////////////////////////////

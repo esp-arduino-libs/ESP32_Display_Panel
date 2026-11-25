@@ -5,15 +5,10 @@
  */
 #pragma once
 
-#include "esp_idf_version.h"
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
 #if !__has_include("esp_expander_base.hpp")
-#error "ESP-IDF 6 requires ESP32_IO_Expander with the new I2C driver. See docs/envs/use_with_arduino.md."
+#error "ESP32_Display_Panel 2.x requires ESP32_IO_Expander 2.x. See docs/envs/use_with_arduino.md."
 #endif
 #include "esp_expander_base.hpp"
-#else
-#include "chip/esp_expander_base.hpp"
-#endif
 #include "esp_panel_io_expander_conf_internal.h"
 
 namespace esp_panel::drivers {
@@ -35,9 +30,7 @@ public:
      */
     using Config = esp_expander::Base::Config;
     using HostPartialConfig = esp_expander::Base::HostPartialConfig;
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(6, 0, 0)
     using DevicePartialConfig = esp_expander::Base::DevicePartialConfig;
-#endif
 
     /**
      * @brief Construct a new IO expander device

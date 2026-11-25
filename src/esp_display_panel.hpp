@@ -5,6 +5,12 @@
  */
 #pragma once
 
+#include "esp_idf_version.h"
+
+#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 4, 0)
+#error "ESP32_Display_Panel 2.x requires ESP-IDF 5.4 or Arduino-ESP32 3.2.0 or later."
+#endif
+
 /* Base */
 #include "esp_panel_types.h"
 #include "esp_panel_versions.h"
