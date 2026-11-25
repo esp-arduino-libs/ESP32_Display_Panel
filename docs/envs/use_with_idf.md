@@ -22,7 +22,7 @@ Before using this library, please ensure you have installed the SDK that meets t
 
 |                     **SDK**                     | **Version Required** |
 | ----------------------------------------------- | ------------------- |
-| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1, < 6.0 |
+| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1.2, < 6.0 |
 
 |                                       **Dependencies**                                       | **Version Required** |
 | -------------------------------------------------------------------------------------------- | ------------------- |

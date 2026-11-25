@@ -7,6 +7,7 @@
 #include "esp_panel_bus_conf_internal.h"
 #if ESP_PANEL_DRIVERS_BUS_ENABLE_QSPI
 
+#include "esp_idf_version.h"
 #include "utils/esp_panel_utils_log.h"
 #include "drivers/host/esp_panel_host_spi.hpp"
 #include "esp_panel_bus_qspi.hpp"
@@ -152,18 +153,23 @@ void BusQSPI::Config::printControlPanelConfig() const
         ESP_UTILS_LOGI(
             "\n\t\t-> {flags}"
             "\n\t\t\t-> [host_id]: %d"
+            // These D/C polarity fields first appeared in ESP-IDF 5.1.3 and 5.2.1.
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 1, 3) && ESP_IDF_VERSION != ESP_IDF_VERSION_VAL(5, 2, 0)
             "\n\t\t\t-> [dc_high_on_cmd]: %d"
-            "\n\t\t\t-> [dc_low_on_data]: %d"
             "\n\t\t\t-> [dc_low_on_param]: %d"
+#endif
+            "\n\t\t\t-> [dc_low_on_data]: %d"
             "\n\t\t\t-> [octal_mode]: %d"
             "\n\t\t\t-> [quad_mode]: %d"
             "\n\t\t\t-> [sio_mode]: %d"
             "\n\t\t\t-> [lsb_first]: %d"
             "\n\t\t\t-> [cs_high_active]: %d"
             , static_cast<int>(host_id)
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 1, 3) && ESP_IDF_VERSION != ESP_IDF_VERSION_VAL(5, 2, 0)
             , static_cast<int>(config.flags.dc_high_on_cmd)
-            , static_cast<int>(config.flags.dc_low_on_data)
             , static_cast<int>(config.flags.dc_low_on_param)
+#endif
+            , static_cast<int>(config.flags.dc_low_on_data)
             , static_cast<int>(config.flags.octal_mode)
             , static_cast<int>(config.flags.quad_mode)
             , static_cast<int>(config.flags.sio_mode)
