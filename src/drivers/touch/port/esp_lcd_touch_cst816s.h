@@ -44,9 +44,15 @@ esp_err_t esp_lcd_touch_new_i2c_cst816s(const esp_lcd_panel_io_handle_t io, cons
  * @brief Touch IO configuration structure
  *
  */
-#define ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG()             \
+#define ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG() \
+    ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG_WITH_ADDR(ESP_LCD_TOUCH_IO_I2C_CST816S_ADDRESS)
+
+/**
+ * @brief Touch IO configuration with a custom I2C address
+ */
+#define ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG_WITH_ADDR(addr) \
     {                                                    \
-        .dev_addr = ESP_LCD_TOUCH_IO_I2C_CST816S_ADDRESS, \
+        .dev_addr = (addr),                             \
         .control_phase_bytes = 1,                        \
         .dc_bit_offset = 0,                              \
         .lcd_cmd_bits = 8,                              \

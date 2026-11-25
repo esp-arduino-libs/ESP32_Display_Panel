@@ -787,7 +787,8 @@ bool LCD::attachRefreshFinishCallback(FunctionRefreshFinishCallback callback, vo
             "Callback function should be placed in IRAM, add `IRAM_ATTR` before the function"
         );
         ESP_UTILS_CHECK_FALSE_RETURN(
-            esp_ptr_internal(user_data), false, "User data should be placed in SRAM, add `DRAM_ATTR` before the data"
+            user_data == nullptr || esp_ptr_internal(user_data), false,
+            "User data should be placed in SRAM, add `DRAM_ATTR` before the data"
         );
     }
 #endif
@@ -832,32 +833,34 @@ bool LCD::colorBarTest(uint16_t width, uint16_t height)
 
     ESP_UTILS_CHECK_FALSE_RETURN(isOverState(State::BEGIN), false, "Not begun");
 
-    int bits_per_piexl = getFrameColorBits();
-    ESP_UTILS_LOGD("LCD bits per pixel: %d", bits_per_piexl);
-    ESP_UTILS_CHECK_FALSE_RETURN(bits_per_piexl > 0, false, "Invalid color bits");
+    int bits_per_pixel = getFrameColorBits();
+    ESP_UTILS_LOGD("LCD bits per pixel: %d", bits_per_pixel);
+    ESP_UTILS_CHECK_FALSE_RETURN(bits_per_pixel > 0 && bits_per_pixel <= 32, false, "Invalid color bits");
+    ESP_UTILS_CHECK_FALSE_RETURN(width > 0 && height > 0, false, "Invalid color bar dimensions");
 
     ESP_UTILS_LOGD("Param: width(%d), height(%d)", width, height);
 
     auto y_coord_align = getBasicAttributes().basic_bus_spec.y_coord_align;
-    int bytes_per_piexl = bits_per_piexl / 8;
+    int bytes_per_pixel = (bits_per_pixel + 7) / 8;
     // Make sure the height is aligned to the `y_coord_align`
-    int row_per_bar = (height / bits_per_piexl) & ~(y_coord_align - 1);
+    int row_per_bar = (height / bits_per_pixel) & ~(y_coord_align - 1);
+    ESP_UTILS_CHECK_FALSE_RETURN(row_per_bar > 0, false, "Height is too small for color bars");
     int line_count = 0;
     int res_line_count = 0;
 
     /* Malloc memory for a single color bar */
-    utils::vector<uint8_t> single_bar(row_per_bar * width * bytes_per_piexl);
+    utils::vector<uint8_t> single_bar(static_cast<size_t>(row_per_bar) * width * bytes_per_pixel);
     auto single_bar_buf = single_bar.data();
     auto bus_type = getBus()->getBasicAttributes().type;
     /* Draw color bar from top left to bottom right, the order is B - G - R */
-    for (int j = 0; j < bits_per_piexl; j++) {
+    for (int j = 0; j < bits_per_pixel; j++) {
         for (int i = 0; i < row_per_bar * width; i++) {
-            for (int k = 0; k < bytes_per_piexl; k++) {
+            for (int k = 0; k < bytes_per_pixel; k++) {
                 if ((bus_type == ESP_PANEL_BUS_TYPE_SPI) || (bus_type == ESP_PANEL_BUS_TYPE_QSPI)) {
                     // For SPI bus, the data bytes should be swapped since the data is sent by LSB first
-                    single_bar_buf[i * bytes_per_piexl + k] = SPI_SWAP_DATA_TX(BIT(j), bits_per_piexl) >> (k * 8);
+                    single_bar_buf[i * bytes_per_pixel + k] = SPI_SWAP_DATA_TX(BIT(j), bits_per_pixel) >> (k * 8);
                 } else {
-                    single_bar_buf[i * bytes_per_piexl + k] = BIT(j) >> (k * 8);
+                    single_bar_buf[i * bytes_per_pixel + k] = BIT(j) >> (k * 8);
                 }
             }
         }
@@ -872,7 +875,7 @@ bool LCD::colorBarTest(uint16_t width, uint16_t height)
     res_line_count = height - line_count;
     if (res_line_count > 0) {
         ESP_UTILS_LOGD("Fill the rest lines(%d) with white color", res_line_count);
-        memset(single_bar_buf, 0xff, row_per_bar * width * bytes_per_piexl);
+        memset(single_bar_buf, 0xff, single_bar.size());
 
         for (; res_line_count > 0; res_line_count -= row_per_bar) {
             ESP_UTILS_CHECK_FALSE_RETURN(
@@ -1235,8 +1238,15 @@ IRAM_ATTR bool LCD::onDrawBitmapFinish(void *panel_io, void *edata, void *user_c
         need_yield =
             lcd_ptr->_interruption.on_draw_bitmap_finish(lcd_ptr->_interruption.data.user_data) ? pdTRUE : need_yield;
     }
-    if (lcd_ptr->_interruption.draw_bitmap_finish_sem != nullptr) {
-        xSemaphoreGiveFromISR(lcd_ptr->_interruption.draw_bitmap_finish_sem, &need_yield);
+    auto finish_sem = lcd_ptr->_interruption.draw_bitmap_finish_sem;
+    if (!xPortInIsrContext()) {
+        if (finish_sem != nullptr) {
+            xSemaphoreGive(finish_sem);
+        }
+        return false;
+    }
+    if (finish_sem != nullptr) {
+        xSemaphoreGiveFromISR(finish_sem, &need_yield);
     }
 
     return (need_yield == pdTRUE);
