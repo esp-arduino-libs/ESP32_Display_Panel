@@ -1,5 +1,17 @@
 # ChangeLog
 
+## v2.0.0
+
+### Breaking changes
+
+* Use the ESP-IDF I²C master bus driver for Panel and ESP32_IO_Expander 2.x. Arduino-ESP32 3.2.0 and ESP-IDF 5.4 are the new minimum versions.
+* Use `i2c_master_bus_config_t` for `BusI2C::HostFullConfig`. Set the I²C clock per device.
+
+### Fixes
+
+* Allow Panel touch and IO expander devices to use a bus initialized by Arduino `Wire` (#206).
+* Migrate the M5Stack Core2 and CoreS3 power initialization to the new I²C driver.
+
 ## v1.0.5
 
 ### Enhancements:

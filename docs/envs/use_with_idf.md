@@ -22,11 +22,11 @@ Before using this library, please ensure you have installed the SDK that meets t
 
 |                     **SDK**                     | **Version Required** |
 | ----------------------------------------------- | ------------------- |
-| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1.2, < 6.0 |
+| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.4, < 6.0 |
 
 |                                       **Dependencies**                                       | **Version Required** |
 | -------------------------------------------------------------------------------------------- | ------------------- |
-| [esp32_io_expander](https://components.espressif.com/components/espressif/esp32_io_expander) | 1.*                 |
+| [esp32_io_expander](https://components.espressif.com/components/espressif/esp32_io_expander) | 2.*                 |
 | [esp-lib-utils](https://components.espressif.com/components/espressif/esp-lib-utils)         | 0.2.*               |
 
 > [!NOTE]
@@ -34,6 +34,8 @@ Before using this library, please ensure you have installed the SDK that meets t
 > * Dependencies will be automatically downloaded during compilation after adding this library to your project
 
 This table applies to the component as installed from the Registry. Commit the project’s `dependencies.lock` to preserve the resolved versions.
+
+Panel 2.x uses the I²C master bus driver. Projects that use the legacy I²C driver or ESP-IDF below 5.4 can pin Panel 1.x and ESP32_IO_Expander 1.x.
 
 ## Adding to Project
 
@@ -44,7 +46,7 @@ ESP32_Display_Panel has been uploaded to the [Espressif Component Registry](http
     Run the following command in your project directory:
 
     ```bash
-    idf.py add-dependency "espressif/esp32_display_panel==1.*"
+    idf.py add-dependency "espressif/esp32_display_panel==2.*"
     ```
 
 2. **Modifying Configuration File**
@@ -53,7 +55,7 @@ ESP32_Display_Panel has been uploaded to the [Espressif Component Registry](http
 
     ```yaml
     dependencies:
-      espressif/esp32_display_panel: "1.*"
+      espressif/esp32_display_panel: "2.*"
     ```
 
 For detailed information, please refer to [Espressif Documentation - IDF Component Manager](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/tools/idf-component-manager.html).
