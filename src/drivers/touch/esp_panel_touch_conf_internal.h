@@ -8,6 +8,7 @@
 
 // *INDENT-OFF*
 
+#include "esp_idf_version.h"
 #include "drivers/esp_panel_drivers_conf_internal.h"
 
 #ifndef ESP_PANEL_DRIVERS_INCLUDE_INSIDE
@@ -42,6 +43,7 @@
     #if ESP_PANEL_DRIVERS_TOUCH_USE_ALL
         #define ESP_PANEL_DRIVERS_TOUCH_USE_AXS15231B (1)
         #define ESP_PANEL_DRIVERS_TOUCH_USE_CHSC6540 (1)
+        #define ESP_PANEL_DRIVERS_TOUCH_USE_CST9220 (1)
         #define ESP_PANEL_DRIVERS_TOUCH_USE_CST816S (1)
         #define ESP_PANEL_DRIVERS_TOUCH_USE_FT5x06 (1)
         #define ESP_PANEL_DRIVERS_TOUCH_USE_GT911 (1)
@@ -67,6 +69,14 @@
                 #define ESP_PANEL_DRIVERS_TOUCH_USE_CHSC6540 CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_CHSC6540
             #else
                 #define ESP_PANEL_DRIVERS_TOUCH_USE_CHSC6540 (0)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_DRIVERS_TOUCH_USE_CST9220
+            #ifdef CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_CST9220
+                #define ESP_PANEL_DRIVERS_TOUCH_USE_CST9220 CONFIG_ESP_PANEL_DRIVERS_TOUCH_USE_CST9220
+            #else
+                #define ESP_PANEL_DRIVERS_TOUCH_USE_CST9220 (0)
             #endif
         #endif
 
@@ -224,6 +234,15 @@
         #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CHSC6540  (1)
     #else
         #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CHSC6540  (0)
+    #endif
+#endif
+
+#ifndef ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST9220
+    #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)) && \
+        (ESP_PANEL_DRIVERS_TOUCH_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_TOUCH_USE_CST9220)
+        #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST9220 (1)
+    #else
+        #define ESP_PANEL_DRIVERS_TOUCH_ENABLE_CST9220 (0)
     #endif
 #endif
 

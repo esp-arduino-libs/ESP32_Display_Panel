@@ -27,6 +27,10 @@ menu "Touch"
                 bool "Use CHSC6540"
                 default n
 
+            config ESP_PANEL_DRIVERS_TOUCH_USE_CST9220
+                bool "CST9220 (I2C)"
+                default n
+
             config ESP_PANEL_DRIVERS_TOUCH_USE_CST816S
                 bool "Use CST816S"
                 default n

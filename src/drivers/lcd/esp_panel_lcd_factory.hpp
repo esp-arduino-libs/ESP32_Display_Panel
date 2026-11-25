@@ -10,10 +10,13 @@
 #include <string>
 #include "esp_panel_lcd.hpp"
 #include "esp_panel_lcd_axs15231b.hpp"
+#include "esp_panel_lcd_co5300.hpp"
 #include "esp_panel_lcd_ek9716b.hpp"
 #include "esp_panel_lcd_ek79007.hpp"
+#include "esp_panel_lcd_gc9107.hpp"
 #include "esp_panel_lcd_gc9a01.hpp"
 #include "esp_panel_lcd_gc9b71.hpp"
+#include "esp_panel_lcd_gc9d01.hpp"
 #include "esp_panel_lcd_gc9503.hpp"
 #include "esp_panel_lcd_hx8399.hpp"
 #include "esp_panel_lcd_ili9881c.hpp"

@@ -8,6 +8,7 @@
 
 // *INDENT-OFF*
 
+#include "esp_idf_version.h"
 #include "drivers/esp_panel_drivers_conf_internal.h"
 
 #ifndef ESP_PANEL_DRIVERS_INCLUDE_INSIDE
@@ -24,10 +25,13 @@
 
     #if ESP_PANEL_DRIVERS_LCD_USE_ALL
         #define ESP_PANEL_DRIVERS_LCD_USE_AXS15231B (1)
+        #define ESP_PANEL_DRIVERS_LCD_USE_CO5300 (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_EK9716B (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_EK79007 (1)
+        #define ESP_PANEL_DRIVERS_LCD_USE_GC9107 (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_GC9A01 (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_GC9B71 (1)
+        #define ESP_PANEL_DRIVERS_LCD_USE_GC9D01 (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_GC9503 (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_HX8399 (1)
         #define ESP_PANEL_DRIVERS_LCD_USE_ILI9341 (1)
@@ -54,6 +58,14 @@
             #endif
         #endif
 
+        #ifndef ESP_PANEL_DRIVERS_LCD_USE_CO5300
+            #ifdef CONFIG_ESP_PANEL_DRIVERS_LCD_USE_CO5300
+                #define ESP_PANEL_DRIVERS_LCD_USE_CO5300 CONFIG_ESP_PANEL_DRIVERS_LCD_USE_CO5300
+            #else
+                #define ESP_PANEL_DRIVERS_LCD_USE_CO5300 (0)
+            #endif
+        #endif
+
         #ifndef ESP_PANEL_DRIVERS_LCD_USE_EK9716B
             #ifdef CONFIG_ESP_PANEL_DRIVERS_LCD_USE_EK9716B
                 #define ESP_PANEL_DRIVERS_LCD_USE_EK9716B CONFIG_ESP_PANEL_DRIVERS_LCD_USE_EK9716B
@@ -70,6 +82,14 @@
             #endif
         #endif
 
+        #ifndef ESP_PANEL_DRIVERS_LCD_USE_GC9107
+            #ifdef CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9107
+                #define ESP_PANEL_DRIVERS_LCD_USE_GC9107 CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9107
+            #else
+                #define ESP_PANEL_DRIVERS_LCD_USE_GC9107 (0)
+            #endif
+        #endif
+
         #ifndef ESP_PANEL_DRIVERS_LCD_USE_GC9A01
             #ifdef CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9A01
                 #define ESP_PANEL_DRIVERS_LCD_USE_GC9A01 CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9A01
@@ -83,6 +103,14 @@
                 #define ESP_PANEL_DRIVERS_LCD_USE_GC9B71 CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9B71
             #else
                 #define ESP_PANEL_DRIVERS_LCD_USE_GC9B71 (0)
+            #endif
+        #endif
+
+        #ifndef ESP_PANEL_DRIVERS_LCD_USE_GC9D01
+            #ifdef CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9D01
+                #define ESP_PANEL_DRIVERS_LCD_USE_GC9D01 CONFIG_ESP_PANEL_DRIVERS_LCD_USE_GC9D01
+            #else
+                #define ESP_PANEL_DRIVERS_LCD_USE_GC9D01 (0)
             #endif
         #endif
 
@@ -243,6 +271,15 @@
     #endif
 #endif
 
+#ifndef ESP_PANEL_DRIVERS_LCD_ENABLE_CO5300
+    #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 4, 0)) && \
+        (ESP_PANEL_DRIVERS_LCD_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_LCD_USE_CO5300)
+        #define ESP_PANEL_DRIVERS_LCD_ENABLE_CO5300 (1)
+    #else
+        #define ESP_PANEL_DRIVERS_LCD_ENABLE_CO5300 (0)
+    #endif
+#endif
+
 #ifndef ESP_PANEL_DRIVERS_LCD_ENABLE_EK9716B
     #if ESP_PANEL_DRIVERS_LCD_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_LCD_USE_EK9716B
         #define ESP_PANEL_DRIVERS_LCD_ENABLE_EK9716B  (1)
@@ -259,6 +296,15 @@
     #endif
 #endif
 
+#ifndef ESP_PANEL_DRIVERS_LCD_ENABLE_GC9107
+    #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)) && \
+        (ESP_PANEL_DRIVERS_LCD_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_LCD_USE_GC9107)
+        #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9107 (1)
+    #else
+        #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9107 (0)
+    #endif
+#endif
+
 #ifndef ESP_PANEL_DRIVERS_LCD_ENABLE_GC9A01
     #if ESP_PANEL_DRIVERS_LCD_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_LCD_USE_GC9A01
         #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9A01  (1)
@@ -272,6 +318,15 @@
         #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9B71  (1)
     #else
         #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9B71  (0)
+    #endif
+#endif
+
+#ifndef ESP_PANEL_DRIVERS_LCD_ENABLE_GC9D01
+    #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)) && \
+        (ESP_PANEL_DRIVERS_LCD_COMPILE_UNUSED_DRIVERS || ESP_PANEL_DRIVERS_LCD_USE_GC9D01)
+        #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9D01 (1)
+    #else
+        #define ESP_PANEL_DRIVERS_LCD_ENABLE_GC9D01 (0)
     #endif
 #endif
 
