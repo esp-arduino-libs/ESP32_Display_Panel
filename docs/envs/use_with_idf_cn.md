@@ -22,11 +22,11 @@
 
 |                     **SDK**                     | **版本要求** |
 | ----------------------------------------------- | ------------ |
-| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.1.2, < 6.0 |
+| [esp-idf](https://github.com/espressif/esp-idf) | >= 5.4, < 6.0 |
 
 |                                         **依赖组件**                                         | **版本要求** |
 | -------------------------------------------------------------------------------------------- | ------------ |
-| [esp32_io_expander](https://components.espressif.com/components/espressif/esp32_io_expander) | 1.*          |
+| [esp32_io_expander](https://components.espressif.com/components/espressif/esp32_io_expander) | 2.*          |
 | [esp-lib-utils](https://components.espressif.com/components/espressif/esp-lib-utils)         | 0.2.*        |
 
 > [!NOTE]
@@ -34,6 +34,8 @@
 > * 依赖组件无需手动下载，工程添加本库后在编译时会自动下载
 
 上表适用于组件库发布版本及其依赖组合。使用 IDF 5.x 构建后，提交工程的 `dependencies.lock` 可固定已解析的版本。
+
+Panel 2.x 使用新版 I²C 主控总线驱动。使用旧版 I²C 驱动或 ESP-IDF 5.4 以下版本的工程可固定 Panel 1.x 和 ESP32_IO_Expander 1.x。
 
 ## 添加到工程
 
@@ -44,7 +46,7 @@ ESP32_Display_Panel 已上传到 [Espressif 组件库](https://components.espres
     在工程目录下运行以下命令：
 
    ```bash
-   idf.py add-dependency "espressif/esp32_display_panel==1.*"
+   idf.py add-dependency "espressif/esp32_display_panel==2.*"
    ```
 
 2. **修改配置文件**
@@ -53,7 +55,7 @@ ESP32_Display_Panel 已上传到 [Espressif 组件库](https://components.espres
 
    ```yaml
    dependencies:
-     espressif/esp32_display_panel: "1.*"
+     espressif/esp32_display_panel: "2.*"
    ```
 
 详细说明请参阅 [Espressif 文档 - IDF 组件管理器](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/tools/idf-component-manager.html)。

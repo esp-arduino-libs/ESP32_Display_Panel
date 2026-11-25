@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        core: ['3.3.13', '4.0.0']
+        core: ['3.2.0', '3.3.13', '4.0.0']
     steps:
       - uses: actions/checkout@v4
       - uses: arduino/setup-arduino-cli@v2
@@ -29,30 +29,34 @@ jobs:
           arduino-cli core update-index --additional-urls "$index_url"
           arduino-cli core install "esp32:esp32@$ARDUINO_CORE" --additional-urls "$index_url"
           arduino-cli lib install --no-deps esp-lib-utils@0.2.3
-      - name: Install IO Expander 1.1.1
-        if: matrix.core == '3.3.13'
-        run: arduino-cli lib install --no-deps ESP32_IO_Expander@1.1.1
-      - name: Check out IO Expander with the new I2C driver
-        if: matrix.core == '4.0.0'
+      - name: Check out IO Expander 2.0.0
         run: |
           expander="$RUNNER_TEMP/ESP32_IO_Expander"
+          repository=https://github.com/esp-arduino-libs/ESP32_IO_Expander.git
+          ref=e2028bb041b00665bf7b72dd8a8c84c22db4b303
+          if git ls-remote --exit-code "$repository" refs/tags/v2.0.0 >/dev/null; then
+            ref=refs/tags/v2.0.0
+          fi
           git init "$expander"
-          git -C "$expander" fetch --depth 1 https://github.com/esp-arduino-libs/ESP32_IO_Expander.git e2028bb041b00665bf7b72dd8a8c84c22db4b303
+          git -C "$expander" fetch --depth 1 "$repository" "$ref"
           git -C "$expander" checkout --detach FETCH_HEAD
       - name: Build LCD examples and a supported board
         env:
           ARDUINO_CORE: ${{ matrix.core }}
         run: |
-          libraries=(--library .)
-          if [[ "$ARDUINO_CORE" == 4.0.0 ]]; then
-            libraries+=(--library "$RUNNER_TEMP/ESP32_IO_Expander")
+          libraries=(--library . --library "$RUNNER_TEMP/ESP32_IO_Expander")
+          p4=esp32:esp32:esp32p4
+          if [[ "$ARDUINO_CORE" != 3.2.0 ]]; then
+            p4+=:ChipVariant=postv3,PSRAM=enabled
           fi
           arduino-cli compile "${libraries[@]}" --fqbn esp32:esp32:esp32c3 \
             examples/arduino/drivers/lcd/lcd_spi
           arduino-cli compile "${libraries[@]}" --fqbn esp32:esp32:esp32s3:PSRAM=opi \
             examples/arduino/drivers/lcd/lcd_single_rgb
-          arduino-cli compile "${libraries[@]}" --fqbn esp32:esp32:esp32p4:ChipVariant=postv3,PSRAM=enabled \
+          arduino-cli compile "${libraries[@]}" --fqbn "$p4" \
             examples/arduino/drivers/lcd/lcd_mipi_dsi
+          arduino-cli compile "${libraries[@]}" --fqbn esp32:esp32:esp32s3:PSRAM=opi \
+            examples/arduino/drivers/touch/touch_i2c
 
           sketch="$RUNNER_TEMP/board_static_config"
           cp -R examples/arduino/board/board_static_config "$sketch"
@@ -69,13 +73,11 @@ jobs:
             grep -Eq "^#define ESP_PANEL_DRIVERS_${driver}_USE_ALL[[:space:]]+\(1\)$" "$drivers_conf"
           done
           arduino-cli compile "${libraries[@]}" --fqbn esp32:esp32:esp32s3:PSRAM=opi "$sketch"
-      - name: Build ESP32-S31 RGB888 and I2C touch examples
+      - name: Build the ESP32-S31 RGB888 example
         if: matrix.core == '4.0.0'
         run: |
           arduino-cli compile --library . --library "$RUNNER_TEMP/ESP32_IO_Expander" \
             --fqbn esp32:esp32:esp32s31 examples/arduino/drivers/lcd/lcd_rgb_s31
-          arduino-cli compile --library . --library "$RUNNER_TEMP/ESP32_IO_Expander" \
-            --fqbn esp32:esp32:esp32s3:PSRAM=opi examples/arduino/drivers/touch/touch_i2c
       - name: Build the ESP-Mosaico board example
         if: matrix.core == '4.0.0'
         run: |

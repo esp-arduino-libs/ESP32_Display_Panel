@@ -107,23 +107,22 @@ Before using this library, ensure you have installed SDK and dependencies that m
 
 |                           **SDK**                           | **Required Version** |
 | ----------------------------------------------------------- | -------------------- |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.1.0, < 4.0.0    |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.2.0, < 4.0.0    |
 
 |                              **Dependencies**                              | **Required Version** |
 | -------------------------------------------------------------------------- | -------------------- |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 1.0.0 && < 2.0.0  |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 2.0.0 && < 3.0.0  |
 | [esp-lib-utils](https://github.com/esp-arduino-libs/esp-lib-utils)         | >= 0.2.0 && < 0.3.0  |
 
 > [!NOTE]
 > * For SDK installation, please refer to [Arduino ESP32 Documentation - Installing](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html).
 > * For dependencies installation, please refer to [Installing Libraries](#installing-libraries) section.
 
+Projects using Arduino-ESP32 3.1.x or the legacy ESP-IDF I²C driver should pin Panel 1.x and ESP32_IO_Expander 1.x. When upgrading to Panel 2.x, install both libraries at 2.x.
+
 ### Arduino-ESP32 4.0 preview
 
-Use Arduino-ESP32 4.0.0, ESP32_Display_Panel 1.0.5, and `esp-lib-utils` 0.2.3. Install Panel from Library Manager or a ZIP as described below.
-For this preview, install [ESP32_IO_Expander at `e2028bb`](https://github.com/esp-arduino-libs/ESP32_IO_Expander/tree/e2028bb041b00665bf7b72dd8a8c84c22db4b303) as a local library in place of the 1.x release. It implements the I²C master bus required by ESP-IDF 6.x.
-
-This dependency combination has been compile-tested with the ESP32-C3 SPI, ESP32-S3 RGB, ESP32-P4 MIPI-DSI, and ESP32-S31 RGB888 examples. The new driver sets I²C speed per device and applies the pull-up setting to both pins. The DSI path supports RGB565 and RGB888.
+Use Arduino-ESP32 4.0.0 with the same Panel and IO Expander releases listed above.
 
 The [ESP32-S31 RGB888 example](../../examples/arduino/drivers/lcd/lcd_rgb_s31/) uses the 24-bit ST7262 configuration. The [ESP-Mosaico preview](../../examples/arduino/board/esp_mosaico/) uses CO5300 QSPI, CST9217 touch, and the board revision stored in eFuse.
 
@@ -631,9 +630,7 @@ Please follow these steps:
 
 ### How to avoid I2C re-initialization when using ESP32_Display_Panel in Arduino IDE (e.g., when using Wire library)?
 
-The released dependency combination uses the legacy ESP-IDF I²C driver. `Wire` in Arduino Core 3.3.13 uses the new driver. If the core logs `CONFLICT! driver_ng is not allowed to be used with this old driver`, let Panel initialize I²C and use legacy driver APIs for the other I²C devices in that application. The host-skip option applies to a bus already initialized through the same driver.
-
-With Arduino-ESP32 4.0, Panel uses the new driver. For a shared bus, initialize `Wire` on the target pins first, set the Panel host IDs to the same controller, and call `Wire.end()` after `board->del()` has released the Panel devices.
+Panel 2.x and ESP32_IO_Expander 2.x use the new ESP-IDF I²C driver. To share a bus with Arduino `Wire`, initialize `Wire` on the target pins first, set the Panel host IDs to the same controller, and call `Wire.end()` after `board->del()` has released the Panel devices.
 
 For a custom board that borrows I²C controller 0, set the macros for the enabled drivers in `esp_panel_board_custom_conf.h`.
 

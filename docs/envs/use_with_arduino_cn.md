@@ -107,23 +107,22 @@
 
 |                           **SDK**                           | **版本要求**  |
 | ----------------------------------------------------------- | ------------ |
-| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.1.0, < 4.0.0 |
+| [arduino-esp32](https://github.com/espressif/arduino-esp32) | >= 3.2.0, < 4.0.0 |
 
 |                                 **依赖库**                                  |      **版本要求**      |
 | -------------------------------------------------------------------------- | --------------------- |
-| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 1.0.0 && < 2.0.0  |
+| [ESP32_IO_Expander](https://github.com/esp-arduino-libs/ESP32_IO_Expander) | >= 2.0.0 && < 3.0.0  |
 | [esp-lib-utils](https://github.com/esp-arduino-libs/esp-lib-utils)         | >= 0.2.0 && < 0.3.0  |
 
 > [!NOTE]
 > * SDK 的安装方法请参阅 [Arduino ESP32 文档 - 安装](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html)。
 > * 依赖库的安装方法请参阅 [安装库](#安装库) 章节。
 
+使用 Arduino-ESP32 3.1.x 或旧版 ESP-IDF I²C 驱动的工程，请固定 Panel 1.x 和 ESP32_IO_Expander 1.x。升级到 Panel 2.x 时，请将两个库一并升级到 2.x。
+
 ### Arduino-ESP32 4.0 预览支持
 
-使用 Arduino-ESP32 4.0.0、ESP32_Display_Panel 1.0.5 和 `esp-lib-utils` 0.2.3。Panel 可按下文步骤从库管理器或 ZIP 安装。
-使用此预览功能时，请安装 [ESP32_IO_Expander 提交 `e2028bb`](https://github.com/esp-arduino-libs/ESP32_IO_Expander/tree/e2028bb041b00665bf7b72dd8a8c84c22db4b303) 作为本地库，替换 1.x 发布版。该提交使用 ESP-IDF 6.x 所需的新版 I²C 主控总线驱动。
-
-该依赖组合已编译验证 ESP32-C3 SPI、ESP32-S3 RGB、ESP32-P4 MIPI-DSI 和 ESP32-S31 RGB888 示例。新版驱动按设备设置 I²C 时钟，两个引脚的内部上拉同时启用或关闭。DSI 支持 RGB565 和 RGB888。
+使用 Arduino-ESP32 4.0.0 时，Panel 和 IO Expander 的版本要求与上表相同。
 
 24 位 ST7262 配置见 [ESP32-S31 RGB888 示例](../../examples/arduino/drivers/lcd/lcd_rgb_s31/)。[ESP-Mosaico 预览示例](../../examples/arduino/board/esp_mosaico/) 使用 CO5300 QSPI 显示和 CST9217 触摸，并从 eFuse 识别板卡版本。
 
@@ -631,9 +630,7 @@ arduino-esp32 的默认安装路径取决于您的操作系统：
 
 ### 在 Arduino IDE 中使用 ESP32_Display_Panel 时，如何避免 I2C 重复初始化（如使用 Wire 库）？
 
-已发布依赖组合使用旧版 ESP-IDF I²C 驱动，Arduino Core 3.3.13 的 `Wire` 使用新版驱动。遇到 `CONFLICT! driver_ng is not allowed to be used with this old driver` 时，由 Panel 初始化 I²C，并让同一应用中的其他 I²C 设备使用旧版驱动 API。跳过 host 初始化这个选项适用于已由同一套驱动初始化的总线。
-
-在 Arduino-ESP32 4.0 上，Panel 使用新版 I²C 驱动。共享总线时，先在目标引脚上启动 `Wire`，将每个 Panel 驱动的 host ID 设为同一控制器，并在 `board->del()` 释放 Panel 设备后再调用 `Wire.end()`。
+Panel 2.x 和 ESP32_IO_Expander 2.x 使用新版 ESP-IDF I²C 驱动。与 Arduino `Wire` 共享总线时，请先在目标引脚上初始化 `Wire`，将 Panel 设备的 host ID 配置为同一控制器，并在 `board->del()` 释放 Panel 设备后再调用 `Wire.end()`。
 
 自定义板使用以下设置借用 I²C 0。在 `esp_panel_board_custom_conf.h` 中设置已启用驱动对应的宏。
 
